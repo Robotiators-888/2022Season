@@ -15,13 +15,18 @@ public class Odometry extends SubsystemBase {
     DifferentialDriveOdometry driveOdometry = new DifferentialDriveOdometry(getGyroHeading(),
             new Pose2d(5.0, 13.5, new Rotation2d()));
     AHRS navx = new AHRS();
+    Drivetrain drivetrain;
 
-    public Odometry() {
+    public Odometry(Drivetrain input) {
+        this.drivetrain = input;
     }
 
     @Override
     public void periodic() {
-        driveOdometry.update(getGyroHeading(), m_leftEncoder.getDistance(), m_rightEncoder.getDistance());
+        driveOdometry.update(getGyroHeading(), drivetrain.rotationsToMeters(drivetrain.getEncoderLeft()),
+                drivetrain.rotationsToMeters(drivetrain.getEncoderRight()));
+        drivetrain.zeroLeft();
+        drivetrain.zeroRight();
     }
 
     public Rotation2d getGyroHeading() {
@@ -48,5 +53,6 @@ public class Odometry extends SubsystemBase {
         driveOdometry.resetPosition(position, getGyroHeading());
     }
 
+    
 
 }
