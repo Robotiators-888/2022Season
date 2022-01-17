@@ -32,6 +32,9 @@ public class Drivetrain extends SubsystemBase {
   // kinematics
   private DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Constants.TRACKWIDTH * 0.0254);
 
+  private double leftEncoderTare = 0;
+  private double rightEncoderTare = 0;
+
   public Drivetrain() {
   }
 
@@ -67,6 +70,42 @@ public class Drivetrain extends SubsystemBase {
     driveTrain.tankDrive(leftSpeed, rightSpeed);
   }
 
-  
+  /**
+   * 
+   * @return returns the number of rotations of the left motor since last reset
+   */
+  public double getEncoderLeft() {
+    return leftPrimary.getEncoder().getPosition() - leftEncoderTare;
+  }
 
+  /**
+   * 
+   * @return returns the number of rotations of the right motor since last reset
+   */
+  public double getEncoderRight() {
+    return leftPrimary.getEncoder().getPosition() - rightEncoderTare;
+  }
+
+  /**
+   * zeros the encoder value for the left side
+   */
+  public void zeroLeft() {
+    leftEncoderTare = leftPrimary.getEncoder().getPosition();
+  }
+
+  /**
+   * zeros the encoder value for the left side
+   */
+  public void zeroRight() {
+    rightEncoderTare = rightPrimary.getEncoder().getPosition();
+  }
+
+  /**
+   * 
+   * @param input encoder rotations from sparkmax
+   * @return meters the robot has moved
+   */
+  public double rotationsToMeters(double input) {
+    return input * (Constants.ROTATIONS_PER_INCH * 0.0254);
+  }
 }

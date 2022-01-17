@@ -19,8 +19,8 @@ public final class Constants {
     public static final int ID_RIGHT_PRIMARY = 22;  
     public static final int ID_RIGHT_SECONDARY = 23;  
 
-    //Kinematics
+    //Kinematics and odometry
     public static final double TRACKWIDTH = 30;  //track width in inches
-    
+    public static final double ROTATIONS_PER_INCH = 0.5; //number of rotations per one inch of movement 
 
 }
