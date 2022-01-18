@@ -9,11 +9,12 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Odometry extends SubsystemBase {
     DifferentialDriveOdometry driveOdometry = new DifferentialDriveOdometry(getGyroHeading(),
-            new Pose2d(5.0, 13.5, new Rotation2d()));
+            new Pose2d(0, 0, new Rotation2d()));
     AHRS navx = new AHRS();
     Drivetrain drivetrain;
 
@@ -23,10 +24,17 @@ public class Odometry extends SubsystemBase {
 
     @Override
     public void periodic() {
+        //updates the position of the robot
         driveOdometry.update(getGyroHeading(), drivetrain.rotationsToMeters(drivetrain.getEncoderLeft()),
                 drivetrain.rotationsToMeters(drivetrain.getEncoderRight()));
         drivetrain.zeroLeft();
         drivetrain.zeroRight();
+
+        //smart dashboard logging
+        Shuffleboard.getTab("Odometry").addPersistent("x", driveOdometry.getPoseMeters().getX());
+        Shuffleboard.getTab("Odometry").addPersistent("y", driveOdometry.getPoseMeters().getY());
+        Shuffleboard.getTab("Odometry").addPersistent("Heading", driveOdometry.getPoseMeters().getRotation().getDegrees());
+
     }
 
     public Rotation2d getGyroHeading() {
@@ -53,6 +61,6 @@ public class Odometry extends SubsystemBase {
         driveOdometry.resetPosition(position, getGyroHeading());
     }
 
-    
+
 
 }
