@@ -5,22 +5,35 @@
 package frc.robot;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants. This class should not be used for any other purpose. All constants should be declared
+ * The Constants class provides a convenient place for teams to hold robot-wide
+ * numerical or boolean
+ * constants. This class should not be used for any other purpose. All constants
+ * should be declared
  * globally (i.e. public static). Do not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
+ * <p>
+ * It is advised to statically import this class (or one of its inner classes)
+ * wherever the
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    //Drivetrain Can IDs
-    public static final int ID_LEFT_PRIMARY = 20;  
-    public static final int ID_LEFT_SECONDARY = 21;  
-    public static final int ID_RIGHT_PRIMARY = 22;  
-    public static final int ID_RIGHT_SECONDARY = 23;  
+    // Drivetrain Can IDs
+    public static final int ID_LEFT_PRIMARY = 20;
+    public static final int ID_LEFT_SECONDARY = 21;
+    public static final int ID_RIGHT_PRIMARY = 22;
+    public static final int ID_RIGHT_SECONDARY = 23;
 
-    //Kinematics and odometry
-    public static final double TRACKWIDTH = 30;  //track width in inches
-    public static final double ROTATIONS_PER_INCH = 0.5; //number of rotations per one inch of movement 
+    // Kinematics and odometry
+    public static final double TRACKWIDTH = 30; // track width in inches
+    public static final double ROTATIONS_PER_INCH = 0.5; // number of rotations per one inch of movement
 
+    // Joystick
+    // this tells which port of the driver station the joystick is in
+    public static final int JOYSTICK_PORT = 0;
+
+    // This tells us which part of the joystick will be used
+    // 1 = to the left stick's y axis
+    public static final int LEFT_AXIS = 1;
+    // 4 = to the right stick's y axis
+    public static final int RIGHT_AXIS = 4;
 }

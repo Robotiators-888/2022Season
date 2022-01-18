@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 
-import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+//import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -30,7 +30,7 @@ public class Drivetrain extends SubsystemBase {
   private DifferentialDrive driveTrain = new DifferentialDrive(groupLeft, groupRight);
 
   // kinematics
-  private DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Constants.TRACKWIDTH * 0.0254);
+  //private DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Constants.TRACKWIDTH * 0.0254);
 
   private double leftEncoderTare = 0;
   private double rightEncoderTare = 0;
