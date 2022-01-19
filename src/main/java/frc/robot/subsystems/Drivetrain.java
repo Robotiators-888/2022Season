@@ -4,13 +4,10 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
 
-import edu.wpi.first.wpilibj.Joystick;
-
 //import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -37,7 +34,8 @@ public class Drivetrain extends SubsystemBase {
   private RelativeEncoder rightEncoder = rightPrimary.getEncoder();
 
   // kinematics
-  //private DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Constants.TRACKWIDTH * 0.0254);
+  // private DifferentialDriveKinematics kinematics = new
+  // DifferentialDriveKinematics(Constants.TRACKWIDTH * 0.0254);
 
   private double leftEncoderTare = 0;
   private double rightEncoderTare = 0;
