@@ -18,10 +18,10 @@ package frc.robot;
  */
 public final class Constants {
     // Drivetrain Can IDs
-    public static final int ID_LEFT_PRIMARY = 20;
-    public static final int ID_LEFT_SECONDARY = 21;
-    public static final int ID_RIGHT_PRIMARY = 22;
-    public static final int ID_RIGHT_SECONDARY = 23;
+    public static final int ID_LEFT_PRIMARY = 12;
+    public static final int ID_LEFT_SECONDARY = 13;
+    public static final int ID_RIGHT_PRIMARY = 11;
+    public static final int ID_RIGHT_SECONDARY = 10;
 
     // Kinematics and odometry
     public static final double TRACKWIDTH = 30; // track width in inches

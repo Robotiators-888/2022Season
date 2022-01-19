@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Odometry extends SubsystemBase {
@@ -20,25 +21,25 @@ public class Odometry extends SubsystemBase {
 
     public Odometry(Drivetrain input) {
         this.drivetrain = input;
+        drivetrain.zeroLeft();
+        drivetrain.zeroRight();
     }
 
     @Override
     public void periodic() {
-        //updates the position of the robot
+        // updates the position of the robot
         driveOdometry.update(getGyroHeading(), drivetrain.rotationsToMeters(drivetrain.getEncoderLeft()),
                 drivetrain.rotationsToMeters(drivetrain.getEncoderRight()));
-        drivetrain.zeroLeft();
-        drivetrain.zeroRight();
-
-        //smart dashboard logging
-        Shuffleboard.getTab("Odometry").addPersistent("x", driveOdometry.getPoseMeters().getX());
-        Shuffleboard.getTab("Odometry").addPersistent("y", driveOdometry.getPoseMeters().getY());
-        Shuffleboard.getTab("Odometry").addPersistent("Heading", driveOdometry.getPoseMeters().getRotation().getDegrees());
+        // smart dashboard logging
+        SmartDashboard.putNumber("x", driveOdometry.getPoseMeters().getX());
+        SmartDashboard.putNumber("y", driveOdometry.getPoseMeters().getY());
+        SmartDashboard.putNumber("Heading", driveOdometry.getPoseMeters().getRotation().getDegrees());
 
     }
 
     public Rotation2d getGyroHeading() {
-        return new Rotation2d(Math.toRadians(navx.getYaw()));
+        Rotation2d rotation = new Rotation2d(0);
+        return rotation;
     }
 
     /**
@@ -60,7 +61,5 @@ public class Odometry extends SubsystemBase {
     public void setPosition(Pose2d position) {
         driveOdometry.resetPosition(position, getGyroHeading());
     }
-
-
 
 }
