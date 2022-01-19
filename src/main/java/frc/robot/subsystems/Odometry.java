@@ -10,30 +10,38 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.*;
 
 public class Odometry extends SubsystemBase {
+    AHRS navx = new AHRS(SerialPort.Port.kMXP);
     DifferentialDriveOdometry driveOdometry = new DifferentialDriveOdometry(getGyroHeading(),
             new Pose2d(0, 0, new Rotation2d()));
-    AHRS navx = new AHRS();
+    
     Drivetrain drivetrain;
 
-    public Odometry(Drivetrain input) {
-        this.drivetrain = input;
+    public Odometry(Drivetrain driveIn) {
+        this.drivetrain = driveIn;
+        drivetrain.zeroLeft();
+        drivetrain.zeroRight();
+        navx.zeroYaw();
+        
+
     }
 
     @Override
     public void periodic() {
         //updates the position of the robot
-        driveOdometry.update(getGyroHeading(), drivetrain.rotationsToMeters(drivetrain.getEncoderLeft()),
-                drivetrain.rotationsToMeters(drivetrain.getEncoderRight()));
-        drivetrain.zeroLeft();
-        drivetrain.zeroRight();
+        driveOdometry.update(getGyroHeading(), drivetrain.rotationsToMeters(drivetrain.getEncoderLeft()),drivetrain.rotationsToMeters(drivetrain.getEncoderRight()));
+     
 
         //smart dashboard logging
-        Shuffleboard.getTab("Odometry").addPersistent("x", driveOdometry.getPoseMeters().getX());
-        Shuffleboard.getTab("Odometry").addPersistent("y", driveOdometry.getPoseMeters().getY());
-        Shuffleboard.getTab("Odometry").addPersistent("Heading", driveOdometry.getPoseMeters().getRotation().getDegrees());
+        SmartDashboard.putNumber("x", driveOdometry.getPoseMeters().getX());
+        SmartDashboard.putNumber("y", driveOdometry.getPoseMeters().getY());
+        SmartDashboard.putNumber("peenL", drivetrain.getEncoderLeft());
+        SmartDashboard.putNumber("peenR", drivetrain.getEncoderRight());
+        SmartDashboard.putNumber("Heading", driveOdometry.getPoseMeters().getRotation().getDegrees());
 
     }
 

@@ -18,14 +18,14 @@ package frc.robot;
  */
 public final class Constants {
     // Drivetrain Can IDs
-    public static final int ID_LEFT_PRIMARY = 20;
-    public static final int ID_LEFT_SECONDARY = 21;
-    public static final int ID_RIGHT_PRIMARY = 22;
-    public static final int ID_RIGHT_SECONDARY = 23;
+    public static final int ID_LEFT_PRIMARY = 12;
+    public static final int ID_LEFT_SECONDARY = 13;
+    public static final int ID_RIGHT_PRIMARY = 10;
+    public static final int ID_RIGHT_SECONDARY = 11;
 
     // Kinematics and odometry
     public static final double TRACKWIDTH = 30; // track width in inches
-    public static final double ROTATIONS_PER_INCH = 0.5; // number of rotations per one inch of movement
+    public static final double ROTATIONS_PER_INCH = 1; // number of rotations per one inch of movement
 
     // Joystick
     // this tells which port of the driver station the joystick is in
@@ -35,5 +35,5 @@ public final class Constants {
     // 1 = to the left stick's y axis
     public static final int LEFT_AXIS = 1;
     // 4 = to the right stick's y axis
-    public static final int RIGHT_AXIS = 4;
+    public static final int RIGHT_AXIS = 5;
 }

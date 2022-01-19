@@ -2,11 +2,15 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.RelativeEncoder;
+
+import edu.wpi.first.wpilibj.Joystick;
 
 //import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -29,6 +33,9 @@ public class Drivetrain extends SubsystemBase {
   // create a drive train group with the speed controller groups
   private DifferentialDrive driveTrain = new DifferentialDrive(groupLeft, groupRight);
 
+  private RelativeEncoder leftEncoder = leftPrimary.getEncoder();
+  private RelativeEncoder rightEncoder = rightPrimary.getEncoder();
+
   // kinematics
   //private DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Constants.TRACKWIDTH * 0.0254);
 
@@ -39,6 +46,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void periodic() {
+
   }
 
   /**
@@ -75,7 +83,7 @@ public class Drivetrain extends SubsystemBase {
    * @return returns the number of rotations of the left motor since last reset
    */
   public double getEncoderLeft() {
-    return leftPrimary.getEncoder().getPosition() - leftEncoderTare;
+    return leftEncoder.getPosition() - leftEncoderTare;
   }
 
   /**
@@ -83,21 +91,21 @@ public class Drivetrain extends SubsystemBase {
    * @return returns the number of rotations of the right motor since last reset
    */
   public double getEncoderRight() {
-    return leftPrimary.getEncoder().getPosition() - rightEncoderTare;
+    return rightEncoder.getPosition() - rightEncoderTare;
   }
 
   /**
    * zeros the encoder value for the left side
    */
   public void zeroLeft() {
-    leftEncoderTare = leftPrimary.getEncoder().getPosition();
+    leftEncoderTare = leftEncoder.getPosition();
   }
 
   /**
    * zeros the encoder value for the left side
    */
   public void zeroRight() {
-    rightEncoderTare = rightPrimary.getEncoder().getPosition();
+    rightEncoderTare = rightEncoder.getPosition();
   }
 
   /**
