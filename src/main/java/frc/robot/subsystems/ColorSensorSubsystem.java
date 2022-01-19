@@ -21,6 +21,7 @@ public class ColorSensorSubsystem extends SubsystemBase {
 
   //Should this be in constants?
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
+  public final int ColorSensorid = 0;
 
   //Senses colors
   private final ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort);
@@ -35,6 +36,16 @@ public class ColorSensorSubsystem extends SubsystemBase {
 
 
 
+  public static void MuxChangeI2cPort(I2C i2c,int newPort) {
+    int i2cPort = 0x70; // MUX I2C address
+    // and you simply write a single byte with the desired multiplexed output number to that port
+    boolean failed = i2c.write(i2cPort, newPort);
+    if (failed) {
+        throw new RuntimeException("Failed to write to MUX over I2C");
+    }
+    i2c.close();
+}
+  
   /** Creates a new ColorSensorSubsystem. */
   public ColorSensorSubsystem() {
  
@@ -47,6 +58,9 @@ public class ColorSensorSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    
+    // NOTE: change ColorSensorid to change which color sensor is used
+    MuxChangeI2cPort(i2cPort,ColorSensorid);
     detectedColor = colorSensor.getColor();
 
     }
