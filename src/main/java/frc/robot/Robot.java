@@ -4,9 +4,11 @@
 
 package frc.robot;
 
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.XboxController;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -21,6 +23,9 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   private final Limelight m_limelight = new Limelight();
   private Shooter shoot = new Shooter();
+  XboxController controller = new XboxController(0);
+  private Index m_index = new Index();
+  
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -31,6 +36,8 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+    
+    
   }
 
   /**
@@ -49,8 +56,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("ts", m_limelight.getTs());
     SmartDashboard.putNumber("tl", m_limelight.getTl());
     SmartDashboard.putNumber("Distance", m_limelight.getDistance());
-
-
+    SmartDashboard.putNumber("Actual Rpm", shoot.getRPM());
+    SmartDashboard.putNumber("SetRPM", shoot.distRpm(m_limelight.getDistance()));
 
   }
 
@@ -90,13 +97,36 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
 
     shoot.setPIDF(0.0004, 0.0, 0.0, 0.000288);
+    m_limelight.setLed(1);
+    
     
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-   shoot.setRPM(shoot.distRpm(m_limelight.getDistance()));
+
+  if (controller.getAButton()){
+    m_limelight.setLed(0);
+    
+    shoot.setRPM(shoot.distRpm(m_limelight.getDistance()));
+
+    if((double)Math.abs(shoot.getRPM() - shoot.distRpm(m_limelight.getDistance())) <= 150){
+      m_index.setSpeed(-0.5);
+      
+}
+    else{
+      m_index.setSpeed(0);
+    }
+
+
+    
+  }
+  else {
+    shoot.setSpeed(0);
+    m_index.setSpeed(0);
+    m_limelight.setLed(1);
+  }
 
   }
 

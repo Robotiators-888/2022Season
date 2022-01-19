@@ -13,9 +13,9 @@ class Shooter {
  
     }
 
-    //public double getRPM() {
-        //return flywheel.getv();
-   // }
+    public double getRPM() {
+        return flywheel.getEncoder().getVelocity();
+   }
 
     public void setRPM(int rpm) {
         PID.setReference(rpm, CANSparkMax.ControlType.kVelocity);
@@ -29,7 +29,7 @@ class Shooter {
 
     }
     public int distRpm(double dist){
-        return(int)((dist + 108)/0.196);
+        return(int)((dist + 108)/0.1);
 
     }
 
