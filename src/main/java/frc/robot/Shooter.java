@@ -28,6 +28,10 @@ class Shooter {
         PID.setFF(F);
 
     }
+    public int distRpm(double dist){
+        return(int)((dist + 108)/0.196);
+
+    }
 
     public void setSpeed(double speed) {
         flywheel.set(speed);

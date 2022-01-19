@@ -20,7 +20,7 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   private final Limelight m_limelight = new Limelight();
-  //private Shooter shoot = new Shooter();
+  private Shooter shoot = new Shooter();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -89,16 +89,14 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
 
-    //shoot.setPIDF(0.0004, 0.0, 0.0, 0.000288);
+    shoot.setPIDF(0.0004, 0.0, 0.0, 0.000288);
     
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-
-   // shoot.setRPM(3000);
-    
+   shoot.setRPM(shoot.distRpm(m_limelight.getDistance()));
 
   }
 
