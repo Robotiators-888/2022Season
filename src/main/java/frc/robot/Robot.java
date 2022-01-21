@@ -121,7 +121,7 @@ public class Robot extends TimedRobot {
       m_limelight.setLed(0);
       SmartDashboard.putBoolean("Target Accquired", m_limelight.getTv());
 //If limelight has valid target and its within 50-200 inches, fire shooter
-      if ((m_limelight.getTv() == true) && (m_limelight.getDistance() > 50) && (m_limelight.getDistance() < 200)) {
+      if ((m_limelight.getTv() == true) && (m_limelight.getDistance() > 50) && (m_limelight.getDistance() < 230)) {
         shoot.setRPM(shoot.distRpm(m_limelight.getDistance()));
 //If the difference between the actual and target rpms is less than 150, start index
         if ((double) Math.abs(shoot.getRPM() - shoot.distRpm(m_limelight.getDistance())) <= 150) {
