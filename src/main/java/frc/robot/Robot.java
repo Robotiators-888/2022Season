@@ -54,7 +54,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-
+//Displays Limelight and RPM data on dashboard
     SmartDashboard.putNumber("tx", m_limelight.getTx());
     SmartDashboard.putNumber("ty", m_limelight.getTy());
     SmartDashboard.putNumber("ta", m_limelight.getTa());
@@ -107,7 +107,7 @@ public class Robot extends TimedRobot {
   /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() {
-
+//Sets PID values and turns Limelight off
     shoot.setPIDF(0.0004, 0.0, 0.0, 0.000288);
     m_limelight.setLed(1);
 
@@ -116,22 +116,25 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-
+// When controller A button is pressed, turn on LimelightLED and run following if statements
     if (controller.getAButton()) {
       m_limelight.setLed(0);
       SmartDashboard.putBoolean("Target Accquired", m_limelight.getTv());
-      if (m_limelight.getTv() == true) {
+//If limelight has valid target and its within 50-200 inches, fire shooter
+      if ((m_limelight.getTv() == true) && (m_limelight.getDistance() > 50) && (m_limelight.getDistance() < 200)) {
         shoot.setRPM(shoot.distRpm(m_limelight.getDistance()));
-
+//If the difference between the actual and target rpms is less than 150, start index
         if ((double) Math.abs(shoot.getRPM() - shoot.distRpm(m_limelight.getDistance())) <= 150) {
           m_index.setSpeed(-0.5);
-
+//If requirements arent met at any time, set index and turret to 0
         } else {
           m_index.setSpeed(0);
+          shoot.setSpeed(0);
         }
 
       } else {
         m_index.setSpeed(0);
+        shoot.setSpeed(0);
       }
     }else{
     shoot.setSpeed(0);
