@@ -1,13 +1,19 @@
 package frc.robot.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
 
-//import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
-
+import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -33,6 +39,13 @@ public class Drivetrain extends SubsystemBase {
   private RelativeEncoder leftEncoder = leftPrimary.getEncoder();
   private RelativeEncoder rightEncoder = rightPrimary.getEncoder();
 
+  AHRS navx = new AHRS(SerialPort.Port.kMXP);
+
+  DifferentialDriveOdometry driveOdometry = new DifferentialDriveOdometry(getGyroHeading(),
+      new Pose2d(0, 0, new Rotation2d()));
+
+  private final Field2d field2d = new Field2d();
+
   // kinematics
   // private DifferentialDriveKinematics kinematics = new
   // DifferentialDriveKinematics(Constants.TRACKWIDTH * 0.0254);
@@ -44,7 +57,19 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void periodic() {
+    driveOdometry.update(getGyroHeading(), this.rotationsToMeters(this.getEncoderLeft()),
+        this.rotationsToMeters(this.getEncoderRight()));
 
+    field2d.setRobotPose(driveOdometry.getPoseMeters());
+    // smart dashboard logging
+    SmartDashboard.putData("field", field2d);
+    SmartDashboard.putNumber("x", driveOdometry.getPoseMeters().getX());
+    SmartDashboard.putNumber("y", driveOdometry.getPoseMeters().getY());
+    SmartDashboard.putNumber("rev L", this.getEncoderLeft());
+    SmartDashboard.putNumber("rev R", this.getEncoderRight());
+    SmartDashboard.putNumber("odoHead", driveOdometry.getPoseMeters().getRotation().getDegrees());
+    SmartDashboard.putNumber("navHead", navx.getYaw());
+    SmartDashboard.putNumber("tester", this.rotationsToMeters(1));
   }
 
   /**
@@ -81,7 +106,7 @@ public class Drivetrain extends SubsystemBase {
    * @return returns the number of rotations of the left motor since last reset
    */
   public double getEncoderLeft() {
-    return leftEncoder.getPosition() - leftEncoderTare;
+    return (leftEncoder.getPosition() - leftEncoderTare);
   }
 
   /**
@@ -89,7 +114,7 @@ public class Drivetrain extends SubsystemBase {
    * @return returns the number of rotations of the right motor since last reset
    */
   public double getEncoderRight() {
-    return rightEncoder.getPosition() - rightEncoderTare;
+    return -1 * (rightEncoder.getPosition() - rightEncoderTare);
   }
 
   /**
@@ -112,6 +137,46 @@ public class Drivetrain extends SubsystemBase {
    * @return meters the robot has moved
    */
   public double rotationsToMeters(double input) {
-    return input * (Constants.ROTATIONS_PER_INCH * 0.0254);
+    double wheelCirc = (2 * 3.14 * Constants.WHEEL_RADIUS);
+    double rotationsPerInch = wheelCirc / Constants.GEARRATIO;
+    return 0.0254 * (rotationsPerInch * input);
+
   }
+
+  /**
+   * 
+   * @return rotation2d object with current heading
+   */
+  public Rotation2d getGyroHeading() {
+    return new Rotation2d(Math.toRadians(navx.getYaw()));
+  }
+
+  /**
+   * Sets the robot's current pose to the given x/y/angle.
+   * 
+   * @param x     The x coordinate
+   * @param y     The y coordinate
+   * @param angle The rotation component
+   */
+  public void setPosition(double x, double y, Rotation2d angle) {
+    setPosition(new Pose2d(x, y, angle));
+  }
+
+  /**
+   * Sets the robot's current pose to the given Pose2d.
+   * 
+   * @param position The position (both translation and rotation)
+   */
+  public void setPosition(Pose2d position) {
+    driveOdometry.resetPosition(position, getGyroHeading());
+  }
+
+  /**
+   * sets current heading to zero
+   */
+  public void zeroHeading() {
+    navx.zeroYaw();
+
+  }
+
 }

@@ -14,7 +14,7 @@ import frc.robot.subsystems.Drivetrain;
 public class teleopDrive extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private Drivetrain drive;
-  private double Left, Right;
+  private Supplier<Double> Left, Right;
 
   /**
    * Creates a new ExampleCommand.
@@ -23,8 +23,8 @@ public class teleopDrive extends CommandBase {
    */
   public teleopDrive(Drivetrain drivetrain, Supplier<Double> L, Supplier<Double> R) {
     this.drive = drivetrain;
-    this.Left = L.get();
-    this.Right = R.get();
+    this.Left = L;
+    this.Right = R;
     addRequirements(drive);
   }
 
@@ -37,12 +37,14 @@ public class teleopDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drive.setMotors(Left, Right, 0.25);
+    drive.setMotors(-1 * Left.get(), Right.get(), 0.5);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    drive.setMotors(0, 0);
+  }
 
   // Returns true when the command should end.
   @Override

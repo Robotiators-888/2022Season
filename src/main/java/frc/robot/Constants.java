@@ -25,7 +25,8 @@ public final class Constants {
 
     // Kinematics and odometry
     public static final double TRACKWIDTH = 30; // track width in inches
-    public static final double ROTATIONS_PER_INCH = 1; // number of rotations per one inch of movement
+    public static final double WHEEL_RADIUS = 3;
+    public static final double GEARRATIO = 8.58; // number of rotations per one inch of movement
 
     // Joystick
     // this tells which port of the driver station the joystick is in
@@ -36,4 +37,13 @@ public final class Constants {
     public static final int LEFT_AXIS = 1;
     // 4 = to the right stick's y axis
     public static final int RIGHT_AXIS = 5;
+
+    // The Robot Characterization Toolsuite provides a convenient tool for obtaining these
+    // values for your robot.
+    public static final double ksVolts = 0.22;
+    public static final double kvVoltSecondsPerMeter = 1.98;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.2;
+
+    // Example value only - as above, this must be tuned for your drive!
+    public static final double kPDriveVel = 8.5;
 }
