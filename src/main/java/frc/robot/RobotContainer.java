@@ -26,14 +26,23 @@ public class RobotContainer {
 
 
   public final Joystick joystick = new Joystick(Constants.JOYSTICK_PORT);
-  public final JoystickButton rBumper = new JoystickButton(joystick, 7);
-  public final JoystickButton lBumper = new JoystickButton(joystick, 8);
+  public final JoystickButton rBumper = new JoystickButton(joystick, 5);
+  public final JoystickButton lBumper = new JoystickButton(joystick, 6);
+ 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
 
+   
+    if(joystick.getPOV() == 0){
+     new IntakeInCmd(m_IntakeSUB); 
+    }
+
+    if(joystick.getPOV() == 180){
+      new IntakeOutCmd(m_IntakeSUB); 
+     }
   }
 
   /**
@@ -45,7 +54,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     lBumper.whileHeld((new ClimberUpCmd(m_ClimberSUB)));
     rBumper.whileHeld((new ClimberDownCmd(m_ClimberSUB)));
-
+    
 
   }
 
