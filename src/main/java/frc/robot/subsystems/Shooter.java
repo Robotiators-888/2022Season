@@ -1,17 +1,16 @@
-package frc.robot;
-
+package frc.robot.subsystems;
 
 import com.revrobotics.*;
 
-class Shooter {
-    SparkMaxPIDController PID;
-    CANSparkMax flywheel;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-    public Shooter() { 
-        flywheel = new CANSparkMax(14, CANSparkMaxLowLevel.MotorType.kBrushless);
-        PID = flywheel.getPIDController();
- 
-    }
+public class Shooter extends SubsystemBase {
+    CANSparkMax flywheel  = new CANSparkMax(14, CANSparkMaxLowLevel.MotorType.kBrushless);;
+    SparkMaxPIDController PID = flywheel.getPIDController();
+
+    public Shooter() {
+        this.setPIDF(0.0004, 0.0, 0.0, 0.000288);
+     }
 
     public double getRPM() {
         return flywheel.getEncoder().getVelocity();

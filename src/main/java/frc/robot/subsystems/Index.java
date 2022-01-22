@@ -1,10 +1,10 @@
-package frc.robot;
-
+package frc.robot.subsystems;
 
 import com.revrobotics.*;
 
-class Index{
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+public class Index extends SubsystemBase {
     SparkMaxPIDController PID;
     CANSparkMax indexer;
 

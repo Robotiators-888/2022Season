@@ -1,15 +1,17 @@
-package frc.robot;
+package frc.robot.subsystems;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Limelight {
+public class Limelight extends SubsystemBase {
   NetworkTable table;
   
 
 
   public Limelight(){
     table = NetworkTableInstance.getDefault().getTable("limelight");
-
+    
   }
 /**
   * Whether the limelight has any valid targets
@@ -67,7 +69,7 @@ public class Limelight {
 
   }
   
-
+//Finds distance from robot to target and returns distance
   public double getDistance(){
     double h1 = 45.75;
     double h2 = 97;
@@ -78,3 +80,4 @@ public class Limelight {
   }
 
 }
+
