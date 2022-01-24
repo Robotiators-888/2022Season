@@ -10,8 +10,10 @@ import frc.robot.subsystems.UDPRecieverSubsystem;
 public class UDPReceiverCmd extends CommandBase {
   /** Creates a new UDPReceiver. */
   UDPRecieverSubsystem Receiever = new UDPRecieverSubsystem();
-  public UDPReceiverCmd() {
+  public UDPReceiverCmd(UDPRecieverSubsystem subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
+    Receiever = subsystem;
+    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
