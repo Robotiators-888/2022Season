@@ -11,9 +11,9 @@ public class UDPReceiver extends Thread {
 	DatagramPacket dat;
 	byte[] receiveData = new byte[20];
 	
-	private void init() {
+	public void init() {
 		try {
-			socket = new DatagramSocket(888);
+			socket = new DatagramSocket(5800);
 			dat = new DatagramPacket(receiveData, receiveData.length);
 		} catch (SocketException e) {
 	
@@ -22,12 +22,12 @@ public class UDPReceiver extends Thread {
 	
 	@Override
 	public void run() {
-		init();
+		
 		
 		do {
 			try {
 				socket.receive(dat);
-				CommunicationsBuffer.addData(dat.getData());
+				CommsBuffer.addData(dat.getData());
 				dat.setData(null);
 			} catch (IOException e) {
 				
