@@ -39,9 +39,9 @@ class BufferData {
 		x = bbuf.getDouble(4);
 		y = bbuf.getDouble(12);
 
-        SmartDashboard.putNumber("Cycle", cycle);
-        SmartDashboard.putNumber("X Vals", x);
-        SmartDashboard.putNumber("Y Vals", y);
+		SmartDashboard.putNumber("Cycle", cycle);
+		SmartDashboard.putNumber("X Vals", x);
+		SmartDashboard.putNumber("Y Vals", y);
 	}
 
 }
