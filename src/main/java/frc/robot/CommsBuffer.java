@@ -7,6 +7,8 @@ package frc.robot;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class CommsBuffer {
 
 	static ArrayList<BufferData> buf = new ArrayList<>(5);
@@ -36,6 +38,10 @@ class BufferData {
 		cycle = bbuf.getInt(0);
 		x = bbuf.getDouble(4);
 		y = bbuf.getDouble(12);
+
+        SmartDashboard.putNumber("Cycle", cycle);
+        SmartDashboard.putNumber("X Vals", x);
+        SmartDashboard.putNumber("Y Vals", y);
 	}
 
 }

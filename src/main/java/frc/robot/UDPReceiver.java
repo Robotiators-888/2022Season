@@ -29,6 +29,7 @@ public class UDPReceiver extends Thread {
 				socket.receive(dat);
 				CommsBuffer.addData(dat.getData());
 				dat.setData(null);
+                
 			} catch (IOException e) {
 				
 			}
