@@ -13,6 +13,7 @@ public class Limelight extends SubsystemBase {
     table = NetworkTableInstance.getDefault().getTable("limelight");
     
   }
+
 /**
   * Whether the limelight has any valid targets
   * @return boolean ture if target is found false if not
