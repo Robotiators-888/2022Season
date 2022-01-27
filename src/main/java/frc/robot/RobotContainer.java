@@ -49,9 +49,12 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    //Default drive with controller joysticks
     drive.setDefaultCommand(new teleopDrive(drive, () -> stick.getRawAxis(Constants.LEFT_AXIS),
     () -> stick.getRawAxis(Constants.RIGHT_AXIS)));
+    //While a button is pressed, run autoshoot command
     aButton.whileHeld(new LimelightCommand(m_limelight, shoot, m_index));
+    //While b button is pressed, run autoaim command
     bButton.whileHeld(new Aim(m_limelight, drive));
 
 

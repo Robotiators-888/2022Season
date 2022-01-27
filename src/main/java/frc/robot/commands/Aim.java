@@ -15,12 +15,13 @@ public class Aim extends CommandBase{
     
     
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(subsystem, drive);
+        addRequirements(m_limelight, drive);
       }
     
       // Called when the command is initially scheduled.
       @Override
       public void initialize() {
+        //Turn Limelight on
         m_limelight.setLed(0);
     
       }
@@ -29,7 +30,9 @@ public class Aim extends CommandBase{
       @Override
       public void execute() {
       m_limelight.setLed(0);
+      //Set motors to speed of .04 * Limelight x Value
       drive.setMotors((0.04)*(m_limelight.getTx()),(0.04)*(m_limelight.getTx()));
+      //Display motor speed on Dashboard
       SmartDashboard.putNumber("Speed", (0.04)*(m_limelight.getTx()));
       }
          
@@ -39,6 +42,7 @@ public class Aim extends CommandBase{
       // Called once the command ends or is interrupted.
       @Override
       public void end(boolean interrupted) {
+      //When finished, turn limelight off and set wheel speed to 0
         m_limelight.setLed(1);
         drive.setMotors(0, 0);
         
@@ -47,9 +51,8 @@ public class Aim extends CommandBase{
       // Returns true when the command should end.
       @Override
       public boolean isFinished() {
-        return false;
-          
-       // return m_limelight.getTx() <0.3 && m_limelight.getTx() > -0.3;
+      return false;
+      //return m_limelight.getTx() <0.3 && m_limelight.getTx() > -0.3;
       
        
       }
