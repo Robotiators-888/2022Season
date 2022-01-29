@@ -5,8 +5,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 public class UDPReceiver extends Thread {
 	CommsBuffer CommunicationsBuffer = new CommsBuffer();
 	DatagramSocket socket;
@@ -25,7 +23,7 @@ public class UDPReceiver extends Thread {
 	@Override
 	public void run() {
 		
-		
+		//Receives data from the port 5801. Check CommsBuffer for what happens
 		do {
 			try {
 				socket.receive(dat);
