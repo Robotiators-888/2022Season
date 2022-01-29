@@ -28,7 +28,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final UDPRecieverSubsystem m_udpsubsystem = new UDPRecieverSubsystem();
-  private final FMSSubsystem m_fmssubsystem = new FMSSubsystem();
+  public final static FMSSubsystem m_fmssubsystem = new FMSSubsystem();
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 

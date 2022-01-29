@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.DriverStation.MatchType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.FMSSubsystem;
 
 public class FMSCmd extends CommandBase {
@@ -20,12 +21,10 @@ public class FMSCmd extends CommandBase {
   int allianceLocation;
   double matchTime;
 
-  FMSSubsystem m_fSubsystem = new FMSSubsystem();
 
   public FMSCmd(Subsystem subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    subsystem = this.m_fSubsystem;
-    addRequirements(subsystem);
+    addRequirements(RobotContainer.m_fmssubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -36,7 +35,7 @@ public class FMSCmd extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_fSubsystem.findInfo(alliance, matchtype, EventName, GameSpecMsg, matchNumber, allianceLocation, matchTime);
+    RobotContainer.m_fmssubsystem.findInfo(alliance, matchtype, EventName, GameSpecMsg, matchNumber, allianceLocation, matchTime);
   }
 
   // Called once the command ends or is interrupted.
