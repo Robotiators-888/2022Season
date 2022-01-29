@@ -22,7 +22,7 @@ public final class Constants {
    public static final int INTAKE_ARMS_MOTOR_ID = 33;
 
    public static final int SHOOTER_MOTOR_ID = 40;
-
+   public static final double SHOOTER_SPEED = 1.0;
 
 
 public static final int JOYSTICK_PORT = 3;
