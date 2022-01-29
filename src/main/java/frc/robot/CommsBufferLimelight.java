@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class CommsBuffer {
+public class CommsBufferLimelight {
 
 	static ArrayList<BufferData> buf = new ArrayList<>(5);
 
@@ -18,11 +18,12 @@ public class CommsBuffer {
 	}
 
 	public static synchronized Number[] getHighestCycle() {
-		if(buf.isEmpty()) return null;
+		if (buf.isEmpty())
+			return null;
 		BufferData b = buf.stream()
 				.max((b1, b2) -> Integer.compare(b1.cycle, b2.cycle)).orElse(null);
 		buf.clear();
-		return new Number[] {b.cycle, b.x, b.y};
+		return new Number[] { b.cycle, b.x, b.y };
 	}
 
 }

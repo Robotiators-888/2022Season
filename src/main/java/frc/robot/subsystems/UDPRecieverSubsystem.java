@@ -5,11 +5,16 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.UDPReceiver;
+import frc.robot.UDPReceiverBall;
+import frc.robot.UDPReceiverLimelight;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
 
 public class UDPRecieverSubsystem extends SubsystemBase {
   /** Creates a new UDPReciever. */
-  UDPReceiver receiver = new UDPReceiver();
+  UDPReceiverLimelight receiverLimelight = new UDPReceiverLimelight();
+  UDPReceiverBall receiverBall = new UDPReceiverBall();
+
   public UDPRecieverSubsystem() {
 
   }
@@ -19,11 +24,18 @@ public class UDPRecieverSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void createReceiver(){
-    receiver.init();
+  public void createReceiver() {
+    receiverLimelight.init();
+    receiverBall.init();
   }
 
-  public void runReceiver(){
-    receiver.run();
+  public void runReceiver() {
+    receiverLimelight.run();
+    receiverBall.run();
   }
+
+  public void BallTrackBuffer() {
+
+  }
+
 }
