@@ -1,5 +1,20 @@
 {
   "NetworkTables": {
+    "LiveWindow": {
+      "Drivetrain": {
+        "open": true
+      },
+      "Ungrouped": {
+        "open": true
+      },
+      "open": true
+    },
+    "Shuffleboard": {
+      "Odometry": {
+        "open": true
+      },
+      "open": true
+    },
     "SmartDashboard": {
       "field": {
         "open": true
@@ -8,13 +23,25 @@
     },
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Drivetrain": "Subsystem",
+      "/LiveWindow/Index": "Subsystem",
+      "/LiveWindow/Odometry": "Subsystem",
+      "/LiveWindow/Shooter": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
+      "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[3]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[4]": "PIDController",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Ungrouped/navX-Sensor[1]": "Gyro",
       "/SmartDashboard/field": "Field2d"
     },
     "windows": {
       "/SmartDashboard/field": {
+        "Robot": {
+          "arrowSize": 59,
+          "style": "Line (Closed)"
+        },
         "window": {
           "visible": true
         }

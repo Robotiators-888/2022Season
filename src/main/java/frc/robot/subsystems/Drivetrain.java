@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.function.BiConsumer;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import com.revrobotics.CANSparkMax;
@@ -10,6 +12,7 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -41,19 +44,18 @@ public class Drivetrain extends SubsystemBase {
 
   AHRS navx = new AHRS(SerialPort.Port.kMXP);
 
+  private Field2d field2d;
+
   DifferentialDriveOdometry driveOdometry = new DifferentialDriveOdometry(getGyroHeading(),
       new Pose2d(0, 0, new Rotation2d()));
 
-  private final Field2d field2d = new Field2d();
 
-  // kinematics
-  // private DifferentialDriveKinematics kinematics = new
-  // DifferentialDriveKinematics(Constants.TRACKWIDTH * 0.0254);
 
   private double leftEncoderTare = 0;
   private double rightEncoderTare = 0;
 
-  public Drivetrain() {
+  public Drivetrain(Field2d input) {
+    this.field2d = input;
   }
 
   public void periodic() {
@@ -61,15 +63,15 @@ public class Drivetrain extends SubsystemBase {
         this.rotationsToMeters(this.getEncoderRight()));
 
     field2d.setRobotPose(driveOdometry.getPoseMeters());
-    // smart dashboard logging
+    // // smart dashboard logging
     SmartDashboard.putData("field", field2d);
     SmartDashboard.putNumber("x", driveOdometry.getPoseMeters().getX());
     SmartDashboard.putNumber("y", driveOdometry.getPoseMeters().getY());
-    SmartDashboard.putNumber("rev L", this.getEncoderLeft());
-    SmartDashboard.putNumber("rev R", this.getEncoderRight());
+     SmartDashboard.putNumber("rev L", this.getEncoderLeft());
+     SmartDashboard.putNumber("rev R", this.getEncoderRight());
     SmartDashboard.putNumber("odoHead", driveOdometry.getPoseMeters().getRotation().getDegrees());
-    SmartDashboard.putNumber("navHead", navx.getYaw());
-    SmartDashboard.putNumber("tester", this.rotationsToMeters(1));
+    // SmartDashboard.putNumber("navHead", navx.getYaw());
+    // SmartDashboard.putNumber("tester", this.rotationsToMeters(1));
   }
 
   /**
@@ -85,6 +87,8 @@ public class Drivetrain extends SubsystemBase {
     rightSecondary.setInverted(invert);
   }
 
+
+
   /**
    * Sets speed of the motors in the drivetrain
    * 
@@ -95,10 +99,37 @@ public class Drivetrain extends SubsystemBase {
    */
   public void setMotors(double leftSpeed, double rightSpeed, double Speed) {
     driveTrain.tankDrive(leftSpeed * Speed, rightSpeed * Speed);
+    driveTrain.feed();
   }
 
   public void setMotors(double leftSpeed, double rightSpeed) {
     driveTrain.tankDrive(leftSpeed, rightSpeed);
+    driveTrain.feed();
+  }
+
+  /**
+   * Controls the left and right sides of the drive directly with voltages.
+   *
+   * @param leftVolts  the commanded left output
+   * @param rightVolts the commanded right output
+   */
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    System.out.println(leftVolts);
+    System.out.println(rightVolts);
+
+    groupLeft.setVoltage(leftVolts);
+    groupRight.setVoltage(rightVolts);
+    driveTrain.feed();
+  }
+
+
+  /**
+   * Returns the current wheel speeds of the robot.
+   *
+   * @return The current wheel speeds.
+   */
+  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+    return new DifferentialDriveWheelSpeeds(getEncoderLeft(), getEncoderRight());
   }
 
   /**
@@ -137,10 +168,26 @@ public class Drivetrain extends SubsystemBase {
    * @return meters the robot has moved
    */
   public double rotationsToMeters(double input) {
-    double wheelCirc = (2 * 3.14 * Constants.WHEEL_RADIUS);
+    double wheelCirc = (2 * Math.PI * Constants.WHEEL_RADIUS);
     double rotationsPerInch = wheelCirc / Constants.GEARRATIO;
     return 0.0254 * (rotationsPerInch * input);
 
+  }
+
+  /**
+   * 
+   * @return returns rate of left encoder in meters per second
+   */
+  public double getRateLeft(){
+    return (leftEncoder.getVelocity()* 0.0254) / (60* Constants.GEARRATIO);
+  }
+
+    /**
+   * 
+   * @return returns rate of left encoder in meters per second
+   */
+  public double getRateRight(){
+    return (rightEncoder.getVelocity()* 0.0254) / (60* Constants.GEARRATIO);
   }
 
   /**
@@ -178,5 +225,15 @@ public class Drivetrain extends SubsystemBase {
     navx.zeroYaw();
 
   }
+
+  /**
+   * Returns the currently-estimated pose of the robot.
+   *
+   * @return The pose.
+   */
+  public Pose2d getPose() {
+    return driveOdometry.getPoseMeters();
+  }
+
 
 }

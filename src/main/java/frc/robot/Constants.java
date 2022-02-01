@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean
@@ -23,27 +25,33 @@ public final class Constants {
     public static final int ID_RIGHT_PRIMARY = 10;
     public static final int ID_RIGHT_SECONDARY = 11;
 
-    // Kinematics and odometry
-    public static final double TRACKWIDTH = 30; // track width in inches
-    public static final double WHEEL_RADIUS = 3;
-    public static final double GEARRATIO = 8.58; // number of rotations per one inch of movement
-
     // Joystick
     // this tells which port of the driver station the joystick is in
     public static final int JOYSTICK_PORT = 0;
 
     // This tells us which part of the joystick will be used
-    // 1 = to the left stick's y axis
     public static final int LEFT_AXIS = 1;
-    // 4 = to the right stick's y axis
     public static final int RIGHT_AXIS = 5;
 
-    // The Robot Characterization Toolsuite provides a convenient tool for obtaining these
-    // values for your robot.
-    public static final double ksVolts = 0.22;
-    public static final double kvVoltSecondsPerMeter = 1.98;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.2;
+    //---------------------------------- Auto Constants ---------------------------------- 
 
-    // Example value only - as above, this must be tuned for your drive!
-    public static final double kPDriveVel = 8.5;
+    public static final double TRACKWIDTH = 22;  // track width in inches
+    public static final double WHEEL_RADIUS = 3; //wheel radius in inches
+    public static final double GEARRATIO = 8.58; // number of rotations per one inch of movement
+    public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
+            Constants.TRACKWIDTH * 0.0254);
+
+    // The Robot Characterization tool will help in obtaining
+    // https://docs.wpilib.org/en/stable/docs/software/pathplanning/robot-characterization/index.html
+    public static final double ksVolts = 0.25;
+    public static final double kvVoltSecondsPerMeter = 0.28;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.03;
+    public static final double kPDriveVel = 1.31;
+
+    public static final double kMaxSpeedMetersPerSecond = 0.5;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 0.25;
+
+    public static final double kRamseteB = 2;
+    public static final double kRamseteZeta = 0.7;
 }
+

@@ -1,5 +1,6 @@
 {
   "SysId": {
-    "Analysis Type": "General Mechanism"
+    "Analysis Type": "General Mechanism",
+    "AnalyzerJSONLocation": "C:\\Users\\ryanp\\Desktop\\sysid_data20220121-134440.json"
   }
 }
