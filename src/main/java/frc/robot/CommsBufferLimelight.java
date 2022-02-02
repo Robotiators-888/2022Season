@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class CommsBufferLimelight {
+ class CommsBufferLimelight {
 
 	static ArrayList<BufferData> buf = new ArrayList<>(5);
 
@@ -28,7 +28,7 @@ public class CommsBufferLimelight {
 
 }
 
-class BufferData {
+ class BufferData {
 
 	public int cycle;
 	public double x;
@@ -43,6 +43,7 @@ class BufferData {
 		SmartDashboard.putNumber("Cycle", cycle);
 		SmartDashboard.putNumber("X Vals", x);
 		SmartDashboard.putNumber("Y Vals", y);
+		System.out.println(x + "" + y + "" + cycle);
 	}
 
 }

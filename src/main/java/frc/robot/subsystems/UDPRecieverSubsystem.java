@@ -26,12 +26,16 @@ public class UDPRecieverSubsystem extends SubsystemBase {
 
   public void createReceiver() {
     receiverLimelight.init();
+    receiverLimelight.start();
+    System.out.println("Thread 1 INIT");
     receiverBall.init();
+    receiverBall.start();
+    System.out.println("Thread 2 INIT");
   }
 
   public void runReceiver() {
-    receiverLimelight.run();
-    receiverBall.run();
+   
+
   }
 
   public void BallTrackBuffer() {
