@@ -54,6 +54,8 @@ public class Drivetrain extends SubsystemBase {
 
     leftPrimary.setInverted(true);
     leftSecondary.setInverted(true);
+
+    setIdleMode(IdleMode.kBrake);
   }
 
   public void periodic() {
@@ -98,6 +100,7 @@ public class Drivetrain extends SubsystemBase {
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     groupLeft.setVoltage(leftVolts);
     groupRight.setVoltage(rightVolts);
+    driveTrain.feed();
   }
 
   /**

@@ -38,7 +38,7 @@ public final class Constants {
 
     public static final double TRACKWIDTH = 35;  // track width in inches
     public static final double WHEEL_RADIUS = 3; //wheel radius in inches
-    public static final double GEARRATIO = 8.58; // number of rotations per one inch of movement
+    public static final double GEARRATIO = 10.85; // number of rotations per one inch of movement
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
             Units.inchesToMeters(TRACKWIDTH));
 
