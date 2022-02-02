@@ -22,8 +22,6 @@ public class zeroHeading extends CommandBase {
   @Override
   public void initialize() {
     drive.zeroHeading();
-    drive.zeroLeft();
-    drive.zeroRight();
     drive.setPosition(0, 0, drive.getGyroHeading());
   }
 

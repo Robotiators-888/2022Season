@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -39,7 +40,7 @@ public final class Constants {
     public static final double WHEEL_RADIUS = 3; //wheel radius in inches
     public static final double GEARRATIO = 8.58; // number of rotations per one inch of movement
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
-            Constants.TRACKWIDTH * 0.0254);
+            Units.inchesToMeters(TRACKWIDTH));
 
     // The Robot Characterization tool will help in obtaining
     // https://docs.wpilib.org/en/stable/docs/software/pathplanning/robot-characterization/index.html

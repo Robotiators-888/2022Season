@@ -98,8 +98,6 @@ public class RobotContainer {
     field2d.getObject("traj").setTrajectory(exampleTrajectory);
 
     drivetrain.zeroHeading();
-    drivetrain.zeroLeft();
-    drivetrain.zeroRight();
     drivetrain.setPosition(2, 2, new Rotation2d(0));
 
     return ramseteCommand.andThen(() -> drivetrain.tankDriveVolts(0, 0));

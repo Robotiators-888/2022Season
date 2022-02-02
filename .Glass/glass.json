@@ -51,8 +51,18 @@
     "windows": {
       "/SmartDashboard/field": {
         "Robot": {
+          "arrowColor": [
+            209.32827758789063,
+            0.0,
+            255.0,
+            255.0
+          ],
           "arrowSize": 59,
           "style": "Line (Closed)"
+        },
+        "traj": {
+          "arrows": false,
+          "style": "Line"
         },
         "window": {
           "visible": true

@@ -1,18 +1,18 @@
 package frc.robot.subsystems;
 
-import java.util.function.BiConsumer;
-
 import com.kauailabs.navx.frc.AHRS;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -49,11 +49,6 @@ public class Drivetrain extends SubsystemBase {
   DifferentialDriveOdometry driveOdometry = new DifferentialDriveOdometry(getGyroHeading(),
       new Pose2d(0, 0, new Rotation2d()));
 
-
-
-  private double leftEncoderTare = 0;
-  private double rightEncoderTare = 0;
-
   public Drivetrain(Field2d input) {
     this.field2d = input;
 
@@ -62,16 +57,17 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void periodic() {
-    driveOdometry.update(getGyroHeading(), this.rotationsToMeters(this.getEncoderLeft()),
-        this.rotationsToMeters(this.getEncoderRight()));
+    driveOdometry.update(getGyroHeading(), this.rotationsToMeters(leftEncoder.getPosition()),
+        this.rotationsToMeters(rightEncoder.getPosition()));
 
     field2d.setRobotPose(driveOdometry.getPoseMeters());
+
     // // smart dashboard logging
     SmartDashboard.putData("field", field2d);
     SmartDashboard.putNumber("x", driveOdometry.getPoseMeters().getX());
     SmartDashboard.putNumber("y", driveOdometry.getPoseMeters().getY());
-     SmartDashboard.putNumber("rev L", this.getEncoderLeft());
-     SmartDashboard.putNumber("rev R", this.getEncoderRight());
+    SmartDashboard.putNumber("rev L", leftEncoder.getPosition());
+    SmartDashboard.putNumber("rev R", rightEncoder.getPosition());
     SmartDashboard.putNumber("odoHead", driveOdometry.getPoseMeters().getRotation().getDegrees());
     // SmartDashboard.putNumber("navHead", navx.getYaw());
     // SmartDashboard.putNumber("tester", this.rotationsToMeters(1));
@@ -104,6 +100,16 @@ public class Drivetrain extends SubsystemBase {
     groupRight.setVoltage(rightVolts);
   }
 
+  /**
+   * sets what the motor does while idle
+   * @param input the mode the moros should be put in (kBrake or kCoast)
+   */
+  public void setIdleMode(IdleMode input){
+    leftPrimary.setIdleMode(input);
+    leftSecondary.setIdleMode(input);
+    rightPrimary.setIdleMode(input);
+    rightSecondary.setIdleMode(input);
+  }
 
   /**
    * Returns the current wheel speeds of the robot.
@@ -111,37 +117,15 @@ public class Drivetrain extends SubsystemBase {
    * @return The current wheel speeds.
    */
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(getEncoderLeft(), getEncoderRight());
+    return new DifferentialDriveWheelSpeeds(getRate(leftEncoder.getVelocity()), getRate(rightEncoder.getVelocity()));
   }
 
   /**
-   * 
-   * @return returns the number of rotations of the left motor since last reset
+   * zeros the encoder rotations
    */
-  public double getEncoderLeft() {
-    return (leftEncoder.getPosition() - leftEncoderTare);
-  }
-
-  /**
-   * 
-   * @return returns the number of rotations of the right motor since last reset
-   */
-  public double getEncoderRight() {
-    return rightEncoder.getPosition() - rightEncoderTare;
-  }
-
-  /**
-   * zeros the encoder value for the left side
-   */
-  public void zeroLeft() {
-    leftEncoderTare = leftEncoder.getPosition();
-  }
-
-  /**
-   * zeros the encoder value for the left side
-   */
-  public void zeroRight() {
-    rightEncoderTare = rightEncoder.getPosition();
+  public void zeroEncoders() {
+    leftEncoder.setPosition(0);
+    rightEncoder.setPosition(0);
   }
 
   /**
@@ -152,24 +136,16 @@ public class Drivetrain extends SubsystemBase {
   public double rotationsToMeters(double input) {
     double wheelCirc = (2 * Math.PI * Constants.WHEEL_RADIUS);
     double rotationsPerInch = wheelCirc / Constants.GEARRATIO;
-    return 0.0254 * (rotationsPerInch * input);
+    return Units.inchesToMeters(rotationsPerInch * input);
 
   }
 
   /**
-   * 
+   * @param input rpm of drivetrain motor
    * @return returns rate of left encoder in meters per second
    */
-  public double getRateLeft(){
-    return (leftEncoder.getVelocity()* 0.0254) / (60* Constants.GEARRATIO);
-  }
-
-    /**
-   * 
-   * @return returns rate of left encoder in meters per second
-   */
-  public double getRateRight(){
-    return (rightEncoder.getVelocity()* 0.0254) / (60* Constants.GEARRATIO);
+  public double getRate(double input) {
+    return Units.inchesToMeters(input) / (60 * Constants.GEARRATIO);
   }
 
   /**
@@ -189,6 +165,7 @@ public class Drivetrain extends SubsystemBase {
    */
   public void setPosition(double x, double y, Rotation2d angle) {
     setPosition(new Pose2d(x, y, angle));
+    zeroEncoders();
   }
 
   /**
@@ -198,6 +175,7 @@ public class Drivetrain extends SubsystemBase {
    */
   public void setPosition(Pose2d position) {
     driveOdometry.resetPosition(position, getGyroHeading());
+    zeroEncoders();
   }
 
   /**
@@ -205,7 +183,6 @@ public class Drivetrain extends SubsystemBase {
    */
   public void zeroHeading() {
     navx.zeroYaw();
-
   }
 
   /**
@@ -216,6 +193,5 @@ public class Drivetrain extends SubsystemBase {
   public Pose2d getPose() {
     return driveOdometry.getPoseMeters();
   }
-
 
 }
