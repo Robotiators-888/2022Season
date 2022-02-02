@@ -56,6 +56,9 @@ public class Drivetrain extends SubsystemBase {
 
   public Drivetrain(Field2d input) {
     this.field2d = input;
+
+    leftPrimary.setInverted(true);
+    leftSecondary.setInverted(true);
   }
 
   public void periodic() {
@@ -75,21 +78,6 @@ public class Drivetrain extends SubsystemBase {
   }
 
   /**
-   * Sets the drivetrain to inverted
-   * 
-   * @param invert the invert state of the drivetrain. True is inverted, False is
-   *               not inverted.
-   */
-  public void invertDrive(boolean invert) {
-    leftPrimary.setInverted(invert);
-    rightPrimary.setInverted(invert);
-    leftSecondary.setInverted(invert);
-    rightSecondary.setInverted(invert);
-  }
-
-
-
-  /**
    * Sets speed of the motors in the drivetrain
    * 
    * @param leftSpeed  Speed of the left drivetrain
@@ -99,12 +87,10 @@ public class Drivetrain extends SubsystemBase {
    */
   public void setMotors(double leftSpeed, double rightSpeed, double Speed) {
     driveTrain.tankDrive(leftSpeed * Speed, rightSpeed * Speed);
-    driveTrain.feed();
   }
 
   public void setMotors(double leftSpeed, double rightSpeed) {
     driveTrain.tankDrive(leftSpeed, rightSpeed);
-    driveTrain.feed();
   }
 
   /**
@@ -114,12 +100,8 @@ public class Drivetrain extends SubsystemBase {
    * @param rightVolts the commanded right output
    */
   public void tankDriveVolts(double leftVolts, double rightVolts) {
-    System.out.println(leftVolts);
-    System.out.println(rightVolts);
-
     groupLeft.setVoltage(leftVolts);
     groupRight.setVoltage(rightVolts);
-    driveTrain.feed();
   }
 
 
@@ -145,7 +127,7 @@ public class Drivetrain extends SubsystemBase {
    * @return returns the number of rotations of the right motor since last reset
    */
   public double getEncoderRight() {
-    return -1 * (rightEncoder.getPosition() - rightEncoderTare);
+    return rightEncoder.getPosition() - rightEncoderTare;
   }
 
   /**

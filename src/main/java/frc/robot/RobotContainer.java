@@ -83,23 +83,24 @@ public class RobotContainer {
         Constants.kMaxAccelerationMetersPerSecondSquared).setKinematics(Constants.kDriveKinematics)
             .addConstraint(autoVoltageConstraint);
 
-    Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)),
-        List.of(), new Pose2d(3, 0, new Rotation2d(0)), config);
+    Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(2, 2, new Rotation2d(0)),
+        List.of(new Translation2d(4, 2)), new Pose2d(5, 2, new Rotation2d(0)), config);
 
     RamseteCommand ramseteCommand = new RamseteCommand(exampleTrajectory, drivetrain::getPose,
         new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-        new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSecondsPerMeter,
-            Constants.kaVoltSecondsSquaredPerMeter),
+        new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSecondsPerMeter, 
+        Constants.kaVoltSecondsSquaredPerMeter),
         Constants.kDriveKinematics, drivetrain::getWheelSpeeds, 
         new PIDController(Constants.kPDriveVel, 0, 0),
-        new PIDController(Constants.kPDriveVel, 0, 0), drivetrain::tankDriveVolts, drivetrain);
+        new PIDController(Constants.kPDriveVel, 0, 0), 
+        drivetrain::tankDriveVolts, drivetrain);
 
-    
+    field2d.getObject("traj").setTrajectory(exampleTrajectory);
 
     drivetrain.zeroHeading();
     drivetrain.zeroLeft();
     drivetrain.zeroRight();
-    drivetrain.setPosition(0, 0, drivetrain.getGyroHeading());
+    drivetrain.setPosition(2, 2, new Rotation2d(0));
 
     return ramseteCommand.andThen(() -> drivetrain.tankDriveVolts(0, 0));
   }

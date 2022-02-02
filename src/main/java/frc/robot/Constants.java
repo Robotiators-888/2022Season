@@ -35,7 +35,7 @@ public final class Constants {
 
     //---------------------------------- Auto Constants ---------------------------------- 
 
-    public static final double TRACKWIDTH = 22;  // track width in inches
+    public static final double TRACKWIDTH = 35;  // track width in inches
     public static final double WHEEL_RADIUS = 3; //wheel radius in inches
     public static final double GEARRATIO = 8.58; // number of rotations per one inch of movement
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
@@ -48,8 +48,8 @@ public final class Constants {
     public static final double kaVoltSecondsSquaredPerMeter = 0.03;
     public static final double kPDriveVel = 1.31;
 
-    public static final double kMaxSpeedMetersPerSecond = 0.5;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 0.25;
+    public static final double kMaxSpeedMetersPerSecond = 1;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 1;
 
     public static final double kRamseteB = 2;
     public static final double kRamseteZeta = 0.7;
