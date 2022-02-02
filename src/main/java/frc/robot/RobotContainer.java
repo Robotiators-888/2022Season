@@ -12,6 +12,9 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.FMSSubsystem;
 import frc.robot.subsystems.UDPRecieverSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.MecanumDriveCommand;
+import frc.robot.subsystems.DriveSubsystem;
+
 
 import frc.robot.commands.UDPReceiverCmd;
 
@@ -38,7 +41,12 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    MecanumDriveCommand driveTrain = new MecanumDriveCommand(m_driveSubsystem,
+    () -> applyDeadZone(m_stick.getRawAxis(Constants.JOYSTICK_X_AXIS)),
+    ()-> applyDeadZone(m_stick.getRawAxis(Constants.JOYSTICK_Y_AXIS)),
+    () -> applyDeadZone(m_stick.getRawAxis(Constants.JOYSTICK_Z_AXIS)));
 
+    m_driveSubsystem.setDefaultCommand(driveTrain);
     m_udpsubsystem.setDefaultCommand(new UDPReceiverCmd(m_udpsubsystem));
     m_fmssubsystem.setDefaultCommand(new FMSCmd(m_fmssubsystem));
   }
@@ -62,5 +70,14 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return m_autoCommand;
+  }
+
+
+  private double applyDeadZone(double axisVal){
+    double dz = Constants.DEAD_ZONE;
+    if (axisVal>dz && axisVal<-dz){
+      return 0;
+    }
+    return axisVal;
   }
 }
