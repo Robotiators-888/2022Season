@@ -38,11 +38,11 @@ public class DriveSubsystem extends SubsystemBase {
         // frontRight.setInverted(true);
     }
 
-    public void drive(double ySpeed, double xSpeed) {
+    public void drive(double LSpeed, double RSpeed) {
         // ySpeed, xSpeed, and zRotation are all supplier values from the joystick
         // object
         try (DifferentialDrive drive = new DifferentialDrive(leftGroup, rightGroup)) {
-            drive.arcadeDrive(xSpeed, ySpeed);
+            drive.arcadeDrive(LSpeed, RSpeed);
         }
     }
 

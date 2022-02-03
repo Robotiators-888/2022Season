@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveCmd extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private DriveSubsystem m_subsystem = new DriveSubsystem();
-  public Supplier<Double> xSpeed,ySpeed;
+  public Supplier<Double> LSpeed,RSpeed;
 
 
   /**
@@ -20,11 +20,11 @@ public class DriveCmd extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public DriveCmd(DriveSubsystem subsystem, Supplier<Double> xSpeed, Supplier<Double> ySpeed) {
+  public DriveCmd(DriveSubsystem subsystem, Supplier<Double> LSpeed, Supplier<Double> RSpeed) {
     
     m_subsystem = subsystem;
-    this.xSpeed = xSpeed;
-    this.ySpeed = ySpeed;
+    this.LSpeed = LSpeed;
+    this.RSpeed = RSpeed;
     
     addRequirements(subsystem);
   }
@@ -32,7 +32,7 @@ public class DriveCmd extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("Mecanum Drive Command started.");
+    System.out.println("Drive Command started.");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,11 +40,11 @@ public class DriveCmd extends CommandBase {
   public void execute() {
 
     // Drive
-    m_subsystem.drive(ySpeed.get(),xSpeed.get());
+    m_subsystem.drive(LSpeed.get(),RSpeed.get());
 
     // Put numbers on SmartDashboard
-    SmartDashboard.putNumber("ySpeed Value",ySpeed.get());
-    SmartDashboard.putNumber("xSpeed Value",xSpeed.get());
+    SmartDashboard.putNumber("Left Speed Value",LSpeed.get());
+    SmartDashboard.putNumber("Right Speed Value",RSpeed.get());
   
   
   }

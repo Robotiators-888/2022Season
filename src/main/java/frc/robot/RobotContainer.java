@@ -45,8 +45,8 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     DriveCmd driveTrain = new DriveCmd(m_driveSubsystem,
-    () -> applyDeadZone(m_stick.getRawAxis(Constants.JOYSTICK_X_AXIS)),
-    ()-> applyDeadZone(m_stick.getRawAxis(Constants.JOYSTICK_Y_AXIS)));
+    () -> applyDeadZone(m_stick.getRawAxis(Constants.RIGHT_AXIS)),
+    ()-> applyDeadZone(m_stick.getRawAxis(Constants.LEFT_AXIS)));
 
     m_driveSubsystem.setDefaultCommand(driveTrain);
     m_udpsubsystem.setDefaultCommand(new UDPReceiverCmd(m_udpsubsystem));
