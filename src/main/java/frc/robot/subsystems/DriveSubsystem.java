@@ -20,32 +20,30 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 public class DriveSubsystem extends SubsystemBase {
 
     // Left
-    private final CANSparkMax Left_1 = new CANSparkMax(Constants.Drive_Left_1, MotorType.kBrushless);
-    private final CANSparkMax Left_2 = new CANSparkMax(Constants.Drive_Left_2, MotorType.kBrushless);
-    private final CANSparkMax Left_3 = new CANSparkMax(Constants.Drive_Left_3, MotorType.kBrushless);
+    private final CANSparkMax Left_1 = new CANSparkMax(Constants.FRONT_LEFT_ID, MotorType.kBrushless);
+    private final CANSparkMax Left_2 = new CANSparkMax(Constants.REAR_LEFT_ID, MotorType.kBrushless);
 
-    public final MotorControllerGroup leftGroup = new MotorControllerGroup(Left_1, Left_2, Left_3);
+    public final MotorControllerGroup leftGroup = new MotorControllerGroup(Left_1, Left_2);
 
     // Right
-    private final CANSparkMax Right_1 = new CANSparkMax(Constants.Drive_Right_1, MotorType.kBrushless);
-    private final CANSparkMax Right_2 = new CANSparkMax(Constants.Drive_Right_2, MotorType.kBrushless);
-    private final CANSparkMax Right_3 = new CANSparkMax(Constants.Drive_Right_3, MotorType.kBrushless);
+    private final CANSparkMax Right_1 = new CANSparkMax(Constants.FRONT_RIGHT_ID, MotorType.kBrushless);
+    private final CANSparkMax Right_2 = new CANSparkMax(Constants.REAR_RIGHT_ID, MotorType.kBrushless);
 
-    public final MotorControllerGroup rightGroup = new MotorControllerGroup(Right_1, Right_2, Right_3);
+    public final MotorControllerGroup rightGroup = new MotorControllerGroup(Right_1, Right_2);
 
     public final DifferentialDrive driveTrain = new DifferentialDrive(leftGroup, rightGroup);
 
     public DriveSubsystem() {
-       // rearLeft.setInverted(true);
-       // frontRight.setInverted(true);
+        // rearLeft.setInverted(true);
+        // frontRight.setInverted(true);
     }
 
     public void drive(double ySpeed, double xSpeed) {
         // ySpeed, xSpeed, and zRotation are all supplier values from the joystick
         // object
-       try(DifferentialDrive drive = new DifferentialDrive(leftGroup, rightGroup)){
-           drive.arcadeDrive(xSpeed, ySpeed);
-       }
+        try (DifferentialDrive drive = new DifferentialDrive(leftGroup, rightGroup)) {
+            drive.arcadeDrive(xSpeed, ySpeed);
+        }
     }
 
 }
