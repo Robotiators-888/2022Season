@@ -28,4 +28,10 @@ public final class Constants {
     public static final int JOYSTICK_Y_AXIS = 1;
     public static final int JOYSTICK_Z_AXIS = 2;
     public static final double DEAD_ZONE = 0.3;
+    public static final int Drive_Left_1 = 0;
+    public static final int Drive_Left_2 = 0;
+    public static final int Drive_Left_3 = 0;
+    public static final int Drive_Right_1 = 0;
+    public static final int Drive_Right_2 = 0;
+    public static final int Drive_Right_3 = 0;
 }

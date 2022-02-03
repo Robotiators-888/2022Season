@@ -10,10 +10,10 @@ import frc.robot.Constants;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
@@ -33,17 +33,19 @@ public class DriveSubsystem extends SubsystemBase {
 
     public final MotorControllerGroup rightGroup = new MotorControllerGroup(Right_1, Right_2, Right_3);
 
-    public final MecanumDrive driveTrain = new MecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
+    public final DifferentialDrive driveTrain = new DifferentialDrive(leftGroup, rightGroup);
 
     public DriveSubsystem() {
-        rearLeft.setInverted(true);
-        frontRight.setInverted(true);
+       // rearLeft.setInverted(true);
+       // frontRight.setInverted(true);
     }
 
-    public void drive(double ySpeed, double xSpeed, double zRotation) {
+    public void drive(double ySpeed, double xSpeed) {
         // ySpeed, xSpeed, and zRotation are all supplier values from the joystick
         // object
-        driveTrain.driveCartesian(ySpeed, xSpeed, zRotation);
+       try(DifferentialDrive drive = new DifferentialDrive(leftGroup, rightGroup)){
+           drive.arcadeDrive(xSpeed, ySpeed);
+       }
     }
 
 }

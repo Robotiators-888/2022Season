@@ -5,14 +5,15 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.DriveCmd;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.FMSCmd;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.FMSSubsystem;
 import frc.robot.subsystems.UDPRecieverSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.MecanumDriveCommand;
 import frc.robot.subsystems.DriveSubsystem;
 
 
@@ -32,19 +33,20 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final UDPRecieverSubsystem m_udpsubsystem = new UDPRecieverSubsystem();
   public final static FMSSubsystem m_fmssubsystem = new FMSSubsystem();
+  public final static DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
+  Joystick m_stick = new Joystick(Constants.JOYSTICK_PORT);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    MecanumDriveCommand driveTrain = new MecanumDriveCommand(m_driveSubsystem,
+    DriveCmd driveTrain = new DriveCmd(m_driveSubsystem,
     () -> applyDeadZone(m_stick.getRawAxis(Constants.JOYSTICK_X_AXIS)),
-    ()-> applyDeadZone(m_stick.getRawAxis(Constants.JOYSTICK_Y_AXIS)),
-    () -> applyDeadZone(m_stick.getRawAxis(Constants.JOYSTICK_Z_AXIS)));
+    ()-> applyDeadZone(m_stick.getRawAxis(Constants.JOYSTICK_Y_AXIS)));
 
     m_driveSubsystem.setDefaultCommand(driveTrain);
     m_udpsubsystem.setDefaultCommand(new UDPReceiverCmd(m_udpsubsystem));

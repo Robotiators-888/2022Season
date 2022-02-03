@@ -1,8 +1,4 @@
-/* 
-* Kevin Hwang
-* Lasted edited on 10/26/2021
-* Calls the subsystem to make robot move using Mecanum wheels.
-*/
+
 
 package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -13,10 +9,10 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class MecanumDriveCommand extends CommandBase {
+public class DriveCmd extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final DriveSubsystem m_subsystem;
-  public Supplier<Double> xSpeed,ySpeed,zRotation;
+  private DriveSubsystem m_subsystem = new DriveSubsystem();
+  public Supplier<Double> xSpeed,ySpeed;
 
 
   /**
@@ -24,12 +20,12 @@ public class MecanumDriveCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public MecanumDriveCommand(DriveSubsystem subsystem,Supplier<Double> xSpeed, Supplier<Double> ySpeed,Supplier<Double> zRotation) {
+  public DriveCmd(DriveSubsystem subsystem, Supplier<Double> xSpeed, Supplier<Double> ySpeed) {
     
     m_subsystem = subsystem;
     this.xSpeed = xSpeed;
     this.ySpeed = ySpeed;
-    this.zRotation = zRotation;
+    
     addRequirements(subsystem);
   }
 
@@ -44,12 +40,12 @@ public class MecanumDriveCommand extends CommandBase {
   public void execute() {
 
     // Drive
-    m_subsystem.drive(ySpeed.get(),xSpeed.get(),zRotation.get());
+    m_subsystem.drive(ySpeed.get(),xSpeed.get());
 
     // Put numbers on SmartDashboard
     SmartDashboard.putNumber("ySpeed Value",ySpeed.get());
     SmartDashboard.putNumber("xSpeed Value",xSpeed.get());
-    SmartDashboard.putNumber("zRotation Value",zRotation.get());
+  
   
   }
 
