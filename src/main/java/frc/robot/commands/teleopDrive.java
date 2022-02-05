@@ -4,13 +4,11 @@
 
 package frc.robot.commands;
 
-
 import java.util.function.Supplier;
-
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
+import java.util.function.Supplier;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-/** An example command that uses an example subsystem. */
 public class teleopDrive extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private Drivetrain drive;
@@ -32,13 +30,17 @@ public class teleopDrive extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    drive.zeroHeading();
+    drive.setPosition(0, 0, drive.getGyroHeading());
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     drive.setMotors(Left.get(), Right.get(), 0.5);
   }
+
 
   // Called once the command ends or is interrupted.
   @Override

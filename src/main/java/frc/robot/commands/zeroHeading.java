@@ -4,10 +4,10 @@
 
 package frc.robot.commands;
 
+
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-/** An example command that uses an example subsystem. */
 public class zeroHeading extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private Drivetrain drive;
@@ -15,7 +15,6 @@ public class zeroHeading extends CommandBase {
   public zeroHeading(Drivetrain input) {
    this.drive = input;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(drive);
   }
 
   // Called when the command is initially scheduled.

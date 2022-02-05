@@ -39,6 +39,14 @@ import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.Aim;
+import frc.robot.commands.LimelightCommand;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Index;
+import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.Shooter;
+
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -56,6 +64,15 @@ public class RobotContainer {
 
   private final ColorSensorSubsystem m_colorSubsystem = new ColorSensorSubsystem();
   private final Joystick m_stick = new Joystick(Constants.JOYSTICK_PORT);
+  private Limelight m_limelight = new Limelight();
+  private Shooter shoot = new Shooter();
+  private Index m_index = new Index();
+  private Drivetrain drive = new Drivetrain();
+  
+  private Joystick stick = new Joystick(0);
+  private JoystickButton aButton = new JoystickButton(stick, 1);
+  private JoystickButton bButton = new JoystickButton(stick, 2);
+  
 
 
   private final Field2d field2d = new Field2d();
@@ -100,7 +117,13 @@ public class RobotContainer {
   private void configureButtonBindings() {
     drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> joystick.getRawAxis(Constants.LEFT_AXIS),
         () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
-    AButton.whenPressed(new zeroHeading(drivetrain));
+    cButton.whenPressed(new zeroHeading(drivetrain));
+
+    //While a button is pressed, run autoshoot command
+    aButton.whileHeld(new LimelightCommand(m_limelight, shoot, m_index));
+    //While b button is pressed, run autoaim command
+    bButton.whileHeld(new Aim(m_limelight, drive));
+
   }
 
   /*
@@ -140,4 +163,15 @@ public class RobotContainer {
     }
     return axisVal;
   }
+    
+    
+
+  }
+
+  /**
+   * Use this to pass the autonomous command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
+  
 }
