@@ -47,7 +47,7 @@ import frc.robot.subsystems.Shooter;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final UDPRecieverSubsystem m_udpsubsystem = new UDPRecieverSubsystem();
+  //private final UDPRecieverSubsystem m_udpsubsystem = new UDPRecieverSubsystem();
 
   private Limelight m_limelight = new Limelight();
   private Shooter shoot = new Shooter();
@@ -69,7 +69,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    m_udpsubsystem.setDefaultCommand(new UDPReceiverCmd(m_udpsubsystem));
+    //m_udpsubsystem.setDefaultCommand(new UDPReceiverCmd(m_udpsubsystem));
   }
 
   /**
@@ -101,7 +101,7 @@ public class RobotContainer {
             .addConstraint(autoVoltageConstraint);
 
     Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(2, 2, new Rotation2d(0)),
-        List.of(new Translation2d(4, 2)), new Pose2d(5, 2, new Rotation2d(0)), config);
+        List.of(), new Pose2d(5, 2, new Rotation2d(0)), config);
 
     RamseteCommand ramseteCommand = new RamseteCommand(exampleTrajectory, drivetrain::getPose,
         new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
