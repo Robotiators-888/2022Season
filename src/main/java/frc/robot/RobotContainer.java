@@ -4,12 +4,22 @@
 
 package frc.robot;
 
+import java.util.List;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DriveCmd;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.UDPRecieverSubsystem;
 
 
@@ -22,6 +32,13 @@ import frc.robot.subsystems.DriveSubsystem;
 
 
 import frc.robot.commands.UDPReceiverCmd;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import frc.robot.commands.teleopDrive;
+import frc.robot.commands.zeroHeading;
+import frc.robot.subsystems.Drivetrain;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -34,12 +51,20 @@ import frc.robot.commands.UDPReceiverCmd;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final UDPRecieverSubsystem m_udpsubsystem = new UDPRecieverSubsystem();
   public final static DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
   private final ColorSensorSubsystem m_colorSubsystem = new ColorSensorSubsystem();
   private final Joystick m_stick = new Joystick(Constants.JOYSTICK_PORT);
+
+
+  private final Field2d field2d = new Field2d();
+
+  private Drivetrain drivetrain = new Drivetrain(field2d);
+
+  private Joystick joystick = new Joystick(Constants.JOYSTICK_PORT);
+
+  JoystickButton AButton = new JoystickButton(joystick, 1);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -73,12 +98,38 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> joystick.getRawAxis(Constants.LEFT_AXIS),
+        () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
+    AButton.whenPressed(new zeroHeading(drivetrain));
   }
 
   /*
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(Constants.ksVolts,
+        Constants.kvVoltSecondsPerMeter, Constants.kaVoltSecondsSquaredPerMeter), Constants.kDriveKinematics, 10);
+
+    TrajectoryConfig config = new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
+        Constants.kMaxAccelerationMetersPerSecondSquared).setKinematics(Constants.kDriveKinematics)
+            .addConstraint(autoVoltageConstraint);
+
+    Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(2, 2, new Rotation2d(0)),
+        List.of(new Translation2d(4, 2)), new Pose2d(5, 2, new Rotation2d(0)), config);
+
+    RamseteCommand ramseteCommand = new RamseteCommand(exampleTrajectory, drivetrain::getPose,
+        new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
+        new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSecondsPerMeter, 
+        Constants.kaVoltSecondsSquaredPerMeter),
+        Constants.kDriveKinematics, drivetrain::getWheelSpeeds, 
+        new PIDController(Constants.kPDriveVel, 0, 0),
+        new PIDController(Constants.kPDriveVel, 0, 0), 
+        drivetrain::tankDriveVolts, drivetrain);
+
+    field2d.getObject("traj").setTrajectory(exampleTrajectory);
+
+    drivetrain.zeroHeading();
+    drivetrain.setPosition(2, 2, new Rotation2d(0));
+
+    return ramseteCommand.andThen(() -> drivetrain.tankDriveVolts(0, 0));
   }
   */
 
