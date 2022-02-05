@@ -19,26 +19,19 @@ import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstrai
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.DriveCmd;
 import frc.robot.subsystems.UDPRecieverSubsystem;
 
-import frc.robot.subsystems.ColorSensorSubsystem;
-import frc.robot.commands.ColorSensorCommand;
-
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.DriveSubsystem;
 
 import frc.robot.commands.UDPReceiverCmd;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import frc.robot.commands.teleopDrive;
 import frc.robot.commands.zeroHeading;
 import frc.robot.subsystems.Drivetrain;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.Aim;
 import frc.robot.commands.LimelightCommand;
-import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
@@ -58,7 +51,6 @@ public class RobotContainer {
   // public final static Drivetrain m_driveSubsystem = new Drivetrain();
   private final GenericBuffer<BallDataPacket> ballBuffer = new GenericBuffer<>();
   private final GenericBuffer<LimelightDataPacket> limelightBuffer = new GenericBuffer<>();
-  private final ColorSensorSubsystem m_colorSubsystem = new ColorSensorSubsystem();
   private final UDPReciever<BallDataPacket> m_BallReciever = new UDPReciever<>(Constants.BALL_PORT,
       () -> new BallDataPacket(), ballBuffer);
   private final UDPReciever<LimelightDataPacket> m_limelightReciever = new UDPReciever<>(Constants.LIMELIGHT_PORT,
@@ -69,17 +61,14 @@ public class RobotContainer {
   private Index m_index = new Index();
   // private Drivetrain drive = new Drivetrain();
 
-  private Joystick stick = new Joystick(0);
-  private JoystickButton aButton = new JoystickButton(stick, 1);
-  private JoystickButton bButton = new JoystickButton(stick, 2);
-
   private final Field2d field2d = new Field2d();
-
   private Drivetrain drivetrain = new Drivetrain(field2d);
 
   private Joystick joystick = new Joystick(Constants.JOYSTICK_PORT);
 
-  JoystickButton AButton = new JoystickButton(joystick, 1);
+  JoystickButton aButton = new JoystickButton(joystick, 1);
+  JoystickButton bButton = new JoystickButton(joystick, 2);
+  JoystickButton cButton = new JoystickButton(joystick, 3);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -87,15 +76,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    teleopDrive driveTrain = new teleopDrive(m_driveSubsystem,
-        () -> applyDeadZone(m_stick.getRawAxis(Constants.RIGHT_AXIS)),
-        () -> applyDeadZone(m_stick.getRawAxis(Constants.LEFT_AXIS)));
 
-    m_driveSubsystem.setDefaultCommand(driveTrain);
-    m_udpsubsystem.setDefaultCommand(new UDPReceiverCmd(m_udpsubsystem));
-
-    ColorSensorCommand colorSensor = new ColorSensorCommand(m_colorSubsystem);
-    m_colorSubsystem.setDefaultCommand(colorSensor);
     m_BallReciever.start();
     m_limelightReciever.start();
 
@@ -120,54 +101,36 @@ public class RobotContainer {
     // While a button is pressed, run autoshoot command
     aButton.whileHeld(new LimelightCommand(m_limelight, shoot, m_index));
     // While b button is pressed, run autoaim command
-    // bButton.whileHeld(new Aim(m_limelight, drive));
+    bButton.whileHeld(new Aim(m_limelight, drivetrain));
 
   }
 
-  /*
-   * public Command getAutonomousCommand() {
-   * var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new
-   * SimpleMotorFeedforward(Constants.ksVolts,
-   * Constants.kvVoltSecondsPerMeter, Constants.kaVoltSecondsSquaredPerMeter),
-   * Constants.kDriveKinematics, 10);
-   * 
-   * TrajectoryConfig config = new
-   * TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
-   * Constants.kMaxAccelerationMetersPerSecondSquared).setKinematics(Constants.
-   * kDriveKinematics)
-   * .addConstraint(autoVoltageConstraint);
-   * 
-   * Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(new
-   * Pose2d(2, 2, new Rotation2d(0)),
-   * List.of(new Translation2d(4, 2)), new Pose2d(5, 2, new Rotation2d(0)),
-   * config);
-   * 
-   * RamseteCommand ramseteCommand = new RamseteCommand(exampleTrajectory,
-   * drivetrain::getPose,
-   * new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-   * new SimpleMotorFeedforward(Constants.ksVolts,
-   * Constants.kvVoltSecondsPerMeter,
-   * Constants.kaVoltSecondsSquaredPerMeter),
-   * Constants.kDriveKinematics, drivetrain::getWheelSpeeds,
-   * new PIDController(Constants.kPDriveVel, 0, 0),
-   * new PIDController(Constants.kPDriveVel, 0, 0),
-   * drivetrain::tankDriveVolts, drivetrain);
-   * 
-   * field2d.getObject("traj").setTrajectory(exampleTrajectory);
-   * 
-   * drivetrain.zeroHeading();
-   * drivetrain.setPosition(2, 2, new Rotation2d(0));
-   * 
-   * return ramseteCommand.andThen(() -> drivetrain.tankDriveVolts(0, 0));
-   * }
-   */
+  public Command getAutonomousCommand() {
+    var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(Constants.ksVolts,
+        Constants.kvVoltSecondsPerMeter, Constants.kaVoltSecondsSquaredPerMeter), Constants.kDriveKinematics, 10);
 
-  private double applyDeadZone(double axisVal) {
-    double dz = Constants.DEAD_ZONE;
-    if (axisVal > dz && axisVal < -dz) {
-      return 0;
-    }
-    return axisVal;
+    TrajectoryConfig config = new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
+        Constants.kMaxAccelerationMetersPerSecondSquared).setKinematics(Constants.kDriveKinematics)
+            .addConstraint(autoVoltageConstraint);
+
+    Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(2, 2, new Rotation2d(0)),
+        List.of(), new Pose2d(5, 2, new Rotation2d(0)), config);
+
+    RamseteCommand ramseteCommand = new RamseteCommand(exampleTrajectory, drivetrain::getPose,
+        new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
+        new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSecondsPerMeter,
+            Constants.kaVoltSecondsSquaredPerMeter),
+        Constants.kDriveKinematics, drivetrain::getWheelSpeeds,
+        new PIDController(Constants.kPDriveVel, 0, 0),
+        new PIDController(Constants.kPDriveVel, 0, 0),
+        drivetrain::tankDriveVolts, drivetrain);
+
+    field2d.getObject("traj").setTrajectory(exampleTrajectory);
+
+    drivetrain.zeroHeading();
+    drivetrain.setPosition(2, 2, new Rotation2d(0));
+
+    return ramseteCommand.andThen(() -> drivetrain.tankDriveVolts(0, 0));
   }
 
 }

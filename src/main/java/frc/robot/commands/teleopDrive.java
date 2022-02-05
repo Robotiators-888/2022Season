@@ -6,11 +6,11 @@ package frc.robot.commands;
 
 import java.util.function.Supplier;
 import frc.robot.subsystems.Drivetrain;
-import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class teleopDrive extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private Drivetrain drive;
   private Supplier<Double> Left, Right;
 
@@ -26,8 +26,6 @@ public class teleopDrive extends CommandBase {
     addRequirements(drive);
   }
 
-
-
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -40,7 +38,6 @@ public class teleopDrive extends CommandBase {
   public void execute() {
     drive.setMotors(Left.get(), Right.get(), 0.5);
   }
-
 
   // Called once the command ends or is interrupted.
   @Override
