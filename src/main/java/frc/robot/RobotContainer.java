@@ -83,7 +83,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> joystick.getRawAxis(Constants.LEFT_AXIS),
         () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
-    cButton.whenPressed(new zeroHeading(drivetrain));
+    // cButton.whenPressed(new zeroHeading(drivetrain));
 
     // While a button is pressed, run autoshoot command
     aButton.whileHeld(new LimelightCommand(m_limelight, shoot, m_index));
@@ -121,3 +121,9 @@ public class RobotContainer {
   }
 
 }
+
+/**
+ * Use this to pass the autonomous command to the main {@link Robot} class.
+ *
+ * @return the command to run in autonomous
+ */
