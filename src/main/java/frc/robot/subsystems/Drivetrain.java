@@ -105,9 +105,10 @@ public class Drivetrain extends SubsystemBase {
 
   /**
    * sets what the motor does while idle
+   * 
    * @param input the mode the moros should be put in (kBrake or kCoast)
    */
-  public void setIdleMode(IdleMode input){
+  public void setIdleMode(IdleMode input) {
     leftPrimary.setIdleMode(input);
     leftSecondary.setIdleMode(input);
     rightPrimary.setIdleMode(input);

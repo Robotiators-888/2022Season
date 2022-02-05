@@ -39,8 +39,6 @@ import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 
-
-
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -63,8 +61,9 @@ public class RobotContainer {
   private Drivetrain drivetrain = new Drivetrain(field2d);
 
   private Joystick joystick = new Joystick(Constants.JOYSTICK_PORT);
+
   JoystickButton aButton = new JoystickButton(joystick, 1);
-   JoystickButton bButton = new JoystickButton(joystick, 2);
+  JoystickButton bButton = new JoystickButton(joystick, 2);
   JoystickButton cButton = new JoystickButton(joystick, 3);
 
   /**
@@ -77,10 +76,6 @@ public class RobotContainer {
     m_udpsubsystem.setDefaultCommand(new UDPReceiverCmd(m_udpsubsystem));
     ColorSensorCommand colorSensor = new ColorSensorCommand(m_colorSubsystem);
     m_colorSubsystem.setDefaultCommand(colorSensor);
-    
-// periodic getting
-// separate function > getting string value
-    
   }
 
   /**
@@ -96,14 +91,13 @@ public class RobotContainer {
         () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
     cButton.whenPressed(new zeroHeading(drivetrain));
 
-    //While a button is pressed, run autoshoot command
+    // While a button is pressed, run autoshoot command
     aButton.whileHeld(new LimelightCommand(m_limelight, shoot, m_index));
-    //While b button is pressed, run autoaim command
+    // While b button is pressed, run autoaim command
     bButton.whileHeld(new Aim(m_limelight, drivetrain));
 
   }
 
-  /*
   public Command getAutonomousCommand() {
     var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(Constants.ksVolts,
         Constants.kvVoltSecondsPerMeter, Constants.kaVoltSecondsSquaredPerMeter), Constants.kDriveKinematics, 10);
@@ -117,11 +111,11 @@ public class RobotContainer {
 
     RamseteCommand ramseteCommand = new RamseteCommand(exampleTrajectory, drivetrain::getPose,
         new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-        new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSecondsPerMeter, 
-        Constants.kaVoltSecondsSquaredPerMeter),
-        Constants.kDriveKinematics, drivetrain::getWheelSpeeds, 
+        new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSecondsPerMeter,
+            Constants.kaVoltSecondsSquaredPerMeter),
+        Constants.kDriveKinematics, drivetrain::getWheelSpeeds,
         new PIDController(Constants.kPDriveVel, 0, 0),
-        new PIDController(Constants.kPDriveVel, 0, 0), 
+        new PIDController(Constants.kPDriveVel, 0, 0),
         drivetrain::tankDriveVolts, drivetrain);
 
     field2d.getObject("traj").setTrajectory(exampleTrajectory);
@@ -131,9 +125,5 @@ public class RobotContainer {
 
     return ramseteCommand.andThen(() -> drivetrain.tankDriveVolts(0, 0));
   }
-  */
-    
-  }
 
-
-
+}
