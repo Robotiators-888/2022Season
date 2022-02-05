@@ -9,10 +9,14 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DriveCmd;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.FMSCmd;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.FMSSubsystem;
 import frc.robot.subsystems.UDPRecieverSubsystem;
+
+
+
+import frc.robot.subsystems.ColorSensorSubsystem;
+import frc.robot.commands.ColorSensorCommand;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -32,12 +36,11 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final UDPRecieverSubsystem m_udpsubsystem = new UDPRecieverSubsystem();
-  public final static FMSSubsystem m_fmssubsystem = new FMSSubsystem();
   public final static DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  private final ColorSensorSubsystem m_colorSubsystem = new ColorSensorSubsystem();
+  private final Joystick m_stick = new Joystick(Constants.JOYSTICK_PORT);
 
-  Joystick m_stick = new Joystick(Constants.JOYSTICK_PORT);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -50,7 +53,15 @@ public class RobotContainer {
 
     m_driveSubsystem.setDefaultCommand(driveTrain);
     m_udpsubsystem.setDefaultCommand(new UDPReceiverCmd(m_udpsubsystem));
-    m_fmssubsystem.setDefaultCommand(new FMSCmd(m_fmssubsystem));
+    
+
+
+    ColorSensorCommand colorSensor = new ColorSensorCommand(m_colorSubsystem);
+    m_colorSubsystem.setDefaultCommand(colorSensor);
+    
+// periodic getting
+// separate function > getting string value
+    
   }
 
   /**
@@ -64,16 +75,12 @@ public class RobotContainer {
   private void configureButtonBindings() {
   }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
+  /*
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return m_autoCommand;
   }
-
+  */
 
   private double applyDeadZone(double axisVal){
     double dz = Constants.DEAD_ZONE;
