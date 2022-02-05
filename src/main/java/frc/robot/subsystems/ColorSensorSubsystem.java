@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj.I2C;
-
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.util.Color;
 
 import com.revrobotics.ColorSensorV3;
@@ -36,14 +36,14 @@ public class ColorSensorSubsystem extends SubsystemBase {
 
 
 
-  public static void MuxChangeI2cPort(I2C i2c,int newPort) {
+  public static void MuxChangeI2cPort(Port i2cPort2,int newPort) {
     int i2cPort = 0x70; // MUX I2C address
     // and you simply write a single byte with the desired multiplexed output number to that port
-    boolean failed = i2c.write(i2cPort, newPort);
+    boolean failed = i2cPort2.write(i2cPort, newPort);
     if (failed) {
         throw new RuntimeException("Failed to write to MUX over I2C");
     }
-    i2c.close();
+    i2cPort2.close();
 }
   
   /** Creates a new ColorSensorSubsystem. */
