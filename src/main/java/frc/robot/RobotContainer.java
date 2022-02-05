@@ -19,34 +19,22 @@ import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstrai
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.DriveCmd;
 import frc.robot.subsystems.UDPRecieverSubsystem;
 
-
-
-import frc.robot.subsystems.ColorSensorSubsystem;
-import frc.robot.commands.ColorSensorCommand;
-
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.DriveSubsystem;
-
 
 import frc.robot.commands.UDPReceiverCmd;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import frc.robot.commands.teleopDrive;
 import frc.robot.commands.zeroHeading;
 import frc.robot.subsystems.Drivetrain;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.Aim;
 import frc.robot.commands.LimelightCommand;
-import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
-
-
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -59,29 +47,20 @@ import frc.robot.subsystems.Shooter;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final UDPRecieverSubsystem m_udpsubsystem = new UDPRecieverSubsystem();
-  public final static DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  //private final UDPRecieverSubsystem m_udpsubsystem = new UDPRecieverSubsystem();
 
-  private final ColorSensorSubsystem m_colorSubsystem = new ColorSensorSubsystem();
-  private final Joystick m_stick = new Joystick(Constants.JOYSTICK_PORT);
   private Limelight m_limelight = new Limelight();
   private Shooter shoot = new Shooter();
   private Index m_index = new Index();
-  private Drivetrain drive = new Drivetrain();
-  
-  private Joystick stick = new Joystick(0);
-  private JoystickButton aButton = new JoystickButton(stick, 1);
-  private JoystickButton bButton = new JoystickButton(stick, 2);
-  
-
 
   private final Field2d field2d = new Field2d();
-
   private Drivetrain drivetrain = new Drivetrain(field2d);
 
   private Joystick joystick = new Joystick(Constants.JOYSTICK_PORT);
 
-  JoystickButton AButton = new JoystickButton(joystick, 1);
+  JoystickButton aButton = new JoystickButton(joystick, 1);
+  JoystickButton bButton = new JoystickButton(joystick, 2);
+  JoystickButton cButton = new JoystickButton(joystick, 3);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -89,21 +68,8 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    DriveCmd driveTrain = new DriveCmd(m_driveSubsystem,
-    () -> applyDeadZone(m_stick.getRawAxis(Constants.RIGHT_AXIS)),
-    ()-> applyDeadZone(m_stick.getRawAxis(Constants.LEFT_AXIS)));
 
-    m_driveSubsystem.setDefaultCommand(driveTrain);
-    m_udpsubsystem.setDefaultCommand(new UDPReceiverCmd(m_udpsubsystem));
-    
-
-
-    ColorSensorCommand colorSensor = new ColorSensorCommand(m_colorSubsystem);
-    m_colorSubsystem.setDefaultCommand(colorSensor);
-    
-// periodic getting
-// separate function > getting string value
-    
+    //m_udpsubsystem.setDefaultCommand(new UDPReceiverCmd(m_udpsubsystem));
   }
 
   /**
@@ -119,14 +85,13 @@ public class RobotContainer {
         () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
     cButton.whenPressed(new zeroHeading(drivetrain));
 
-    //While a button is pressed, run autoshoot command
+    // While a button is pressed, run autoshoot command
     aButton.whileHeld(new LimelightCommand(m_limelight, shoot, m_index));
-    //While b button is pressed, run autoaim command
-    bButton.whileHeld(new Aim(m_limelight, drive));
+    // While b button is pressed, run autoaim command
+    bButton.whileHeld(new Aim(m_limelight, drivetrain));
 
   }
 
-  /*
   public Command getAutonomousCommand() {
     var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(Constants.ksVolts,
         Constants.kvVoltSecondsPerMeter, Constants.kaVoltSecondsSquaredPerMeter), Constants.kDriveKinematics, 10);
@@ -136,15 +101,15 @@ public class RobotContainer {
             .addConstraint(autoVoltageConstraint);
 
     Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(2, 2, new Rotation2d(0)),
-        List.of(new Translation2d(4, 2)), new Pose2d(5, 2, new Rotation2d(0)), config);
+        List.of(), new Pose2d(5, 2, new Rotation2d(0)), config);
 
     RamseteCommand ramseteCommand = new RamseteCommand(exampleTrajectory, drivetrain::getPose,
         new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-        new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSecondsPerMeter, 
-        Constants.kaVoltSecondsSquaredPerMeter),
-        Constants.kDriveKinematics, drivetrain::getWheelSpeeds, 
+        new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSecondsPerMeter,
+            Constants.kaVoltSecondsSquaredPerMeter),
+        Constants.kDriveKinematics, drivetrain::getWheelSpeeds,
         new PIDController(Constants.kPDriveVel, 0, 0),
-        new PIDController(Constants.kPDriveVel, 0, 0), 
+        new PIDController(Constants.kPDriveVel, 0, 0),
         drivetrain::tankDriveVolts, drivetrain);
 
     field2d.getObject("traj").setTrajectory(exampleTrajectory);
@@ -154,24 +119,5 @@ public class RobotContainer {
 
     return ramseteCommand.andThen(() -> drivetrain.tankDriveVolts(0, 0));
   }
-  */
 
-  private double applyDeadZone(double axisVal){
-    double dz = Constants.DEAD_ZONE;
-    if (axisVal>dz && axisVal<-dz){
-      return 0;
-    }
-    return axisVal;
-  }
-    
-    
-
-  }
-
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  
 }

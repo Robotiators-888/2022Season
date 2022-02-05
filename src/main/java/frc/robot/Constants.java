@@ -20,35 +20,20 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    // Drive Stuff
-    public static final int FRONT_LEFT_ID = 12;
-    public static final int REAR_LEFT_ID = 13;
-
-    public static final int FRONT_RIGHT_ID = 10;
-    public static final int REAR_RIGHT_ID = 11;
-
-    // Joystick Stuff
-    public static final int JOYSTICK_PORT = 0;
-
-    // Joystick Control Stuff
-    public static final int LEFT_AXIS = 1;
-    public static final int RIGHT_AXIS = 5;
-    public static final double DEAD_ZONE = 0.3;
-
-    public static final int JOYSTICK_X_AXIS = 0;
-    public static final int JOYSTICK_Y_AXIS = 1;
-    public static final int JOYSTICK_Z_AXIS = 2;
-    // color sensor stuff
-    public static final double colorSensorId0 = 0;
-    public static final double colorSensorId1 = 1;
-    public static final double colorSensorId2 = 2;
-    public static final double colorSensorId3 = 3;
-
     // Drivetrain Can IDs
     public static final int ID_LEFT_PRIMARY = 12;
     public static final int ID_LEFT_SECONDARY = 13;
     public static final int ID_RIGHT_PRIMARY = 10;
     public static final int ID_RIGHT_SECONDARY = 11;
+
+    // Joystick ports
+    public static final int JOYSTICK_PORT = 0;
+
+    // Joystick axis 
+    public static final int LEFT_AXIS = 1;
+    public static final int RIGHT_AXIS = 5;
+    public static final double DEAD_ZONE = 0.3;
+
 
     //---------------------------------- Auto Constants ---------------------------------- 
 
