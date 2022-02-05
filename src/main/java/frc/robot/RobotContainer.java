@@ -47,8 +47,16 @@ import frc.robot.subsystems.Shooter;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  //private final UDPRecieverSubsystem m_udpsubsystem = new UDPRecieverSubsystem();
-
+  private final UDPRecieverSubsystem m_udpsubsystem = new UDPRecieverSubsystem();
+  // public final static Drivetrain m_driveSubsystem = new Drivetrain();
+  private final GenericBuffer<BallDataPacket> ballBuffer = new GenericBuffer<>();
+  private final GenericBuffer<LimelightDataPacket> limelightBuffer = new GenericBuffer<>();
+  private final ColorSensorSubsystem m_colorSubsystem = new ColorSensorSubsystem();
+  private final UDPReciever<BallDataPacket> m_BallReciever = new UDPReciever<>(Constants.BALL_PORT,
+      () -> new BallDataPacket(), ballBuffer);
+  private final UDPReciever<LimelightDataPacket> m_limelightReciever = new UDPReciever<>(Constants.LIMELIGHT_PORT,
+      () -> new LimelightDataPacket(), limelightBuffer);
+  private final Joystick m_stick = new Joystick(Constants.JOYSTICK_PORT);
   private Limelight m_limelight = new Limelight();
   private Shooter shoot = new Shooter();
   private Index m_index = new Index();
@@ -68,6 +76,20 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    teleopDrive driveTrain = new teleopDrive(m_driveSubsystem,
+        () -> applyDeadZone(m_stick.getRawAxis(Constants.RIGHT_AXIS)),
+        () -> applyDeadZone(m_stick.getRawAxis(Constants.LEFT_AXIS)));
+
+    m_driveSubsystem.setDefaultCommand(driveTrain);
+    m_udpsubsystem.setDefaultCommand(new UDPReceiverCmd(m_udpsubsystem));
+
+    ColorSensorCommand colorSensor = new ColorSensorCommand(m_colorSubsystem);
+    m_colorSubsystem.setDefaultCommand(colorSensor);
+    m_BallReciever.start();
+    m_limelightReciever.start();
+
+    // periodic getting
+    // separate function > getting string value
 
     //m_udpsubsystem.setDefaultCommand(new UDPReceiverCmd(m_udpsubsystem));
   }

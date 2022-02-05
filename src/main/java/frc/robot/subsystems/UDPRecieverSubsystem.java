@@ -5,11 +5,14 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.UDPReceiverBall;
+
+import frc.robot.UDPReciever;
+
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
 
 public class UDPRecieverSubsystem extends SubsystemBase {
   /** Creates a new UDPReciever. */
-  UDPReceiverBall receiverBall = new UDPReceiverBall();
 
   public UDPRecieverSubsystem() {
 
@@ -21,14 +24,16 @@ public class UDPRecieverSubsystem extends SubsystemBase {
   }
 
   public void createReceiver() {
+<<<<<<< HEAD
     System.out.println("Thread 1 INIT");
     receiverBall.init();
     receiverBall.start();
     System.out.println("Thread 2 INIT");
+=======
+>>>>>>> 8e65f6a (Generalized UDP Receiver Structure pt 2)
   }
 
   public void runReceiver() {
-   
 
   }
 
