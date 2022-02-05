@@ -52,7 +52,6 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final UDPRecieverSubsystem m_udpsubsystem = new UDPRecieverSubsystem();
 
-  private final ColorSensorSubsystem m_colorSubsystem = new ColorSensorSubsystem();
   private Limelight m_limelight = new Limelight();
   private Shooter shoot = new Shooter();
   private Index m_index = new Index();
@@ -74,8 +73,6 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_udpsubsystem.setDefaultCommand(new UDPReceiverCmd(m_udpsubsystem));
-    ColorSensorCommand colorSensor = new ColorSensorCommand(m_colorSubsystem);
-    m_colorSubsystem.setDefaultCommand(colorSensor);
   }
 
   /**
