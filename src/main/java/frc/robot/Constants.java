@@ -34,11 +34,6 @@ public final class Constants {
     public static final int RIGHT_AXIS = 5;
     public static final double DEAD_ZONE = 0.3;
 
-    // color sensor stuff
-    public static final double colorSensorId0 = 0;
-    public static final double colorSensorId1 = 1;
-    public static final double colorSensorId2 = 2;
-    public static final double colorSensorId3 = 3;
 
     //---------------------------------- Auto Constants ---------------------------------- 
 
