@@ -5,7 +5,7 @@ import java.nio.ByteBuffer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class BallDataPacket implements DataPacket {
-    float x, y;
+    static float x, y;
     int ballDetect;
 
     @Override
@@ -17,8 +17,18 @@ public class BallDataPacket implements DataPacket {
 
         SmartDashboard.putNumber("numBalls", ballDetect);
         SmartDashboard.putNumber("X coord", x);
+
         SmartDashboard.putNumber("Y coord", y);
         System.out.println(x + " " + y + " " + ballDetect);
         return this;
     }
+
+    public static float getX() {
+        return x;
+    }
+
+    public static float getY() {
+        return y;
+    }
+
 }
