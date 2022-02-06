@@ -19,11 +19,9 @@ import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstrai
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.subsystems.UDPRecieverSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-import frc.robot.commands.UDPReceiverCmd;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import frc.robot.commands.teleopDrive;
 import frc.robot.commands.zeroHeading;
@@ -47,7 +45,7 @@ import frc.robot.subsystems.Shooter;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final UDPRecieverSubsystem m_udpsubsystem = new UDPRecieverSubsystem();
+
   // public final static Drivetrain m_driveSubsystem = new Drivetrain();
   private final GenericBuffer<BallDataPacket> ballBuffer = new GenericBuffer<>();
   private final GenericBuffer<LimelightDataPacket> limelightBuffer = new GenericBuffer<>();
