@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 
@@ -15,7 +17,10 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -95,6 +100,11 @@ public class RobotContainer {
 
 
 
+  String trajectoryJSON = "paths/test2balll.wpilib.json";
+  String trajectoryJSONDos = "paths/test2balll_0.wpilib.json";
+  Trajectory trajectory = new Trajectory();
+  Trajectory trajectoryDos = new Trajectory();
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -135,6 +145,22 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
+
+  try {
+      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+   } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+   }
+
+   
+  try {
+    Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSONDos);
+    trajectoryDos = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+ } catch (IOException ex) {
+    DriverStation.reportError("Unable to open trajectory: " + trajectoryJSONDos, ex.getStackTrace());
+ }
+
     var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(Constants.ksVolts,
         Constants.kvVoltSecondsPerMeter, Constants.kaVoltSecondsSquaredPerMeter), Constants.kDriveKinematics, 10);
 
@@ -145,7 +171,7 @@ public class RobotContainer {
     Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(2, 2, new Rotation2d(0)),
         List.of(), new Pose2d(5, 2, new Rotation2d(0)), config);
 
-    RamseteCommand ramseteCommand = new RamseteCommand(exampleTrajectory, drivetrain::getPose,
+    RamseteCommand ramseteCommand = new RamseteCommand(trajectory, drivetrain::getPose,
         new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
         new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSecondsPerMeter,
             Constants.kaVoltSecondsSquaredPerMeter),
@@ -154,12 +180,22 @@ public class RobotContainer {
         new PIDController(Constants.kPDriveVel, 0, 0),
         drivetrain::tankDriveVolts, drivetrain);
 
-    field2d.getObject("traj").setTrajectory(exampleTrajectory);
+    RamseteCommand ramseteCommandDos = new RamseteCommand(trajectoryDos, drivetrain::getPose,
+        new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
+        new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSecondsPerMeter,
+            Constants.kaVoltSecondsSquaredPerMeter),
+        Constants.kDriveKinematics, drivetrain::getWheelSpeeds,
+        new PIDController(Constants.kPDriveVel, 0, 0),
+        new PIDController(Constants.kPDriveVel, 0, 0),
+        drivetrain::tankDriveVolts, drivetrain);
+    
+    field2d.getObject("traj").setTrajectory(trajectory);
+    //field2d.getObject("traj").setTrajectory(trajectoryDos);
 
     drivetrain.zeroHeading();
-    drivetrain.setPosition(2, 2, new Rotation2d(0));
+    drivetrain.setPosition(trajectory.getInitialPose());
 
-    return ramseteCommand.andThen(() -> drivetrain.tankDriveVolts(0, 0));
+    return ramseteCommand.andThen(ramseteCommandDos.andThen(() -> drivetrain.tankDriveVolts(0, 0)));
   }
 
 }
