@@ -26,7 +26,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import frc.robot.commands.teleopDrive;
-import frc.robot.commands.testDrive;
 import frc.robot.commands.zeroHeading;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
@@ -104,7 +103,6 @@ public class RobotContainer {
     aButton.whileHeld(new LimelightCommand(m_limelight, shoot, m_index));
     // While b button is pressed, run autoaim command
     bButton.whileHeld(new Aim(m_limelight, drivetrain));
-    StartButton.whileHeld(new testDrive(drivetrain));
 
   }
 
