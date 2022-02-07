@@ -26,6 +26,13 @@ public final class Constants {
     public static final int ID_RIGHT_PRIMARY = 10;
     public static final int ID_RIGHT_SECONDARY = 11;
 
+    //Intake Can IDs
+    public static final int FRONT_INTAKE_MOTOR_ID = 10;
+    public static final int MIDDLE_INTAKE_MOTOR_ID = 11;
+    public static final int BACK_ITAKE_MOTOR_ID = 12;
+
+
+
     // Joystick ports
     public static final int JOYSTICK_PORT = 0;
 
