@@ -1,11 +1,10 @@
-package frc.robot;
+package frc.robot.UDP;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.util.function.Supplier;
-import frc.robot.DataPacket;
 
 /**
  * Class that creates datagram packets and sockets. Collects data pckets from
