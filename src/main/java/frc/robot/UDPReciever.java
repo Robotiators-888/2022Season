@@ -5,9 +5,12 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.util.function.Supplier;
-
 import frc.robot.DataPacket;
 
+/**
+ * Class that creates datagram packets and sockets. Collects data pckets from
+ * the ports it's checking and sends it to the other files
+ */
 public class UDPReciever<T extends DataPacket> extends Thread {
     final int port;
     DatagramSocket socket1;
@@ -16,6 +19,14 @@ public class UDPReciever<T extends DataPacket> extends Thread {
     final Supplier<T> dataPacketConstructor;
     GenericBuffer buf;
 
+    /**
+     * Creates the ojects required to recieve data
+     * 
+     * @param port                  Port that packets are being sent to either 5801
+     *                              or 5802
+     * @param dataPacketConstructor constructs a body for data packet
+     * @param buf                   Creates data buffer
+     */
     public UDPReciever(int port, Supplier<T> dataPacketConstructor, GenericBuffer<T> buf) {
         this.port = port;
         this.dataPacketConstructor = dataPacketConstructor;
@@ -29,6 +40,9 @@ public class UDPReciever<T extends DataPacket> extends Thread {
 
     }
 
+    /**
+     * Runs Reciever listening for both Limelight packets and Ball tracker packets
+     */
     @Override
     public void run() {
         byte[] buffer = new byte[20];
@@ -38,17 +52,8 @@ public class UDPReciever<T extends DataPacket> extends Thread {
 
                 socket1.receive(dat1);
                 buffer = dat1.getData();
-                /*
-                 * Testing UDP reciever code
-                 * BufferData b = new BufferData(dat.getData());
-                 * System.out.println(b.cycle + "" + b.x + "" + b.y);
-                 * SmartDashboard.putNumber("Cycle", b.cycle);
-                 */
-                System.out.println("B2");
 
                 buf.addData(dataPacketConstructor.get().fromBytes(dat1.getData()));
-                System.out.println("B2");
-                // dat.setData(null);
 
             } catch (IOException e) {
 
