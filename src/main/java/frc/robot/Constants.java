@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 
@@ -63,11 +64,9 @@ public final class Constants {
     
 
 
-    // ---------------------------------- Auto Constants
-    // ----------------------------------
-
-    public static final double TRACKWIDTH = 35; // track width in inches
-    public static final double WHEEL_RADIUS = 3; // wheel radius in inches
+    //---------------------------------- Auto Constants ----------------------------------     
+    public static final double TRACKWIDTH = 35;  // track width in inches
+    public static final double WHEEL_RADIUS = 3; //wheel radius in inches
     public static final double GEARRATIO = 10.85; // number of rotations per one inch of movement
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
             Units.inchesToMeters(TRACKWIDTH));
