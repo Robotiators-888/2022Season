@@ -3,9 +3,7 @@ package frc.robot;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.RamseteController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.controller.*;
 
 import edu.wpi.first.math.trajectory.Trajectory;
 
@@ -21,17 +19,22 @@ import frc.robot.subsystems.Drivetrain;
 
 public class Autonomous {
     private Drivetrain drivetrain;
+
     /**
      * this is a helper class which provides useful methods for running autonomus
+     * 
      * @param input drivetrain instance from robot container
      */
     public Autonomous(Drivetrain input) {
         this.drivetrain = input;
+
     }
 
     /**
      * opens and converts path wever file to a trajectory
-     * @param weaverFile sting path to path weaver *.wpilib.json file ex.(paths/YourPath.wpilib.json)
+     * 
+     * @param weaverFile sting path to path weaver *.wpilib.json file
+     *                   ex.(paths/YourPath.wpilib.json)
      * @return Trajectory onject from path weaver file
      */
     public Trajectory getTrajectory(String weaverFile) {
@@ -49,6 +52,7 @@ public class Autonomous {
 
     /**
      * returns ramsete command to drive provided trajectory
+     * 
      * @param traj trajectory to follow
      * @return ramsete controller to follow trajectory
      */
@@ -62,5 +66,6 @@ public class Autonomous {
                 new PIDController(Constants.kPDriveVel, 0, 0),
                 drivetrain::tankDriveVolts, drivetrain);
     }
+
 
 }

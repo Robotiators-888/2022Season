@@ -24,6 +24,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.teleopDrive;
 import frc.robot.commands.teleopIndex;
 import frc.robot.commands.zeroHeading;
@@ -55,13 +58,6 @@ import frc.robot.commands.PistonInCmd;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final Field2d field2d = new Field2d();
-
-    private final GenericBuffer<BallDataPacket> ballBuffer = new GenericBuffer<>();
-    private final GenericBuffer<LimelightDataPacket> limelightBuffer = new GenericBuffer<>();
-    private final UDPReciever<BallDataPacket> m_BallReciever = new UDPReciever<>(Constants.BALL_PORT,
-            () -> new BallDataPacket(), ballBuffer);
-    private final UDPReciever<LimelightDataPacket> m_limelightReciever = new UDPReciever<>(Constants.LIMELIGHT_PORT,
-            () -> new LimelightDataPacket(), limelightBuffer);
 
     // subsystems
     private Limelight m_limelight = new Limelight();
@@ -110,9 +106,6 @@ public class RobotContainer {
     public RobotContainer() {
         // Configure the button bindings
         configureButtonBindings();
-
-        m_BallReciever.start();
-        m_limelightReciever.start();
 
         chooser.setDefaultOption("Simple Auto", straightAuto);
         chooser.addOption("Complex Auto", pwtest);
