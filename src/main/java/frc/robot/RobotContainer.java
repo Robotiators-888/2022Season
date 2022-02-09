@@ -6,6 +6,8 @@ package frc.robot;
 
 import java.util.List;
 
+import org.opencv.ml.StatModel;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -19,17 +21,19 @@ import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstrai
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.subsystems.UDPRecieverSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-import frc.robot.commands.UDPReceiverCmd;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import frc.robot.commands.teleopDrive;
 import frc.robot.commands.zeroHeading;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.UDP.BallDataPacket;
+import frc.robot.UDP.GenericBuffer;
+import frc.robot.UDP.LimelightDataPacket;
+import frc.robot.UDP.UDPReciever;
 import frc.robot.commands.Aim;
 import frc.robot.commands.LimelightCommand;
 import frc.robot.subsystems.Index;
@@ -47,11 +51,19 @@ import frc.robot.subsystems.Shooter;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  //private final UDPRecieverSubsystem m_udpsubsystem = new UDPRecieverSubsystem();
 
+  // public final static Drivetrain m_driveSubsystem = new Drivetrain();
+  private final GenericBuffer<BallDataPacket> ballBuffer = new GenericBuffer<>();
+  private final GenericBuffer<LimelightDataPacket> limelightBuffer = new GenericBuffer<>();
+  private final UDPReciever<BallDataPacket> m_BallReciever = new UDPReciever<>(Constants.BALL_PORT,
+      () -> new BallDataPacket(), ballBuffer);
+  private final UDPReciever<LimelightDataPacket> m_limelightReciever = new UDPReciever<>(Constants.LIMELIGHT_PORT,
+      () -> new LimelightDataPacket(), limelightBuffer);
+  private final Joystick m_stick = new Joystick(Constants.JOYSTICK_PORT);
   private Limelight m_limelight = new Limelight();
   private Shooter shoot = new Shooter();
   private Index m_index = new Index();
+  // private Drivetrain drive = new Drivetrain();
 
   private final Field2d field2d = new Field2d();
   private Drivetrain drivetrain = new Drivetrain(field2d);
@@ -61,6 +73,7 @@ public class RobotContainer {
   JoystickButton aButton = new JoystickButton(joystick, 1);
   JoystickButton bButton = new JoystickButton(joystick, 2);
   JoystickButton cButton = new JoystickButton(joystick, 3);
+  JoystickButton StartButton = new JoystickButton(joystick, 8);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -69,7 +82,12 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    //m_udpsubsystem.setDefaultCommand(new UDPReceiverCmd(m_udpsubsystem));
+    m_BallReciever.start();
+    m_limelightReciever.start();
+
+    // periodic getting
+    // separate function > getting string value
+
   }
 
   /**
@@ -83,7 +101,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> joystick.getRawAxis(Constants.LEFT_AXIS),
         () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
-    cButton.whenPressed(new zeroHeading(drivetrain));
+    // cButton.whenPressed(new zeroHeading(drivetrain));
 
     // While a button is pressed, run autoshoot command
     aButton.whileHeld(new LimelightCommand(m_limelight, shoot, m_index));
@@ -121,3 +139,9 @@ public class RobotContainer {
   }
 
 }
+
+/**
+ * Use this to pass the autonomous command to the main {@link Robot} class.
+ *
+ * @return the command to run in autonomous
+ */
