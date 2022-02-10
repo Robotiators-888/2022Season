@@ -8,12 +8,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
-
+//PS: SillyPandaDog is also Jokorie
+//Initialize Intake Motors
 TalonSRX frontIntake = new TalonSRX(Constants.FRONT_INTAKE_MOTOR_ID);
 TalonSRX middleIntake = new TalonSRX(Constants.MIDDLE_INTAKE_MOTOR_ID);
 
-//determines wether ball is coming from the front or back
-boolean inFront;
 //power of the motor when active
 double motorPower = 1.0;
 //take double parameter as the percentage of power given to each motor
