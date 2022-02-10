@@ -31,6 +31,7 @@ import frc.robot.commands.teleopDrive;
 import frc.robot.commands.teleopIndex;
 import frc.robot.commands.zeroHeading;
 import frc.robot.subsystems.ColorSensorSubsystem;
+import frc.robot.commands.Autos.PathWeaverTest;
 import frc.robot.commands.Autos.straightLineAuto;
 import frc.robot.subsystems.Drivetrain;
 
