@@ -1,57 +1,86 @@
 package frc.robot.subsystems;
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.revrobotics.MotorFeedbackSensor;
-
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
-//PS: SillyPandaDog is also Jokorie
-//Initialize Intake Motors
-TalonSRX frontIntake = new TalonSRX(Constants.FRONT_INTAKE_MOTOR_ID);
-TalonSRX middleIntake = new TalonSRX(Constants.MIDDLE_INTAKE_MOTOR_ID);
 
-//power of the motor when active
+TalonSRX intakeMotor;
+XboxController controller;
+
+//Initialize Piston Solenoids (forward and backward)
+DoubleSolenoid intakePistonR = new DoubleSolenoid(9, PneumaticsModuleType.REVPH, Constants.SOLENOID_FRIGHT_ID, Constants.SOLENOID_BRIGHT_ID);
+DoubleSolenoid intakePistonL = new DoubleSolenoid(9, PneumaticsModuleType.REVPH, Constants.SOLENOID_FLEFT_ID, Constants.SOLENOID_BLEFT_ID);
+
+//power of the motor when active (percentage)
 double motorPower = 1.0;
-//take double parameter as the percentage of power given to each motor
-public void SetMotors(double front, double middle) 
-{
-    frontIntake.set(TalonSRXControlMode.PercentOutput, front);
-    middleIntake.set(TalonSRXControlMode.PercentOutput, middle);
-    
+boolean isExtended = false;
+
+public IntakeSubsystem (int intakeMotor, int controller)
+{ 
+this.intakeMotor = new TalonSRX(intakeMotor);
+this.controller = new XboxController(controller);
 }
-public void StopAllMotors()
+public void Set()
 {
- SetMotors(0, 0);
+    intakeMotor.set(TalonSRXControlMode.PercentOutput, motorPower);
+}
+//take double parameter as the percentage of power given to each motor
+public void intakeSpeedSet(int speed)
+{
+    motorPower = speed;
+}
+
+public double intakeSpeedGet()
+{
+    return motorPower;
+}
+public void intakeSet(boolean extend)
+{
+    if(extend == true)
+    {
+    intakePistonL.set(kForward);
+    intakePistonR.set(kForward);
+    } else 
+    {
+        intakePistonL.set(kReverse);
+        intakePistonR.set(kReverse);
+    }
+}
+public void ToggleIntakeArms()
+{
+    intakePistonL.toggle();
+    intakePistonR.toggle();
+}
+public void Stop()
+{
+    intakeMotor.set(TalonSRXControlMode.PercentOutput, 0);
 };
 public void Intake()
 {
-    SetMotors(motorPower,0);
+    motorPower = 1;
     System.out.println("Intaking...");
 }
 
 public void Outtake()
 {
-    SetMotors(0, -motorPower);
+    motorPower = -1;
     System.out.println("Spitting Out!");
 }
-public void Index()
+
+public boolean intakeGet()
 {
-SetMotors(0, motorPower);
+    return isExtended;
 }
-public void IntakeSubsytem(boolean ballDetected, boolean isTeamColor)
+public void IntakeSubsytem()
 {
-    //ball is detected in front of robot
-    while(ballDetected == true)
-    {
-        Intake();
-        while(isTeamColor == true)
-        {
-            Index();
-        }
-    }
+    
+
 }
 }  
 
