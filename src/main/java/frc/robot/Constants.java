@@ -26,14 +26,16 @@ public final class Constants {
     public static final int ID_RIGHT_PRIMARY = 10;
     public static final int ID_RIGHT_SECONDARY = 11;
 
+    // Clmiber Motor Can IDs
+    public static final int CLIMBER_MOTOR_ID = 14;
+
     // Joystick ports
     public static final int JOYSTICK_PORT = 0;
 
-    // Joystick axis 
+    // Joystick axis
     public static final int LEFT_AXIS = 1;
     public static final int RIGHT_AXIS = 5;
     public static final double DEAD_ZONE = 0.3;
-
 
     // ---------------------------------- Auto Constants
     // ----------------------------------
