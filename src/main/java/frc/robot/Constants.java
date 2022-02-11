@@ -20,6 +20,7 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+<<<<<<< HEAD
     // Drivetrain Can IDs
     public static final int ID_LEFT_PRIMARY = 12;
     public static final int ID_LEFT_SECONDARY = 13;
@@ -61,9 +62,14 @@ public final class Constants {
     public static final int LIMELIGHT_PORT = 5801;
     public static final int BALL_PORT = 5802;
 
+=======
+>>>>>>> 40ec7599741cae0d784eeb3a83ae582806514791
 
     public static final int FRONT_INDEX_ID = 10;
     public static final int TOWER_INDEX_ID = 11;
     public static final int BACK_INDEX_ID = 12;
+<<<<<<< HEAD
     public static final double TOWER_BELT_SPEED = 0.1;
+=======
+>>>>>>> 40ec7599741cae0d784eeb3a83ae582806514791
 }
