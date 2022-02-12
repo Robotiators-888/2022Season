@@ -35,6 +35,13 @@ import frc.robot.commands.LimelightCommand;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.commands.OuttakeMotorTest;
+import frc.robot.commands.IntakeMotorTest;
+import frc.robot.commands.PistonOutCmd;
+import frc.robot.commands.PistonInCmd;
+
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -52,6 +59,7 @@ public class RobotContainer {
   private Limelight m_limelight = new Limelight();
   private Shooter shoot = new Shooter();
   private Index m_index = new Index();
+  private IntakeSubsystem m_intake = new IntakeSubsystem();
 
   private final Field2d field2d = new Field2d();
   private Drivetrain drivetrain = new Drivetrain(field2d);
@@ -61,6 +69,13 @@ public class RobotContainer {
   JoystickButton aButton = new JoystickButton(joystick, 1);
   JoystickButton bButton = new JoystickButton(joystick, 2);
   JoystickButton cButton = new JoystickButton(joystick, 3);
+  JoystickButton leftShoulder = new JoystickButton(joystick, 5);
+  JoystickButton rightShoulder = new JoystickButton(joystick, 6);
+  JoystickButton thumbLeft = new JoystickButton(joystick, 7);
+  JoystickButton thumbRight = new JoystickButton(joystick, 8);
+
+
+
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -69,7 +84,8 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    //m_udpsubsystem.setDefaultCommand(new UDPReceiverCmd(m_udpsubsystem));
+    //m_udpsubsystem.setDefaultCommand(new UDPReceiverCmd  JoystickBoutton thumbLeft = new JoystickButton(joystick, 7);
+      //  (m_udpsubsystem));
   }
 
   /**
@@ -84,11 +100,14 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> joystick.getRawAxis(Constants.LEFT_AXIS),
         () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
     cButton.whenPressed(new zeroHeading(drivetrain));
-
+    thumbLeft.whenPressed(new PistonInCmd(m_intake));
+    thumbRight.whenPressed(new PistonOutCmd(m_intake));
     // While a button is pressed, run autoshoot command
     aButton.whileHeld(new LimelightCommand(m_limelight, shoot, m_index));
     // While b button is pressed, run autoaim command
     bButton.whileHeld(new Aim(m_limelight, drivetrain));
+    leftShoulder.whileHeld(new IntakeMotorTest(m_intake));
+    rightShoulder.whileHeld(new OuttakeMotorTest(m_intake));
 
   }
 
