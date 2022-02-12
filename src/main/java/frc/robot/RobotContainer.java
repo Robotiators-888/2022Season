@@ -6,9 +6,7 @@ package frc.robot;
 
 import java.util.List;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.RamseteController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -23,17 +21,12 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.teleopDrive;
 import frc.robot.commands.teleopIndex;
 import frc.robot.commands.zeroHeading;
 import frc.robot.subsystems.ColorSensorSubsystem;
-import frc.robot.commands.Autos.PathWeaverTest;
-import frc.robot.commands.Autos.straightLineAuto;
+
 import frc.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -113,7 +106,16 @@ public class RobotContainer {
         chooser.setDefaultOption("Simple Auto", straightAuto);
         chooser.addOption("Complex Auto", pwtest);
 
-        SmartDashboard.putData(chooser);
+        Command pwtest = new SequentialCommandGroup(
+            new InstantCommand(() -> drivetrain.setPosition(ballin1.getInitialPose())),
+            autoHelper.getRamset(ballin1),
+                autoHelper.getRamset(ballin2).andThen(() -> drivetrain.tankDriveVolts(0, 0))
+        );
+
+
+
+        chooser.setDefaultOption("Simple Auto", straightAuto);
+        chooser.addOption("Complex Auto", pwtest);
 
     }
 
