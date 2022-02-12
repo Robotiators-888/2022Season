@@ -7,14 +7,15 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.util.Color;
 
+import edu.wpi.first.wpilibj.util.Color;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatchResult;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.revrobotics.ColorMatch;
+
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
+
 import frc.robot.Constants;
 
 
@@ -43,13 +44,21 @@ public class IndexSubsystem extends SubsystemBase {
   private TalonSRX tower = new TalonSRX(Constants.TOWER_INDEX_ID);
   private TalonSRX back = new TalonSRX(Constants.BACK_INDEX_ID);
   
-  public static void MuxChangeI2cPort(I2C.Port I2CPort,int deviceAdress,int newPort) {
-  I2C I2CObject = new I2C(I2CPort,deviceAdress);
-  int i2cPortId = 0x70; // MUX I2C address
-  // and you simply write a single byte with the desired multiplexed output
-  // number to that port
-   boolean failed = I2CObject.write(i2cPortId, newPort);
-   if (failed) {
+
+
+  /**
+   * Switches the input channel on the MUX switch over I2C
+   * @param I2CPort   The I2C port the device is connected to.
+   * @param deviceAdress  The address of the device on the I2C bus.
+   * @param newMuxPort  the id of the mux chanel to switch the mux to for all future I2C input
+   */
+  public static void MuxChangeI2cPort(I2C.Port I2CPort,int deviceAdress,int newMuxPort) {
+    I2C I2CObject = new I2C(I2CPort,deviceAdress);
+    int i2cPortId = 0x70; // MUX I2C address
+    // and you simply write a single byte with the desired multiplexed output
+    // number to that port
+    boolean failed = I2CObject.write(i2cPortId, newMuxPort);
+    if (failed) {
       System.out.println("Failed to write to MUX over I2C");
     }
     I2CObject.close();
@@ -73,6 +82,13 @@ public class IndexSubsystem extends SubsystemBase {
 
   }
 
+
+
+  /** 
+   * Returns if a ball exists at a certain id
+   * @param id is either 1(top spot below shooter) or 2(balls to be stored below).
+   * @return true if a ball is detected at the id, false if otherwise.
+   * */ 
   public boolean getPosition(int id){
     int newId = 0;
     if (id==1){
@@ -86,9 +102,13 @@ public class IndexSubsystem extends SubsystemBase {
     detectedColor = colorSensor.getColor();
 
 
-    return !(findColor().equals("Unknown"));
+    return !(colorToString().equals("Unknown"));
   }
-
+  /**
+   * Returns the color detected at a certain id
+   * @param id is either 1(top spot below shooter) or 2(balls to be stored below).
+   * @return the color in the form of a string, Red, Black, Blue, or Unknown.
+   */
   public String getColor(int id){
     int newId = 0;
     if (id==1){
@@ -102,11 +122,14 @@ public class IndexSubsystem extends SubsystemBase {
     detectedColor = colorSensor.getColor();
 
 
-    return findColor();
+    return colorToString();
   }
 
 
-
+  /**
+   * Grabs the RGB values from the detected color
+   * @return returns a double array with 0: R, 1:B, 2:G.
+   */
   public double[] findRGB() {
     double[] RGBArray = new double[3];
     RGBArray[0] = detectedColor.red;
@@ -116,7 +139,12 @@ public class IndexSubsystem extends SubsystemBase {
     return RGBArray;
   }
 
-  public String findColor() {
+
+  /**
+   * Grabs the color detected from the color sensor at the current I2C port
+   * @return a string with the color, either Red, Black, Blue, or Unknown.
+   */
+  public String colorToString() {
     final double idealRedBlueConfidence = 0.95;
     final double idealBlackConfidence = 0.98;
     String colorString;
@@ -143,24 +171,42 @@ public class IndexSubsystem extends SubsystemBase {
     return colorString;
   }
 
+  /**
+   * Sets the speed of the tower motor to a Constant speed
+   */
   public void feed(){
     setSpeedTower(Constants.TOWER_BELT_SPEED);
   }
   
+  /**
+   * Sets the speed of the tower motor to zero (stops the motor)
+   */
   public void stopFeed(){
     setSpeedTower(0);
   }
 
+  /**
+   * Sets the front motor to a certain speed
+   * @param speed is how fast you want it to go in percentages
+   */
   public void setSpeedFront(double speed){
      // Front belt, two sets of belts.
      front.set(TalonSRXControlMode.PercentOutput, speed);
   }
-  
+
+  /**
+   * Sets the back motor to a certain speed
+   * @param speed is how fast you want it to go in percentages
+   */
   public void setSpeedBack(double speed){
     // Back belt, two sets of belts.
     back.set(TalonSRXControlMode.PercentOutput, speed);
   }
 
+  /**
+   * Sets the tower motor to a certain speed
+   * @param speed is how fast you want it to go in percentages
+   */
   public void setSpeedTower(double speed){
     // Top-most belt, move to get it into shooter
     tower.set(TalonSRXControlMode.PercentOutput,speed);
