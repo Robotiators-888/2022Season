@@ -27,9 +27,8 @@ public final class Constants {
     public static final int ID_RIGHT_SECONDARY = 11;
 
     //Intake Can IDs
-    public static final int FRONT_INTAKE_MOTOR_ID = 10;
-    public static final int MIDDLE_INTAKE_MOTOR_ID = 11;
-    public static final int BACK_ITAKE_MOTOR_ID = 12;
+    public static final int MOTOR_ID = 10;
+
 
 
 
@@ -40,6 +39,11 @@ public final class Constants {
     public static final int LEFT_AXIS = 1;
     public static final int RIGHT_AXIS = 5;
     public static final double DEAD_ZONE = 0.3;
+
+    //PCM IDS
+    public static final int PCM = 0; 
+
+    
 
 
     //---------------------------------- Auto Constants ---------------------------------- 
