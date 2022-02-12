@@ -26,7 +26,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import frc.robot.commands.teleopDrive;
+import frc.robot.commands.teleopIndex;
 import frc.robot.commands.zeroHeading;
+import frc.robot.subsystems.ColorSensorSubsystem;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -37,12 +39,9 @@ import frc.robot.UDP.UDPReciever;
 import frc.robot.commands.Aim;
 import frc.robot.commands.LimelightCommand;
 import frc.robot.subsystems.Index;
+import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
-
-import frc.robot.subsystems.IndexSubsystem;
-import frc.robot.subsystems.ColorSensorSubsystem;
-import frc.robot.commands.teleopIndex;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -69,7 +68,6 @@ public class RobotContainer {
   private Index m_index = new Index();
   private ColorSensorSubsystem colorSensor = new ColorSensorSubsystem();
   private IndexSubsystem index = new IndexSubsystem(colorSensor);
-  // private Drivetrain drive = new Drivetrain();
 
   private final Field2d field2d = new Field2d();
   private Drivetrain drivetrain = new Drivetrain(field2d);
@@ -79,10 +77,11 @@ public class RobotContainer {
   JoystickButton aButton = new JoystickButton(joystick, 1);
   JoystickButton bButton = new JoystickButton(joystick, 2);
   JoystickButton cButton = new JoystickButton(joystick, 3);
-
+  JoystickButton yButton = new JoystickButton(joystick, 4);
   JoystickButton leftShoulder = new JoystickButton(joystick, 5);
-
-  JoystickButton StartButton = new JoystickButton(joystick, 8);
+  JoystickButton rightShoulder = new JoystickButton(joystick, 6);
+  JoystickButton thumbLeft = new JoystickButton(joystick, 7);
+  JoystickButton thumbRight = new JoystickButton(joystick, 8);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -110,15 +109,13 @@ public class RobotContainer {
   private void configureButtonBindings() {
     drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> joystick.getRawAxis(Constants.LEFT_AXIS),
         () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
-    // cButton.whenPressed(new zeroHeading(drivetrain));
+    cButton.whenPressed(new zeroHeading(drivetrain));
 
     // While a button is pressed, run autoshoot command
     aButton.whileHeld(new LimelightCommand(m_limelight, shoot, m_index));
     // While b button is pressed, run autoaim command
     bButton.whileHeld(new Aim(m_limelight, drivetrain));
-
-    cButton.whileHeld(new teleopIndex(index));
-
+    yButton.whileHeld(new teleopIndex(index));
   }
 
   public Command getAutonomousCommand() {
