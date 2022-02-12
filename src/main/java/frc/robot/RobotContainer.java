@@ -40,6 +40,10 @@ import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 
+import frc.robot.subsystems.IndexSubsystem;
+import frc.robot.subsystems.ColorSensorSubsystem;
+import frc.robot.commands.teleopIndex;
+
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -64,6 +68,10 @@ public class RobotContainer {
   private Shooter shoot = new Shooter();
   private Index m_index = new Index();
   // private Drivetrain drive = new Drivetrain();
+
+  private ColorSensorSubsystem colorSensor = new ColorSensorSubsystem();
+  private teleopIndex indexer = new teleopIndex(new IndexSubsystem(colorSensor));
+
 
   private final Field2d field2d = new Field2d();
   private Drivetrain drivetrain = new Drivetrain(field2d);
@@ -107,6 +115,9 @@ public class RobotContainer {
     aButton.whileHeld(new LimelightCommand(m_limelight, shoot, m_index));
     // While b button is pressed, run autoaim command
     bButton.whileHeld(new Aim(m_limelight, drivetrain));
+
+
+    cButton.whileHeld(indexer);
 
   }
 
