@@ -18,7 +18,9 @@ import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 
 import frc.robot.Constants;
 
-
+/**
+ * Manages the indexing subsystem, moves indexing belts, and detects balls and ball color in the system.
+ */
 public class IndexSubsystem extends SubsystemBase {
 
   // Should this be in constants?
