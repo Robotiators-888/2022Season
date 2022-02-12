@@ -59,14 +59,7 @@ public class Climber extends SubsystemBase {
    * @return The state of the piston
    */
   public static boolean lockGetPos(boolean isPistonExtended) {
-
-    if (isPistonExtended) {
-      return false;
-
-    } else {
-      return true;
-    }
-
+    return (isPistonExtended);
   }
 
 }
