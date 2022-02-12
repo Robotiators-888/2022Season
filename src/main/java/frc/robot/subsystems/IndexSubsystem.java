@@ -53,10 +53,8 @@ public class IndexSubsystem extends SubsystemBase {
       // placeholder
       newId = 1;
     }
-    colorSensor.MuxChangeI2cPort(newId);
-    colorSensor.readSensor();
 
-
+    colorSensor.readSensor(newId);
     return !(colorSensor.colorToString().equals("Unknown"));
   }
   /**
@@ -73,10 +71,8 @@ public class IndexSubsystem extends SubsystemBase {
       // placeholder
       newId = 1;
     }
-    colorSensor.MuxChangeI2cPort(newId);
-    colorSensor.readSensor();
-
-
+    
+    colorSensor.readSensor(newId);
     return colorSensor.colorToString();
   }
 

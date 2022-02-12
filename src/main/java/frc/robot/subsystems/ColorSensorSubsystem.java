@@ -38,7 +38,7 @@ public class ColorSensorSubsystem extends SubsystemBase {
    * Switches the input channel on the MUX switch over I2C
    * @param newMuxPort  the id of the mux chanel to switch the mux to for all future I2C input
    */
-  public void MuxChangeI2cPort(int newMuxPort) {
+  private void MuxChangeI2cPort(int newMuxPort) {
     I2C I2CObject = new I2C(i2cPort,i2cPortId);
     int i2cPortId = 0x70; // MUX I2C address
     // and you simply write a single byte with the desired multiplexed output
@@ -115,8 +115,10 @@ public class ColorSensorSubsystem extends SubsystemBase {
   }
   /**
    * Reads the sensor for a color value
+   * @param newId the id of the color sensor you want to read from
    */
-  public void readSensor(){
+  public void readSensor(int newId){
+    MuxChangeI2cPort(newId);
     detectedColor = colorSensor.getColor();
   }
 }
