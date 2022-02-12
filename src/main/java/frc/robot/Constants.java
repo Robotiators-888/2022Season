@@ -29,6 +29,10 @@ public final class Constants {
     // Clmiber Motor Can IDs
     public static final int CLIMBER_MOTOR_ID = 14;
 
+    // Pneumatic Port IDs
+    public static final int CLIMBER_LOCK_PORT_1 = 4;
+    public static final int CLIMBER_LOCK_PORT_2 = 5;
+
     // Joystick ports
     public static final int JOYSTICK_PORT = 0;
 

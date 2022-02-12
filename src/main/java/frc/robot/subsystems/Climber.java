@@ -20,7 +20,8 @@ public class Climber extends SubsystemBase {
 
   public Climber() {
     climberMotor = new TalonSRX(Constants.CLIMBER_MOTOR_ID);
-    cSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 5, 6);
+    cSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.CLIMBER_LOCK_PORT_1,
+        Constants.CLIMBER_LOCK_PORT_2);
   }
 
   @Override
@@ -30,44 +31,39 @@ public class Climber extends SubsystemBase {
   }
 
   /**
-   * Sets the Climer motor speed to go up
+   * Sets the Climer motor speed
+   * 
+   * @param speed Can set either a pos or neg speed for the climber arms
    */
-  public static void speedSetUp() {
-    climberMotor.set(TalonSRXControlMode.PercentOutput, 0.5);
+  public static void speedSet(double speed) {
+    climberMotor.set(TalonSRXControlMode.PercentOutput, speed);
   }
 
   /**
-   * Sets the Climer motor speed to go down
+   * Toggle lock and unlock of the climber
    */
-  public static void speedSetDown() {
-    climberMotor.set(TalonSRXControlMode.PercentOutput, 0.5);
-  }
-
-  /**
-   * Locks the climber in place
-   */
-  public static void lockSet() {
-    if (!(lockGet(pistonExtended))) {
+  public static void toggleLockSet() {
+    if (!(lockGetPos(pistonExtended))) {
       cSolenoid.set(Value.kForward);
+      pistonExtended = true;
     } else {
       cSolenoid.set(Value.kReverse);
+      pistonExtended = false;
     }
   }
 
   /**
    * Gets the position of the piston and checks if locked
    * 
-   * @param isPistonExtended same value as climberMotor
+   * @param isPistonExtended same value as pistonExtended
    * @return The state of the piston
    */
-  public static boolean lockGet(boolean isPistonExtended) {
+  public static boolean lockGetPos(boolean isPistonExtended) {
 
     if (isPistonExtended) {
-      pistonExtended = false;
       return false;
 
     } else {
-      pistonExtended = true;
       return true;
     }
 
