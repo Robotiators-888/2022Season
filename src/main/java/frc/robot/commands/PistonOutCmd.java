@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class PistonOutCmd extends CommandBase {
-  IntakeSubsystem intake = new IntakeSubsystem();
+  IntakeSubsystem intake;
   /** Creates a new PistonCmd. */
   public PistonOutCmd(IntakeSubsystem subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.

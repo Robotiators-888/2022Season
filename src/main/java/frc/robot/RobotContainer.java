@@ -74,8 +74,8 @@ public class RobotContainer {
   private IntakeSubsystem m_intake = new IntakeSubsystem();
 
 
-  private ColorSensorSubsystem colorSensor = new ColorSensorSubsystem();
-  private IndexSubsystem index = new IndexSubsystem(colorSensor);
+  //private ColorSensorSubsystem colorSensor = new ColorSensorSubsystem();
+  private IndexSubsystem index = new IndexSubsystem();
 
 
   private final Field2d field2d = new Field2d();
@@ -102,8 +102,8 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    m_BallReciever.start();
-    m_limelightReciever.start();
+   // m_BallReciever.start();
+   // m_limelightReciever.start();
 
     // periodic getting
     // separate function > getting string value

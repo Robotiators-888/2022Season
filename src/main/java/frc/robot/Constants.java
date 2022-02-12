@@ -21,10 +21,10 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
     // Drivetrain Can IDs
-    public static final int ID_LEFT_PRIMARY = 12;
-    public static final int ID_LEFT_SECONDARY = 13;
-    public static final int ID_RIGHT_PRIMARY = 10;
-    public static final int ID_RIGHT_SECONDARY = 11;
+    public static final int ID_LEFT_PRIMARY = 20;
+    public static final int ID_LEFT_SECONDARY = 21;
+    public static final int ID_RIGHT_PRIMARY = 22;
+    public static final int ID_RIGHT_SECONDARY = 23;
 
     // Climber Motor Can IDs
     public static final int CLIMBER_MOTOR_ID = 14;
@@ -33,7 +33,7 @@ public final class Constants {
     public static final int CLIMBER_LOCK_PORT_1 = 4;
     public static final int CLIMBER_LOCK_PORT_2 = 5;
     //Intake Can IDs
-    public static final int MOTOR_ID = 10;
+    public static final int MOTOR_ID = 13;
     
     
     //Solenoid IDS
@@ -91,7 +91,7 @@ public final class Constants {
 
 
     public static final int FRONT_INDEX_ID = 10;
-    public static final int TOWER_INDEX_ID = 11;
-    public static final int BACK_INDEX_ID = 12;
-    public static final double TOWER_BELT_SPEED = 0.1;
+    public static final int TOWER_INDEX_ID = 12;
+    public static final int BACK_INDEX_ID = 11;
+    public static final double TOWER_BELT_SPEED = 0.5;
 }
