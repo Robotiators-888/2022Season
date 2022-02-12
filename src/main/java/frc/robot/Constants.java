@@ -54,10 +54,14 @@ public final class Constants {
     
 
 
-    //---------------------------------- Auto Constants ---------------------------------- 
+    
 
-    public static final double TRACKWIDTH = 35;  // track width in inches
-    public static final double WHEEL_RADIUS = 3; //wheel radius in inches
+
+    // ---------------------------------- Auto Constants
+    // ----------------------------------
+
+    public static final double TRACKWIDTH = 35; // track width in inches
+    public static final double WHEEL_RADIUS = 3; // wheel radius in inches
     public static final double GEARRATIO = 10.85; // number of rotations per one inch of movement
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
             Units.inchesToMeters(TRACKWIDTH));
@@ -74,5 +78,14 @@ public final class Constants {
 
     public static final double kRamseteB = 2;
     public static final double kRamseteZeta = 0.7;
-}
 
+    // UDP PORTS
+    public static final int LIMELIGHT_PORT = 5801;
+    public static final int BALL_PORT = 5802;
+
+
+    public static final int FRONT_INDEX_ID = 10;
+    public static final int TOWER_INDEX_ID = 11;
+    public static final int BACK_INDEX_ID = 12;
+    public static final double TOWER_BELT_SPEED = 0.1;
+}

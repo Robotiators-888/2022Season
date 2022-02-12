@@ -4,33 +4,41 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.UDPRecieverSubsystem;
+import frc.robot.subsystems.IndexSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class UDPReceiverCmd extends CommandBase {
-  /** Creates a new UDPReceiver. */
-  UDPRecieverSubsystem Receiever = new UDPRecieverSubsystem();
-  public UDPReceiverCmd(UDPRecieverSubsystem subsystem) {
+import edu.wpi.first.wpilibj2.command.CommandBase;
+
+public class teleopIndex extends CommandBase {
+
+  private IndexSubsystem index;
+  /** Creates a new telopIndex. */
+  public teleopIndex(IndexSubsystem indexArgs) {
+
+    this.index = indexArgs;
     // Use addRequirements() here to declare subsystem dependencies.
-    Receiever = subsystem;
-    addRequirements(subsystem);
+    addRequirements(index);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    Receiever.createReceiver();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Receiever.runReceiver();
+    index.feed();
+    index.setSpeedBack(0.1);
+    index.setSpeedFront(0.1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    index.stopFeed();
+    index.setSpeedBack(0);
+    index.setSpeedFront(0);
+  }
 
   // Returns true when the command should end.
   @Override
