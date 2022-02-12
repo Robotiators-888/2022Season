@@ -23,13 +23,14 @@ public class IndexSubsystem extends SubsystemBase {
   private TalonSRX back = new TalonSRX(Constants.BACK_INDEX_ID);
   
   // Color sensor subsystem
-  private ColorSensorSubsystem colorSensor;
+  //private ColorSensorSubsystem colorSensor;
 
 
 
   /** Creates a new ColorSensorSubsystem. */
-  public IndexSubsystem(ColorSensorSubsystem colorSensorArg) {
-    this.colorSensor = colorSensorArg;
+  public IndexSubsystem() {
+    //ColorSensorSubsystem colorSensorArg
+    //this.colorSensor = colorSensorArg;
   }
 
   @Override
@@ -44,6 +45,7 @@ public class IndexSubsystem extends SubsystemBase {
    * @param id is either 1(top spot below shooter) or 2(balls to be stored below).
    * @return true if a ball is detected at the id, false if otherwise.
    * */ 
+  /*
   public boolean getPosition(int id){
     int newId = 0;
     if (id==1){
@@ -62,6 +64,8 @@ public class IndexSubsystem extends SubsystemBase {
    * @param id is either 1(top spot below shooter) or 2(balls to be stored below).
    * @return the color in the form of a string, Red, Black, Blue, or Unknown.
    */
+
+  /*
   public String getColor(int id){
     int newId = 0;
     if (id==1){
@@ -75,7 +79,7 @@ public class IndexSubsystem extends SubsystemBase {
     colorSensor.readSensor(newId);
     return colorSensor.colorToString();
   }
-
+  */
 
   /**
    * Sets the speed of the tower motor to a Constant speed

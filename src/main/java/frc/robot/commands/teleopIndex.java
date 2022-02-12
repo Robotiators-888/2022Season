@@ -27,8 +27,8 @@ public class teleopIndex extends CommandBase {
   @Override
   public void execute() {
     index.feed();
-    index.setSpeedBack(0.1);
-    index.setSpeedFront(0.1);
+    index.setSpeedBack(0.5);
+    index.setSpeedFront(0.5);
   }
 
   // Called once the command ends or is interrupted.
