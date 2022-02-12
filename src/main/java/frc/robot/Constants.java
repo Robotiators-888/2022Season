@@ -26,7 +26,7 @@ public final class Constants {
     public static final int ID_RIGHT_PRIMARY = 10;
     public static final int ID_RIGHT_SECONDARY = 11;
 
-    // Clmiber Motor Can IDs
+    // Climber Motor Can IDs
     public static final int CLIMBER_MOTOR_ID = 14;
 
     // Pneumatic Port IDs
