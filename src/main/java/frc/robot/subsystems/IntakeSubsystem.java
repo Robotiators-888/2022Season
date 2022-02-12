@@ -1,9 +1,7 @@
 package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Joystick;
 import com.revrobotics.MotorFeedbackSensor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -25,24 +23,26 @@ double motorPower = 0.0;
 DoubleSolenoid solenoid1 = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 1);
 DoubleSolenoid solenoid2 = new DoubleSolenoid(PneumaticsModuleType.REVPH, 2, 3);
 public boolean intakeGet() {
-    if (solenoid1.get().equals(DoubleSolenoid.Value.kForward) && solenoid2.get().equals(DoubleSolenoid.Value.kForward)) {
-        return true; 
-    } else {
-        return false; 
-    }
+    return (solenoid1.get().equals(DoubleSolenoid.Value.kForward) && solenoid2.get().equals(DoubleSolenoid.Value.kForward)) {
 }
 public void intakeSet(boolean pistonState) { //up false, down true
-    if (intakeGet()) {
-        pistonState == true; 
+    if (pistonState) {
+        solenoid1.set(DoubleSolenoid.Value.kForward);
+        solenoid2.set(DoubleSolenoid.Value.kForward);
+
     } else {
-        pistonState == false; 
+        solenoid1.set(DoubleSolenoid.Value.kReverse);
+        solenoid2.set(DoubleSolenoid.Value.kReverse);
+
     }
 }
 public double intakeSpeedGet() {
-    motorPower = TalonSRXControlMode.PercentOutput; 
-    return motorPower; 
-}
+    return Intake.getMotorOutputPercent(); 
 
+}
+/**
+ *  @param percentSpeed takes in a double value between -1 and 1, representing the motor power in percent, or from -100% to 100% 
+ */
 public void intakeSpeedSet(double percentSpeed) {
     
     Intake.set(TalonSRXControlMode.PercentOutput, percentSpeed); 
