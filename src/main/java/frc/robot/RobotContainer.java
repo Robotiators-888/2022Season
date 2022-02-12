@@ -26,7 +26,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import frc.robot.commands.teleopDrive;
+import frc.robot.commands.teleopIndex;
 import frc.robot.commands.zeroHeading;
+import frc.robot.subsystems.ColorSensorSubsystem;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -37,6 +39,7 @@ import frc.robot.UDP.UDPReciever;
 import frc.robot.commands.Aim;
 import frc.robot.commands.LimelightCommand;
 import frc.robot.subsystems.Index;
+import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -70,7 +73,12 @@ public class RobotContainer {
   private Limelight m_limelight = new Limelight();
   private Shooter shoot = new Shooter();
   private Index m_index = new Index();
+
   private IntakeSubsystem m_intake = new IntakeSubsystem();
+
+  private ColorSensorSubsystem colorSensor = new ColorSensorSubsystem();
+  private IndexSubsystem index = new IndexSubsystem(colorSensor);
+
 
   private final Field2d field2d = new Field2d();
   private Drivetrain drivetrain = new Drivetrain(field2d);
@@ -80,6 +88,8 @@ public class RobotContainer {
   JoystickButton aButton = new JoystickButton(joystick, 1);
   JoystickButton bButton = new JoystickButton(joystick, 2);
   JoystickButton cButton = new JoystickButton(joystick, 3);
+
+  JoystickButton yButton = new JoystickButton(joystick, 4);
   JoystickButton leftShoulder = new JoystickButton(joystick, 5);
   JoystickButton rightShoulder = new JoystickButton(joystick, 6);
   JoystickButton thumbLeft = new JoystickButton(joystick, 7);
@@ -117,13 +127,17 @@ public class RobotContainer {
     cButton.whenPressed(new zeroHeading(drivetrain));
     thumbLeft.whenPressed(new PistonInCmd(m_intake));
     thumbRight.whenPressed(new PistonOutCmd(m_intake));
+
     // While a button is pressed, run autoshoot command
     aButton.whileHeld(new LimelightCommand(m_limelight, shoot, m_index));
     // While b button is pressed, run autoaim command
     bButton.whileHeld(new Aim(m_limelight, drivetrain));
+
     leftShoulder.whileHeld(new IntakeMotorTest(m_intake));
     rightShoulder.whileHeld(new OuttakeMotorTest(m_intake));
 
+
+    yButton.whileHeld(new teleopIndex(index));
   }
 
   public Command getAutonomousCommand() {
