@@ -28,6 +28,8 @@ public final class Constants {
 
     //Intake Can IDs
     public static final int MOTOR_ID = 10;
+    
+    
     //Solenoid IDS
     public static final int solenoid_a = 0;
     public static final int solenoid_A = 1;
