@@ -67,11 +67,9 @@ public class RobotContainer {
   private Limelight m_limelight = new Limelight();
   private Shooter shoot = new Shooter();
   private Index m_index = new Index();
-  // private Drivetrain drive = new Drivetrain();
-
   private ColorSensorSubsystem colorSensor = new ColorSensorSubsystem();
-  private teleopIndex indexer = new teleopIndex(new IndexSubsystem(colorSensor));
-
+  private IndexSubsystem index = new IndexSubsystem(colorSensor);
+  // private Drivetrain drive = new Drivetrain();
 
   private final Field2d field2d = new Field2d();
   private Drivetrain drivetrain = new Drivetrain(field2d);
@@ -81,6 +79,9 @@ public class RobotContainer {
   JoystickButton aButton = new JoystickButton(joystick, 1);
   JoystickButton bButton = new JoystickButton(joystick, 2);
   JoystickButton cButton = new JoystickButton(joystick, 3);
+
+  JoystickButton leftShoulder = new JoystickButton(joystick, 5);
+
   JoystickButton StartButton = new JoystickButton(joystick, 8);
 
   /**
@@ -116,8 +117,7 @@ public class RobotContainer {
     // While b button is pressed, run autoaim command
     bButton.whileHeld(new Aim(m_limelight, drivetrain));
 
-
-    cButton.whileHeld(indexer);
+    cButton.whileHeld(new teleopIndex(index));
 
   }
 
