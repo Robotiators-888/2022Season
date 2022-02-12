@@ -19,8 +19,8 @@ public class IntakeSubsystem extends SubsystemBase {
     TalonSRX Intake = new TalonSRX(Constants.MOTOR_ID);
 
     // take double parameter as the percentage of power given to each motor
-    DoubleSolenoid solenoid1 = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 1);
-    DoubleSolenoid solenoid2 = new DoubleSolenoid(PneumaticsModuleType.REVPH, 2, 3);
+    DoubleSolenoid solenoid1 = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.solenoid_a, Constants.solenoid_A);
+    DoubleSolenoid solenoid2 = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.solenoid_b, Constants.solenoid_B);
 
     /**
      * Gets the status of the intake pistons.
