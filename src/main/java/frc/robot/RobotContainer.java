@@ -6,14 +6,12 @@ package frc.robot;
 
 import java.util.List;
 
-import org.opencv.ml.StatModel;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
@@ -42,6 +40,13 @@ import frc.robot.subsystems.Index;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.commands.OuttakeMotorTest;
+import frc.robot.commands.IntakeMotorTest;
+import frc.robot.commands.PistonOutCmd;
+import frc.robot.commands.PistonInCmd;
+
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -62,12 +67,16 @@ public class RobotContainer {
       () -> new BallDataPacket(), ballBuffer);
   private final UDPReciever<LimelightDataPacket> m_limelightReciever = new UDPReciever<>(Constants.LIMELIGHT_PORT,
       () -> new LimelightDataPacket(), limelightBuffer);
-  private final Joystick m_stick = new Joystick(Constants.JOYSTICK_PORT);
+
   private Limelight m_limelight = new Limelight();
   private Shooter shoot = new Shooter();
   private Index m_index = new Index();
+  private IntakeSubsystem m_intake = new IntakeSubsystem();
+
+
   private ColorSensorSubsystem colorSensor = new ColorSensorSubsystem();
   private IndexSubsystem index = new IndexSubsystem(colorSensor);
+
 
   private final Field2d field2d = new Field2d();
   private Drivetrain drivetrain = new Drivetrain(field2d);
@@ -82,6 +91,9 @@ public class RobotContainer {
   JoystickButton rightShoulder = new JoystickButton(joystick, 6);
   JoystickButton thumbLeft = new JoystickButton(joystick, 7);
   JoystickButton thumbRight = new JoystickButton(joystick, 8);
+
+
+
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -110,11 +122,19 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> joystick.getRawAxis(Constants.LEFT_AXIS),
         () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
     cButton.whenPressed(new zeroHeading(drivetrain));
-
+    thumbLeft.whenPressed(new PistonInCmd(m_intake));
+    thumbRight.whenPressed(new PistonOutCmd(m_intake));
     // While a button is pressed, run autoshoot command
     aButton.whileHeld(new LimelightCommand(m_limelight, shoot, m_index));
     // While b button is pressed, run autoaim command
     bButton.whileHeld(new Aim(m_limelight, drivetrain));
+    leftShoulder.whileHeld(new IntakeMotorTest(m_intake));
+    rightShoulder.whileHeld(new OuttakeMotorTest(m_intake));
+
+    leftShoulder.whileHeld(new IntakeMotorTest(m_intake));
+    rightShoulder.whileHeld(new OuttakeMotorTest(m_intake));
+
+
     yButton.whileHeld(new teleopIndex(index));
   }
 

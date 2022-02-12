@@ -26,6 +26,20 @@ public final class Constants {
     public static final int ID_RIGHT_PRIMARY = 10;
     public static final int ID_RIGHT_SECONDARY = 11;
 
+    //Intake Can IDs
+    public static final int MOTOR_ID = 10;
+    
+    
+    //Solenoid IDS
+    public static final int solenoid_a = 0;
+    public static final int solenoid_A = 1;
+
+    public static final int solenoid_b = 2;
+    public static final int solenoid_B = 3; 
+
+
+
+
     // Joystick ports
     public static final int JOYSTICK_PORT = 0;
 
@@ -33,6 +47,14 @@ public final class Constants {
     public static final int LEFT_AXIS = 1;
     public static final int RIGHT_AXIS = 5;
     public static final double DEAD_ZONE = 0.3;
+
+    //PCM IDS
+    public static final int PCM = 0; 
+
+    
+
+
+    
 
 
     // ---------------------------------- Auto Constants
