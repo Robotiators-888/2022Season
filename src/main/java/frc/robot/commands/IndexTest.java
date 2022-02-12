@@ -5,42 +5,32 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
-import frc.robot.subsystems.ColorSensorSubsystem;
+import frc.robot.subsystems.IndexSubsystem;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+public class IndexTest extends CommandBase {
 
-
-public class ColorSensorCommand extends CommandBase {
-
-  private ColorSensorSubsystem m_subsystem;
-  String color;
-
-  /** Creates a new ColorSensorCommand. */
-  public ColorSensorCommand(ColorSensorSubsystem subsystem) {
+  private IndexSubsystem subsystem;
+  /** Creates a new IndexTest. */
+  public IndexTest(IndexSubsystem m_subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_subsystem = subsystem;
+    subsystem = m_subsystem;
     addRequirements(subsystem);
-
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    String color = m_subsystem.findColor();
-    double[] RGBArray = m_subsystem.findRGB();
-
-    SmartDashboard.putString("Detected Color",color);
-
-    SmartDashboard.putNumber("Red",RGBArray[0]);
-    SmartDashboard.putNumber("Blue",RGBArray[1]);
-    SmartDashboard.putNumber("Green",RGBArray[2]);
-    SmartDashboard.putNumber("Sum RGB",RGBArray[0]+RGBArray[1]+RGBArray[2]);
+    boolean pos = subsystem.getPosition(0);
+    String color = subsystem.getColor(0);
+    SmartDashboard.putBoolean("Val at pos 0: ", pos);
+    SmartDashboard.putString("Color: ",color);
+    subsystem.feed();
+    subsystem.stopFeed();
   }
 
   // Called once the command ends or is interrupted.

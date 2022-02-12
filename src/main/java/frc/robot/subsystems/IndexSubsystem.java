@@ -21,7 +21,7 @@ import frc.robot.Constants;
 public class IndexSubsystem extends SubsystemBase {
 
   // Should this be in constants?
-  private final I2C.Port i2cPort = I2C.Port.kOnboard;
+  private I2C.Port i2cPort = I2C.Port.kOnboard;
   int i2cPortId = 0x70;
   public final int ColorSensorid = 0;
 
@@ -50,7 +50,7 @@ public class IndexSubsystem extends SubsystemBase {
   // number to that port
    boolean failed = I2CObject.write(i2cPortId, newPort);
    if (failed) {
-      throw new RuntimeException("Failed to write to MUX over I2C");
+      System.out.println("Failed to write to MUX over I2C");
     }
     I2CObject.close();
   }
@@ -69,7 +69,7 @@ public class IndexSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
 
     // NOTE: change ColorSensorid to change which color sensor is used
-   MuxChangeI2cPort(i2cPort,i2cPortId,ColorSensorid);
+   //MuxChangeI2cPort(i2cPort,i2cPortId,ColorSensorid);
 
   }
 
@@ -145,6 +145,10 @@ public class IndexSubsystem extends SubsystemBase {
 
   public void feed(){
     setSpeedTower(Constants.TOWER_BELT_SPEED);
+  }
+  
+  public void stopFeed(){
+    setSpeedTower(0);
   }
 
   public void setSpeedFront(double speed){
