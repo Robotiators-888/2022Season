@@ -48,6 +48,7 @@ import frc.robot.commands.IntakeMotorTest;
 import frc.robot.commands.PistonOutCmd;
 import frc.robot.commands.ShooterSpin;
 import frc.robot.commands.PistonInCmd;
+import frc.robot.commands.IndexOutCmd;
 
 /**
  * This class is where the bulk of the robot should be declared. Since

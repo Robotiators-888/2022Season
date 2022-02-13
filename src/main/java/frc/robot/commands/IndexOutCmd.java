@@ -5,15 +5,16 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.IndexSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class teleopIndex extends CommandBase {
+public class IndexOutCmd extends CommandBase {
 
   private IndexSubsystem index;
 
   /** Creates a new telopIndex. */
-  public teleopIndex(IndexSubsystem indexArgs) {
+  public IndexOutCmd(IndexSubsystem indexArgs) {
 
     this.index = indexArgs;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -28,8 +29,8 @@ public class teleopIndex extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    index.setSpeedTower(0.75);
-    index.setSpeedBack(-0.75);
+    index.setSpeedTower(-0.75);
+    index.setSpeedBack(0.75);
     index.setSpeedFront(0.75);
   }
 

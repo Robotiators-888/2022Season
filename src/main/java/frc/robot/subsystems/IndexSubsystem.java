@@ -95,6 +95,11 @@ public class IndexSubsystem extends SubsystemBase {
     setSpeedTower(0);
   }
 
+  public void indexOut(){
+    // when it gets stuck
+    setSpeedBack(0.75);
+  }
+
   /**
    * Sets the front motor to a certain speed
    * @param speed is how fast you want it to go in percentages
