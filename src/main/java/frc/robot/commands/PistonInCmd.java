@@ -9,6 +9,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 
 public class PistonInCmd extends CommandBase {
   IntakeSubsystem intake;
+  boolean isDone = false;
   /** Creates a new PistonCmd. */
   public PistonInCmd(IntakeSubsystem subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -26,6 +27,7 @@ public class PistonInCmd extends CommandBase {
   public void execute() 
   {
     intake.intakeSet(false);
+    isDone = true;
   }
 
   // Called once the command ends or is interrupted.
@@ -37,6 +39,6 @@ public class PistonInCmd extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isDone;
   }
 }

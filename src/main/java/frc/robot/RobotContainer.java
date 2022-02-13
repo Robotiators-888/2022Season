@@ -49,7 +49,6 @@ import frc.robot.commands.IntakeMotorTest;
 import frc.robot.commands.PistonOutCmd;
 import frc.robot.commands.ShooterSpin;
 import frc.robot.commands.PistonInCmd;
-
 import frc.robot.commands.indexCanalOut;
 import frc.robot.commands.teleopCanal;
 import frc.robot.commands.teleopIndex;
