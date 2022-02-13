@@ -26,6 +26,12 @@ public final class Constants {
     public static final int ID_RIGHT_PRIMARY = 10;
     public static final int ID_RIGHT_SECONDARY = 11;
 
+    // Climber Motor Can IDs
+    public static final int CLIMBER_MOTOR_ID = 14;
+
+    // Pneumatic Port IDs
+    public static final int CLIMBER_LOCK_PORT_1 = 4;
+    public static final int CLIMBER_LOCK_PORT_2 = 5;
     //Intake Can IDs
     public static final int MOTOR_ID = 10;
     
@@ -43,7 +49,7 @@ public final class Constants {
     // Joystick ports
     public static final int JOYSTICK_PORT = 0;
 
-    // Joystick axis 
+    // Joystick axis
     public static final int LEFT_AXIS = 1;
     public static final int RIGHT_AXIS = 5;
     public static final double DEAD_ZONE = 0.3;
