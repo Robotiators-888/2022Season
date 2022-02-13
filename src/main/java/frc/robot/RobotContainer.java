@@ -135,7 +135,7 @@ public class RobotContainer {
     yButton.whileHeld(new teleopIndex(index));
     aButton.whileHeld(new ShooterSpin(shoot, twiststick));
     bButton.whileHeld(new IntakeMotorTest(m_intake)); 
-    backButton.whileHeld(new indexCanalOut(canal,index));
+    leftShoulder.whileHeld(new indexCanalOut(canal, index));
   }
 
   public Command getAutonomousCommand() {
