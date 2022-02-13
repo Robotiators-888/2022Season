@@ -6,7 +6,6 @@ package frc.robot;
 
 import java.util.List;
 
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -44,9 +43,8 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.commands.OuttakeMotorTest;
 import frc.robot.commands.IntakeMotorTest;
 import frc.robot.commands.PistonOutCmd;
+import frc.robot.commands.ShooterSpin;
 import frc.robot.commands.PistonInCmd;
-
-
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -73,10 +71,8 @@ public class RobotContainer {
   private Index m_index = new Index();
   private IntakeSubsystem m_intake = new IntakeSubsystem();
 
-
-  //private ColorSensorSubsystem colorSensor = new ColorSensorSubsystem();
+  // private ColorSensorSubsystem colorSensor = new ColorSensorSubsystem();
   private IndexSubsystem index = new IndexSubsystem();
-
 
   private final Field2d field2d = new Field2d();
   private Drivetrain drivetrain = new Drivetrain(field2d);
@@ -85,15 +81,13 @@ public class RobotContainer {
 
   JoystickButton aButton = new JoystickButton(joystick, 1);
   JoystickButton bButton = new JoystickButton(joystick, 2);
-  JoystickButton cButton = new JoystickButton(joystick, 3);
+  JoystickButton xButton = new JoystickButton(joystick, 3);
   JoystickButton yButton = new JoystickButton(joystick, 4);
   JoystickButton leftShoulder = new JoystickButton(joystick, 5);
   JoystickButton rightShoulder = new JoystickButton(joystick, 6);
-  JoystickButton thumbLeft = new JoystickButton(joystick, 7);
-  JoystickButton thumbRight = new JoystickButton(joystick, 8);
-
-
-
+  JoystickButton startButton = new JoystickButton(joystick, 8);
+  JoystickButton thumbLeft = new JoystickButton(joystick, 9);
+  JoystickButton thumbRight = new JoystickButton(joystick, 10);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -102,8 +96,8 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-   // m_BallReciever.start();
-   // m_limelightReciever.start();
+    // m_BallReciever.start();
+    // m_limelightReciever.start();
 
     // periodic getting
     // separate function > getting string value
@@ -121,7 +115,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> joystick.getRawAxis(Constants.LEFT_AXIS),
         () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
-    cButton.whenPressed(new zeroHeading(drivetrain));
+    xButton.whenPressed(new zeroHeading(drivetrain));
     thumbLeft.whenPressed(new PistonInCmd(m_intake));
     thumbRight.whenPressed(new PistonOutCmd(m_intake));
     // While a button is pressed, run autoshoot command
@@ -130,10 +124,7 @@ public class RobotContainer {
     bButton.whileHeld(new Aim(m_limelight, drivetrain));
     leftShoulder.whileHeld(new IntakeMotorTest(m_intake));
     rightShoulder.whileHeld(new OuttakeMotorTest(m_intake));
-
-    leftShoulder.whileHeld(new IntakeMotorTest(m_intake));
-    rightShoulder.whileHeld(new OuttakeMotorTest(m_intake));
-
+    startButton.whileHeld(new ShooterSpin(shoot));
 
     yButton.whileHeld(new teleopIndex(index));
   }
