@@ -45,6 +45,7 @@ import frc.robot.commands.IntakeMotorTest;
 import frc.robot.commands.PistonOutCmd;
 import frc.robot.commands.ShooterSpin;
 import frc.robot.commands.PistonInCmd;
+import frc.robot.commands.IndexOutCmd;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -85,6 +86,7 @@ public class RobotContainer {
   JoystickButton yButton = new JoystickButton(joystick, 4);
   JoystickButton leftShoulder = new JoystickButton(joystick, 5);
   JoystickButton rightShoulder = new JoystickButton(joystick, 6);
+  JoystickButton backButton = new JoystickButton(joystick,7);
   JoystickButton startButton = new JoystickButton(joystick, 8);
   JoystickButton thumbLeft = new JoystickButton(joystick, 9);
   JoystickButton thumbRight = new JoystickButton(joystick, 10);
@@ -127,6 +129,8 @@ public class RobotContainer {
     startButton.whileHeld(new ShooterSpin(shoot));
 
     yButton.whileHeld(new teleopIndex(index));
+
+    backButton.whileHeld(new IndexOutCmd(index));
   }
 
   public Command getAutonomousCommand() {

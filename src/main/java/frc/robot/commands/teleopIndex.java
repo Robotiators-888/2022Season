@@ -29,9 +29,9 @@ public class teleopIndex extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    index.feed();
-    index.setSpeedBack(-0.5);
-    index.setSpeedFront(0.5);
+    index.setSpeedTower(0.75);
+    index.setSpeedBack(-0.75);
+    index.setSpeedFront(0.75);
   }
 
   // Called once the command ends or is interrupted.

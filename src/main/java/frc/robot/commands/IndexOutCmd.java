@@ -4,18 +4,21 @@
 
 package frc.robot.commands;
 
+import frc.robot.subsystems.IndexSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.Shooter;
 
-public class ShooterSpin extends CommandBase {
-  /** Creates a new ShooterSpin. */
-  private Shooter shoot;
+public class IndexOutCmd extends CommandBase {
 
-  public ShooterSpin(Shooter subsystem) {
+  private IndexSubsystem index;
+
+  /** Creates a new telopIndex. */
+  public IndexOutCmd(IndexSubsystem indexArgs) {
+
+    this.index = indexArgs;
     // Use addRequirements() here to declare subsystem dependencies.
-    this.shoot = subsystem;
-    addRequirements(shoot);
+    addRequirements(index);
   }
 
   // Called when the command is initially scheduled.
@@ -26,13 +29,17 @@ public class ShooterSpin extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shoot.setRPM(-Constants.LOW_GOAL_RPMS);
+    index.setSpeedTower(-0.75);
+    index.setSpeedBack(0.75);
+    index.setSpeedFront(0.75);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shoot.setRPM(0);
+    index.stopFeed();
+    index.setSpeedBack(0);
+    index.setSpeedFront(0);
   }
 
   // Returns true when the command should end.

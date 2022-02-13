@@ -54,7 +54,7 @@ public final class Constants {
     public static final int PCM = 0;
 
     // Shooter rpms
-    public static final int LOW_GOAL_RPMS = 1000;
+    public static final int LOW_GOAL_RPMS = 3200;
 
     // ---------------------------------- Auto Constants
     // ----------------------------------
@@ -86,4 +86,5 @@ public final class Constants {
     public static final int TOWER_INDEX_ID = 12;
     public static final int BACK_INDEX_ID = 11;
     public static final double TOWER_BELT_SPEED = 0.5;
+    public static final int FLYWHEEL_MOTOR_ID = 24;
 }
