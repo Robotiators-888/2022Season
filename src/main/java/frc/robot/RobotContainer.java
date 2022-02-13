@@ -45,7 +45,7 @@ import frc.robot.commands.OuttakeMotorTest;
 import frc.robot.commands.IntakeMotorTest;
 import frc.robot.commands.PistonOutCmd;
 import frc.robot.commands.PistonInCmd;
-
+import frc.robot.commands.IndexSequence;
 
 
 /**
@@ -128,11 +128,9 @@ public class RobotContainer {
     aButton.whileHeld(new LimelightCommand(m_limelight, shoot, m_index));
     // While b button is pressed, run autoaim command
     bButton.whileHeld(new Aim(m_limelight, drivetrain));
-    leftShoulder.whileHeld(new IntakeMotorTest(m_intake));
+    leftShoulder.whenPressed(new IndexSequence(m_intake, index));
     rightShoulder.whileHeld(new OuttakeMotorTest(m_intake));
 
-    leftShoulder.whileHeld(new IntakeMotorTest(m_intake));
-    rightShoulder.whileHeld(new OuttakeMotorTest(m_intake));
 
 
     yButton.whileHeld(new teleopIndex(index));

@@ -40,8 +40,6 @@ public final class Constants {
     public static final int solenoid_a = 0;
     public static final int solenoid_A = 1;
 
-    public static final int solenoid_b = 2;
-    public static final int solenoid_B = 3; 
 
 
 
