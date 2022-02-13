@@ -40,6 +40,7 @@ import frc.robot.commands.Aim;
 import frc.robot.commands.LimelightCommand;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.IndexSubsystem;
+import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -48,7 +49,10 @@ import frc.robot.commands.IntakeMotorTest;
 import frc.robot.commands.PistonOutCmd;
 import frc.robot.commands.ShooterSpin;
 import frc.robot.commands.PistonInCmd;
-import frc.robot.commands.IndexOutCmd;
+
+import frc.robot.commands.indexCanalOut;
+import frc.robot.commands.teleopCanal;
+import frc.robot.commands.teleopIndex;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
