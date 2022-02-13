@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class teleopIndex extends CommandBase {
 
   private IndexSubsystem index;
+
   /** Creates a new telopIndex. */
   public teleopIndex(IndexSubsystem indexArgs) {
 
@@ -21,13 +22,14 @@ public class teleopIndex extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     index.feed();
-    index.setSpeedBack(0.5);
+    index.setSpeedBack(-0.5);
     index.setSpeedFront(0.5);
   }
 

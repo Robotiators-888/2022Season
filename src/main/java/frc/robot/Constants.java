@@ -33,7 +33,7 @@ public final class Constants {
     public static final int CLIMBER_LOCK_PORT_1 = 4;
     public static final int CLIMBER_LOCK_PORT_2 = 5;
     // Intake Can IDs
-    public static final int MOTOR_ID = 10;
+    public static final int MOTOR_ID = 13;
 
     // Solenoid IDS
     public static final int solenoid_a = 0;
@@ -52,6 +52,12 @@ public final class Constants {
 
     // PCM IDS
     public static final int PCM = 0;
+
+    // Shooter rpms
+    public static final int LOW_GOAL_RPMS = 1000;
+
+    // ---------------------------------- Auto Constants
+    // ----------------------------------
 
     //Auto Constants
     public static final double TRACKWIDTH = 35; // track width in inches
