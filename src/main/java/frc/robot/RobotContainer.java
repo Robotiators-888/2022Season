@@ -46,7 +46,6 @@ import frc.robot.commands.IntakeMotorTest;
 import frc.robot.commands.PistonOutCmd;
 import frc.robot.commands.ShooterSpin;
 import frc.robot.commands.PistonInCmd;
-
 import frc.robot.commands.indexCanalOut;
 import frc.robot.commands.teleopCanal;
 import frc.robot.commands.teleopIndex;
@@ -132,8 +131,8 @@ public class RobotContainer {
     //bButton.whileHeld(new Aim(m_limelight, drivetrain));
     leftShoulder.whileHeld(new IntakeMotorTest(m_intake));
     rightShoulder.whileHeld(new OuttakeMotorTest(m_intake));
-    startButton.whileHeld(new ShooterSpin(shoot, twiststick.getRawAxis(3)));
-
+    startButton.whileHeld(new ShooterSpin(shoot, twiststick));
+    xButton.whileHeld(new teleopCanal(canal));
     yButton.whileHeld(new teleopIndex(index));
     backButton.whileHeld(new indexCanalOut(canal,index));
   }
