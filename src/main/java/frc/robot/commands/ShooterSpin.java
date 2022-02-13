@@ -26,7 +26,7 @@ public class ShooterSpin extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shoot.setRPM(-Constants.LOW_GOAL_RPMS);
+    shoot.setRPM(1*Constants.LOW_GOAL_RPMS);
   }
 
   // Called once the command ends or is interrupted.

@@ -4,43 +4,25 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.IndexSubsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class IndexOutCmd extends CommandBase {
-
-  private IndexSubsystem index;
-
-  /** Creates a new telopIndex. */
-  public IndexOutCmd(IndexSubsystem indexArgs) {
-
-    this.index = indexArgs;
+public class canalOut extends CommandBase {
+  /** Creates a new canalOut. */
+  public canalOut() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(index);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    index.setSpeedTower(-0.75);
-    index.setSpeedBack(0.75);
-    index.setSpeedFront(0.75);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    index.stopFeed();
-    index.setSpeedBack(0);
-    index.setSpeedFront(0);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
