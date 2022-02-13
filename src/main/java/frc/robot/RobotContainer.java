@@ -131,10 +131,6 @@ public class RobotContainer {
     leftShoulder.whileHeld(new IntakeMotorTest(m_intake));
     rightShoulder.whileHeld(new OuttakeMotorTest(m_intake));
 
-    leftShoulder.whileHeld(new IntakeMotorTest(m_intake));
-    rightShoulder.whileHeld(new OuttakeMotorTest(m_intake));
-
-
     yButton.whileHeld(new teleopIndex(index));
   }
 
