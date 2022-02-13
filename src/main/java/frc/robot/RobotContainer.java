@@ -128,7 +128,7 @@ public class RobotContainer {
     aButton.whileHeld(new LimelightCommand(m_limelight, shoot, m_index));
     // While b button is pressed, run autoaim command
     bButton.whileHeld(new Aim(m_limelight, drivetrain));
-    leftShoulder.whenPressed(new IndexSequence(m_intake, index));
+    leftShoulder.whileHeld(new IndexSequence(m_intake, index));
     rightShoulder.whileHeld(new OuttakeMotorTest(m_intake));
 
     yButton.whileHeld(new teleopIndex(index));
