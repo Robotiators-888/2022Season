@@ -18,9 +18,9 @@ public class IndexSubsystem extends SubsystemBase {
 
 
   // Motors
-  private TalonSRX front = new TalonSRX(Constants.FRONT_INDEX_ID);
+  
   private TalonSRX tower = new TalonSRX(Constants.TOWER_INDEX_ID);
-  private TalonSRX back = new TalonSRX(Constants.BACK_INDEX_ID);
+  
   
   // Color sensor subsystem
   //private ColorSensorSubsystem colorSensor;
@@ -93,29 +93,6 @@ public class IndexSubsystem extends SubsystemBase {
    */
   public void stopFeed(){
     setSpeedTower(0);
-  }
-
-  public void indexOut(){
-    // when it gets stuck
-    setSpeedBack(0.75);
-  }
-
-  /**
-   * Sets the front motor to a certain speed
-   * @param speed is how fast you want it to go in percentages
-   */
-  public void setSpeedFront(double speed){
-     // Front belt, two sets of belts.
-     front.set(TalonSRXControlMode.PercentOutput, speed);
-  }
-
-  /**
-   * Sets the back motor to a certain speed
-   * @param speed is how fast you want it to go in percentages
-   */
-  public void setSpeedBack(double speed){
-    // Back belt, two sets of belts.
-    back.set(TalonSRXControlMode.PercentOutput, speed);
   }
 
   /**
