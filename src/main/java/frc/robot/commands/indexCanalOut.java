@@ -5,11 +5,21 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.CanalSubsystem;
+import frc.robot.subsystems.IndexSubsystem;
 
-public class canalOut extends CommandBase {
+public class indexCanalOut extends CommandBase {
+  private CanalSubsystem canal;
+  private IndexSubsystem index;
+  
   /** Creates a new canalOut. */
-  public canalOut() {
+  public indexCanalOut(CanalSubsystem canalArgs, IndexSubsystem indexArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.canal = canalArgs;
+    this.index = indexArgs;
+    
+    addRequirements(canal);
+    addRequirements(index);
   }
 
   // Called when the command is initially scheduled.
@@ -18,7 +28,11 @@ public class canalOut extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    index.setSpeedTower(-0.75);
+    canal.setSpeedBack(0.75);
+    canal.setSpeedFront(0.75);
+  }
 
   // Called once the command ends or is interrupted.
   @Override

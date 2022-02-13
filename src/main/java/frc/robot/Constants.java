@@ -82,9 +82,9 @@ public final class Constants {
     public static final int LIMELIGHT_PORT = 5801;
     public static final int BALL_PORT = 5802;
 
-    public static final int FRONT_INDEX_ID = 10;
+    public static final int FRONT_CANAL_ID = 10;
     public static final int TOWER_INDEX_ID = 12;
-    public static final int BACK_INDEX_ID = 11;
+    public static final int BACK_CANAL_ID = 11;
     public static final double TOWER_BELT_SPEED = 0.5;
     public static final int FLYWHEEL_MOTOR_ID = 24;
 }
