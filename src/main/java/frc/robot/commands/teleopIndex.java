@@ -31,7 +31,7 @@ public class teleopIndex extends CommandBase {
   public void execute() {
     index.setSpeedTower(0.75);
     index.setSpeedBack(-0.75);
-    index.setSpeedFront(0.75);
+    index.setSpeedFront(-0.75);
   }
 
   // Called once the command ends or is interrupted.
