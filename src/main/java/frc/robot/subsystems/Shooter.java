@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.function.Supplier;
+
 import com.revrobotics.*;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -20,6 +22,7 @@ public class Shooter extends SubsystemBase {
     public void setRPM(int rpm) {
         PID.setReference(rpm, CANSparkMax.ControlType.kVelocity);
     }
+    
 
     public void setPIDF(double P, double I, double D, double F) {
         PID.setP(P);

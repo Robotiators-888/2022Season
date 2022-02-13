@@ -84,6 +84,7 @@ public class RobotContainer {
   private Drivetrain drivetrain = new Drivetrain(field2d);
 
   private Joystick joystick = new Joystick(Constants.JOYSTICK_PORT);
+  private Joystick twiststick = new Joystick(Constants.TWISTSTICK_PORT);
 
   JoystickButton aButton = new JoystickButton(joystick, 1);
   JoystickButton bButton = new JoystickButton(joystick, 2);
@@ -122,16 +123,16 @@ public class RobotContainer {
   private void configureButtonBindings() {
     drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> joystick.getRawAxis(Constants.LEFT_AXIS),
         () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
-    xButton.whenPressed(new zeroHeading(drivetrain));
+   // xButton.whenPressed(new zeroHeading(drivetrain));
     thumbLeft.whenPressed(new PistonInCmd(m_intake));
     thumbRight.whenPressed(new PistonOutCmd(m_intake));
     // While a button is pressed, run autoshoot command
-    aButton.whileHeld(new LimelightCommand(m_limelight, shoot, m_index));
+    //aButton.whileHeld(new LimelightCommand(m_limelight, shoot, m_index));
     // While b button is pressed, run autoaim command
-    bButton.whileHeld(new Aim(m_limelight, drivetrain));
+    //bButton.whileHeld(new Aim(m_limelight, drivetrain));
     leftShoulder.whileHeld(new IntakeMotorTest(m_intake));
     rightShoulder.whileHeld(new OuttakeMotorTest(m_intake));
-    startButton.whileHeld(new ShooterSpin(shoot));
+    startButton.whileHeld(new ShooterSpin(shoot, twiststick.getRawAxis(3)));
 
     yButton.whileHeld(new teleopIndex(index));
     backButton.whileHeld(new indexCanalOut(canal,index));
