@@ -12,7 +12,7 @@ public class Shooter extends SubsystemBase {
     SparkMaxPIDController PID = flywheel.getPIDController();
 
     public Shooter() {
-        this.setPID(0.0004, 0.0, 0.0);
+        this.setPIDF(Constants.P_VALUE, Constants.I_VALUE, Constants.D_VALUE, Constants.F_VALUE);
     }
 
     public double getRPM() {
@@ -31,12 +31,6 @@ public class Shooter extends SubsystemBase {
 
     }
 
-    public void setPID(double P, double I, double D) {
-        PID.setP(P);
-        PID.setI(I);
-        PID.setD(D);
-
-    }
 
     public int distRpm(double dist) {
         return (int) ((dist + 108) / 0.1);
