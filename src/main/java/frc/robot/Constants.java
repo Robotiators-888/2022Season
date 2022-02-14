@@ -88,5 +88,7 @@ public final class Constants {
     public static final int BACK_CANAL_ID = 11;
     public static final double TOWER_BELT_SPEED = 0.5;
     public static final int FLYWHEEL_MOTOR_ID = 24;
+
+    public static final double BELT_SPEED = 0.75;
     
 }

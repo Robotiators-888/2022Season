@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
 
@@ -29,9 +30,9 @@ public class indexCanalOut extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    index.setSpeedTower(-0.75);
-    canal.setSpeedBack(0.75);
-    canal.setSpeedFront(0.75);
+    index.setSpeedTower(-Constants.BELT_SPEED);
+    canal.setSpeedBack(Constants.BELT_SPEED);
+    canal.setSpeedFront(Constants.BELT_SPEED);
   }
 
   // Called once the command ends or is interrupted.
