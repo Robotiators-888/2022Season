@@ -6,7 +6,6 @@ package frc.robot;
 
 import java.util.List;
 
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -107,12 +106,9 @@ public class RobotContainer {
         chooser.addOption("Complex Auto", pwtest);
 
         Command pwtest = new SequentialCommandGroup(
-            new InstantCommand(() -> drivetrain.setPosition(ballin1.getInitialPose())),
-            autoHelper.getRamset(ballin1),
-                autoHelper.getRamset(ballin2).andThen(() -> drivetrain.tankDriveVolts(0, 0))
-        );
-
-
+                new InstantCommand(() -> drivetrain.setPosition(ballin1.getInitialPose())),
+                autoHelper.getRamset(ballin1),
+                autoHelper.getRamset(ballin2).andThen(() -> drivetrain.tankDriveVolts(0, 0)));
 
         chooser.setDefaultOption("Simple Auto", straightAuto);
         chooser.addOption("Complex Auto", pwtest);
