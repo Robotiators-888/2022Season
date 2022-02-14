@@ -7,7 +7,7 @@ package frc.robot.commands;
 import frc.robot.subsystems.IndexSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.Constants;
 import frc.robot.subsystems.IndexSubsystem;
 
 public class teleopIndex extends CommandBase {
@@ -29,7 +29,7 @@ public class teleopIndex extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    index.setSpeedTower(0.75);
+    index.setSpeedTower(Constants.BELT_SPEED);
   }
 
   // Called once the command ends or is interrupted.
