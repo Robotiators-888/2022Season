@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import com.revrobotics.*;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -13,7 +14,11 @@ public class Shooter extends SubsystemBase {
 
     public Shooter() {
         this.setPIDF(0.0004, 0.0, 0.0, 0.000288);
+        
      }
+     public void periodic() {
+        SmartDashboard.putNumber("RPM", getRPM());
+      }
 
     public double getRPM() {
         return flywheel.getEncoder().getVelocity();

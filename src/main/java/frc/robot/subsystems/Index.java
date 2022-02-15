@@ -10,7 +10,7 @@ public class Index extends SubsystemBase {
 
     public Index(){
 
-        indexer = new CANSparkMax(16, CANSparkMaxLowLevel.MotorType.kBrushless);
+        indexer = new CANSparkMax(10, CANSparkMaxLowLevel.MotorType.kBrushless);
         PID = indexer.getPIDController();
 
     }
