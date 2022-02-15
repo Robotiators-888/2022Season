@@ -29,6 +29,10 @@ import frc.robot.subsystems.ColorSensorSubsystem;
 import frc.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.UDP.BallDataPacket;
+import frc.robot.UDP.GenericBuffer;
+import frc.robot.UDP.LimelightDataPacket;
+import frc.robot.UDP.UDPReciever;
 import frc.robot.commands.Aim;
 import frc.robot.commands.LimelightCommand;
 import frc.robot.subsystems.Index;
@@ -52,6 +56,12 @@ import frc.robot.commands.PistonInCmd;
  */
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
+    private final GenericBuffer<BallDataPacket> ballBuffer = new GenericBuffer<>();
+    private final GenericBuffer<LimelightDataPacket> limelightBuffer = new GenericBuffer<>();
+    private final UDPReciever<BallDataPacket> m_BallReciever = new UDPReciever<>(Constants.BALL_PORT,
+        () -> new BallDataPacket(), ballBuffer);
+    private final UDPReciever<LimelightDataPacket> m_limelightReciever = new UDPReciever<>(Constants.LIMELIGHT_PORT, () -> new LimelightDataPacket(), limelightBuffer);
+
     private final Field2d field2d = new Field2d();
 
     // subsystems
@@ -113,6 +123,8 @@ public class RobotContainer {
         chooser.setDefaultOption("Simple Auto", straightAuto);
         chooser.addOption("Complex Auto", pwtest);
 
+        m_BallReciever.start();
+        m_limelightReciever.start();
     }
 
     /**
@@ -135,7 +147,6 @@ public class RobotContainer {
         bButton.whileHeld(new Aim(m_limelight, drivetrain));
         leftShoulder.whileHeld(new IntakeMotorTest(m_intake));
         rightShoulder.whileHeld(new OuttakeMotorTest(m_intake));
-
         yButton.whileHeld(new teleopIndex(index));
     }
 
