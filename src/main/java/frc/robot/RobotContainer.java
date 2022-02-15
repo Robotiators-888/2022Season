@@ -133,6 +133,20 @@ public class RobotContainer {
 
         m_BallReciever.start();
         m_limelightReciever.start();
+
+        thumbLeft.whenPressed(new PistonInCmd(m_intake));
+        thumbRight.whenPressed(new PistonOutCmd(m_intake));
+        // While a button is pressed, run autoshoot command
+        backButton.whileHeld(new LimelightCommand(m_limelight, shoot, m_index));
+        // While b button is pressed, run autoaim command
+        startButton.whileHeld(new Aim(m_limelight, drivetrain));
+        
+        rightShoulder.whileHeld(new OuttakeMotorTest(m_intake));
+        xButton.whileHeld(new teleopCanal(canal));
+        yButton.whileHeld(new teleopIndex(index));
+        aButton.whileHeld(new ShooterSpin(shoot, twiststick));
+        bButton.whileHeld(new IntakeMotorTest(m_intake)); 
+        leftShoulder.whileHeld(new indexCanalOut(canal, index));
     }
 
     /**
