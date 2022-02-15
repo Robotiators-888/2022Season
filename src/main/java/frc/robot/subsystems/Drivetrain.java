@@ -52,8 +52,10 @@ public class Drivetrain extends SubsystemBase {
   public Drivetrain(Field2d input) {
     this.field2d = input;
 
-    leftPrimary.setInverted(true);
-    leftSecondary.setInverted(true);
+    rightPrimary.setInverted(true);
+    rightSecondary.setInverted(true);
+    leftPrimary.setInverted(false);
+    leftSecondary.setInverted(false);
 
     setIdleMode(IdleMode.kBrake);
   }
@@ -157,7 +159,7 @@ public class Drivetrain extends SubsystemBase {
    * @return rotation2d object with current heading
    */
   public Rotation2d getGyroHeading() {
-    return new Rotation2d(Math.toRadians(navx.getYaw()));
+    return new Rotation2d(Math.toRadians(-1 * navx.getYaw()));
   }
 
   /**

@@ -32,19 +32,15 @@ public final class Constants {
     // Pneumatic Port IDs
     public static final int CLIMBER_LOCK_PORT_1 = 4;
     public static final int CLIMBER_LOCK_PORT_2 = 5;
-    //Intake Can IDs
+    // Intake Can IDs
     public static final int MOTOR_ID = 10;
-    
-    
-    //Solenoid IDS
+
+    // Solenoid IDS
     public static final int solenoid_a = 0;
     public static final int solenoid_A = 1;
 
     public static final int solenoid_b = 2;
-    public static final int solenoid_B = 3; 
-
-
-
+    public static final int solenoid_B = 3;
 
     // Joystick ports
     public static final int JOYSTICK_PORT = 0;
@@ -54,18 +50,10 @@ public final class Constants {
     public static final int RIGHT_AXIS = 5;
     public static final double DEAD_ZONE = 0.3;
 
-    //PCM IDS
-    public static final int PCM = 0; 
+    // PCM IDS
+    public static final int PCM = 0;
 
-    
-
-
-    
-
-
-    // ---------------------------------- Auto Constants
-    // ----------------------------------
-
+    //Auto Constants
     public static final double TRACKWIDTH = 35; // track width in inches
     public static final double WHEEL_RADIUS = 3; // wheel radius in inches
     public static final double GEARRATIO = 10.85; // number of rotations per one inch of movement
@@ -88,7 +76,6 @@ public final class Constants {
     // UDP PORTS
     public static final int LIMELIGHT_PORT = 5801;
     public static final int BALL_PORT = 5802;
-
 
     public static final int FRONT_INDEX_ID = 10;
     public static final int TOWER_INDEX_ID = 11;
