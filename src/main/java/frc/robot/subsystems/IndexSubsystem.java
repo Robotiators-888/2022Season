@@ -44,6 +44,7 @@ public class IndexSubsystem extends SubsystemBase {
 
   /** 
    * Returns if a ball exists at a certain id
+   * 
    * @param id is either 1(top spot below shooter) or 2(balls to be stored below).
    * @return true if a ball is detected at the id, false if otherwise.
    * */ 
@@ -73,7 +74,12 @@ public class IndexSubsystem extends SubsystemBase {
    */
   public void setSpeedTower(double speed){
     // Top-most belt, move to get it into shooter
-    tower.set(TalonSRXControlMode.PercentOutput,speed);
+
+    if (!(getPosition(1))){
+      tower.set(TalonSRXControlMode.PercentOutput,speed);
+    } else {
+      System.out.println("Ball detected! Please shoot!");
+    }
   }
 
 }
