@@ -4,35 +4,32 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IndexSubsystem;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-
-public class teleopIndex extends CommandBase {
-
+public class OrganizeIndexCMD extends CommandBase {
   private IndexSubsystem index;
-  /** Creates a new teleopIndex. */
-  public teleopIndex(IndexSubsystem indexArgs) {
+  /** Creates a new OrganizeIndexCMD. */
+  public OrganizeIndexCMD(IndexSubsystem indexArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
-
     this.index = indexArgs;
+
     addRequirements(index);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!(index.getPosition(1))){
-    index.setSpeedTower(Constants.BELT_SPEED);
-    } else {
-      System.out.println("Not moving belt, already a ball up top");
+    while ( !(index.getPosition(1)) && index.getPosition(2) ){
+      index.setSpeedTower(0.75);
     }
+
   }
 
   // Called once the command ends or is interrupted.
