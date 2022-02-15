@@ -12,6 +12,7 @@ import frc.robot.Constants;
 public class teleopIndex extends CommandBase {
 
   private IndexSubsystem index;
+  private boolean isDone = false;
   /** Creates a new teleopIndex. */
   public teleopIndex(IndexSubsystem indexArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -29,10 +30,11 @@ public class teleopIndex extends CommandBase {
   @Override
   public void execute() {
     if (!(index.getPosition(1))){
-    index.setSpeedTower(Constants.BELT_SPEED);
+      index.setSpeedTower(Constants.BELT_SPEED);
     } else {
-      System.out.println("Not moving belt, already a ball up top");
+      isDone = true;
     }
+
   }
 
   // Called once the command ends or is interrupted.
@@ -44,6 +46,6 @@ public class teleopIndex extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isDone;
   }
 }
