@@ -9,10 +9,7 @@ import frc.robot.subsystems.IndexSubsystem;
 
 public class OrganizeIndexCMD extends CommandBase {
   private IndexSubsystem index;
-<<<<<<< HEAD
   private boolean isDone = false;
-=======
->>>>>>> e77ce0b (Added index organization command + stopping index at shooter)
   /** Creates a new OrganizeIndexCMD. */
   public OrganizeIndexCMD(IndexSubsystem indexArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -30,15 +27,10 @@ public class OrganizeIndexCMD extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-<<<<<<< HEAD
     if ( !(index.getPosition(1)) && index.getPosition(2) ){
       index.setSpeedTower(0.75);
     } else {
       isDone = true;
-=======
-    while ( !(index.getPosition(1)) && index.getPosition(2) ){
-      index.setSpeedTower(0.75);
->>>>>>> e77ce0b (Added index organization command + stopping index at shooter)
     }
 
   }
@@ -52,10 +44,6 @@ public class OrganizeIndexCMD extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-<<<<<<< HEAD
     return isDone;
-=======
-    return false;
->>>>>>> e77ce0b (Added index organization command + stopping index at shooter)
   }
 }
