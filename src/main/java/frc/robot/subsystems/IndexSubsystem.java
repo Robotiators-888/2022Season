@@ -73,7 +73,9 @@ public class IndexSubsystem extends SubsystemBase {
    */
   public void setSpeedTower(double speed) {
     // Top-most belt, move to get it into shooter
-    tower.set(TalonSRXControlMode.PercentOutput, speed);
+
+      tower.set(TalonSRXControlMode.PercentOutput,speed);
+
   }
 
 }
