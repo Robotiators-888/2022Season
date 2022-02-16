@@ -40,10 +40,10 @@ import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.commands.IntakeSpin;
-import frc.robot.commands.ShooterSpin;
-import frc.robot.commands.canalRun;
-import frc.robot.commands.OrganizeIndexCMD;
+import frc.robot.commands.OuttakeMotorTest;
+import frc.robot.commands.IntakeMotorTest;
+import frc.robot.commands.PistonOutCmd;
+import frc.robot.commands.PistonInCmd;
 
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -105,12 +105,12 @@ public class RobotContainer {
     Trajectory ballin1 = autoHelper.getTrajectory("paths/test2balll.wpilib.json");
     Trajectory ballin2 = autoHelper.getTrajectory("paths/test2balll_0.wpilib.json");
     Trajectory Str8 = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)),
-            List.of(), new Pose2d(3, 0, new Rotation2d(0)), config);
+            List.of(), new Pose2d(1, 0, new Rotation2d(0)), config);
 
     // Auto command groups
     Command straightAuto = new SequentialCommandGroup(
-            new InstantCommand(() -> drivetrain.setPosition(0, 0, new Rotation2d(0))),
-            autoHelper.getRamset(Str8).andThen(() -> drivetrain.tankDriveVolts(0, 0)));
+            new InstantCommand(() -> drivetrain.setPosition(Str8.getInitialPose())),
+            autoHelper.getRamset(Str8));
 
     Command pwtest = new SequentialCommandGroup(
             new InstantCommand(() -> drivetrain.setPosition(ballin1.getInitialPose())),
@@ -123,6 +123,8 @@ public class RobotContainer {
     public RobotContainer() {
         // Configure the button bindings
         configureButtonBindings();
+        
+        field2d.getObject("traj").setTrajectory(Str8);
 
         chooser.setDefaultOption("Simple Auto", straightAuto);
         chooser.addOption("Complex Auto", pwtest);

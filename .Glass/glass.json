@@ -53,6 +53,7 @@
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Ungrouped/navX-Sensor[1]": "Gyro",
       "/SmartDashboard/SendableChooser[0]": "String Chooser",
+      "/SmartDashboard/chooser": "String Chooser",
       "/SmartDashboard/field": "Field2d"
     },
     "windows": {
@@ -67,7 +68,6 @@
           "arrowSize": 59,
           "style": "Line (Closed)"
         },
-        "image": "C:\\Users\\ryanp\\Pictures\\2022-field.png",
         "traj": {
           "arrows": false,
           "style": "Line"
@@ -81,5 +81,8 @@
   "NetworkTables Settings": {
     "mode": "Client",
     "serverTeam": "888"
+  },
+  "NetworkTables View": {
+    "visible": false
   }
 }

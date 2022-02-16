@@ -67,16 +67,16 @@ public final class Constants {
     // Auto Constants
     public static final double TRACKWIDTH = 35; // track width in inches
     public static final double WHEEL_RADIUS = 3; // wheel radius in inches
-    public static final double GEARRATIO = 10.85; // number of rotations per one inch of movement
+    public static final double GEARRATIO = 15.5; //gear ratio from output shaft of motor to wheel axle
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
             Units.inchesToMeters(TRACKWIDTH));
 
     // The Robot Characterization tool will help in obtaining
     // https://docs.wpilib.org/en/stable/docs/software/pathplanning/robot-characterization/index.html
-    public static final double ksVolts = 0.14;
+    public static final double ksVolts = 0.16;
     public static final double kvVoltSecondsPerMeter = 0.13;
     public static final double kaVoltSecondsSquaredPerMeter = 0.02;
-    public static final double kPDriveVel = 0.9;
+    public static final double kPDriveVel = 1.3;
 
     public static final double kMaxSpeedMetersPerSecond = 1;
     public static final double kMaxAccelerationMetersPerSecondSquared = 1;

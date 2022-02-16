@@ -5,6 +5,9 @@
 package frc.robot.commands;
 
 import java.util.function.Supplier;
+
+import com.revrobotics.CANSparkMax.IdleMode;
+
 import frc.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -31,12 +34,13 @@ public class teleopDrive extends CommandBase {
   public void initialize() {
     drive.zeroHeading();
     drive.setPosition(0, 0, drive.getGyroHeading());
+    drive.setIdleMode(IdleMode.kCoast);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drive.setMotors(Left.get(), 1 * Right.get(), 0.5);
+    drive.setMotors(-1 * Left.get(), -1 * Right.get(), 0.5);
   }
 
   // Called once the command ends or is interrupted.
