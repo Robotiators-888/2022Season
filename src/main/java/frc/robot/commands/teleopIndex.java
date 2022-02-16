@@ -7,36 +7,34 @@ package frc.robot.commands;
 import frc.robot.subsystems.IndexSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 
 public class teleopIndex extends CommandBase {
 
   private IndexSubsystem index;
-  /** Creates a new telopIndex. */
+  /** Creates a new teleopIndex. */
   public teleopIndex(IndexSubsystem indexArgs) {
+    // Use addRequirements() here to declare subsystem dependencies.
 
     this.index = indexArgs;
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(index);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    index.feed();
-    index.setSpeedBack(0.1);
-    index.setSpeedFront(0.1);
+    index.setSpeedTower(Constants.BELT_SPEED);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    index.stopFeed();
-    index.setSpeedBack(0);
-    index.setSpeedFront(0);
+    index.setSpeedTower(0);
   }
 
   // Returns true when the command should end.

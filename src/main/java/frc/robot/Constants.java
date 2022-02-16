@@ -21,10 +21,10 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
     // Drivetrain Can IDs
-    public static final int ID_LEFT_PRIMARY = 12;
-    public static final int ID_LEFT_SECONDARY = 13;
-    public static final int ID_RIGHT_PRIMARY = 10;
-    public static final int ID_RIGHT_SECONDARY = 11;
+    public static final int ID_LEFT_PRIMARY = 20;
+    public static final int ID_LEFT_SECONDARY = 21;
+    public static final int ID_RIGHT_PRIMARY = 22;
+    public static final int ID_RIGHT_SECONDARY = 23;
 
     // Climber Motor Can IDs
     public static final int CLIMBER_MOTOR_ID = 14;
@@ -33,7 +33,10 @@ public final class Constants {
     public static final int CLIMBER_LOCK_PORT_1 = 4;
     public static final int CLIMBER_LOCK_PORT_2 = 5;
     // Intake Can IDs
-    public static final int MOTOR_ID = 10;
+    public static final int MOTOR_ID = 13;
+    public static final int FRONT_CANAL_ID = 10;
+    public static final int TOWER_INDEX_ID = 12;
+    public static final int BACK_CANAL_ID = 11;
 
     // Solenoid IDS
     public static final int solenoid_a = 0;
@@ -44,6 +47,7 @@ public final class Constants {
 
     // Joystick ports
     public static final int JOYSTICK_PORT = 0;
+    public static final int TWISTSTICK_PORT = 2;
 
     // Joystick axis
     public static final int LEFT_AXIS = 1;
@@ -53,7 +57,13 @@ public final class Constants {
     // PCM IDS
     public static final int PCM = 0;
 
-    //Auto Constants
+    // Shooter rpms
+    public static final int LOW_GOAL_RPMS = 3200;
+
+    // ---------------------------------- Auto Constants
+    // ----------------------------------
+
+    // Auto Constants
     public static final double TRACKWIDTH = 35; // track width in inches
     public static final double WHEEL_RADIUS = 3; // wheel radius in inches
     public static final double GEARRATIO = 10.85; // number of rotations per one inch of movement
@@ -77,8 +87,9 @@ public final class Constants {
     public static final int LIMELIGHT_PORT = 5801;
     public static final int BALL_PORT = 5802;
 
-    public static final int FRONT_INDEX_ID = 10;
-    public static final int TOWER_INDEX_ID = 11;
-    public static final int BACK_INDEX_ID = 12;
-    public static final double TOWER_BELT_SPEED = 0.1;
+    public static final double TOWER_BELT_SPEED = 0.5;
+    public static final int FLYWHEEL_MOTOR_ID = 24;
+
+    public static final double BELT_SPEED = 0.75;
+
 }

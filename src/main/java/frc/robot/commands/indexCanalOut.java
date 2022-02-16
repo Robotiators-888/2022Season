@@ -4,16 +4,23 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
+import frc.robot.subsystems.CanalSubsystem;
+import frc.robot.subsystems.IndexSubsystem;
 
-public class OuttakeMotorTest extends CommandBase {
-  IntakeSubsystem Intake;
-  /** Creates a new IntakeMotorTest. */
-  public OuttakeMotorTest(IntakeSubsystem subsystem) {
+public class indexCanalOut extends CommandBase {
+  private CanalSubsystem canal;
+  private IndexSubsystem index;
+  
+  /** Creates a new canalOut. */
+  public indexCanalOut(CanalSubsystem canalArgs, IndexSubsystem indexArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.Intake = subsystem;
-
+    this.canal = canalArgs;
+    this.index = indexArgs;
+    
+    addRequirements(canal);
+    addRequirements(index);
   }
 
   // Called when the command is initially scheduled.
@@ -24,13 +31,17 @@ public class OuttakeMotorTest extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Intake.intakeSpeedSet(-0.75);
+    index.setSpeedTower(-Constants.BELT_SPEED);
+    canal.setSpeedBack(Constants.BELT_SPEED);
+    canal.setSpeedFront(Constants.BELT_SPEED);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Intake.intakeSpeedSet(0.0);
+    canal.setSpeedBack(0);
+    canal.setSpeedFront(0);
+    index.setSpeedTower(0);
   }
 
   // Returns true when the command should end.

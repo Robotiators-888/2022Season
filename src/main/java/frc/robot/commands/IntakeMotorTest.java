@@ -3,21 +3,23 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
+
 import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class IntakeMotorTest extends CommandBase {
-  IntakeSubsystem Intake = new IntakeSubsystem();
+  IntakeSubsystem Intake;
   /** Creates a new IntakeMotorTest. */
   public IntakeMotorTest(IntakeSubsystem subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.Intake = subsystem;
-  
+
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

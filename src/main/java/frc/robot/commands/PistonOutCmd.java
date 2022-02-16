@@ -8,7 +8,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class PistonOutCmd extends CommandBase {
-  IntakeSubsystem intake = new IntakeSubsystem();
+  IntakeSubsystem intake;
+  boolean isDone = false;
   /** Creates a new PistonCmd. */
   public PistonOutCmd(IntakeSubsystem subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -17,22 +18,24 @@ public class PistonOutCmd extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() 
-  {
+  public void execute() {
     intake.intakeSet(true);
+    isDone = true;
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isDone;
   }
 }

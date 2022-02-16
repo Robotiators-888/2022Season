@@ -20,8 +20,7 @@ public class Climber extends SubsystemBase {
 
   public Climber() {
     climberMotor = new TalonSRX(Constants.CLIMBER_MOTOR_ID);
-    cSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.CLIMBER_LOCK_PORT_1,
-        Constants.CLIMBER_LOCK_PORT_2);
+    cSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 1);
   }
 
   @Override

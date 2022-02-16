@@ -24,7 +24,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.teleopDrive;
 import frc.robot.commands.teleopIndex;
 import frc.robot.commands.zeroHeading;
-import frc.robot.subsystems.ColorSensorSubsystem;
 
 import frc.robot.subsystems.Drivetrain;
 
@@ -35,14 +34,15 @@ import frc.robot.UDP.LimelightDataPacket;
 import frc.robot.UDP.UDPReciever;
 import frc.robot.commands.Aim;
 import frc.robot.commands.LimelightCommand;
-import frc.robot.subsystems.Index;
 import frc.robot.subsystems.IndexSubsystem;
+import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.commands.OuttakeMotorTest;
 import frc.robot.commands.IntakeMotorTest;
 import frc.robot.commands.PistonOutCmd;
+import frc.robot.commands.ShooterSpin;
 import frc.robot.commands.PistonInCmd;
 
 /**
@@ -59,32 +59,34 @@ public class RobotContainer {
     private final GenericBuffer<BallDataPacket> ballBuffer = new GenericBuffer<>();
     private final GenericBuffer<LimelightDataPacket> limelightBuffer = new GenericBuffer<>();
     private final UDPReciever<BallDataPacket> m_BallReciever = new UDPReciever<>(Constants.BALL_PORT,
-        () -> new BallDataPacket(), ballBuffer);
-    private final UDPReciever<LimelightDataPacket> m_limelightReciever = new UDPReciever<>(Constants.LIMELIGHT_PORT, () -> new LimelightDataPacket(), limelightBuffer);
+            () -> new BallDataPacket(), ballBuffer);
+    private final UDPReciever<LimelightDataPacket> m_limelightReciever = new UDPReciever<>(Constants.LIMELIGHT_PORT,
+            () -> new LimelightDataPacket(), limelightBuffer);
 
     private final Field2d field2d = new Field2d();
 
     // subsystems
     private Limelight m_limelight = new Limelight();
     private Shooter shoot = new Shooter();
-    private Index m_index = new Index();
     private Drivetrain drivetrain = new Drivetrain(field2d);
     private IntakeSubsystem m_intake = new IntakeSubsystem();
-    private ColorSensorSubsystem colorSensor = new ColorSensorSubsystem();
-    private IndexSubsystem index = new IndexSubsystem(colorSensor);
+    private IndexSubsystem index = new IndexSubsystem();
     private Autonomous autoHelper = new Autonomous(drivetrain);
 
     // Joystick objects
     private Joystick joystick = new Joystick(Constants.JOYSTICK_PORT);
+    private Joystick twiststick = new Joystick(Constants.TWISTSTICK_PORT);
 
     JoystickButton aButton = new JoystickButton(joystick, 1);
     JoystickButton bButton = new JoystickButton(joystick, 2);
-    JoystickButton cButton = new JoystickButton(joystick, 3);
+    JoystickButton xButton = new JoystickButton(joystick, 3);
     JoystickButton yButton = new JoystickButton(joystick, 4);
     JoystickButton leftShoulder = new JoystickButton(joystick, 5);
     JoystickButton rightShoulder = new JoystickButton(joystick, 6);
-    JoystickButton thumbLeft = new JoystickButton(joystick, 7);
-    JoystickButton thumbRight = new JoystickButton(joystick, 8);
+    JoystickButton startButton = new JoystickButton(joystick, 7);
+    JoystickButton backButton = new JoystickButton(joystick, 8);
+    JoystickButton thumbLeft = new JoystickButton(joystick, 9);
+    JoystickButton thumbRight = new JoystickButton(joystick, 10);
 
     // Auto objects
     SendableChooser<Command> chooser = new SendableChooser<>();
@@ -115,16 +117,9 @@ public class RobotContainer {
         chooser.setDefaultOption("Simple Auto", straightAuto);
         chooser.addOption("Complex Auto", pwtest);
 
-        Command pwtest = new SequentialCommandGroup(
-                new InstantCommand(() -> drivetrain.setPosition(ballin1.getInitialPose())),
-                autoHelper.getRamset(ballin1),
-                autoHelper.getRamset(ballin2).andThen(() -> drivetrain.tankDriveVolts(0, 0)));
-
-        chooser.setDefaultOption("Simple Auto", straightAuto);
-        chooser.addOption("Complex Auto", pwtest);
-
         m_BallReciever.start();
         m_limelightReciever.start();
+
     }
 
     /**
@@ -138,16 +133,19 @@ public class RobotContainer {
     private void configureButtonBindings() {
         drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> joystick.getRawAxis(Constants.LEFT_AXIS),
                 () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
-        cButton.whenPressed(new zeroHeading(drivetrain));
+        xButton.whenPressed(new zeroHeading(drivetrain));
         thumbLeft.whenPressed(new PistonInCmd(m_intake));
         thumbRight.whenPressed(new PistonOutCmd(m_intake));
         // While a button is pressed, run autoshoot command
-        aButton.whileHeld(new LimelightCommand(m_limelight, shoot, m_index));
+        backButton.whileHeld(new LimelightCommand(m_limelight, shoot, index));
         // While b button is pressed, run autoaim command
-        bButton.whileHeld(new Aim(m_limelight, drivetrain));
+        startButton.whileHeld(new Aim(m_limelight, drivetrain));
         leftShoulder.whileHeld(new IntakeMotorTest(m_intake));
         rightShoulder.whileHeld(new OuttakeMotorTest(m_intake));
         yButton.whileHeld(new teleopIndex(index));
+        aButton.whileHeld(new ShooterSpin(shoot, twiststick));
+        bButton.whileHeld(new IntakeMotorTest(m_intake));
+
     }
 
     public Command getAutonomousCommand() {

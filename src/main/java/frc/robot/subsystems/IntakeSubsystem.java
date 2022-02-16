@@ -19,17 +19,14 @@ public class IntakeSubsystem extends SubsystemBase {
     TalonSRX Intake = new TalonSRX(Constants.MOTOR_ID);
 
     // take double parameter as the percentage of power given to each motor
-    DoubleSolenoid solenoid1 = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.solenoid_a, Constants.solenoid_A);
-    DoubleSolenoid solenoid2 = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.solenoid_b, Constants.solenoid_B);
-
+    DoubleSolenoid solenoid1 = new DoubleSolenoid(PneumaticsModuleType.REVPH, 2, 3);
     /**
      * Gets the status of the intake pistons.
      * 
      * @returna boolean true if pistons are on, else false
      */
     public boolean intakeGet() {
-        return (solenoid1.get().equals(DoubleSolenoid.Value.kForward)
-                && solenoid2.get().equals(DoubleSolenoid.Value.kForward));
+        return (solenoid1.get().equals(DoubleSolenoid.Value.kForward));
     }
 
     /**
@@ -42,11 +39,9 @@ public class IntakeSubsystem extends SubsystemBase {
     public void intakeSet(boolean pistonState) { // up false, down true
         if (pistonState) {
             solenoid1.set(DoubleSolenoid.Value.kForward);
-            solenoid2.set(DoubleSolenoid.Value.kForward);
 
         } else {
             solenoid1.set(DoubleSolenoid.Value.kReverse);
-            solenoid2.set(DoubleSolenoid.Value.kReverse);
 
         }
     }
