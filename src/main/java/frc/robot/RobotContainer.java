@@ -34,7 +34,6 @@ import frc.robot.UDP.LimelightDataPacket;
 import frc.robot.UDP.UDPReciever;
 import frc.robot.commands.Aim;
 import frc.robot.commands.LimelightCommand;
-import frc.robot.subsystems.Index;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Limelight;
@@ -69,7 +68,6 @@ public class RobotContainer {
     // subsystems
     private Limelight m_limelight = new Limelight();
     private Shooter shoot = new Shooter();
-    private Index m_index = new Index();
     private Drivetrain drivetrain = new Drivetrain(field2d);
     private IntakeSubsystem m_intake = new IntakeSubsystem();
     private IndexSubsystem index = new IndexSubsystem();
@@ -139,7 +137,7 @@ public class RobotContainer {
         thumbLeft.whenPressed(new PistonInCmd(m_intake));
         thumbRight.whenPressed(new PistonOutCmd(m_intake));
         // While a button is pressed, run autoshoot command
-        backButton.whileHeld(new LimelightCommand(m_limelight, shoot, m_index));
+        backButton.whileHeld(new LimelightCommand(m_limelight, shoot, index));
         // While b button is pressed, run autoaim command
         startButton.whileHeld(new Aim(m_limelight, drivetrain));
         leftShoulder.whileHeld(new IntakeMotorTest(m_intake));
