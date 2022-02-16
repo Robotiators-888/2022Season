@@ -34,7 +34,6 @@ public final class Constants {
     public static final int CLIMBER_LOCK_PORT_2 = 5;
     // Intake Can IDs
     public static final int MOTOR_ID = 13;
-
     public static final int FRONT_CANAL_ID = 10;
     public static final int TOWER_INDEX_ID = 12;
     public static final int BACK_CANAL_ID = 11;

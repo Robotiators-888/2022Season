@@ -20,7 +20,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
     // take double parameter as the percentage of power given to each motor
     DoubleSolenoid solenoid1 = new DoubleSolenoid(PneumaticsModuleType.REVPH, 2, 3);
-
     /**
      * Gets the status of the intake pistons.
      * 

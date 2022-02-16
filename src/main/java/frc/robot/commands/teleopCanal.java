@@ -5,13 +5,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
 import frc.robot.subsystems.CanalSubsystem;
 
 public class teleopCanal extends CommandBase {
 
   private CanalSubsystem canal;
-
   /** Creates a new teleopCanal. */
   public teleopCanal(CanalSubsystem canalArgs) {
     // Use addRequirements() here to declare subsystem dependencies.

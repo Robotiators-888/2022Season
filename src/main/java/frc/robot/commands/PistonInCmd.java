@@ -10,7 +10,6 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class PistonInCmd extends CommandBase {
   IntakeSubsystem intake;
   boolean isDone = false;
-
   /** Creates a new PistonCmd. */
   public PistonInCmd(IntakeSubsystem subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.

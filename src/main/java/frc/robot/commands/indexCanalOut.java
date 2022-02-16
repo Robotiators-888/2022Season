@@ -12,13 +12,13 @@ import frc.robot.subsystems.IndexSubsystem;
 public class indexCanalOut extends CommandBase {
   private CanalSubsystem canal;
   private IndexSubsystem index;
-
+  
   /** Creates a new canalOut. */
   public indexCanalOut(CanalSubsystem canalArgs, IndexSubsystem indexArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.canal = canalArgs;
     this.index = indexArgs;
-
+    
     addRequirements(canal);
     addRequirements(index);
   }

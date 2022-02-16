@@ -12,13 +12,11 @@ import frc.robot.Constants;
 public class teleopIndex extends CommandBase {
 
   private IndexSubsystem index;
-
   /** Creates a new teleopIndex. */
   public teleopIndex(IndexSubsystem indexArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     this.index = indexArgs;
-
     addRequirements(index);
   }
 

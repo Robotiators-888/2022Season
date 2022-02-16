@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class OuttakeMotorTest extends CommandBase {
   IntakeSubsystem Intake;
-
   /** Creates a new IntakeMotorTest. */
   public OuttakeMotorTest(IntakeSubsystem subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
