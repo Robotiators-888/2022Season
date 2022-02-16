@@ -22,6 +22,13 @@ public class IndexSubsystem extends SubsystemBase {
   // Motors
   
   private TalonSRX tower = new TalonSRX(Constants.TOWER_INDEX_ID);
+<<<<<<< HEAD
+=======
+
+  private BannerSensorSubsystem bannerSensorControl= new BannerSensorSubsystem();
+  
+  
+>>>>>>> f3c6063 (Added banner sensor functionality)
 
   private BannerSensorSubsystem bannerSensorControl= new BannerSensorSubsystem();
 
