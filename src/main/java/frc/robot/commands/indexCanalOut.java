@@ -32,15 +32,15 @@ public class indexCanalOut extends CommandBase {
   @Override
   public void execute() {
     index.setSpeedTower(-Constants.BELT_SPEED);
-    // canal.setSpeedBack(Constants.BELT_SPEED);
-    // canal.setSpeedFront(Constants.BELT_SPEED);
+    canal.setSpeedBack(Constants.BELT_SPEED);
+    canal.setSpeedFront(Constants.BELT_SPEED);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // canal.setSpeedBack(0);
-    // canal.setSpeedFront(0);
+    canal.setSpeedBack(0);
+    canal.setSpeedFront(0);
     index.setSpeedTower(0);
   }
 
