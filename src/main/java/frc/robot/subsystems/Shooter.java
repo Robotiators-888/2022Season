@@ -4,15 +4,24 @@ import java.util.function.Supplier;
 
 import com.revrobotics.*;
 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
     CANSparkMax flywheel = new CANSparkMax(Constants.FLYWHEEL_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
     SparkMaxPIDController PID = flywheel.getPIDController();
+    Joystick joystick = new Joystick(2);
 
     public Shooter() {
-        this.setPID(0.0004, 0.0, 0.0);
+        this.setPIDF(Constants.P_VALUE, Constants.I_VALUE, Constants.D_VALUE, Constants.F_VALUE);
+
+    }
+
+    public void periodic() {
+        SmartDashboard.putNumber("RPM", getRPM());
+        SmartDashboard.putNumber("Shooter %", -(1 - joystick.getRawAxis(3)) / 2);
     }
 
     public double getRPM() {

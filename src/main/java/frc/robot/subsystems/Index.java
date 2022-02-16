@@ -1,33 +1,26 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.*;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Index extends SubsystemBase {
-    SparkMaxPIDController PID;
-    CANSparkMax indexer;
+  
+    TalonSRX indexer;
 
     public Index(){
 
-        indexer = new CANSparkMax(16, CANSparkMaxLowLevel.MotorType.kBrushless);
-        PID = indexer.getPIDController();
+        indexer = new TalonSRX(Constants.BACK_CANAL_ID);
+       
 
     }
-    public void setRPM(int rpm) {
-        PID.setReference(rpm, CANSparkMax.ControlType.kVelocity);
-    }
-
-    public void setPIDF(double P, double I, double D, double F) {
-        PID.setP(P);
-        PID.setI(I);
-        PID.setD(D);
-        PID.setFF(F);
-
-    }
+    
 
     public void setSpeed(double speed) {
-        indexer.set(speed);
+        indexer.set(TalonSRXControlMode.PercentOutput, speed);
     }
 
 }

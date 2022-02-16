@@ -44,6 +44,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.commands.OuttakeMotorTest;
 import frc.robot.commands.IntakeMotorTest;
 import frc.robot.commands.PistonOutCmd;
+import frc.robot.commands.ShooterRPMs;
 import frc.robot.commands.ShooterSpin;
 import frc.robot.commands.PistonInCmd;
 import frc.robot.commands.indexCanalOut;
@@ -60,110 +61,114 @@ import frc.robot.commands.teleopIndex;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
+    // The robot's subsystems and commands are defined here...
 
-  // public final static Drivetrain m_driveSubsystem = new Drivetrain();
-  private final GenericBuffer<BallDataPacket> ballBuffer = new GenericBuffer<>();
-  private final GenericBuffer<LimelightDataPacket> limelightBuffer = new GenericBuffer<>();
-  private final UDPReciever<BallDataPacket> m_BallReciever = new UDPReciever<>(Constants.BALL_PORT,
-      () -> new BallDataPacket(), ballBuffer);
-  private final UDPReciever<LimelightDataPacket> m_limelightReciever = new UDPReciever<>(Constants.LIMELIGHT_PORT,
-      () -> new LimelightDataPacket(), limelightBuffer);
+    // public final static Drivetrain m_driveSubsystem = new Drivetrain();
+    private final GenericBuffer<BallDataPacket> ballBuffer = new GenericBuffer<>();
+    private final GenericBuffer<LimelightDataPacket> limelightBuffer = new GenericBuffer<>();
+    private final UDPReciever<BallDataPacket> m_BallReciever = new UDPReciever<>(Constants.BALL_PORT,
+            () -> new BallDataPacket(), ballBuffer);
+    private final UDPReciever<LimelightDataPacket> m_limelightReciever = new UDPReciever<>(Constants.LIMELIGHT_PORT,
+            () -> new LimelightDataPacket(), limelightBuffer);
 
-  private Limelight m_limelight = new Limelight();
-  private Shooter shoot = new Shooter();
-  private Index m_index = new Index();
-  private IntakeSubsystem m_intake = new IntakeSubsystem();
+    private Limelight m_limelight = new Limelight();
+    private Shooter shoot = new Shooter();
+    private Index m_index = new Index();
+    private IntakeSubsystem m_intake = new IntakeSubsystem();
 
-  // private ColorSensorSubsystem colorSensor = new ColorSensorSubsystem();
-  private IndexSubsystem index = new IndexSubsystem();
-  private CanalSubsystem canal = new CanalSubsystem();
+    // private ColorSensorSubsystem colorSensor = new ColorSensorSubsystem();
+    private IndexSubsystem index = new IndexSubsystem();
+    private CanalSubsystem canal = new CanalSubsystem();
 
-  private final Field2d field2d = new Field2d();
-  private Drivetrain drivetrain = new Drivetrain(field2d);
+    private final Field2d field2d = new Field2d();
+    private Drivetrain drivetrain = new Drivetrain(field2d);
 
-  private Joystick joystick = new Joystick(Constants.JOYSTICK_PORT);
-  private Joystick twiststick = new Joystick(Constants.TWISTSTICK_PORT);
+    private Joystick joystick = new Joystick(Constants.JOYSTICK_PORT);
+    private Joystick twiststick = new Joystick(Constants.TWISTSTICK_PORT);
 
-  JoystickButton aButton = new JoystickButton(joystick, 1);
-  JoystickButton bButton = new JoystickButton(joystick, 2);
-  JoystickButton xButton = new JoystickButton(joystick, 3);
-  JoystickButton yButton = new JoystickButton(joystick, 4);
-  JoystickButton leftShoulder = new JoystickButton(joystick, 5);
-  JoystickButton rightShoulder = new JoystickButton(joystick, 6);
-  JoystickButton backButton = new JoystickButton(joystick,7);
-  JoystickButton startButton = new JoystickButton(joystick, 8);
-  JoystickButton thumbLeft = new JoystickButton(joystick, 9);
-  JoystickButton thumbRight = new JoystickButton(joystick, 10);
+    JoystickButton aButton = new JoystickButton(joystick, 1);
+    JoystickButton bButton = new JoystickButton(joystick, 2);
+    JoystickButton xButton = new JoystickButton(joystick, 3);
+    JoystickButton yButton = new JoystickButton(joystick, 4);
+    JoystickButton leftShoulder = new JoystickButton(joystick, 5);
+    JoystickButton rightShoulder = new JoystickButton(joystick, 6);
+    JoystickButton backButton = new JoystickButton(joystick, 7);
+    JoystickButton startButton = new JoystickButton(joystick, 8);
+    JoystickButton thumbLeft = new JoystickButton(joystick, 9);
+    JoystickButton thumbRight = new JoystickButton(joystick, 10);
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
-  public RobotContainer() {
-    // Configure the button bindings
-    configureButtonBindings();
+    /**
+     * The container for the robot. Contains subsystems, OI devices, and commands.
+     */
+    public RobotContainer() {
+        // Configure the button bindings
+        configureButtonBindings();
 
-    // m_BallReciever.start();
-    // m_limelightReciever.start();
+        // m_BallReciever.start();
+        // m_limelightReciever.start();
 
-    // periodic getting
-    // separate function > getting string value
+        // periodic getting
+        // separate function > getting string value
 
-  }
+    }
 
-  /**
-   * Use this method to define your button->command mappings. Buttons can be
-   * created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
-   * it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  private void configureButtonBindings() {
-    drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> joystick.getRawAxis(Constants.LEFT_AXIS),
-        () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
-   // xButton.whenPressed(new zeroHeading(drivetrain));
-    thumbLeft.whenPressed(new PistonInCmd(m_intake));
-    thumbRight.whenPressed(new PistonOutCmd(m_intake));
-    // While a button is pressed, run autoshoot command
-    //aButton.whileHeld(new LimelightCommand(m_limelight, shoot, m_index));
-    // While b button is pressed, run autoaim command
-    //bButton.whileHeld(new Aim(m_limelight, drivetrain));
-    leftShoulder.whileHeld(new IntakeMotorTest(m_intake));
-    rightShoulder.whileHeld(new OuttakeMotorTest(m_intake));
-    startButton.whileHeld(new ShooterSpin(shoot, twiststick));
-    xButton.whileHeld(new teleopCanal(canal));
-    yButton.whileHeld(new teleopIndex(index));
-    backButton.whileHeld(new indexCanalOut(canal,index));
-  }
+    /**
+     * Use this method to define your button->command mappings. Buttons can be
+     * created by
+     * instantiating a {@link GenericHID} or one of its subclasses ({@link
+     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
+     * it to a {@link
+     * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+     */
+    private void configureButtonBindings() {
+        drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> joystick.getRawAxis(Constants.LEFT_AXIS),
+                () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
+        // xButton.whenPressed(new zeroHeading(drivetrain));
+        thumbLeft.whenPressed(new PistonInCmd(m_intake));
+        thumbRight.whenPressed(new PistonOutCmd(m_intake));
+        // While a button is pressed, run autoshoot command
+        backButton.whileHeld(new LimelightCommand(m_limelight, shoot, m_index));
+        // While b button is pressed, run autoaim command
+        startButton.whileHeld(new Aim(m_limelight, drivetrain));
 
-  public Command getAutonomousCommand() {
-    var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(Constants.ksVolts,
-        Constants.kvVoltSecondsPerMeter, Constants.kaVoltSecondsSquaredPerMeter), Constants.kDriveKinematics, 10);
+        rightShoulder.whileHeld(new OuttakeMotorTest(m_intake));
+        startButton.whileHeld(new ShooterSpin(shoot, twiststick));
+        xButton.whileHeld(new teleopCanal(canal));
+        yButton.whileHeld(new teleopIndex(index));
+        // aButton.whileHeld(new ShooterSpin(shoot, twiststick));
+        aButton.whileHeld(new ShooterRPMs(shoot));
+        bButton.whileHeld(new IntakeMotorTest(m_intake));
+        leftShoulder.whileHeld(new indexCanalOut(canal, index));
+    }
 
-    TrajectoryConfig config = new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
-        Constants.kMaxAccelerationMetersPerSecondSquared).setKinematics(Constants.kDriveKinematics)
-            .addConstraint(autoVoltageConstraint);
+    public Command getAutonomousCommand() {
+        var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(Constants.ksVolts,
+                Constants.kvVoltSecondsPerMeter, Constants.kaVoltSecondsSquaredPerMeter), Constants.kDriveKinematics,
+                10);
 
-    Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(2, 2, new Rotation2d(0)),
-        List.of(), new Pose2d(5, 2, new Rotation2d(0)), config);
+        TrajectoryConfig config = new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
+                Constants.kMaxAccelerationMetersPerSecondSquared).setKinematics(Constants.kDriveKinematics)
+                        .addConstraint(autoVoltageConstraint);
 
-    RamseteCommand ramseteCommand = new RamseteCommand(exampleTrajectory, drivetrain::getPose,
-        new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-        new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSecondsPerMeter,
-            Constants.kaVoltSecondsSquaredPerMeter),
-        Constants.kDriveKinematics, drivetrain::getWheelSpeeds,
-        new PIDController(Constants.kPDriveVel, 0, 0),
-        new PIDController(Constants.kPDriveVel, 0, 0),
-        drivetrain::tankDriveVolts, drivetrain);
+        Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(2, 2, new Rotation2d(0)),
+                List.of(), new Pose2d(5, 2, new Rotation2d(0)), config);
 
-    field2d.getObject("traj").setTrajectory(exampleTrajectory);
+        RamseteCommand ramseteCommand = new RamseteCommand(exampleTrajectory, drivetrain::getPose,
+                new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
+                new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSecondsPerMeter,
+                        Constants.kaVoltSecondsSquaredPerMeter),
+                Constants.kDriveKinematics, drivetrain::getWheelSpeeds,
+                new PIDController(Constants.kPDriveVel, 0, 0),
+                new PIDController(Constants.kPDriveVel, 0, 0),
+                drivetrain::tankDriveVolts, drivetrain);
 
-    drivetrain.zeroHeading();
-    drivetrain.setPosition(2, 2, new Rotation2d(0));
+        field2d.getObject("traj").setTrajectory(exampleTrajectory);
 
-    return ramseteCommand.andThen(() -> drivetrain.tankDriveVolts(0, 0));
-  }
+        drivetrain.zeroHeading();
+        drivetrain.setPosition(2, 2, new Rotation2d(0));
+
+        return ramseteCommand.andThen(() -> drivetrain.tankDriveVolts(0, 0));
+    }
 
 }
 

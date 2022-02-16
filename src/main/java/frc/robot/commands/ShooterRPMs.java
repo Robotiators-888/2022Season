@@ -5,18 +5,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.CanalSubsystem;
+import frc.robot.subsystems.Shooter;
 
-public class teleopCanal extends CommandBase {
-
-  private CanalSubsystem canal;
-  /** Creates a new teleopCanal. */
-  public teleopCanal(CanalSubsystem canalArgs) {
+public class ShooterRPMs extends CommandBase {
+  /** Creates a new ShooterRPMs. */
+  private Shooter shoot;
+  public ShooterRPMs( Shooter subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.canal = canalArgs;
-
-    addRequirements(canal);
+    this.shoot = subsystem;
+    addRequirements(shoot);
   }
 
   // Called when the command is initially scheduled.
@@ -26,15 +23,13 @@ public class teleopCanal extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    canal.setSpeedBack(-Constants.BELT_SPEED);
-    canal.setSpeedFront(-Constants.BELT_SPEED);
+    shoot.setRPM(-5274);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    canal.setSpeedFront(0);
-    canal.setSpeedBack(0);
+    shoot.setSpeed(0);
   }
 
   // Returns true when the command should end.
