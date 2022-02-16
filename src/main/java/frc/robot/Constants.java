@@ -34,7 +34,7 @@ public final class Constants {
     public static final int CLIMBER_LOCK_PORT_2 = 5;
     // Intake Can IDs
     public static final int MOTOR_ID = 13;
-    
+
     public static final int FRONT_CANAL_ID = 10;
     public static final int TOWER_INDEX_ID = 12;
     public static final int BACK_CANAL_ID = 11;
@@ -64,7 +64,7 @@ public final class Constants {
     // ---------------------------------- Auto Constants
     // ----------------------------------
 
-    //Auto Constants
+    // Auto Constants
     public static final double TRACKWIDTH = 35; // track width in inches
     public static final double WHEEL_RADIUS = 3; // wheel radius in inches
     public static final double GEARRATIO = 10.85; // number of rotations per one inch of movement
@@ -92,5 +92,5 @@ public final class Constants {
     public static final int FLYWHEEL_MOTOR_ID = 24;
 
     public static final double BELT_SPEED = 0.75;
-    
+
 }

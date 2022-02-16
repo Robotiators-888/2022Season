@@ -8,23 +8,24 @@ import frc.robot.subsystems.IndexSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.IndexSubsystem;
 
 public class teleopIndex extends CommandBase {
 
   private IndexSubsystem index;
+
   /** Creates a new teleopIndex. */
   public teleopIndex(IndexSubsystem indexArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     this.index = indexArgs;
-    
+
     addRequirements(index);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

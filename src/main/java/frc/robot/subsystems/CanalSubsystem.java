@@ -6,19 +6,13 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
-import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
-
-import frc.robot.Constants;
-
-
 /**
  * Manages the canal subsystem, runs the front and back belts.
  */
 public class CanalSubsystem extends SubsystemBase {
   /** Creates a new CanalSubsystem. */
-  public CanalSubsystem() {}
+  public CanalSubsystem() {
+  }
 
   @Override
   public void periodic() {

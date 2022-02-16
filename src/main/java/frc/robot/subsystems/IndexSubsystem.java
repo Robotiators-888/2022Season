@@ -12,25 +12,22 @@ import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import frc.robot.Constants;
 
 /**
- * Manages the indexing subsystem, moves indexing belts, and detects balls and ball color in the system.
+ * Manages the indexing subsystem, moves indexing belts, and detects balls and
+ * ball color in the system.
  */
 public class IndexSubsystem extends SubsystemBase {
 
-
   // Motors
-  
+
   private TalonSRX tower = new TalonSRX(Constants.TOWER_INDEX_ID);
-  
-  
+
   // Color sensor subsystem
-  //private ColorSensorSubsystem colorSensor;
-
-
+  // private ColorSensorSubsystem colorSensor;
 
   /** Creates a new ColorSensorSubsystem. */
   public IndexSubsystem() {
-    //ColorSensorSubsystem colorSensorArg
-    //this.colorSensor = colorSensorArg;
+    // ColorSensorSubsystem colorSensorArg
+    // this.colorSensor = colorSensorArg;
   }
 
   @Override
@@ -38,70 +35,72 @@ public class IndexSubsystem extends SubsystemBase {
 
   }
 
-
-
-  /** 
+  /**
    * Returns if a ball exists at a certain id
+   * 
    * @param id is either 1(top spot below shooter) or 2(balls to be stored below).
    * @return true if a ball is detected at the id, false if otherwise.
-   * */ 
+   */
   /*
-  public boolean getPosition(int id){
-    int newId = 0;
-    if (id==1){
-      // placeholder
-      newId = 0;
-    } else if (id==2){
-      // placeholder
-      newId = 1;
-    }
-
-    colorSensor.readSensor(newId);
-    return !(colorSensor.colorToString().equals("Unknown"));
-  }
-  /**
+   * public boolean getPosition(int id){
+   * int newId = 0;
+   * if (id==1){
+   * // placeholder
+   * newId = 0;
+   * } else if (id==2){
+   * // placeholder
+   * newId = 1;
+   * }
+   * 
+   * colorSensor.readSensor(newId);
+   * return !(colorSensor.colorToString().equals("Unknown"));
+   * }
+   * /**
    * Returns the color detected at a certain id
+   * 
    * @param id is either 1(top spot below shooter) or 2(balls to be stored below).
+   * 
    * @return the color in the form of a string, Red, Black, Blue, or Unknown.
    */
 
   /*
-  public String getColor(int id){
-    int newId = 0;
-    if (id==1){
-      // placeholder
-      newId = 0;
-    } else if (id==2){
-      // placeholder
-      newId = 1;
-    }
-    
-    colorSensor.readSensor(newId);
-    return colorSensor.colorToString();
-  }
-  */
+   * public String getColor(int id){
+   * int newId = 0;
+   * if (id==1){
+   * // placeholder
+   * newId = 0;
+   * } else if (id==2){
+   * // placeholder
+   * newId = 1;
+   * }
+   * 
+   * colorSensor.readSensor(newId);
+   * return colorSensor.colorToString();
+   * }
+   */
 
   /**
    * Sets the speed of the tower motor to a Constant speed
    */
-  public void feed(){
+  public void feed() {
     setSpeedTower(Constants.TOWER_BELT_SPEED);
   }
-  
+
   /**
    * Sets the speed of the tower motor to zero (stops the motor)
    */
-  public void stopFeed(){
+  public void stopFeed() {
     setSpeedTower(0);
   }
 
   /**
    * Sets the tower motor to a certain speed
+   * 
    * @param speed is how fast you want it to go in percentages
    */
-  public void setSpeedTower(double speed){
+  public void setSpeedTower(double speed) {
     // Top-most belt, move to get it into shooter
-    tower.set(TalonSRXControlMode.PercentOutput,speed);
+    tower.set(TalonSRXControlMode.PercentOutput, speed);
   }
 
 }

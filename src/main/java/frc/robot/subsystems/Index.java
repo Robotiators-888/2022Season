@@ -9,12 +9,13 @@ public class Index extends SubsystemBase {
     SparkMaxPIDController PID;
     CANSparkMax indexer;
 
-    public Index(){
+    public Index() {
 
         indexer = new CANSparkMax(Constants.BACK_CANAL_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
         PID = indexer.getPIDController();
 
     }
+
     public void setRPM(int rpm) {
         PID.setReference(rpm, CANSparkMax.ControlType.kVelocity);
     }

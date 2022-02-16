@@ -12,34 +12,35 @@ import frc.robot.subsystems.IndexSubsystem;
 public class indexCanalOut extends CommandBase {
   private CanalSubsystem canal;
   private IndexSubsystem index;
-  
+
   /** Creates a new canalOut. */
   public indexCanalOut(CanalSubsystem canalArgs, IndexSubsystem indexArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.canal = canalArgs;
     this.index = indexArgs;
-    
+
     addRequirements(canal);
     addRequirements(index);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     index.setSpeedTower(-Constants.BELT_SPEED);
-    canal.setSpeedBack(Constants.BELT_SPEED);
-    canal.setSpeedFront(Constants.BELT_SPEED);
+    // canal.setSpeedBack(Constants.BELT_SPEED);
+    // canal.setSpeedFront(Constants.BELT_SPEED);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    canal.setSpeedBack(0);
-    canal.setSpeedFront(0);
+    // canal.setSpeedBack(0);
+    // canal.setSpeedFront(0);
     index.setSpeedTower(0);
   }
 
