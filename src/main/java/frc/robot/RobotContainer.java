@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.teleopDrive;
 import frc.robot.commands.indexRun;
 import frc.robot.commands.zeroHeading;
@@ -129,6 +129,7 @@ public class RobotContainer {
 
         m_BallReciever.start();
         m_limelightReciever.start();
+        SmartDashboard.putData("chooser", chooser);
 
     }
 
