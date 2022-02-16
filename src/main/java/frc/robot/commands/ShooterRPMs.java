@@ -23,7 +23,7 @@ public class ShooterRPMs extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shoot.setRPM(-3824);
+    shoot.setRPM(-5274);
   }
 
   // Called once the command ends or is interrupted.
