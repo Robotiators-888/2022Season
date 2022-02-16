@@ -92,10 +92,7 @@ public final class Constants {
 
     public static final double BELT_SPEED = 0.75;
 
-<<<<<<< HEAD
-=======
     public static final int DIO_PORT_0 = 0;
     public static final int DIO_PORT_1 = 1;
     
->>>>>>> f3c6063 (Added banner sensor functionality)
 }
