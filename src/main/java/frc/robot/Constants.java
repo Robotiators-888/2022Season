@@ -91,5 +91,12 @@ public final class Constants {
     public static final int FLYWHEEL_MOTOR_ID = 24;
 
     public static final double BELT_SPEED = 0.75;
+
+    public static final double P_VALUE = 0.00015;
+    public static final double I_VALUE = 0;
+    public static final double D_VALUE = 0;
+    public static final double F_VALUE = 0.000018;
+
+
     
 }
