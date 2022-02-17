@@ -13,7 +13,7 @@ public class Shooter extends SubsystemBase {
     private int manualRPM = -2000;
 
     public Shooter() {
-        this.setPIDF(0.0004, 0.0, 0.0, 0.000288);
+        this.setPIDF(Constants.P_VALUE, Constants.I_VALUE, Constants.D_VALUE, Constants.F_VALUE);
 
     }
 
@@ -76,7 +76,7 @@ public class Shooter extends SubsystemBase {
      * @return int RPM to hit target
      */
     public int distRpm(double dist) {
-        return (int) (450 * (Math.sqrt(dist)));
+        return (int) (375 * (Math.sqrt(dist)));
 
     }
 
