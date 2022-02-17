@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -25,25 +26,13 @@ public class IntakeSubsystem extends SubsystemBase {
      * 
      * @returna boolean true if pistons are on, else false
      */
-    public boolean intakeGet() {
-        return (solenoid1.get().equals(DoubleSolenoid.Value.kForward));
+    public Value intakeGet() {
+        return (solenoid1.get());
     }
 
-    /**
-     * Sets the state of the intake pistons.
-     * 
-     * @param pistonState sets Pistons to on or off depending on the pistonState, if
-     *                    the intake is up, it will be false, if intake is down, it
-     *                    will be false
-     */
-    public void intakeSet(boolean pistonState) { // up false, down true
-        if (pistonState) {
-            solenoid1.set(DoubleSolenoid.Value.kForward);
-
-        } else {
-            solenoid1.set(DoubleSolenoid.Value.kReverse);
-
-        }
+   
+    public void pistonToggle() { 
+        solenoid1.toggle();
     }
 
     /**
