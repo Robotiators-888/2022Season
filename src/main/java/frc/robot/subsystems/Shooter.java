@@ -15,7 +15,7 @@ public class Shooter extends SubsystemBase {
     Joystick joystick = new Joystick(2);
 
     public Shooter() {
-        this.setPIDF(0.0004, 0.0, 0.0, 0.000288);
+        this.setPIDF(Constants.P_VALUE, Constants.I_VALUE, Constants.D_VALUE, Constants.F_VALUE);
 
     }
 
@@ -46,7 +46,7 @@ public class Shooter extends SubsystemBase {
      * @return
      */
     public int distRpm(double dist) {
-        return (int) (450 * (Math.sqrt(dist)));
+        return (int) (375 * (Math.sqrt(dist)));
 
     }
 
