@@ -97,4 +97,9 @@ public final class Constants {
     public static final int DIO_PORT_0 = 0;
     public static final int DIO_PORT_1 = 1;
     
+    public static final double P_VALUE = 0.00015;
+    public static final double I_VALUE = 0;
+    public static final double D_VALUE = 0;
+    public static final double F_VALUE = 0.000165;
+
 }
