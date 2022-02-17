@@ -40,9 +40,13 @@ public class Shooter extends SubsystemBase {
         PID.setFF(F);
 
     }
-
+    /**
+     * 
+     * @param dist
+     * @return
+     */
     public int distRpm(double dist) {
-        return (int) ((dist + 108) / 0.1);
+        return (int) (450 * (Math.sqrt(dist)));
 
     }
 
