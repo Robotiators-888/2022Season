@@ -42,7 +42,7 @@ public class LimelightCommand extends CommandBase {
       // If the difference between the actual and target rpms is less than 150, start
       // index
       if ((double) Math.abs(shoot.getRPM() - shoot.distRpm(m_limelight.getDistance())) <= 200) {
-        m_index.setSpeedTower(-0.5);
+        m_index.setSpeedTower(.05);
         // If requirements arent met at any time, set index and turret to 0
       }
     }
