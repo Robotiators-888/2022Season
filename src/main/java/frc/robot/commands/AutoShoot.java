@@ -3,6 +3,7 @@ package frc.robot.commands;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class LimelightCommand extends CommandBase {
@@ -54,7 +55,7 @@ public class LimelightCommand extends CommandBase {
   public void end(boolean interrupted) {
     m_limelight.setLed(1);
     m_index.setSpeedTower(0);
-    //shoot.setSpeed(0);
+    shoot.setSpeed(0);
   }
 
   // Returns true when the command should end.
