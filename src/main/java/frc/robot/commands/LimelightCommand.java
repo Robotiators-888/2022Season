@@ -3,6 +3,7 @@ package frc.robot.commands;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class LimelightCommand extends CommandBase {
@@ -34,6 +35,8 @@ public class LimelightCommand extends CommandBase {
   @Override
   public void execute() {
     m_limelight.setLed(0);
+    SmartDashboard.putBoolean("getTv", m_limelight.getTv());
+    SmartDashboard.putNumber("dist", m_limelight.getDistance());
 
     // If limelight has valid target and its within 50-270 inches, fire shooter
     if ((m_limelight.getTv() == true) && (m_limelight.getDistance() > 50) && (m_limelight.getDistance() < 270)) {
