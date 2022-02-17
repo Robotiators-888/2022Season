@@ -83,8 +83,8 @@ public class RobotContainer {
     JoystickButton yButton = new JoystickButton(joystick, 4);
     JoystickButton leftShoulder = new JoystickButton(joystick, 5);
     JoystickButton rightShoulder = new JoystickButton(joystick, 6);
-    JoystickButton startButton = new JoystickButton(joystick, 7);
-    JoystickButton backButton = new JoystickButton(joystick, 8);
+    JoystickButton backButton = new JoystickButton(joystick, 7);
+    JoystickButton startButton = new JoystickButton(joystick, 8);
     JoystickButton thumbLeft = new JoystickButton(joystick, 9);
     JoystickButton thumbRight = new JoystickButton(joystick, 10);
 
@@ -137,13 +137,13 @@ public class RobotContainer {
         thumbLeft.whenPressed(new PistonInCmd(m_intake));
         thumbRight.whenPressed(new PistonOutCmd(m_intake));
         // While a button is pressed, run autoshoot command
-        backButton.whileHeld(new LimelightCommand(m_limelight, shoot, index));
+        aButton.whileHeld(new LimelightCommand(m_limelight, shoot, index));
         // While b button is pressed, run autoaim command
         startButton.whileHeld(new Aim(m_limelight, drivetrain));
         leftShoulder.whileHeld(new IntakeMotorTest(m_intake));
         rightShoulder.whileHeld(new OuttakeMotorTest(m_intake));
         yButton.whileHeld(new teleopIndex(index));
-        aButton.whileHeld(new ShooterSpin(shoot, twiststick));
+        backButton.whileHeld(new ShooterSpin(shoot, twiststick));
         bButton.whileHeld(new IntakeMotorTest(m_intake));
 
     }
