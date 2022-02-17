@@ -31,7 +31,7 @@ public class Aim extends CommandBase{
       public void execute() {
       m_limelight.setLed(0);
       //Set motors to speed of .04 * Limelight x Value
-      drive.setMotors((0.04)*(m_limelight.getTx()),(-0.04)*(m_limelight.getTx()));
+      drive.setMotors((-0.04)*(m_limelight.getTx()),(0.04)*(m_limelight.getTx()));
       //Display motor speed on Dashboard
       SmartDashboard.putNumber("Speed", (0.04)*(m_limelight.getTx()));
       }
