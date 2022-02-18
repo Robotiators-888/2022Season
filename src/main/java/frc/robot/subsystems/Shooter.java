@@ -13,6 +13,7 @@ public class Shooter extends SubsystemBase {
     CANSparkMax flywheel = new CANSparkMax(Constants.FLYWHEEL_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
     SparkMaxPIDController PID = flywheel.getPIDController();
     Joystick joystick = new Joystick(2);
+    Joystick leftJoystick = new Joystick(1);
 
     public Shooter() {
         this.setPIDF(0.0004, 0.0, 0.0, 0.000288);

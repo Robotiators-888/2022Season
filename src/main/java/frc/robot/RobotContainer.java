@@ -76,6 +76,7 @@ public class RobotContainer {
     // Joystick objects
     private Joystick joystick = new Joystick(Constants.JOYSTICK_PORT);
     private Joystick twiststick = new Joystick(Constants.TWISTSTICK_PORT);
+    private Joystick leftJoystick = new Joystick(Constants.LEFTJOYSTICK_PORT);
 
     JoystickButton aButton = new JoystickButton(joystick, 1);
     JoystickButton bButton = new JoystickButton(joystick, 2);
@@ -87,6 +88,8 @@ public class RobotContainer {
     JoystickButton backButton = new JoystickButton(joystick, 8);
     JoystickButton thumbLeft = new JoystickButton(joystick, 9);
     JoystickButton thumbRight = new JoystickButton(joystick, 10);
+
+    JoystickButton button7 = new JoystickButton(leftJoystick, 7);
 
     // Auto objects
     SendableChooser<Command> chooser = new SendableChooser<>();
@@ -137,7 +140,7 @@ public class RobotContainer {
         thumbLeft.whenPressed(new PistonInCmd(m_intake));
         thumbRight.whenPressed(new PistonOutCmd(m_intake));
         // While a button is pressed, run autoshoot command
-        backButton.whileHeld(new LimelightCommand(m_limelight, shoot, index));
+       // backButton.whileHeld(new LimelightCommand(m_limelight, shoot, index));
         // While b button is pressed, run autoaim command
         startButton.whileHeld(new Aim(m_limelight, drivetrain));
         leftShoulder.whileHeld(new IntakeMotorTest(m_intake));
@@ -145,6 +148,9 @@ public class RobotContainer {
         yButton.whileHeld(new teleopIndex(index));
         aButton.whileHeld(new ShooterSpin(shoot, twiststick));
         bButton.whileHeld(new IntakeMotorTest(m_intake));
+        button7.toggleWhenPressed(command);
+
+
 
     }
 

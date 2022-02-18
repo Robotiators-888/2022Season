@@ -47,6 +47,7 @@ public final class Constants {
 
     // Joystick ports
     public static final int JOYSTICK_PORT = 0;
+    public static final int LEFTJOYSTICK_PORT = 1;
     public static final int TWISTSTICK_PORT = 2;
 
     // Joystick axis
