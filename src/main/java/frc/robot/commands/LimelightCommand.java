@@ -39,7 +39,7 @@ public class LimelightCommand extends CommandBase {
     // If limelight has valid target and its within 50-270 inches, fire shooter
     if ((m_limelight.getTv() == true) && (m_limelight.getDistance() > 0) && (m_limelight.getDistance() < 270)) {
       shoot.setRPM(-(shoot.distRpm(m_limelight.getDistance())));
-      SmartDashboard.putNumber("imcry", 425 * (Math.sqrt(m_limelight.getDistance())));
+      SmartDashboard.putNumber("imcry", 450 * (Math.sqrt(m_limelight.getDistance())));
       SmartDashboard.putNumber("hell", shoot.distRpm(m_limelight.getDistance()));
       // If the difference between the actual and target rpms is less than 150, start
       // index
