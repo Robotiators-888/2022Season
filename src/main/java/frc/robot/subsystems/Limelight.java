@@ -88,7 +88,7 @@ public class Limelight extends SubsystemBase {
   public double getDistance() {
     double h1 = 35.5;
     double h2 = 111;
-    double a1 = .369;
+    double a1 = 0.3665;
     double a2 = Math.toRadians(this.getTy());
 
     return (double) ((h2 - h1) / (Math.tan(a1 + a2)));

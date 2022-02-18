@@ -43,6 +43,7 @@ import frc.robot.commands.OuttakeMotorTest;
 import frc.robot.commands.IntakeMotorTest;
 import frc.robot.commands.PistonOutCmd;
 import frc.robot.commands.ShooterSpin;
+import frc.robot.commands.teleopCanal;
 import frc.robot.commands.PistonInCmd;
 
 /**
@@ -72,6 +73,7 @@ public class RobotContainer {
     private IntakeSubsystem m_intake = new IntakeSubsystem();
     private IndexSubsystem index = new IndexSubsystem();
     private Autonomous autoHelper = new Autonomous(drivetrain);
+    private CanalSubsystem canal = new CanalSubsystem();
 
     // Joystick objects
     private Joystick joystick = new Joystick(Constants.JOYSTICK_PORT);
@@ -133,7 +135,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
         drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> joystick.getRawAxis(Constants.LEFT_AXIS),
                 () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
-        xButton.whenPressed(new zeroHeading(drivetrain));
+       // xButton.whenPressed(new zeroHeading(drivetrain));
         thumbLeft.whenPressed(new PistonInCmd(m_intake));
         thumbRight.whenPressed(new PistonOutCmd(m_intake));
         // While a button is pressed, run autoshoot command
@@ -145,6 +147,7 @@ public class RobotContainer {
         yButton.whileHeld(new teleopIndex(index));
         backButton.whileHeld(new ShooterSpin(shoot, twiststick));
         bButton.whileHeld(new IntakeMotorTest(m_intake));
+        xButton.whileHeld(new teleopCanal(canal));
 
     }
 
