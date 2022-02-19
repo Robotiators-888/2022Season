@@ -17,14 +17,16 @@ import edu.wpi.first.wpilibj.XboxController;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import frc.robot.commands.teleopDrive;
 import frc.robot.commands.teleopIndex;
 import frc.robot.commands.zeroHeading;
-
+import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -39,6 +41,7 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.commands.IntakeSpin;
 import frc.robot.commands.ShooterSpin;
+import frc.robot.commands.teleopCanal;
 
 
 /**
@@ -68,10 +71,12 @@ public class RobotContainer {
     private IntakeSubsystem m_intake = new IntakeSubsystem();
     private IndexSubsystem index = new IndexSubsystem();
     private Autonomous autoHelper = new Autonomous(drivetrain);
+    private CanalSubsystem canal = new CanalSubsystem();
 
     // Joystick objects
     private Joystick joystick = new Joystick(Constants.JOYSTICK_PORT);
     private Joystick twiststick = new Joystick(Constants.TWISTSTICK_PORT);
+    private Joystick leftJoystick = new Joystick(Constants.LEFTJOYSTICK_PORT);
 
     JoystickButton aButton = new JoystickButton(joystick, 1);
     JoystickButton bButton = new JoystickButton(joystick, 2);
@@ -83,6 +88,8 @@ public class RobotContainer {
     JoystickButton backButton = new JoystickButton(joystick, 8);
     JoystickButton thumbLeft = new JoystickButton(joystick, 9);
     JoystickButton thumbRight = new JoystickButton(joystick, 10);
+
+    JoystickButton button7 = new JoystickButton(leftJoystick, 7);
 
     // Auto objects
     SendableChooser<Command> chooser = new SendableChooser<>();
@@ -129,17 +136,31 @@ public class RobotContainer {
     private void configureButtonBindings() {
         drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> joystick.getRawAxis(Constants.LEFT_AXIS),
                 () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
-        xButton.whenPressed(new zeroHeading(drivetrain));
-
+        //xButton.whenPressed(new zeroHeading(drivetrain));
         startButton.whileHeld(new Aim(m_limelight, drivetrain));
         yButton.whileHeld(new teleopIndex(index));
+        aButton.whileHeld(new ParallelCommandGroup(
+                                new ShooterSpin(shoot, twiststick, Constants.ShooterSpeed),
+                                new SequentialCommandGroup(
+                                        new WaitCommand(2),
+                                        new ParallelCommandGroup(
+                                                new teleopIndex(index), 
+                                                new teleopCanal(canal))
+                                )));
+
 
         //shooter controls
-        aButton.whileHeld(new ShooterSpin(shoot, twiststick));
 
         //intake Controls
         leftShoulder.whileHeld(new IntakeSpin(m_intake, 0.75));
+        rightShoulder.whileHeld(new IntakeSpin(m_intake, -0.75));
         bButton.whenPressed(new InstantCommand(() -> m_intake.pistonToggle()));
+        xButton.whileHeld(new teleopCanal(canal));
+        
+        //spins shooter backwards
+        button7.toggleWhenPressed(new ShooterSpin(shoot, twiststick, 0.50));
+
+
 
     }
 

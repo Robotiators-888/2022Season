@@ -47,6 +47,7 @@ public final class Constants {
 
     // Joystick ports
     public static final int JOYSTICK_PORT = 0;
+    public static final int LEFTJOYSTICK_PORT = 1;
     public static final int TWISTSTICK_PORT = 2;
 
     // Joystick axis
@@ -91,5 +92,6 @@ public final class Constants {
     public static final int FLYWHEEL_MOTOR_ID = 24;
 
     public static final double BELT_SPEED = 0.75;
+    public static final double ShooterSpeed = -0.15;
 
 }
