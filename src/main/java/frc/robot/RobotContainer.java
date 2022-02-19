@@ -213,6 +213,8 @@ public class RobotContainer {
                 // test banner sensor if it returns values
                 button12.whenPressed(new CanalToBottomCMD(canal, index)); 
         }
+                                
+
 
     public Command getAutonomousCommand() {
         return chooser.getSelected();
