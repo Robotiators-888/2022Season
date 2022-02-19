@@ -16,7 +16,7 @@ public class UDPReciever<T extends DataPacket> extends Thread {
     DatagramPacket dat1;
     byte[] receiveData1 = new byte[20];
     final Supplier<T> dataPacketConstructor;
-    GenericBuffer buf;
+    GenericBuffer<T> buf;
 
     /**
      * Creates the ojects required to recieve data
@@ -34,9 +34,7 @@ public class UDPReciever<T extends DataPacket> extends Thread {
         try {
             socket1 = new DatagramSocket(port);
             dat1 = new DatagramPacket(receiveData1, receiveData1.length);
-        } catch (SocketException e) {
-        }
-
+        } catch (SocketException e) {}
     }
 
     /**
@@ -44,19 +42,12 @@ public class UDPReciever<T extends DataPacket> extends Thread {
      */
     @Override
     public void run() {
-        byte[] buffer = new byte[20];
         // Receives data from the port 8888. Check CommsBuffer for what happens
         do {
             try {
-
                 socket1.receive(dat1);
-                buffer = dat1.getData();
-
                 buf.addData(dataPacketConstructor.get().fromBytes(dat1.getData()));
-
-            } catch (IOException e) {
-
-            }
+            } catch (IOException e) {}
         } while (true);
     }
 }
