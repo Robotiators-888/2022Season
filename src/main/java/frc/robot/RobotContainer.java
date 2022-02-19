@@ -36,12 +36,15 @@ import frc.robot.UDP.LimelightDataPacket;
 import frc.robot.UDP.UDPReciever;
 import frc.robot.commands.Aim;
 import frc.robot.subsystems.IndexSubsystem;
+import frc.robot.subsystems.CanalSubsystem;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.commands.IntakeSpin;
 import frc.robot.commands.ShooterSpin;
 import frc.robot.commands.teleopCanal;
+import frc.robot.commands.teleopClimber;
 
 
 /**
@@ -67,7 +70,8 @@ public class RobotContainer {
     // subsystems
     private Limelight m_limelight = new Limelight();
     private Shooter shoot = new Shooter();
-    private Drivetrain drivetrain = new Drivetrain(field2d);
+    private Climber climber = new Climber();
+        private Drivetrain drivetrain = new Drivetrain(field2d);
     private IntakeSubsystem m_intake = new IntakeSubsystem();
     private IndexSubsystem index = new IndexSubsystem();
     private Autonomous autoHelper = new Autonomous(drivetrain);
@@ -161,6 +165,9 @@ public class RobotContainer {
         button7.toggleWhenPressed(new ShooterSpin(shoot, twiststick, 0.50));
 
 
+
+        climber.setDefaultCommand(new teleopClimber(climber, () -> joystick.getRawAxis(3), false));
+        climber.setDefaultCommand(new teleopClimber(climber, () -> joystick.getRawAxis(2), true));
 
     }
 
