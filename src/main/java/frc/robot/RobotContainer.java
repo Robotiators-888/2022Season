@@ -15,7 +15,7 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -105,6 +105,7 @@ public class RobotContainer {
             Constants.kMaxAccelerationMetersPerSecondSquared).setKinematics(Constants.kDriveKinematics);
     Trajectory ballin1 = autoHelper.getTrajectory("paths/test2balll.wpilib.json");
     Trajectory ballin2 = autoHelper.getTrajectory("paths/test2balll_0.wpilib.json");
+    Trajectory onePath = autoHelper.getTrajectory("paths/onepathwonder.wpilib.json");
     Trajectory Str8 = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)),
             List.of(new Translation2d(1, 0)), new Pose2d(2, 0, new Rotation2d(0)), config);
 
@@ -118,17 +119,22 @@ public class RobotContainer {
             autoHelper.getRamset(ballin1),
             autoHelper.getRamset(ballin2).andThen(() -> drivetrain.tankDriveVolts(0, 0)));
 
+Command onePathWonder = new SequentialCommandGroup(
+            new InstantCommand(() -> drivetrain.setPosition(onePath.getInitialPose())),
+            autoHelper.getRamset(onePath).andThen(() -> drivetrain.tankDriveVolts(0, 0)));
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
         // Configure the button bindings
+        LiveWindow.disableAllTelemetry();
         configureButtonBindings();
         
         field2d.getObject("traj").setTrajectory(Str8);
 
         chooser.setDefaultOption("Simple Auto", straightAuto);
         chooser.addOption("Complex Auto", pwtest);
+        chooser.addOption("one Path Wonder", onePathWonder);
 
         m_BallReciever.start();
         m_limelightReciever.start();
