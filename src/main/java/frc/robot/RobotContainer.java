@@ -39,9 +39,7 @@ import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.commands.OuttakeMotorTest;
 import frc.robot.commands.teleopIntake;
-import frc.robot.commands.teleopPistonToggle;
 import frc.robot.commands.ShooterSpin;
 
 
@@ -134,16 +132,13 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> joystick.getRawAxis(Constants.LEFT_AXIS),
                 () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
         xButton.whenPressed(new zeroHeading(drivetrain));
-        thumbLeft.whenPressed(new teleopPistonToggle(m_intake));
-        // While a button is pressed, run autoshoot command
-        //backButton.whileHeld(new LimelightCommand(m_limelight, shoot, index));
-        // While b button is pressed, run autoaim command
+
         startButton.whileHeld(new Aim(m_limelight, drivetrain));
         leftShoulder.whileHeld(new teleopIntake(m_intake));
-        rightShoulder.whileHeld(new OuttakeMotorTest(m_intake));
+ 
         yButton.whileHeld(new teleopIndex(index));
         aButton.whileHeld(new ShooterSpin(shoot, twiststick));
-        bButton.whileHeld(new teleopIntake(m_intake));
+        bButton.whileHeld(new InstantCommand(() -> m_intake.pistonToggle()));
 
     }
 
