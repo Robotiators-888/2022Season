@@ -28,7 +28,10 @@ public class OrganizeIndexCMD extends CommandBase {
   @Override
   public void execute() {
     if ( !(index.getPosition(1)) && index.getPosition(2) ){
+<<<<<<< HEAD
       isDone = false;
+=======
+>>>>>>> 63b7852 (Fixed previous index organization and index stop)
       index.setSpeedTower(0.75);
     } else {
       isDone = true;

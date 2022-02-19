@@ -31,6 +31,7 @@ public class teleopIndex extends CommandBase {
   public void execute() {
     if (!(index.getPosition(1))){
 <<<<<<< HEAD
+<<<<<<< HEAD
       index.setSpeedTower(Constants.BELT_SPEED);
     } else {
       isDone = true;
@@ -38,10 +39,17 @@ public class teleopIndex extends CommandBase {
 
 =======
     index.setSpeedTower(Constants.BELT_SPEED);
+=======
+      index.setSpeedTower(Constants.BELT_SPEED);
+>>>>>>> 63b7852 (Fixed previous index organization and index stop)
     } else {
-      System.out.println("Not moving belt, already a ball up top");
+      isDone = true;
     }
+<<<<<<< HEAD
 >>>>>>> e77ce0b (Added index organization command + stopping index at shooter)
+=======
+
+>>>>>>> 63b7852 (Fixed previous index organization and index stop)
   }
 
   // Called once the command ends or is interrupted.
