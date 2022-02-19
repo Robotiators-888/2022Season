@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.IndexSubsystem;
 
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 
@@ -13,6 +14,7 @@ public class teleopIndex extends CommandBase {
 
   private IndexSubsystem index;
   private boolean isDone = false;
+  
   /** Creates a new teleopIndex. */
   public teleopIndex(IndexSubsystem indexArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -29,7 +31,9 @@ public class teleopIndex extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!(index.getPosition(1))){
+  
+    if (!(index.getBallPosition(1))){
+      isDone = false;
       index.setSpeedTower(Constants.BELT_SPEED);
     } else {
       isDone = true;
