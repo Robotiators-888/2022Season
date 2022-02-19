@@ -30,6 +30,7 @@ import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.UDP.BallDataPacket;
 import frc.robot.UDP.GenericBuffer;
 import frc.robot.UDP.LimelightDataPacket;
@@ -90,6 +91,10 @@ public class RobotContainer {
     JoystickButton startButton = new JoystickButton(joystick, 8);
     JoystickButton thumbLeft = new JoystickButton(joystick, 9);
     JoystickButton thumbRight = new JoystickButton(joystick, 10);
+
+    POVButton dPadUp = new POVButton(joystick, 0);
+    POVButton dPadDown = new POVButton(joystick, 180);
+
 
     JoystickButton button7 = new JoystickButton(leftJoystick, 7);
 
@@ -169,6 +174,9 @@ public class RobotContainer {
         yButton.whileHeld(new ParallelCommandGroup(new indexRun(index,Constants.BELT_SPEED), new canalRun(canal,-Constants.BELT_SPEED)));
         xButton.whileHeld(new ParallelCommandGroup(new indexRun(index,-Constants.BELT_SPEED), new canalRun(canal,Constants.BELT_SPEED)));
         //xButton.whileHeld (new OrganizeIndexCMD(index));
+
+        dPadUp.whileHeld(new ParallelCommandGroup(new canalRun(canal,-Constants.BELT_SPEED),new IntakeSpin(m_intake, 0.75)));
+        dPadDown.whileHeld(new ParallelCommandGroup(new canalRun(canal,Constants.BELT_SPEED),new IntakeSpin(m_intake, -0.75)));
 }
 
     public Command getAutonomousCommand() {
