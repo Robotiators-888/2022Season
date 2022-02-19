@@ -139,7 +139,7 @@ public class RobotContainer {
 
         //intake Controls
         leftShoulder.whileHeld(new IntakeSpin(m_intake, 0.75));
-        bButton.whileHeld(new InstantCommand(() -> m_intake.pistonToggle()));
+        bButton.whenPressed(new InstantCommand(() -> m_intake.pistonToggle()));
 
     }
 
