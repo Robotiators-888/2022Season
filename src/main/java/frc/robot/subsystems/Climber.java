@@ -4,23 +4,24 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.revrobotics.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class Climber extends SubsystemBase {
   /** Creates a new Climber. */
-  static TalonSRX climberMotor;
+  static CANSparkMax climberMotor;
   static DoubleSolenoid cSolenoid;
   static boolean pistonExtended = false;
 
   public Climber() {
-    climberMotor = new TalonSRX(Constants.CLIMBER_MOTOR_ID);
+    climberMotor = new CANSparkMax(Constants.CLIMBER_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushed);
     cSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 1);
   }
 
@@ -36,20 +37,14 @@ public class Climber extends SubsystemBase {
    * @param speed Can set either a pos or neg speed for the climber arms
    */
   public static void speedSet(double speed) {
-    climberMotor.set(TalonSRXControlMode.PercentOutput, speed);
+    climberMotor.set(speed);
   }
 
   /**
    * Toggle lock and unlock of the climber
    */
-  public static void toggleLockSet() {
-    if (!(lockGetPos(pistonExtended))) {
-      cSolenoid.set(Value.kForward);
-      pistonExtended = true;
-    } else {
-      cSolenoid.set(Value.kReverse);
-      pistonExtended = false;
-    }
+  public void climberLock(){
+    cSolenoid.toggle();
   }
 
   /**
@@ -58,9 +53,10 @@ public class Climber extends SubsystemBase {
    * @param isPistonExtended same value as pistonExtended
    * @return The state of the piston
    */
-  public static boolean lockGetPos(boolean isPistonExtended) {
-    
-    return (isPistonExtended);
+  
+    public Value lockGet() {
+      return (cSolenoid.get());
+  
   }
 
 }
