@@ -92,7 +92,10 @@ public final class Constants {
     public static final int FLYWHEEL_MOTOR_ID = 24;
 
     public static final double BELT_SPEED = 0.75;
+<<<<<<< HEAD
     public static final double ShooterSpeed = -0.15;
+=======
+>>>>>>> f3c6063 (Added banner sensor functionality)
 
     public static final int DIO_PORT_0 = 0;
     public static final int DIO_PORT_1 = 1;
