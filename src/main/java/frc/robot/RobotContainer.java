@@ -30,6 +30,7 @@ import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.UDP.BallDataPacket;
 import frc.robot.UDP.GenericBuffer;
 import frc.robot.UDP.LimelightDataPacket;
@@ -95,6 +96,8 @@ public class RobotContainer {
 
     JoystickButton button7 = new JoystickButton(leftJoystick, 7);
 
+    POVButton DpadUp = new POVButton(joystick, 0);
+    POVButton DpadDown = new POVButton(joystick, 180);
     // Auto objects
     SendableChooser<Command> chooser = new SendableChooser<>();
     TrajectoryConfig config = new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
