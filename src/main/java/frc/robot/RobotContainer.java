@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import frc.robot.commands.teleopDrive;
-import frc.robot.commands.teleopIndex;
+import frc.robot.commands.indexRun;
 import frc.robot.commands.zeroHeading;
 
 import frc.robot.subsystems.Drivetrain;
@@ -43,8 +43,12 @@ import frc.robot.commands.OuttakeMotorTest;
 import frc.robot.commands.IntakeMotorTest;
 import frc.robot.commands.PistonOutCmd;
 import frc.robot.commands.ShooterSpin;
+import frc.robot.commands.canalRun;
 import frc.robot.commands.PistonInCmd;
+import frc.robot.commands.OrganizeIndexCMD;
 
+
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -72,6 +76,7 @@ public class RobotContainer {
     private IntakeSubsystem m_intake = new IntakeSubsystem();
     private IndexSubsystem index = new IndexSubsystem();
     private Autonomous autoHelper = new Autonomous(drivetrain);
+    private CanalSubsystem canal = new CanalSubsystem();
 
     // Joystick objects
     private Joystick joystick = new Joystick(Constants.JOYSTICK_PORT);
@@ -83,8 +88,8 @@ public class RobotContainer {
     JoystickButton yButton = new JoystickButton(joystick, 4);
     JoystickButton leftShoulder = new JoystickButton(joystick, 5);
     JoystickButton rightShoulder = new JoystickButton(joystick, 6);
-    JoystickButton startButton = new JoystickButton(joystick, 7);
-    JoystickButton backButton = new JoystickButton(joystick, 8);
+    JoystickButton backButton = new JoystickButton(joystick, 7);
+    JoystickButton startButton = new JoystickButton(joystick, 8);
     JoystickButton thumbLeft = new JoystickButton(joystick, 9);
     JoystickButton thumbRight = new JoystickButton(joystick, 10);
 
@@ -133,20 +138,23 @@ public class RobotContainer {
     private void configureButtonBindings() {
         drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> joystick.getRawAxis(Constants.LEFT_AXIS),
                 () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
-        xButton.whenPressed(new zeroHeading(drivetrain));
+       // xButton.whenPressed(new zeroHeading(drivetrain));
         thumbLeft.whenPressed(new PistonInCmd(m_intake));
         thumbRight.whenPressed(new PistonOutCmd(m_intake));
         // While a button is pressed, run autoshoot command
-        backButton.whileHeld(new LimelightCommand(m_limelight, shoot, index));
+        aButton.whileHeld(new LimelightCommand(m_limelight, shoot, index));
         // While b button is pressed, run autoaim command
         startButton.whileHeld(new Aim(m_limelight, drivetrain));
         leftShoulder.whileHeld(new IntakeMotorTest(m_intake));
         rightShoulder.whileHeld(new OuttakeMotorTest(m_intake));
-        yButton.whileHeld(new teleopIndex(index));
-        aButton.whileHeld(new ShooterSpin(shoot, twiststick));
-        //bButton.whileHeld(new IntakeMotorTest(m_intake));
-
-    }
+        
+      
+        backButton.whileHeld(new ShooterSpin(shoot, twiststick));
+        bButton.whileHeld(new IntakeMotorTest(m_intake));
+        yButton.whileHeld(new ParallelCommandGroup(new indexRun(index,Constants.BELT_SPEED), new canalRun(canal,-Constants.BELT_SPEED)));
+        xButton.whileHeld(new ParallelCommandGroup(new indexRun(index,-Constants.BELT_SPEED), new canalRun(canal,Constants.BELT_SPEED)));
+        //xButton.whileHeld (new OrganizeIndexCMD(index));
+}
 
     public Command getAutonomousCommand() {
         return chooser.getSelected();
