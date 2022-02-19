@@ -73,10 +73,10 @@ public final class Constants {
 
     // The Robot Characterization tool will help in obtaining
     // https://docs.wpilib.org/en/stable/docs/software/pathplanning/robot-characterization/index.html
-    public static final double ksVolts = 0.16;
-    public static final double kvVoltSecondsPerMeter = 0.13;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.02;
-    public static final double kPDriveVel = 1.3;
+    public static final double ksVolts = 0.15431;
+    public static final double kvVoltSecondsPerMeter = 1.9189;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.28843;
+    public static final double kPDriveVel = 2.5217;
 
     public static final double kMaxSpeedMetersPerSecond = 1;
     public static final double kMaxAccelerationMetersPerSecondSquared = 1;
