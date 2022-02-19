@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -117,9 +118,9 @@ public class RobotContainer {
             autoHelper.getRamset(ballin1),
             autoHelper.getRamset(ballin2).andThen(() -> drivetrain.tankDriveVolts(0, 0)));
 
-Command onePathWonder = new SequentialCommandGroup(
+Command onePathWonder = new SequentialCommandGroup(new ParallelRaceGroup(new IntakeSpin(m_intake, -0.75), new SequentialCommandGroup(
             new InstantCommand(() -> drivetrain.setPosition(onePath.getInitialPose())),
-            autoHelper.getRamset(onePath).andThen(() -> drivetrain.tankDriveVolts(0, 0)));
+            autoHelper.getRamset(onePath).andThen(() -> drivetrain.tankDriveVolts(0, 0)))), new ShooterSpin(shoot, 0.50));
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -154,7 +155,7 @@ Command onePathWonder = new SequentialCommandGroup(
         //xButton.whenPressed(new zeroHeading(drivetrain));
         startButton.whileHeld(new Aim(m_limelight, drivetrain));
         aButton.whileHeld(new ParallelCommandGroup(
-                                new ShooterSpin(shoot, twiststick, Constants.ShooterSpeed),
+                                new ShooterSpin(shoot, Constants.ShooterSpeed),
                                 new SequentialCommandGroup(
                                         new WaitCommand(2),
                                         new ParallelCommandGroup(
@@ -172,7 +173,7 @@ Command onePathWonder = new SequentialCommandGroup(
        
         
         //spins shooter backwards
-        button7.toggleWhenPressed(new ShooterSpin(shoot, twiststick, 0.50));
+        button7.toggleWhenPressed(new ShooterSpin(shoot, 0.50));
 
 
         //aButton.whileHeld(new ShooterSpin(shoot, twiststick));
