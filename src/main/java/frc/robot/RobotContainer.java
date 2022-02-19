@@ -41,11 +41,9 @@ import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.commands.OuttakeMotorTest;
-import frc.robot.commands.IntakeMotorTest;
-import frc.robot.commands.PistonOutCmd;
-import frc.robot.commands.PistonInCmd;
-
+import frc.robot.commands.IntakeSpin;
+import frc.robot.commands.ShooterSpin;
+import frc.robot.commands.canalRun;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 /**
