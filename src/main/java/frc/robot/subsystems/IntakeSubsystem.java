@@ -15,31 +15,40 @@ import frc.robot.Constants;
  * motor speed in percent and set pistons to on or off
  */
 public class IntakeSubsystem extends SubsystemBase {
-    // PS: SillyPandaDog is also Jokorie
-    // Initialize Intake Motors
     TalonSRX Intake = new TalonSRX(Constants.MOTOR_ID);
+    DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 2, 3);
 
-    // take double parameter as the percentage of power given to each motor
-    DoubleSolenoid solenoid1 = new DoubleSolenoid(PneumaticsModuleType.REVPH, 2, 3);
     /**
      * Gets the status of the intake pistons.
      * 
      * @returna boolean true if pistons are on, else false
      */
     public Value intakeGet() {
-        return (solenoid1.get());
+        return (solenoid.get());
     }
 
-   
-    public void pistonToggle() { 
-        solenoid1.toggle();
+    /**
+     * Toggles piston to the opposite position that it currently is in
+     */
+    public void pistonToggle() {
+        solenoid.toggle();
+    }
+
+    /**
+     * sets the position of the intake. (true is extended and false is retracted)
+     */
+    public void pistonSet(boolean position){
+        if(position){
+            solenoid.set(Value.kForward);
+        }else{
+            solenoid.set(Value.kReverse);
+        }
     }
 
     /**
      * Gets the percent output speed of the intake motor.
      * 
-     * @return the power of the motor control in percent, from -1 to 1 or -100% to
-     *         100%
+     * @return the power of the motor control in percent, from -1 to 1
      */
     public double intakeSpeedGet() {
         return Intake.getMotorOutputPercent();
@@ -53,7 +62,6 @@ public class IntakeSubsystem extends SubsystemBase {
      *                     the motor power in percent, or from -100% to 100%
      */
     public void intakeSpeedSet(double percentSpeed) {
-
         Intake.set(TalonSRXControlMode.PercentOutput, percentSpeed);
     }
 
