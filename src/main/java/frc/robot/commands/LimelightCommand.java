@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -8,15 +9,14 @@ public class LimelightCommand extends CommandBase {
  
   Limelight m_limelight;
   Shooter shoot;
-  //Index m_index;
+  IndexSubsystem m_index;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  /*
-  public LimelightCommand(Limelight subsystem, Shooter shoot, Index m_index) {
+  public LimelightCommand(Limelight subsystem, Shooter shoot, IndexSubsystem m_index) {
     this.m_limelight = subsystem;
     this.shoot = shoot;
     this.m_index = m_index;
@@ -42,7 +42,7 @@ public class LimelightCommand extends CommandBase {
       // If the difference between the actual and target rpms is less than 150, start
       // index
       if ((double) Math.abs(shoot.getRPM() - shoot.distRpm(m_limelight.getDistance())) <= 200) {
-        m_index.setSpeed(-0.5);
+        m_index.setSpeedTower(-0.5);
         // If requirements arent met at any time, set index and turret to 0
       }
     }
@@ -52,7 +52,7 @@ public class LimelightCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_limelight.setLed(1);
-    m_index.setSpeed(0);
+    m_index.setSpeedTower(0);
     shoot.setSpeed(0);
   }
 
@@ -61,5 +61,5 @@ public class LimelightCommand extends CommandBase {
   public boolean isFinished() {
     return false;
   }
- */
+ 
 }
