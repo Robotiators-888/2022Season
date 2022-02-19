@@ -156,7 +156,8 @@ public class RobotContainer {
         rightShoulder.whileHeld(new IntakeSpin(m_intake, -0.75));
         bButton.whenPressed(new InstantCommand(() -> m_intake.pistonToggle()));
         xButton.whileHeld(new teleopCanal(canal));
-
+        
+        //spins shooter backwards
         button7.toggleWhenPressed(new ShooterSpin(shoot, twiststick, 0.50));
 
 
