@@ -216,6 +216,8 @@ public class RobotContainer {
         climber.setDefaultCommand(new teleopClimber(climber, () -> joystick.getRawAxis(3), false));
         climber.setDefaultCommand(new teleopClimber(climber, () -> joystick.getRawAxis(2), true));
         }
+                                
+
 
     public Command getAutonomousCommand() {
         return chooser.getSelected();
