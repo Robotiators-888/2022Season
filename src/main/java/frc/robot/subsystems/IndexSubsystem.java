@@ -22,15 +22,10 @@ public class IndexSubsystem extends SubsystemBase {
   // Motors
   
   private TalonSRX tower = new TalonSRX(Constants.TOWER_INDEX_ID);
-<<<<<<< HEAD
-=======
 
   private BannerSensorSubsystem bannerSensorControl= new BannerSensorSubsystem();
   
-  
->>>>>>> f3c6063 (Added banner sensor functionality)
 
-  private BannerSensorSubsystem bannerSensorControl= new BannerSensorSubsystem();
 
 
   // Color sensor subsystem
@@ -81,16 +76,8 @@ public class IndexSubsystem extends SubsystemBase {
   public void setSpeedTower(double speed) {
     // Top-most belt, move to get it into shooter
 
-<<<<<<< HEAD
       tower.set(TalonSRXControlMode.PercentOutput,speed);
 
-=======
-    if (!(getPosition(1))){
-      tower.set(TalonSRXControlMode.PercentOutput,speed);
-    } else {
-      System.out.println("Ball detected! Please shoot!");
-    }
->>>>>>> e77ce0b (Added index organization command + stopping index at shooter)
   }
 
 }
