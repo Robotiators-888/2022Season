@@ -30,7 +30,7 @@ public class GenericBuffer<T extends DataPacket> {
      * @return Depending on the type either Limelight packet length or Ball Tracker
      *         data length
      */
-    public synchronized T getData() {
+    @SuppressWarnings("unchecked") synchronized T getData() {
         return (T) buffer.get(buffer.size() - 1);
     }
 }
