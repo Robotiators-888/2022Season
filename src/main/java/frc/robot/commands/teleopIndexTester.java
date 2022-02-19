@@ -5,35 +5,28 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.subsystems.IndexSubsystem;
 
-public class OrganizeIndexCMD extends CommandBase {
-  private IndexSubsystem index;
-  private boolean isDone = false;
-  /** Creates a new OrganizeIndexCMD. */
-  public OrganizeIndexCMD(IndexSubsystem indexArgs) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    this.index = indexArgs;
+public class teleopIndexTester extends CommandBase {
 
+  private IndexSubsystem index;
+  /** Creates a new teleopIndexTester. */
+  public teleopIndexTester(IndexSubsystem indexArgs) {
+
+    this.index = indexArgs;
+    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(index);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if ( !(index.getBallPosition(1)) && index.getBallPosition(2) ){
-      isDone = false;
-      index.setSpeedTower(0.75);
-    } else {
-      isDone = true;
-    }
-
+    index.setSpeedTower(0.75);
   }
 
   // Called once the command ends or is interrupted.
@@ -45,6 +38,6 @@ public class OrganizeIndexCMD extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return isDone;
+    return false;
   }
 }
