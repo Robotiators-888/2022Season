@@ -146,9 +146,10 @@ public class RobotContainer {
         leftShoulder.whileHeld(new IntakeMotorTest(m_intake));
         rightShoulder.whileHeld(new OuttakeMotorTest(m_intake));
         yButton.whileHeld(new teleopIndex(index));
-        aButton.whileHeld(new ShooterSpin(shoot, twiststick));
+        aButton.whileHeld(new ShooterSpin(shoot, twiststick, -0.75));
         bButton.whileHeld(new IntakeMotorTest(m_intake));
-        button7.toggleWhenPressed(command);
+
+        button7.toggleWhenPressed(new ShooterSpin(shoot, twiststick, 0.50));
 
 
 

@@ -13,11 +13,13 @@ public class ShooterSpin extends CommandBase {
   /** Creates a new ShooterSpin. */
   private Shooter shoot;
   private Joystick joystick;
+  private double shootSpeed;
 
-  public ShooterSpin(Shooter subsystem, Joystick joystick) {
+  public ShooterSpin(Shooter subsystem, Joystick joystick, double shooterSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.shoot = subsystem;
     this.joystick = joystick;
+    this.shootSpeed = shooterSpeed;
     addRequirements(shoot);
   }
 
@@ -30,7 +32,7 @@ public class ShooterSpin extends CommandBase {
   @Override
   public void execute() {
 
-    shoot.setSpeed(-(1 - joystick.getRawAxis(3)) / 2);
+    shoot.setSpeed(shootSpeed);
   }
 
   // Called once the command ends or is interrupted.
