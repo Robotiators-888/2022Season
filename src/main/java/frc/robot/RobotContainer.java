@@ -133,29 +133,16 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> joystick.getRawAxis(Constants.LEFT_AXIS),
                 () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
         xButton.whenPressed(new zeroHeading(drivetrain));
-<<<<<<< HEAD
-        thumbLeft.whenPressed(new PistonInCmd(m_intake));
-        thumbRight.whenPressed(new PistonOutCmd(m_intake));
-        // While a button is pressed, run autoshoot command
-       // backButton.whileHeld(new LimelightCommand(m_limelight, shoot, index));
-        // While b button is pressed, run autoaim command
-=======
-
->>>>>>> main
         startButton.whileHeld(new Aim(m_limelight, drivetrain));
         yButton.whileHeld(new teleopIndex(index));
-<<<<<<< HEAD
         aButton.whileHeld(new ShooterSpin(shoot, twiststick, -0.75));
-        bButton.whileHeld(new IntakeMotorTest(m_intake));
-=======
+
 
         //shooter controls
-        aButton.whileHeld(new ShooterSpin(shoot, twiststick));
 
         //intake Controls
         leftShoulder.whileHeld(new IntakeSpin(m_intake, 0.75));
         bButton.whenPressed(new InstantCommand(() -> m_intake.pistonToggle()));
->>>>>>> main
 
         button7.toggleWhenPressed(new ShooterSpin(shoot, twiststick, 0.50));
 
