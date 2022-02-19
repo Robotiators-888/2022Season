@@ -140,10 +140,12 @@ public class RobotContainer {
         startButton.whileHeld(new Aim(m_limelight, drivetrain));
         yButton.whileHeld(new teleopIndex(index));
         aButton.whileHeld(new ParallelCommandGroup(
-                                new ShooterSpin(shoot, twiststick, -0.75),
+                                new ShooterSpin(shoot, twiststick, Constants.ShooterSpeed),
                                 new SequentialCommandGroup(
                                         new WaitCommand(2),
-                                        new teleopIndex(index)
+                                        new ParallelCommandGroup(
+                                                new teleopIndex(index), 
+                                                new teleopCanal(canal))
                                 )));
 
 
