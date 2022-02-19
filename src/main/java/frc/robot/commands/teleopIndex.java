@@ -29,6 +29,7 @@ public class teleopIndex extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+<<<<<<< HEAD
     if (!(index.getBallPosition(1))){
       isDone = false;
       index.setSpeedTower(Constants.BELT_SPEED);
@@ -36,6 +37,13 @@ public class teleopIndex extends CommandBase {
       isDone = true;
     }
 
+=======
+    if (!(index.getPosition(1))){
+    index.setSpeedTower(Constants.BELT_SPEED);
+    } else {
+      System.out.println("Not moving belt, already a ball up top");
+    }
+>>>>>>> e77ce0b (Added index organization command + stopping index at shooter)
   }
 
   // Called once the command ends or is interrupted.
