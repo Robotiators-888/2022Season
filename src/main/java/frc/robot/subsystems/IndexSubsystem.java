@@ -10,6 +10,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 
 import frc.robot.subsystems.BannerSensorSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 import frc.robot.Constants;
 
@@ -39,7 +41,7 @@ public class IndexSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-
+    SmartDashboard.putBoolean("Val at 1", bannerSensorControl.getValue(1));
   }
 
   /**
@@ -49,8 +51,8 @@ public class IndexSubsystem extends SubsystemBase {
    * @return true if a ball is detected at the id, false if otherwise.
    * */ 
   
-  public boolean getPosition(int id){
-    return bannerSensorControl.getValue(id);
+  public boolean getBallPosition(int id){
+    return !bannerSensorControl.getValue(id);
   }
 
 

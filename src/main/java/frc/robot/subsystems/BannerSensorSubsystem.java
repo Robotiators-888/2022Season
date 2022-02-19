@@ -44,7 +44,6 @@ public class BannerSensorSubsystem extends SubsystemBase {
       return bannerSensor2.get();
 
     } else {
-
       System.out.println("Given a bad value. Returning the 2nd sensor's value.");
       return bannerSensor2.get();
 
