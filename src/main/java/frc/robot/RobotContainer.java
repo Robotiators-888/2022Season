@@ -33,13 +33,11 @@ import frc.robot.UDP.GenericBuffer;
 import frc.robot.UDP.LimelightDataPacket;
 import frc.robot.UDP.UDPReciever;
 import frc.robot.commands.Aim;
-import frc.robot.commands.LimelightCommand;
 import frc.robot.subsystems.IndexSubsystem;
-import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.commands.teleopIntake;
+import frc.robot.commands.IntakeSpin;
 import frc.robot.commands.ShooterSpin;
 
 
@@ -134,10 +132,13 @@ public class RobotContainer {
         xButton.whenPressed(new zeroHeading(drivetrain));
 
         startButton.whileHeld(new Aim(m_limelight, drivetrain));
-        leftShoulder.whileHeld(new teleopIntake(m_intake));
- 
         yButton.whileHeld(new teleopIndex(index));
+
+        //shooter controls
         aButton.whileHeld(new ShooterSpin(shoot, twiststick));
+
+        //intake Controls
+        leftShoulder.whileHeld(new IntakeSpin(m_intake, 0.75));
         bButton.whileHeld(new InstantCommand(() -> m_intake.pistonToggle()));
 
     }

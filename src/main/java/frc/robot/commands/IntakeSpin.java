@@ -7,13 +7,15 @@ package frc.robot.commands;
 import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class teleopIntake extends CommandBase {
+public class IntakeSpin extends CommandBase {
   IntakeSubsystem Intake;
+  double speed;
+
   /** Creates a new IntakeMotorTest. */
-  public teleopIntake(IntakeSubsystem subsystem) {
+  public IntakeSpin(IntakeSubsystem subsystem, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.Intake = subsystem;
-
+    this.speed = speed;
   }
 
   // Called when the command is initially scheduled.
@@ -25,7 +27,7 @@ public class teleopIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Intake.intakeSpeedSet(0.75);
+    Intake.intakeSpeedSet(speed);
   }
 
   // Called once the command ends or is interrupted.
