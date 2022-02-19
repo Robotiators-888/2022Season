@@ -4,19 +4,24 @@
 
 package frc.robot.commands;
 
+import frc.robot.subsystems.IndexSubsystem;
+
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.Constants;
 
-public class teleopCanal extends CommandBase {
+public class indexRun extends CommandBase {
 
-  private CanalSubsystem canal;
-  /** Creates a new teleopCanal. */
-  public teleopCanal(CanalSubsystem canalArgs) {
+  private IndexSubsystem index;
+  private boolean isDone = false;
+  private double speed;
+  
+  /** Creates a new teleopIndex. */
+  public indexRun(IndexSubsystem indexArgs, double speedArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.canal = canalArgs;
-
-    addRequirements(canal);
+    this.speed = speedArgs;
+    this.index = indexArgs;
+    addRequirements(index);
   }
 
   // Called when the command is initially scheduled.
@@ -27,20 +32,29 @@ public class teleopCanal extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    canal.setSpeedBack(-Constants.BELT_SPEED);
-    canal.setSpeedFront(-Constants.BELT_SPEED);
+<<<<<<< HEAD:src/main/java/frc/robot/commands/teleopIndex.java
+    if (!(index.getBallPosition(1))){
+      isDone = false;
+      index.setSpeedTower(Constants.BELT_SPEED);
+    } else {
+      isDone = true;
+    }
+=======
+    
+    index.setSpeedTower(speed);
+>>>>>>> d9ea0b1 (Added manual index in and out. Added organization of the index):src/main/java/frc/robot/commands/indexRun.java
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    canal.setSpeedFront(0);
-    canal.setSpeedBack(0);
+    index.setSpeedTower(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isDone;
   }
 }

@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import frc.robot.commands.teleopDrive;
-import frc.robot.commands.teleopIndex;
+import frc.robot.commands.indexRun;
 import frc.robot.commands.zeroHeading;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Drivetrain;
@@ -41,9 +41,11 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.commands.IntakeSpin;
 import frc.robot.commands.ShooterSpin;
-import frc.robot.commands.teleopCanal;
+import frc.robot.commands.canalRun;
+import frc.robot.commands.OrganizeIndexCMD;
 
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -84,8 +86,8 @@ public class RobotContainer {
     JoystickButton yButton = new JoystickButton(joystick, 4);
     JoystickButton leftShoulder = new JoystickButton(joystick, 5);
     JoystickButton rightShoulder = new JoystickButton(joystick, 6);
-    JoystickButton startButton = new JoystickButton(joystick, 7);
-    JoystickButton backButton = new JoystickButton(joystick, 8);
+    JoystickButton backButton = new JoystickButton(joystick, 7);
+    JoystickButton startButton = new JoystickButton(joystick, 8);
     JoystickButton thumbLeft = new JoystickButton(joystick, 9);
     JoystickButton thumbRight = new JoystickButton(joystick, 10);
 
@@ -138,14 +140,13 @@ public class RobotContainer {
                 () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
         //xButton.whenPressed(new zeroHeading(drivetrain));
         startButton.whileHeld(new Aim(m_limelight, drivetrain));
-        yButton.whileHeld(new teleopIndex(index));
         aButton.whileHeld(new ParallelCommandGroup(
                                 new ShooterSpin(shoot, twiststick, Constants.ShooterSpeed),
                                 new SequentialCommandGroup(
                                         new WaitCommand(2),
                                         new ParallelCommandGroup(
-                                                new teleopIndex(index), 
-                                                new teleopCanal(canal))
+                                                new indexRun(index,Constants.BELT_SPEED), 
+                                                new canalRun(canal,-Constants.BELT_SPEED))
                                 )));
 
 
@@ -155,7 +156,7 @@ public class RobotContainer {
         leftShoulder.whileHeld(new IntakeSpin(m_intake, 0.75));
         rightShoulder.whileHeld(new IntakeSpin(m_intake, -0.75));
         bButton.whenPressed(new InstantCommand(() -> m_intake.pistonToggle()));
-        xButton.whileHeld(new teleopCanal(canal));
+       
         
         //spins shooter backwards
         button7.toggleWhenPressed(new ShooterSpin(shoot, twiststick, 0.50));
@@ -164,7 +165,11 @@ public class RobotContainer {
         //aButton.whileHeld(new ShooterSpin(shoot, twiststick));
         //bButton.whileHeld(new IntakeMotorTest(m_intake));
 
-    }
+       // xButton.whenPressed(new zeroHeading(drivetrain));
+        yButton.whileHeld(new ParallelCommandGroup(new indexRun(index,Constants.BELT_SPEED), new canalRun(canal,-Constants.BELT_SPEED)));
+        xButton.whileHeld(new ParallelCommandGroup(new indexRun(index,-Constants.BELT_SPEED), new canalRun(canal,Constants.BELT_SPEED)));
+        //xButton.whileHeld (new OrganizeIndexCMD(index));
+}
 
     public Command getAutonomousCommand() {
         return chooser.getSelected();
