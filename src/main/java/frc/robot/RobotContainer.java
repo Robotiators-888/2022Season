@@ -33,17 +33,13 @@ import frc.robot.UDP.GenericBuffer;
 import frc.robot.UDP.LimelightDataPacket;
 import frc.robot.UDP.UDPReciever;
 import frc.robot.commands.Aim;
-import frc.robot.commands.LimelightCommand;
 import frc.robot.subsystems.IndexSubsystem;
-import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.commands.OuttakeMotorTest;
-import frc.robot.commands.IntakeMotorTest;
-import frc.robot.commands.PistonOutCmd;
+import frc.robot.commands.IntakeSpin;
 import frc.robot.commands.ShooterSpin;
-import frc.robot.commands.PistonInCmd;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -134,17 +130,16 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> joystick.getRawAxis(Constants.LEFT_AXIS),
                 () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
         xButton.whenPressed(new zeroHeading(drivetrain));
-        thumbLeft.whenPressed(new PistonInCmd(m_intake));
-        thumbRight.whenPressed(new PistonOutCmd(m_intake));
-        // While a button is pressed, run autoshoot command
-        backButton.whileHeld(new LimelightCommand(m_limelight, shoot, index));
-        // While b button is pressed, run autoaim command
+
         startButton.whileHeld(new Aim(m_limelight, drivetrain));
-        leftShoulder.whileHeld(new IntakeMotorTest(m_intake));
-        rightShoulder.whileHeld(new OuttakeMotorTest(m_intake));
         yButton.whileHeld(new teleopIndex(index));
+
+        //shooter controls
         aButton.whileHeld(new ShooterSpin(shoot, twiststick));
-        bButton.whileHeld(new IntakeMotorTest(m_intake));
+
+        //intake Controls
+        leftShoulder.whileHeld(new IntakeSpin(m_intake, 0.75));
+        bButton.whenPressed(new InstantCommand(() -> m_intake.pistonToggle()));
 
     }
 

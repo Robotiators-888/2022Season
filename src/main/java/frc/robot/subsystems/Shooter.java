@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import java.util.function.Supplier;
 
 import com.revrobotics.*;
 

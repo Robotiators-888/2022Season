@@ -7,24 +7,27 @@ package frc.robot.commands;
 import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class OuttakeMotorTest extends CommandBase {
+public class IntakeSpin extends CommandBase {
   IntakeSubsystem Intake;
+  double speed;
+
   /** Creates a new IntakeMotorTest. */
-  public OuttakeMotorTest(IntakeSubsystem subsystem) {
+  public IntakeSpin(IntakeSubsystem subsystem, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.Intake = subsystem;
-
+    this.speed = speed;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Intake.intakeSpeedSet(-0.75);
+    Intake.intakeSpeedSet(speed);
   }
 
   // Called once the command ends or is interrupted.
