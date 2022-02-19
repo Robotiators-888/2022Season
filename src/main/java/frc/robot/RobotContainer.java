@@ -157,12 +157,28 @@ public class RobotContainer {
          * it to a {@link
          * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
          */
-        private void configureButtonBindings() {
-                drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> joystick.getRawAxis(Constants.LEFT_AXIS),
-                                () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
-                // xButton.whenPressed(new zeroHeading(drivetrain));
-                startButton.whileHeld(new Aim(m_limelight, drivetrain));
-                aButton.whileHeld(new ParallelCommandGroup(
+ 
+
+    POVButton DpadUp = new POVButton(joystick, 0);
+    POVButton DpadDown = new POVButton(joystick, 180);
+    // Auto objects
+   
+
+    /**
+     * Use this method to define your button->command mappings. Buttons can be
+     * created by
+     * instantiating a {@link GenericHID} or one of its subclasses ({@link
+     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
+     * it to a {@link
+     * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+     */
+    private void configureButtonBindings() {
+        drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> joystick.getRawAxis(Constants.LEFT_AXIS),
+                () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
+        //xButton.whenPressed(new zeroHeading(drivetrain));
+        startButton.whileHeld(new Aim(m_limelight, drivetrain));
+        yButton.whileHeld(new indexRun(index, 0.75));
+        aButton.whileHeld(new ParallelCommandGroup(
                                 new ShooterSpin(shoot, Constants.ShooterSpeed),
                                 new SequentialCommandGroup(
                                                 new WaitCommand(2),
@@ -197,7 +213,7 @@ public class RobotContainer {
                 // test banner sensor if it returns values
                 button12.whenPressed(new CanalToBottomCMD(canal, index)); 
         }
-        
+
     public Command getAutonomousCommand() {
         return chooser.getSelected();
     }
