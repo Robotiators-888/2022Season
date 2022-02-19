@@ -9,6 +9,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 
+import frc.robot.subsystems.BannerSensorSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+
 import frc.robot.Constants;
 
 /**
@@ -18,8 +22,13 @@ import frc.robot.Constants;
 public class IndexSubsystem extends SubsystemBase {
 
   // Motors
-
+  
   private TalonSRX tower = new TalonSRX(Constants.TOWER_INDEX_ID);
+
+  private BannerSensorSubsystem bannerSensorControl= new BannerSensorSubsystem();
+  
+
+
 
   // Color sensor subsystem
   // private ColorSensorSubsystem colorSensor;
@@ -32,7 +41,7 @@ public class IndexSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-
+    SmartDashboard.putBoolean("Val at 1", bannerSensorControl.getValue(1));
   }
 
   /**
@@ -40,44 +49,12 @@ public class IndexSubsystem extends SubsystemBase {
    * 
    * @param id is either 1(top spot below shooter) or 2(balls to be stored below).
    * @return true if a ball is detected at the id, false if otherwise.
-   */
-  /*
-   * public boolean getPosition(int id){
-   * int newId = 0;
-   * if (id==1){
-   * // placeholder
-   * newId = 0;
-   * } else if (id==2){
-   * // placeholder
-   * newId = 1;
-   * }
-   * 
-   * colorSensor.readSensor(newId);
-   * return !(colorSensor.colorToString().equals("Unknown"));
-   * }
-   * /**
-   * Returns the color detected at a certain id
-   * 
-   * @param id is either 1(top spot below shooter) or 2(balls to be stored below).
-   * 
-   * @return the color in the form of a string, Red, Black, Blue, or Unknown.
-   */
+   * */ 
+  
+  public boolean getBallPosition(int id){
+    return !bannerSensorControl.getValue(id);
+  }
 
-  /*
-   * public String getColor(int id){
-   * int newId = 0;
-   * if (id==1){
-   * // placeholder
-   * newId = 0;
-   * } else if (id==2){
-   * // placeholder
-   * newId = 1;
-   * }
-   * 
-   * colorSensor.readSensor(newId);
-   * return colorSensor.colorToString();
-   * }
-   */
 
   /**
    * Sets the speed of the tower motor to a Constant speed
@@ -100,7 +77,9 @@ public class IndexSubsystem extends SubsystemBase {
    */
   public void setSpeedTower(double speed) {
     // Top-most belt, move to get it into shooter
-    tower.set(TalonSRXControlMode.PercentOutput, speed);
+
+      tower.set(TalonSRXControlMode.PercentOutput,speed);
+
   }
 
 }

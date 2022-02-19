@@ -24,12 +24,13 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import frc.robot.commands.teleopDrive;
-import frc.robot.commands.teleopIndex;
+import frc.robot.commands.indexRun;
 import frc.robot.commands.zeroHeading;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.UDP.BallDataPacket;
 import frc.robot.UDP.GenericBuffer;
 import frc.robot.UDP.LimelightDataPacket;
@@ -41,9 +42,11 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.commands.IntakeSpin;
 import frc.robot.commands.ShooterSpin;
-import frc.robot.commands.teleopCanal;
+import frc.robot.commands.canalRun;
+import frc.robot.commands.OrganizeIndexCMD;
 
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -84,10 +87,14 @@ public class RobotContainer {
     JoystickButton yButton = new JoystickButton(joystick, 4);
     JoystickButton leftShoulder = new JoystickButton(joystick, 5);
     JoystickButton rightShoulder = new JoystickButton(joystick, 6);
-    JoystickButton startButton = new JoystickButton(joystick, 7);
-    JoystickButton backButton = new JoystickButton(joystick, 8);
+    JoystickButton backButton = new JoystickButton(joystick, 7);
+    JoystickButton startButton = new JoystickButton(joystick, 8);
     JoystickButton thumbLeft = new JoystickButton(joystick, 9);
     JoystickButton thumbRight = new JoystickButton(joystick, 10);
+
+    POVButton dPadUp = new POVButton(joystick, 0);
+    POVButton dPadDown = new POVButton(joystick, 180);
+
 
     JoystickButton button7 = new JoystickButton(leftJoystick, 7);
 
@@ -138,14 +145,13 @@ public class RobotContainer {
                 () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
         //xButton.whenPressed(new zeroHeading(drivetrain));
         startButton.whileHeld(new Aim(m_limelight, drivetrain));
-        yButton.whileHeld(new teleopIndex(index));
         aButton.whileHeld(new ParallelCommandGroup(
                                 new ShooterSpin(shoot, twiststick, Constants.ShooterSpeed),
                                 new SequentialCommandGroup(
                                         new WaitCommand(2),
                                         new ParallelCommandGroup(
-                                                new teleopIndex(index), 
-                                                new teleopCanal(canal))
+                                                new indexRun(index,Constants.BELT_SPEED), 
+                                                new canalRun(canal,-Constants.BELT_SPEED))
                                 )));
 
 
@@ -154,15 +160,24 @@ public class RobotContainer {
         //intake Controls
         leftShoulder.whileHeld(new IntakeSpin(m_intake, 0.75));
         rightShoulder.whileHeld(new IntakeSpin(m_intake, -0.75));
-        bButton.whenPressed(new InstantCommand(m_intake::pistonToggle, m_intake));
-        xButton.whileHeld(new teleopCanal(canal));
+        bButton.whenPressed(new InstantCommand(() -> m_intake.pistonToggle()));
+       
         
         //spins shooter backwards
         button7.toggleWhenPressed(new ShooterSpin(shoot, twiststick, 0.50));
 
 
+        //aButton.whileHeld(new ShooterSpin(shoot, twiststick));
+        //bButton.whileHeld(new IntakeMotorTest(m_intake));
 
-    }
+       // xButton.whenPressed(new zeroHeading(drivetrain));
+        yButton.whileHeld(new ParallelCommandGroup(new indexRun(index,Constants.BELT_SPEED), new canalRun(canal,-Constants.BELT_SPEED)));
+        xButton.whileHeld(new ParallelCommandGroup(new indexRun(index,-Constants.BELT_SPEED), new canalRun(canal,Constants.BELT_SPEED)));
+        //xButton.whileHeld (new OrganizeIndexCMD(index));
+
+        dPadUp.whileHeld(new ParallelCommandGroup(new canalRun(canal,-Constants.BELT_SPEED),new IntakeSpin(m_intake, 0.75)));
+        dPadDown.whileHeld(new ParallelCommandGroup(new canalRun(canal,Constants.BELT_SPEED),new IntakeSpin(m_intake, -0.75)));
+}
 
     public Command getAutonomousCommand() {
         return chooser.getSelected();

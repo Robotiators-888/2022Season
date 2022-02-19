@@ -4,20 +4,20 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.IndexSubsystem;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.Constants;
 
-public class teleopIndex extends CommandBase {
+public class canalRun extends CommandBase {
 
-  private IndexSubsystem index;
-  /** Creates a new teleopIndex. */
-  public teleopIndex(IndexSubsystem indexArgs) {
+  private CanalSubsystem canal;
+  private double speed;
+  /** Creates a new teleopCanal. */
+  public canalRun(CanalSubsystem canalArgs, double speedArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
-
-    this.index = indexArgs;
-    addRequirements(index);
+    this.canal = canalArgs;
+    this.speed = speedArgs;
+    addRequirements(canal);
   }
 
   // Called when the command is initially scheduled.
@@ -28,13 +28,15 @@ public class teleopIndex extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    index.setSpeedTower(Constants.BELT_SPEED);
+    canal.setSpeedBack(speed);
+    canal.setSpeedFront(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    index.setSpeedTower(0);
+    canal.setSpeedFront(0);
+    canal.setSpeedBack(0);
   }
 
   // Returns true when the command should end.
