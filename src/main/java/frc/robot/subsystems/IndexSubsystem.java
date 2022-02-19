@@ -81,8 +81,16 @@ public class IndexSubsystem extends SubsystemBase {
   public void setSpeedTower(double speed) {
     // Top-most belt, move to get it into shooter
 
+<<<<<<< HEAD
       tower.set(TalonSRXControlMode.PercentOutput,speed);
 
+=======
+    if (!(getPosition(1))){
+      tower.set(TalonSRXControlMode.PercentOutput,speed);
+    } else {
+      System.out.println("Ball detected! Please shoot!");
+    }
+>>>>>>> e77ce0b (Added index organization command + stopping index at shooter)
   }
 
 }
