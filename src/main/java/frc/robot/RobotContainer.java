@@ -39,12 +39,15 @@ import frc.robot.UDP.LimelightDataPacket;
 import frc.robot.UDP.UDPReciever;
 import frc.robot.commands.Aim;
 import frc.robot.subsystems.IndexSubsystem;
+import frc.robot.subsystems.CanalSubsystem;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.commands.IntakeSpin;
 import frc.robot.commands.ShooterSpin;
 import frc.robot.commands.canalRun;
+import frc.robot.commands.teleopClimber;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
@@ -76,6 +79,7 @@ public class RobotContainer {
         private IndexSubsystem index = new IndexSubsystem();
         private Autonomous autoHelper = new Autonomous(drivetrain);
         private CanalSubsystem canal = new CanalSubsystem();
+        private Climber climber = new Climber();
 
         // Joystick objects
         private Joystick joystick = new Joystick(Constants.JOYSTICK_PORT);
@@ -192,10 +196,13 @@ public class RobotContainer {
                                 new IntakeSpin(m_intake, 0.75)));
                 dPadDown.whileHeld(new ParallelCommandGroup(new canalRun(canal, Constants.BELT_SPEED),
                                 new IntakeSpin(m_intake, -0.75)));
+                                
+        climber.setDefaultCommand(new teleopClimber(climber, () -> joystick.getRawAxis(3), false));
+        climber.setDefaultCommand(new teleopClimber(climber, () -> joystick.getRawAxis(2), true));
         }
-
-        public Command getAutonomousCommand() {
-                return chooser.getSelected();
-        }
+        
+    public Command getAutonomousCommand() {
+        return chooser.getSelected();
+    }
 
 }
