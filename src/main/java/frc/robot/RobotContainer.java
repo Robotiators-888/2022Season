@@ -5,6 +5,7 @@
 package frc.robot;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -33,6 +34,7 @@ import frc.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.UDP.BallDataPacket;
 import frc.robot.UDP.GenericBuffer;
 import frc.robot.UDP.LimelightDataPacket;
@@ -162,6 +164,9 @@ public class RobotContainer {
 
     POVButton DpadUp = new POVButton(joystick, 0);
     POVButton DpadDown = new POVButton(joystick, 180);
+
+    Trigger leftTrigger;
+    Trigger rightTrigger;
     // Auto objects
    
 
@@ -177,9 +182,8 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> joystick.getRawAxis(Constants.LEFT_AXIS),
                 () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
                 
-        climber.setDefaultCommand(new teleopClimber(climber, () -> joystick.getRawAxis(3), false));
-        climber.setDefaultCommand(new teleopClimber(climber, () -> joystick.getRawAxis(2), true));
-
+        
+        
         //xButton.whenPressed(new zeroHeading(drivetrain));
         startButton.whileHeld(new Aim(m_limelight, drivetrain));
         yButton.whileHeld(new indexRun(index, 0.75));
@@ -215,9 +219,13 @@ public class RobotContainer {
                                 new IntakeSpin(m_intake, 0.75)));
                 dPadDown.whileHeld(new ParallelCommandGroup(new canalRun(canal, Constants.BELT_SPEED),
                                 new IntakeSpin(m_intake, -0.75)));
+                leftTrigger = new Trigger(()-> (joystick.getRawAxis(2) > 0.5));
+                rightTrigger = new Trigger(()-> (joystick.getRawAxis(3) > 0.5));
+                        
+                leftTrigger.whileActiveContinuous(new teleopClimber(climber, -0.25));
+                rightTrigger.whileActiveContinuous(new teleopClimber(climber, 0.25));
                                 
-        climber.setDefaultCommand(new teleopClimber(climber, () -> joystick.getRawAxis(3), false));
-        climber.setDefaultCommand(new teleopClimber(climber, () -> joystick.getRawAxis(2), true));
+
         }
                                 
 
