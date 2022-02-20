@@ -29,17 +29,8 @@ public class OrganizeIndexCMD extends CommandBase {
   @Override
   public void execute() {
 
-    switch(index.currentState){
-      case index.STATES.TWO_BALL:
-      
-    }
-    if ( !(index.getBallPosition(1)) && index.getBallPosition(2) ){
-      isDone = false;
-      index.setSpeedTower(0.75);
 
-    } else {
-        isDone = true;
-      }
+
 
   }
 

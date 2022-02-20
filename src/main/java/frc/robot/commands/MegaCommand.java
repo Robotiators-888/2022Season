@@ -4,45 +4,45 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
+
+import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
 
+public class MegaCommand extends CommandBase {
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.STATES;
-
-public class indexRun extends CommandBase {
-
+  private CanalSubsystem canal;
   private IndexSubsystem index;
   private boolean isDone = false;
-  private double speed;
-  
-  /** Creates a new teleopIndex. */
-  public indexRun(IndexSubsystem indexArgs, double speedArgs) {
+
+  /** Creates a new MegaCommand. */
+  public MegaCommand(CanalSubsystem canalArgs, IndexSubsystem indexArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.speed = speedArgs;
+    this.canal = canalArgs;
     this.index = indexArgs;
-    addRequirements(index);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-
-    index.setSpeedTower(speed);
-
+    if (index.getBallPosition(2)){
+      isDone = true;
+    } else {
+      isDone = false;
+      canal.setSpeedBack(0.75);
+      canal.setSpeedFront(0.75);
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    index.setSpeedTower(0);
+    canal.setSpeedBack(0);
+    canal.setSpeedFront(0);
   }
 
   // Returns true when the command should end.
