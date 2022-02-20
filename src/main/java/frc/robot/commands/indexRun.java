@@ -9,7 +9,6 @@ import frc.robot.subsystems.IndexSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-
 public class indexRun extends CommandBase {
 
   private IndexSubsystem index;
@@ -32,9 +31,8 @@ public class indexRun extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-    index.setSpeedTower(speed);
 
+    index.setSpeedTower(speed);
   }
 
   // Called once the command ends or is interrupted.

@@ -29,7 +29,7 @@ import frc.robot.commands.teleopDrive;
 import frc.robot.commands.indexRun;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Drivetrain;
-
+import frc.robot.commands.CanalToBottomCMD; 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -77,8 +77,8 @@ public class RobotContainer {
         private IndexSubsystem index = new IndexSubsystem();
         private Autonomous autoHelper = new Autonomous(drivetrain);
         private CanalSubsystem canal = new CanalSubsystem();
-        private Climber climber = new Climber();
 
+        private Climber climber = new Climber()
         // Joystick objects
         private Joystick joystick = new Joystick(Constants.JOYSTICK_PORT);
         private Joystick twiststick = new Joystick(Constants.TWISTSTICK_PORT);
@@ -91,14 +91,17 @@ public class RobotContainer {
         JoystickButton leftShoulder = new JoystickButton(joystick, 5);
         JoystickButton rightShoulder = new JoystickButton(joystick, 6);
         JoystickButton backButton = new JoystickButton(joystick, 7);
+
         JoystickButton startButton = new JoystickButton(joystick, 8);
         JoystickButton thumbLeft = new JoystickButton(joystick, 9);
         JoystickButton thumbRight = new JoystickButton(joystick, 10);
+        
 
         POVButton dPadUp = new POVButton(joystick, 0);
         POVButton dPadDown = new POVButton(joystick, 180);
 
         JoystickButton button7 = new JoystickButton(leftJoystick, 7);
+        JoystickButton button12 = new JoystickButton(twiststick, 12);
 
         // Auto objects
         SendableChooser<Command> chooser = new SendableChooser<>();
@@ -146,7 +149,6 @@ public class RobotContainer {
                 m_BallReciever.start();
                 m_limelightReciever.start();
                 SmartDashboard.putData("chooser", chooser);
-
         }
 
         /**
@@ -216,6 +218,10 @@ public class RobotContainer {
                                 new IntakeSpin(m_intake, 0.75)));
                 dPadDown.whileHeld(new ParallelCommandGroup(new canalRun(canal, Constants.BELT_SPEED),
                                 new IntakeSpin(m_intake, -0.75)));
+
+                // test banner sensor if it returns values
+                button12.whenPressed(new CanalToBottomCMD(canal, index)); 
+
                 leftTrigger = new Trigger(()-> (joystick.getRawAxis(2) > 0.5));
                 rightTrigger = new Trigger(()-> (joystick.getRawAxis(3) > 0.5));
                         
