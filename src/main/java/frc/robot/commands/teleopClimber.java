@@ -4,46 +4,44 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.IndexSubsystem;
-
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Climber;
 
-public class indexRun extends CommandBase {
-
-  private IndexSubsystem index;
-  private boolean isDone = false;
-  private double speed;
-  
-  /** Creates a new teleopIndex. */
-  public indexRun(IndexSubsystem indexArgs, double speedArgs) {
+public class teleopClimber extends CommandBase {
+  private Climber climber;
+  private double triggerSpeed;
+  /** Creates a new teleopClimber. */
+  public teleopClimber(Climber climb, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.speed = speedArgs;
-    this.index = indexArgs;
-    addRequirements(index);
+    this.climber = climb;
+    this.triggerSpeed = speed;
+
+    addRequirements(climber);
+    
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    index.setSpeedTower(speed);
+   
+    climber.speedSet(triggerSpeed);
+   
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    index.setSpeedTower(0);
+    climber.speedSet(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return isDone;
+    return false;
   }
 }
