@@ -102,9 +102,9 @@ public class RobotContainer {
         SendableChooser<Command> chooser = new SendableChooser<>();
         TrajectoryConfig config = new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
                         Constants.kMaxAccelerationMetersPerSecondSquared).setKinematics(Constants.kDriveKinematics);
-        Trajectory ballin1 = autoHelper.getTrajectory("paths/test2balll.wpilib.json");
-        Trajectory ballin2 = autoHelper.getTrajectory("paths/test2balll_0.wpilib.json");
-        Trajectory onePath = autoHelper.getTrajectory("paths/onepathwonder.wpilib.json");
+        Trajectory ballin1 = autoHelper.getTrajectory("paths/output/test2balll.wpilib.json");
+        Trajectory ballin2 = autoHelper.getTrajectory("paths/output/test2balll_0.wpilib.json");
+        Trajectory onePath = autoHelper.getTrajectory("paths/output/onepathwonder.wpilib.json");
         Trajectory Str8 = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)),
                         List.of(new Translation2d(1, 0)), new Pose2d(2, 0, new Rotation2d(0)), config);
 
