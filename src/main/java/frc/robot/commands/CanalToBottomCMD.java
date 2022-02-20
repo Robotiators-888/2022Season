@@ -29,7 +29,7 @@ public class CanalToBottomCMD extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (index.getBallPosition(2)){
+    if (index.readBottomBanner()){
       isDone = true;
     } else {
       isDone = false;
