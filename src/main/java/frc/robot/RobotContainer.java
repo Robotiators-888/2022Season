@@ -27,7 +27,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.teleopDrive;
 import frc.robot.commands.indexRun;
-import frc.robot.commands.zeroHeading;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.commands.CanalToBottomCMD; 
@@ -46,7 +45,6 @@ import frc.robot.commands.IntakeSpin;
 import frc.robot.commands.ShooterSpin;
 import frc.robot.commands.canalRun;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 /**
  * This class is where the bulk of the robot should be declared. Since

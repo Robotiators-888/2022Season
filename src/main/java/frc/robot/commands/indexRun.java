@@ -8,9 +8,6 @@ import frc.robot.subsystems.IndexSubsystem;
 
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.STATES;
-
 public class indexRun extends CommandBase {
 
   private IndexSubsystem index;
@@ -34,9 +31,7 @@ public class indexRun extends CommandBase {
   @Override
   public void execute() {
 
-
     index.setSpeedTower(speed);
-
   }
 
   // Called once the command ends or is interrupted.

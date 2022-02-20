@@ -9,12 +9,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-
-import frc.robot.Constants;
-
 /**
  * Manages the indexing subsystem, moves indexing belts, and detects balls and
  * ball color in the system.
@@ -28,14 +23,14 @@ public class IndexSubsystem extends SubsystemBase {
   private DigitalInput bannerSensor2 = new DigitalInput(Constants.DIO_PORT_1);
 
 
-  public enum STATES {
+  public enum States {
     ONE_BALL_TOP,
     ONE_BALL_BOTTOM,
     TWO_BALL,
     ZERO_BALL,
   }
 
-  public STATES currentState;
+  public States currentState;
 
 
 
