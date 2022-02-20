@@ -10,6 +10,7 @@ import frc.robot.subsystems.IndexSubsystem;
 public class OrganizeIndexCMD extends CommandBase {
   private IndexSubsystem index;
   private boolean isDone = false;
+
   /** Creates a new OrganizeIndexCMD. */
   public OrganizeIndexCMD(IndexSubsystem indexArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -27,14 +28,21 @@ public class OrganizeIndexCMD extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
+    switch(index.currentState){
+      case index.STATES.TWO_BALL:
+      
+    }
     if ( !(index.getBallPosition(1)) && index.getBallPosition(2) ){
       isDone = false;
       index.setSpeedTower(0.75);
+
     } else {
-      isDone = true;
-    }
+        isDone = true;
+      }
 
   }
+
 
   // Called once the command ends or is interrupted.
   @Override
