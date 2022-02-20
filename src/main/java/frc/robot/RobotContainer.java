@@ -5,6 +5,7 @@
 package frc.robot;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -33,18 +34,21 @@ import frc.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.UDP.BallDataPacket;
 import frc.robot.UDP.GenericBuffer;
 import frc.robot.UDP.LimelightDataPacket;
 import frc.robot.UDP.UDPReciever;
 import frc.robot.commands.Aim;
 import frc.robot.subsystems.IndexSubsystem;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.commands.IntakeSpin;
 import frc.robot.commands.ShooterSpin;
 import frc.robot.commands.canalRun;
+import frc.robot.commands.teleopClimber;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
@@ -76,6 +80,7 @@ public class RobotContainer {
         private IndexSubsystem index = new IndexSubsystem();
         private Autonomous autoHelper = new Autonomous(drivetrain);
         private CanalSubsystem canal = new CanalSubsystem();
+        private Climber climber = new Climber();
 
         // Joystick objects
         private Joystick joystick = new Joystick(Constants.JOYSTICK_PORT);
@@ -155,12 +160,34 @@ public class RobotContainer {
          * it to a {@link
          * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
          */
-        private void configureButtonBindings() {
-                drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> joystick.getRawAxis(Constants.LEFT_AXIS),
-                                () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
-                // xButton.whenPressed(new zeroHeading(drivetrain));
-                startButton.whileHeld(new Aim(m_limelight, drivetrain));
-                aButton.whileHeld(new ParallelCommandGroup(
+ 
+
+    POVButton DpadUp = new POVButton(joystick, 0);
+    POVButton DpadDown = new POVButton(joystick, 180);
+
+    Trigger leftTrigger;
+    Trigger rightTrigger;
+    // Auto objects
+   
+
+    /**
+     * Use this method to define your button->command mappings. Buttons can be
+     * created by
+     * instantiating a {@link GenericHID} or one of its subclasses ({@link
+     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
+     * it to a {@link
+     * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+     */
+    private void configureButtonBindings() {
+        drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> joystick.getRawAxis(Constants.LEFT_AXIS),
+                () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
+                
+        
+        
+        //xButton.whenPressed(new zeroHeading(drivetrain));
+        startButton.whileHeld(new Aim(m_limelight, drivetrain));
+        yButton.whileHeld(new indexRun(index, 0.75));
+        aButton.whileHeld(new ParallelCommandGroup(
                                 new ShooterSpin(shoot, Constants.ShooterSpeed),
                                 new SequentialCommandGroup(
                                                 new WaitCommand(2),
@@ -192,10 +219,19 @@ public class RobotContainer {
                                 new IntakeSpin(m_intake, 0.75)));
                 dPadDown.whileHeld(new ParallelCommandGroup(new canalRun(canal, Constants.BELT_SPEED),
                                 new IntakeSpin(m_intake, -0.75)));
-        }
+                leftTrigger = new Trigger(()-> (joystick.getRawAxis(2) > 0.5));
+                rightTrigger = new Trigger(()-> (joystick.getRawAxis(3) > 0.5));
+                        
+                leftTrigger.whileActiveContinuous(new teleopClimber(climber, -0.25));
+                rightTrigger.whileActiveContinuous(new teleopClimber(climber, 0.25));
+                                
 
-        public Command getAutonomousCommand() {
-                return chooser.getSelected();
         }
+                                
+
+
+    public Command getAutonomousCommand() {
+        return chooser.getSelected();
+    }
 
 }
