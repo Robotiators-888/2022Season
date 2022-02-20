@@ -78,7 +78,7 @@ public class RobotContainer {
         private Autonomous autoHelper = new Autonomous(drivetrain);
         private CanalSubsystem canal = new CanalSubsystem();
 
-        private Climber climber = new Climber()
+        private Climber climber = new Climber();
         // Joystick objects
         private Joystick joystick = new Joystick(Constants.JOYSTICK_PORT);
         private Joystick twiststick = new Joystick(Constants.TWISTSTICK_PORT);
@@ -220,7 +220,8 @@ public class RobotContainer {
                                 new IntakeSpin(m_intake, -0.75)));
 
                 // test banner sensor if it returns values
-                button12.whenPressed(new CanalToBottomCMD(canal, index)); 
+                button12.whileHeld(new CanalToBottomCMD(canal, index)); 
+        
 
                 leftTrigger = new Trigger(()-> (joystick.getRawAxis(2) > 0.5));
                 rightTrigger = new Trigger(()-> (joystick.getRawAxis(3) > 0.5));
