@@ -52,10 +52,10 @@ public class Drivetrain extends SubsystemBase {
   public Drivetrain(Field2d input) {
     this.field2d = input;
 
-    rightPrimary.setInverted(true);
-    rightSecondary.setInverted(true);
-    leftPrimary.setInverted(false);
-    leftSecondary.setInverted(false);
+    rightPrimary.setInverted(false);
+    rightSecondary.setInverted(false);
+    leftPrimary.setInverted(true);
+    leftSecondary.setInverted(true);
 
     setIdleMode(IdleMode.kBrake);
   }
@@ -73,8 +73,9 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("rev L", leftEncoder.getPosition());
     SmartDashboard.putNumber("rev R", rightEncoder.getPosition());
     SmartDashboard.putNumber("odoHead", driveOdometry.getPoseMeters().getRotation().getDegrees());
-    // SmartDashboard.putNumber("navHead", navx.getYaw());
-    // SmartDashboard.putNumber("tester", this.rotationsToMeters(1));
+    SmartDashboard.putNumber("navHead", navx.getYaw());
+    SmartDashboard.putNumber("tester", this.rotationsToMeters(1));
+    SmartDashboard.putNumber("speed", getRate(leftEncoder.getVelocity()));
   }
 
   /**
@@ -148,10 +149,10 @@ public class Drivetrain extends SubsystemBase {
 
   /**
    * @param input rpm of drivetrain motor
-   * @return returns rate of left encoder in meters per second
+   * @return returns rate of encoder in meters per second
    */
   public double getRate(double input) {
-    return Units.inchesToMeters(input) / (60 * Constants.GEARRATIO);
+    return  (input / Constants.GEARRATIO) * ((2 * Math.PI * Units.inchesToMeters(Constants.WHEEL_RADIUS)) / 60);
   }
 
   /**

@@ -12,13 +12,12 @@ import frc.robot.subsystems.Shooter;
 public class ShooterSpin extends CommandBase {
   /** Creates a new ShooterSpin. */
   private Shooter shoot;
-  private Joystick joystick;
   private double shootSpeed;
 
-  public ShooterSpin(Shooter subsystem, Joystick joystick, double shooterSpeed) {
+  public ShooterSpin(Shooter subsystem, double shooterSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.shoot = subsystem;
-    this.joystick = joystick;
+
     this.shootSpeed = shooterSpeed;
     addRequirements(shoot);
   }
