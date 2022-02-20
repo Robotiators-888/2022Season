@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 
-import frc.robot.subsystems.BannerSensorSubsystem;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 

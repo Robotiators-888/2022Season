@@ -5,7 +5,6 @@
 package frc.robot;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -28,7 +27,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.teleopDrive;
 import frc.robot.commands.indexRun;
-import frc.robot.commands.zeroHeading;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Drivetrain;
 
@@ -50,7 +48,6 @@ import frc.robot.commands.ShooterSpin;
 import frc.robot.commands.canalRun;
 import frc.robot.commands.teleopClimber;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
