@@ -9,14 +9,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
 
-public class MegaCommand extends CommandBase {
+public class CanalToBottomCMD extends CommandBase {
 
   private CanalSubsystem canal;
   private IndexSubsystem index;
   private boolean isDone = false;
 
   /** Creates a new MegaCommand. */
-  public MegaCommand(CanalSubsystem canalArgs, IndexSubsystem indexArgs) {
+  public CanalToBottomCMD(CanalSubsystem canalArgs, IndexSubsystem indexArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.canal = canalArgs;
     this.index = indexArgs;
