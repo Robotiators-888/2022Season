@@ -25,7 +25,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import frc.robot.commands.teleopDrive;
 import frc.robot.commands.teleopIndex;
-import frc.robot.commands.zeroHeading;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Drivetrain;
 
@@ -37,7 +36,6 @@ import frc.robot.UDP.LimelightDataPacket;
 import frc.robot.UDP.UDPReciever;
 import frc.robot.commands.Aim;
 import frc.robot.subsystems.IndexSubsystem;
-import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
@@ -143,6 +141,10 @@ public class RobotContainer {
     private void configureButtonBindings() {
         drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> joystick.getRawAxis(Constants.LEFT_AXIS),
                 () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
+                
+        climber.setDefaultCommand(new teleopClimber(climber, () -> joystick.getRawAxis(3), false));
+        climber.setDefaultCommand(new teleopClimber(climber, () -> joystick.getRawAxis(2), true));
+
         //xButton.whenPressed(new zeroHeading(drivetrain));
         startButton.whileHeld(new Aim(m_limelight, drivetrain));
         yButton.whileHeld(new teleopIndex(index));
@@ -168,9 +170,6 @@ public class RobotContainer {
         button7.toggleWhenPressed(new ShooterSpin(shoot, twiststick, 0.50));
 
 
-
-        climber.setDefaultCommand(new teleopClimber(climber, () -> joystick.getRawAxis(3), false));
-        climber.setDefaultCommand(new teleopClimber(climber, () -> joystick.getRawAxis(2), true));
 
     }
 
