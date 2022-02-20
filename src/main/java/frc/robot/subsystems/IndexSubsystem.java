@@ -26,7 +26,15 @@ public class IndexSubsystem extends SubsystemBase {
   private TalonSRX tower = new TalonSRX(Constants.TOWER_INDEX_ID);
 
   private BannerSensorSubsystem bannerSensorControl= new BannerSensorSubsystem();
-  
+
+  public enum STATES {
+    ONE_BALL_TOP,
+    ONE_BALL_BOTTOM,
+    TWO_BALL,
+    ZERO_BALL,
+  }
+
+  public STATES currentState;
 
 
 
