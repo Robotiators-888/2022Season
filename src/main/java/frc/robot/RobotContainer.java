@@ -38,6 +38,7 @@ import frc.robot.UDP.GenericBuffer;
 import frc.robot.UDP.LimelightDataPacket;
 import frc.robot.UDP.UDPReciever;
 import frc.robot.commands.Aim;
+import frc.robot.commands.CameraDrive;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Limelight;
@@ -100,6 +101,7 @@ public class RobotContainer {
         POVButton dPadUp = new POVButton(joystick, 0);
         POVButton dPadDown = new POVButton(joystick, 180);
 
+        JoystickButton button5 = new JoystickButton(twiststick, 5);
         JoystickButton button7 = new JoystickButton(leftJoystick, 7);
         JoystickButton button12 = new JoystickButton(twiststick, 12);
 
@@ -227,7 +229,8 @@ public class RobotContainer {
                         
                 leftTrigger.whileActiveContinuous(new teleopClimber(climber, -0.25));
                 rightTrigger.whileActiveContinuous(new teleopClimber(climber, 0.25));
-                                
+
+                button5.whileHeld(new CameraDrive(drivetrain));
 
         }
                                 

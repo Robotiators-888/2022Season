@@ -5,11 +5,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.UDP.BallDataPacket;
 
 public class CameraDrive extends CommandBase {
   /** Creates a new CameraDrive. */
-  public CameraDrive() {
+  Drivetrain drive;
+  double cameraXValue;
+  public CameraDrive(Drivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.drive = drivetrain;
+    addRequirements(drive);
   }
 
   // Called when the command is initially scheduled.
@@ -19,7 +25,12 @@ public class CameraDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drive.setMotors((0.04)*(m_limelight.getTx()),(-0.04)*(m_limelight.getTx()));
+    if(BallDataPacket.getX() > 10){
+      cameraXValue = 10;
+    }else{
+      cameraXValue = BallDataPacket.getX();
+    }
+    drive.setMotors((0.05)*(BallDataPacket.getX()),(-0.05)*(BallDataPacket.getX()));
   }
 
   // Called once the command ends or is interrupted.
