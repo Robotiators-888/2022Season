@@ -5,6 +5,7 @@
 package frc.robot;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -30,6 +31,7 @@ import frc.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.UDP.BallDataPacket;
 import frc.robot.UDP.GenericBuffer;
 import frc.robot.UDP.LimelightDataPacket;
@@ -65,6 +67,7 @@ public class RobotContainer {
             () -> new LimelightDataPacket(), limelightBuffer);
 
     private final Field2d field2d = new Field2d();
+    private Supplier<Boolean> invert;
 
     // subsystems
     private Limelight m_limelight = new Limelight();
@@ -75,6 +78,7 @@ public class RobotContainer {
     private IndexSubsystem index = new IndexSubsystem();
     private Autonomous autoHelper = new Autonomous(drivetrain);
     private CanalSubsystem canal = new CanalSubsystem();
+
 
     // Joystick objects
     private Joystick joystick = new Joystick(Constants.JOYSTICK_PORT);
@@ -92,10 +96,14 @@ public class RobotContainer {
     JoystickButton thumbLeft = new JoystickButton(joystick, 9);
     JoystickButton thumbRight = new JoystickButton(joystick, 10);
 
+
     JoystickButton button7 = new JoystickButton(leftJoystick, 7);
 
     POVButton DpadUp = new POVButton(joystick, 0);
     POVButton DpadDown = new POVButton(joystick, 180);
+
+    Trigger leftTrigger;
+    Trigger rightTrigger;
     // Auto objects
     SendableChooser<Command> chooser = new SendableChooser<>();
     TrajectoryConfig config = new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
@@ -142,9 +150,8 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> joystick.getRawAxis(Constants.LEFT_AXIS),
                 () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
                 
-        climber.setDefaultCommand(new teleopClimber(climber, () -> joystick.getRawAxis(3), false));
-        climber.setDefaultCommand(new teleopClimber(climber, () -> joystick.getRawAxis(2), true));
-
+        
+        
         //xButton.whenPressed(new zeroHeading(drivetrain));
         startButton.whileHeld(new Aim(m_limelight, drivetrain));
         yButton.whileHeld(new teleopIndex(index));
@@ -166,10 +173,14 @@ public class RobotContainer {
         bButton.whenPressed(new InstantCommand(m_intake::pistonToggle, m_intake));
         xButton.whileHeld(new teleopCanal(canal));
         
-        //spins shooter backwards
+        //spins shooter backwards 
         button7.toggleWhenPressed(new ShooterSpin(shoot, twiststick, 0.50));
 
+        leftTrigger = new Trigger(()-> (joystick.getRawAxis(2) > 0.5));
+        rightTrigger = new Trigger(()-> (joystick.getRawAxis(3) > 0.5));
 
+        leftTrigger.whileActiveContinuous(new teleopClimber(climber, -0.25));
+        rightTrigger.whileActiveContinuous(new teleopClimber(climber, 0.25));
 
     }
 
