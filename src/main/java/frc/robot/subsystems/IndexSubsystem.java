@@ -5,11 +5,11 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import edu.wpi.first.wpilibj.DigitalInput;
+import frc.robot.Constants;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 
-import frc.robot.subsystems.BannerSensorSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -24,8 +24,9 @@ public class IndexSubsystem extends SubsystemBase {
   // Motors
   
   private TalonSRX tower = new TalonSRX(Constants.TOWER_INDEX_ID);
+  private DigitalInput bannerSensor1 = new DigitalInput(Constants.DIO_PORT_0);
+  private DigitalInput bannerSensor2 = new DigitalInput(Constants.DIO_PORT_1);
 
-  private BannerSensorSubsystem bannerSensorControl= new BannerSensorSubsystem();
 
   public enum STATES {
     ONE_BALL_TOP,
@@ -47,21 +48,31 @@ public class IndexSubsystem extends SubsystemBase {
     // this.colorSensor = colorSensorArg;
   }
 
+  
+
   @Override
   public void periodic() {
-    SmartDashboard.putBoolean("Val at 1", bannerSensorControl.getValue(1));
+    SmartDashboard.putBoolean("Top Banner sensor", readTopBanner());
+    SmartDashboard.putBoolean("Bottom Banner sensor", readBottomBanner());
   }
 
-  /**
-   * Returns if a ball exists at a certain id
-   * 
-   * @param id is either 1(top spot below shooter) or 2(balls to be stored below).
-   * @return true if a ball is detected at the id, false if otherwise.
+  /**  
+   * readTopBanner returns if the top banner sensor detects a ball or not with a boolean.  
    * */ 
-  
-  public boolean getBallPosition(int id){
-    return !bannerSensorControl.getValue(id);
+
+  public boolean readTopBanner() {
+    return bannerSensor1.get(); 
+
   }
+
+  /**  
+   * readBottomBanner returns if the bottom banner sensor detects a ball or not with a boolean.  
+   * */ 
+  public boolean readBottomBanner() {
+    return bannerSensor2.get(); 
+  }
+  
+   
 
 
   /**
