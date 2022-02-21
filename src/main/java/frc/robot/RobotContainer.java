@@ -187,11 +187,11 @@ public class RobotContainer {
 
                 //Intake
                 L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
-                L_Trigger.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75), new canalRun(canal, 0.75)));
+                L_Trigger.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75), new canalRun(canal, -0.75)));
 
                 //Canal
-                C_dPadUp.whileHeld(new canalRun(canal, 0.75));
-                C_dPadDown.whileHeld(new canalRun(canal, -0.75));
+                C_dPadUp.whileHeld(new canalRun(canal, -0.75));
+                C_dPadDown.whileHeld(new canalRun(canal, 0.75));
                 C_dPadLeft.whileHeld(new CMD_canalThrough(canal, 0.75));
                 C_dPadRight.whileHeld(new CMD_canalThrough(canal, -0.75));
 
