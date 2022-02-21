@@ -17,27 +17,49 @@ public class Shooter extends SubsystemBase {
 
     }
 
+
     public void periodic() {
         SmartDashboard.putNumber("RPM", getRPM());
         SmartDashboard.putNumber("Manual RPM SetPoint", manualRPM);
     }
 
+    /**
+     * @return the speed of the flywheel in RPM
+     */
     public double getRPM() {
         return flywheel.getEncoder().getVelocity();
     }
 
+    /**
+     * Sets the speed in RPM for the flywheel to spin
+     * @param rpm int RPM to spin at
+     */
     public void setRPM(int rpm) {
         PID.setReference(rpm, CANSparkMax.ControlType.kVelocity);
     }
     
+    /**
+     * changes the manual rpm setpoint 
+     * @param change positive or negative intiger to change the RPM by
+     */
     public void changeManualRPM(int change){
         manualRPM += change;
     }
 
+    /**
+     * @return int manual rpm variable 
+     */
     public int getManualRPM(){
         return manualRPM;
     }
 
+    /**
+     * sets the PID values of the shooter control loop
+     * @param P double P gain
+     * @param I double I gain
+     * @param D double D gain
+     * @param F double feed forward
+     */
     public void setPIDF(double P, double I, double D, double F) {
         PID.setP(P);
         PID.setI(I);
@@ -46,11 +68,20 @@ public class Shooter extends SubsystemBase {
 
     }
 
+    /**
+     * calculates approprate rpm to hit target at specified distance
+     * @param dist double distance in inches from target
+     * @return int RPM to hit target
+     */
     public int distRpm(double dist) {
         return (int) ((dist + 108) / 0.1);
 
     }
 
+    /**
+     * Sets speed for wheel to run at as a precentage of max
+     * @param speed double to represent a precentage
+     */
     public void setSpeed(double speed) {
         flywheel.set(speed);
     }
