@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import com.revrobotics.*;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -10,8 +9,8 @@ import frc.robot.Constants;
 public class Shooter extends SubsystemBase {
     CANSparkMax flywheel = new CANSparkMax(Constants.FLYWHEEL_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
     SparkMaxPIDController PID = flywheel.getPIDController();
-    Joystick joystick = new Joystick(2);
-    Joystick leftJoystick = new Joystick(1);
+
+    private int manualRPM = 2000;
 
     public Shooter() {
         this.setPIDF(0.0004, 0.0, 0.0, 0.000288);
@@ -20,7 +19,7 @@ public class Shooter extends SubsystemBase {
 
     public void periodic() {
         SmartDashboard.putNumber("RPM", getRPM());
-        SmartDashboard.putNumber("Shooter %", -(1 - joystick.getRawAxis(3)) / 2);
+        SmartDashboard.putNumber("Manual RPM SetPoint", manualRPM);
     }
 
     public double getRPM() {
@@ -31,6 +30,13 @@ public class Shooter extends SubsystemBase {
         PID.setReference(rpm, CANSparkMax.ControlType.kVelocity);
     }
     
+    public void changeManualRPM(int change){
+        manualRPM += change;
+    }
+
+    public int getManualRPM(){
+        return manualRPM;
+    }
 
     public void setPIDF(double P, double I, double D, double F) {
         PID.setP(P);
