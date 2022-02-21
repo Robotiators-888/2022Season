@@ -198,6 +198,8 @@ public class RobotContainer {
                 C_dPadRight.whileHeld(new CMD_canalThrough(canal, -0.75));
 
                 //Index
+                C_aButton.whileHeld(new ParallelCommandGroup(new indexRun(index, -0.75), new ShooterSpin(shoot, 0.25)));
+                C_bButton.whileHeld(new indexRun(index, 0.75));
 
                 //shooter
                 R_button3.whenPressed(new CMD_changeSetpoint(shoot, -500));
@@ -206,6 +208,7 @@ public class RobotContainer {
                 R_button6.whenPressed(new CMD_changeSetpoint(shoot, 100));
                 R_trigger.whileHeld(new CMD_ShooterRPM(shoot, shoot.getManualRPM()));
                 //L_button2 auto aim and shoot
+                //C_yButton change auto target (high or low goal)
 
         }
 
