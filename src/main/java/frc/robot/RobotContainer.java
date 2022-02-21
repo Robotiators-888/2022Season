@@ -41,6 +41,7 @@ import frc.robot.UDP.LimelightDataPacket;
 import frc.robot.UDP.UDPReciever;
 import frc.robot.commands.Aim;
 import frc.robot.commands.CMD_ShooterRPM;
+import frc.robot.commands.CMD_canalThrough;
 import frc.robot.commands.CMD_changeSetpoint;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.Climber;
@@ -191,7 +192,10 @@ public class RobotContainer {
                 L_Trigger.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75), new canalRun(canal, 0.75)));
 
                 //Canal
-
+                C_dPadUp.whileHeld(new canalRun(canal, 0.75));
+                C_dPadDown.whileHeld(new canalRun(canal, -0.75));
+                C_dPadLeft.whileHeld(new CMD_canalThrough(canal, 0.75));
+                C_dPadRight.whileHeld(new CMD_canalThrough(canal, -0.75));
 
                 //Index
 
@@ -201,7 +205,6 @@ public class RobotContainer {
                 R_button5.whenPressed(new CMD_changeSetpoint(shoot, 500));
                 R_button6.whenPressed(new CMD_changeSetpoint(shoot, 100));
                 R_trigger.whileHeld(new CMD_ShooterRPM(shoot, shoot.getManualRPM()));
-
                 //L_button2 auto aim and shoot
 
         }
