@@ -69,10 +69,10 @@ public class RobotContainer {
         private final Field2d field2d = new Field2d();
 
         // subsystems
-        private Limelight m_limelight = new Limelight();
+        private Limelight limelight = new Limelight();
         private Shooter shoot = new Shooter();
         private Drivetrain drivetrain = new Drivetrain(field2d);
-        private IntakeSubsystem m_intake = new IntakeSubsystem();
+        private IntakeSubsystem intake = new IntakeSubsystem();
         private IndexSubsystem index = new IndexSubsystem();
         private Autonomous autoHelper = new Autonomous(drivetrain);
         private CanalSubsystem canal = new CanalSubsystem();
@@ -84,24 +84,31 @@ public class RobotContainer {
         JoystickButton C_bButton = new JoystickButton(controller, 2);
         JoystickButton C_xButton = new JoystickButton(controller, 3);
         JoystickButton C_yButton = new JoystickButton(controller, 4);
-        JoystickButton C_leftShoulder = new JoystickButton(controller, 5);
-        JoystickButton C_rightShoulder = new JoystickButton(controller, 6);
-        JoystickButton C_backButton = new JoystickButton(controller, 7);
-        JoystickButton C_startButton = new JoystickButton(controller, 8);
         POVButton C_dPadUp = new POVButton(controller, 0);
         POVButton C_dPadDown = new POVButton(controller, 180);
+        POVButton C_dPadLeft = new POVButton(controller, 270);
+        POVButton C_dPadRight= new POVButton(controller, 90);
         Trigger C_leftTrigger;
         Trigger C_rightTrigger;
 
         // left Joystick
         private Joystick leftJoystick = new Joystick(Constants.LEFTJOYSTICK_PORT);
 
-        JoystickButton L_button1 = new JoystickButton(leftJoystick, 1);
+        JoystickButton L_button2 = new JoystickButton(leftJoystick, 2);
+        JoystickButton L_button3 = new JoystickButton(leftJoystick, 3);
+        JoystickButton L_button4 = new JoystickButton(leftJoystick, 4);
+        JoystickButton L_button5 = new JoystickButton(leftJoystick, 5);
+        JoystickButton L_Trigger = new JoystickButton(leftJoystick, 8);
 
         // right Joytick
         private Joystick rightJoystick = new Joystick(Constants.TWISTSTICK_PORT);
 
-        JoystickButton R_button1 = new JoystickButton(leftJoystick, 1);
+        JoystickButton R_button5 = new JoystickButton(rightJoystick, 3);
+        JoystickButton R_button6 = new JoystickButton(rightJoystick, 4);
+        JoystickButton R_button3 = new JoystickButton(rightJoystick, 5);
+        JoystickButton R_button4 = new JoystickButton(rightJoystick, 6);
+        JoystickButton R_trigger = new JoystickButton(rightJoystick, 3);
+
 
         // Auto objects
         SendableChooser<Command> chooser = new SendableChooser<>();
@@ -159,17 +166,6 @@ public class RobotContainer {
          * it to a {@link
          * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
          */
-
-        // Auto objects
-
-        /**
-         * Use this method to define your button->command mappings. Buttons can be
-         * created by
-         * instantiating a {@link GenericHID} or one of its subclasses ({@link
-         * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
-         * it to a {@link
-         * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-         */
         private void configureButtonBindings() {
                 //drivetrain
                 drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> leftJoystick.getRawAxis(1),
@@ -181,6 +177,9 @@ public class RobotContainer {
 
                 C_leftTrigger.whileActiveContinuous(new teleopClimber(climber, -0.25));
                 C_rightTrigger.whileActiveContinuous(new teleopClimber(climber, 0.25));
+
+                //Intake
+
 
         }
 
