@@ -83,6 +83,7 @@ public class RobotContainer {
         private IndexSubsystem index = new IndexSubsystem();
         private Autonomous autoHelper = new Autonomous(drivetrain);
         private CanalSubsystem canal = new CanalSubsystem();
+        private Climber climber = new Climber();
 
         // Controller
         private Joystick controller = new Joystick(Constants.JOYSTICK_PORT);
