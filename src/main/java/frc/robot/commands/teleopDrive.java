@@ -40,7 +40,7 @@ public class teleopDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drive.setMotors(-1 * Left.get(), -1 * Right.get(), 0.5);
+    drive.setMotors(-1 * Left.get(), -1 * Right.get(), 0.75);
   }
 
   // Called once the command ends or is interrupted.

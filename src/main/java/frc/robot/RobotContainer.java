@@ -176,8 +176,8 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> joystick.getRawAxis(Constants.LEFT_AXIS),
-                () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
+        drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> leftJoystick.getRawAxis(1),
+                () -> twiststick.getRawAxis(1)));
                 
         
         
@@ -197,7 +197,7 @@ public class RobotContainer {
                 // intake Controls
                 leftShoulder.whileHeld(new IntakeSpin(m_intake, 0.75));
                 rightShoulder.whileHeld(new IntakeSpin(m_intake, -0.75));
-                bButton.whenPressed(new InstantCommand(() -> m_intake.pistonToggle()));
+                bButton.whenPressed(new InstantCommand(m_intake::pistonToggle, m_intake));
 
                 // spins shooter backwards
                 button7.toggleWhenPressed(new ShooterSpin(shoot, 0.50));
@@ -207,9 +207,9 @@ public class RobotContainer {
 
                 // xButton.whenPressed(new zeroHeading(drivetrain));
                 yButton.whileHeld(new ParallelCommandGroup(new indexRun(index, Constants.BELT_SPEED),
-                new canalRun(canal, -Constants.BELT_SPEED)));
+                new canalRun(canal, -Constants.BELT_SPEED), new IntakeSpin(m_intake, 0.75)));
                 xButton.whileHeld(new ParallelCommandGroup(new indexRun(index, -Constants.BELT_SPEED),
-                                new canalRun(canal, Constants.BELT_SPEED)));
+                                new canalRun(canal, Constants.BELT_SPEED), new IntakeSpin(m_intake, -0.75)));
                 // xButton.whileHeld (new OrganizeIndexCMD(index));
 
                 dPadUp.whileHeld(new ParallelCommandGroup(new canalRun(canal, -Constants.BELT_SPEED),
