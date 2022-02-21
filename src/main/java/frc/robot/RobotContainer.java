@@ -105,16 +105,16 @@ public class RobotContainer {
         JoystickButton L_button3 = new JoystickButton(leftJoystick, 3);
         JoystickButton L_button4 = new JoystickButton(leftJoystick, 4);
         JoystickButton L_button5 = new JoystickButton(leftJoystick, 5);
-        JoystickButton L_Trigger = new JoystickButton(leftJoystick, 8);
+        JoystickButton L_Trigger = new JoystickButton(leftJoystick, 1);
 
         // right Joytick
-        private Joystick rightJoystick = new Joystick(Constants.TWISTSTICK_PORT);
+        private Joystick rightJoystick = new Joystick(Constants.RIGHTSTICK_PORT);
 
         JoystickButton R_button5 = new JoystickButton(rightJoystick, 3);
         JoystickButton R_button6 = new JoystickButton(rightJoystick, 4);
         JoystickButton R_button3 = new JoystickButton(rightJoystick, 5);
         JoystickButton R_button4 = new JoystickButton(rightJoystick, 6);
-        JoystickButton R_trigger = new JoystickButton(rightJoystick, 3);
+        JoystickButton R_trigger = new JoystickButton(rightJoystick, 1);
 
 
         // Auto objects
