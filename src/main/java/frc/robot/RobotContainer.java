@@ -198,7 +198,8 @@ public class RobotContainer {
                 // shooter controls
 
                 // intake Controls
-                leftShoulder.whileHeld(new IntakeSpin(m_intake, 0.75));
+                leftShoulder.whileHeld(
+                        new IntakeSpin(m_intake, 0.75));
                 rightShoulder.whileHeld(new IntakeSpin(m_intake, -0.75));
                 bButton.whenPressed(new InstantCommand(() -> m_intake.pistonToggle()));
 
@@ -221,7 +222,6 @@ public class RobotContainer {
                                 new IntakeSpin(m_intake, -0.75)));
 
                 // test banner sensor if it returns values
-               button12.whenPressed(new CanalToUpCMD(canal, index)); 
         
 
                 leftTrigger = new Trigger(()-> (joystick.getRawAxis(2) > 0.5));
