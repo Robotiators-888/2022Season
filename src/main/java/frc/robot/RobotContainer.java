@@ -6,6 +6,8 @@ package frc.robot;
 
 import java.util.List;
 
+import javax.management.InstanceAlreadyExistsException;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -58,12 +60,14 @@ import frc.robot.commands.teleopClimber;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+        
+
         // The robot's subsystems and commands are defined here...
         private final GenericBuffer<BallDataPacket> ballBuffer = new GenericBuffer<>();
         private final GenericBuffer<LimelightDataPacket> limelightBuffer = new GenericBuffer<>();
-        private final UDPReciever<BallDataPacket> m_BallReciever = new UDPReciever<>(Constants.BALL_PORT,
+        private final UDPReciever<BallDataPacket> BallReciever = new UDPReciever<>(Constants.BALL_PORT,
                         () -> new BallDataPacket(), ballBuffer);
-        private final UDPReciever<LimelightDataPacket> m_limelightReciever = new UDPReciever<>(Constants.LIMELIGHT_PORT,
+        private final UDPReciever<LimelightDataPacket> limelightReciever = new UDPReciever<>(Constants.LIMELIGHT_PORT,
                         () -> new LimelightDataPacket(), limelightBuffer);
 
         private final Field2d field2d = new Field2d();
@@ -143,7 +147,6 @@ public class RobotContainer {
          * The container for the robot. Contains subsystems, OI devices, and commands.
          */
         public RobotContainer() {
-                // Configure the button bindings
                 LiveWindow.disableAllTelemetry();
                 configureButtonBindings();
 
@@ -153,8 +156,8 @@ public class RobotContainer {
                 chooser.addOption("Complex Auto", pwtest);
                 chooser.addOption("one Path Wonder", onePathWonder);
 
-                m_BallReciever.start();
-                m_limelightReciever.start();
+                BallReciever.start();
+                limelightReciever.start();
                 SmartDashboard.putData("chooser", chooser);
         }
 
@@ -170,6 +173,7 @@ public class RobotContainer {
                 //drivetrain
                 drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> leftJoystick.getRawAxis(1),
                                 () -> rightJoystick.getRawAxis(1)));
+                //L_button2 Reverse Drivetrain
 
                 //climber                
                 C_leftTrigger = new Trigger(() -> (controller.getRawAxis(2) > 0.5));
@@ -179,7 +183,17 @@ public class RobotContainer {
                 C_rightTrigger.whileActiveContinuous(new teleopClimber(climber, 0.25));
 
                 //Intake
+                L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
+                L_Trigger.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75), new canalRun(canal, 0.75)));
 
+                //Canal
+
+
+                //Index
+
+                //shooter
+
+                //L_button2 auto aim and shoot
 
         }
 
