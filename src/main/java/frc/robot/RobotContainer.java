@@ -48,7 +48,6 @@ import frc.robot.commands.ShooterSpin;
 import frc.robot.commands.canalRun;
 import frc.robot.commands.teleopClimber;
 
-
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -78,30 +77,31 @@ public class RobotContainer {
         private Autonomous autoHelper = new Autonomous(drivetrain);
         private CanalSubsystem canal = new CanalSubsystem();
 
-        private Climber climber = new Climber();
-        // Joystick objects
-        private Joystick joystick = new Joystick(Constants.JOYSTICK_PORT);
-        private Joystick twiststick = new Joystick(Constants.TWISTSTICK_PORT);
+        // Controller
+        private Joystick controller = new Joystick(Constants.JOYSTICK_PORT);
+
+        JoystickButton C_aButton = new JoystickButton(controller, 1);
+        JoystickButton C_bButton = new JoystickButton(controller, 2);
+        JoystickButton C_xButton = new JoystickButton(controller, 3);
+        JoystickButton C_yButton = new JoystickButton(controller, 4);
+        JoystickButton C_leftShoulder = new JoystickButton(controller, 5);
+        JoystickButton C_rightShoulder = new JoystickButton(controller, 6);
+        JoystickButton C_backButton = new JoystickButton(controller, 7);
+        JoystickButton C_startButton = new JoystickButton(controller, 8);
+        POVButton C_dPadUp = new POVButton(controller, 0);
+        POVButton C_dPadDown = new POVButton(controller, 180);
+        Trigger C_leftTrigger;
+        Trigger C_rightTrigger;
+
+        // left Joystick
         private Joystick leftJoystick = new Joystick(Constants.LEFTJOYSTICK_PORT);
 
-        JoystickButton aButton = new JoystickButton(joystick, 1);
-        JoystickButton bButton = new JoystickButton(joystick, 2);
-        JoystickButton xButton = new JoystickButton(joystick, 3);
-        JoystickButton yButton = new JoystickButton(joystick, 4);
-        JoystickButton leftShoulder = new JoystickButton(joystick, 5);
-        JoystickButton rightShoulder = new JoystickButton(joystick, 6);
-        JoystickButton backButton = new JoystickButton(joystick, 7);
+        JoystickButton L_button1 = new JoystickButton(leftJoystick, 1);
 
-        JoystickButton startButton = new JoystickButton(joystick, 8);
-        JoystickButton thumbLeft = new JoystickButton(joystick, 9);
-        JoystickButton thumbRight = new JoystickButton(joystick, 10);
-        
+        // right Joytick
+        private Joystick rightJoystick = new Joystick(Constants.TWISTSTICK_PORT);
 
-        POVButton dPadUp = new POVButton(joystick, 0);
-        POVButton dPadDown = new POVButton(joystick, 180);
-
-        JoystickButton button7 = new JoystickButton(leftJoystick, 7);
-        JoystickButton button12 = new JoystickButton(twiststick, 12);
+        JoystickButton R_button1 = new JoystickButton(leftJoystick, 1);
 
         // Auto objects
         SendableChooser<Command> chooser = new SendableChooser<>();
@@ -129,8 +129,8 @@ public class RobotContainer {
                         new SequentialCommandGroup(
                                         new InstantCommand(() -> drivetrain.setPosition(onePath.getInitialPose())),
                                         autoHelper.getRamset(onePath).andThen(() -> drivetrain.tankDriveVolts(0, 0)))),
-                        new ParallelCommandGroup(new indexRun(index, Constants.BELT_SPEED),new ShooterSpin(shoot, 0.50))
-                );
+                        new ParallelCommandGroup(new indexRun(index, Constants.BELT_SPEED),
+                                        new ShooterSpin(shoot, 0.50)));
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -159,82 +159,33 @@ public class RobotContainer {
          * it to a {@link
          * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
          */
- 
 
-    POVButton DpadUp = new POVButton(joystick, 0);
-    POVButton DpadDown = new POVButton(joystick, 180);
+        // Auto objects
 
-    Trigger leftTrigger;
-    Trigger rightTrigger;
-    // Auto objects
-   
+        /**
+         * Use this method to define your button->command mappings. Buttons can be
+         * created by
+         * instantiating a {@link GenericHID} or one of its subclasses ({@link
+         * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
+         * it to a {@link
+         * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+         */
+        private void configureButtonBindings() {
+                //drivetrain
+                drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> leftJoystick.getRawAxis(1),
+                                () -> rightJoystick.getRawAxis(1)));
 
-    /**
-     * Use this method to define your button->command mappings. Buttons can be
-     * created by
-     * instantiating a {@link GenericHID} or one of its subclasses ({@link
-     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
-     * it to a {@link
-     * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-     */
-    private void configureButtonBindings() {
-        drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> leftJoystick.getRawAxis(1),
-                () -> twiststick.getRawAxis(1)));
-                
-        
-        
-        //xButton.whenPressed(new zeroHeading(drivetrain));
-        startButton.whileHeld(new Aim(m_limelight, drivetrain));
-        yButton.whileHeld(new indexRun(index, 0.75));
-        aButton.whileHeld(new ParallelCommandGroup(
-                                new ShooterSpin(shoot, Constants.ShooterSpeed),
-                                new SequentialCommandGroup(
-                                                new WaitCommand(2),
-                                                new ParallelCommandGroup(
-                                                                new indexRun(index, Constants.BELT_SPEED),
-                                                                new canalRun(canal, -Constants.BELT_SPEED)))));
+                //climber                
+                C_leftTrigger = new Trigger(() -> (controller.getRawAxis(2) > 0.5));
+                C_rightTrigger = new Trigger(() -> (controller.getRawAxis(3) > 0.5));
 
-                // shooter controls
-
-                // intake Controls
-                leftShoulder.whileHeld(new IntakeSpin(m_intake, 0.75));
-                rightShoulder.whileHeld(new IntakeSpin(m_intake, -0.75));
-                bButton.whenPressed(new InstantCommand(m_intake::pistonToggle, m_intake));
-
-                // spins shooter backwards
-                button7.toggleWhenPressed(new ShooterSpin(shoot, 0.50));
-
-                // aButton.whileHeld(new ShooterSpin(shoot, twiststick));
-                // bButton.whileHeld(new IntakeMotorTest(m_intake));
-
-                // xButton.whenPressed(new zeroHeading(drivetrain));
-                yButton.whileHeld(new ParallelCommandGroup(new indexRun(index, Constants.BELT_SPEED),
-                new canalRun(canal, -Constants.BELT_SPEED), new IntakeSpin(m_intake, 0.75)));
-                xButton.whileHeld(new ParallelCommandGroup(new indexRun(index, -Constants.BELT_SPEED),
-                                new canalRun(canal, Constants.BELT_SPEED), new IntakeSpin(m_intake, -0.75)));
-                // xButton.whileHeld (new OrganizeIndexCMD(index));
-
-                dPadUp.whileHeld(new ParallelCommandGroup(new canalRun(canal, -Constants.BELT_SPEED),
-                                new IntakeSpin(m_intake, 0.75)));
-                dPadDown.whileHeld(new ParallelCommandGroup(new canalRun(canal, Constants.BELT_SPEED),
-                                new IntakeSpin(m_intake, -0.75)));
-
-                // test banner sensor if it returns values
-                button12.whenPressed(new CanalToBottomCMD(canal, index)); 
-
-                leftTrigger = new Trigger(()-> (joystick.getRawAxis(2) > 0.5));
-                rightTrigger = new Trigger(()-> (joystick.getRawAxis(3) > 0.5));
-                        
-                leftTrigger.whileActiveContinuous(new teleopClimber(climber, -0.25));
-                rightTrigger.whileActiveContinuous(new teleopClimber(climber, 0.25));
-                                
+                C_leftTrigger.whileActiveContinuous(new teleopClimber(climber, -0.25));
+                C_rightTrigger.whileActiveContinuous(new teleopClimber(climber, 0.25));
 
         }
-                                
 
-
-    public Command getAutonomousCommand() {
-        return chooser.getSelected();
-    }
+        public Command getAutonomousCommand() {
+                return chooser.getSelected();
+        }
 
 }
