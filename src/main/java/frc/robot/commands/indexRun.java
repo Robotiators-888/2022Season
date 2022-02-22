@@ -8,6 +8,11 @@ import frc.robot.subsystems.IndexSubsystem;
 
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+<<<<<<< HEAD
+=======
+import frc.robot.Constants;
+import frc.robot.STATES;
+>>>>>>> 62f9ad7 (Added 'mega command')
 
 public class indexRun extends CommandBase {
 
@@ -31,6 +36,12 @@ public class indexRun extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+<<<<<<< HEAD
+=======
+
+
+    index.setSpeedTower(speed);
+>>>>>>> 62f9ad7 (Added 'mega command')
 
     index.setSpeedTower(speed);
   }

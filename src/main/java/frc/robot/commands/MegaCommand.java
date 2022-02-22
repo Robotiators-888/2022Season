@@ -9,14 +9,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
 
-public class CanalToBottomCMD extends CommandBase {
+public class MegaCommand extends CommandBase {
 
   private CanalSubsystem canal;
   private IndexSubsystem index;
   private boolean isDone = false;
 
   /** Creates a new MegaCommand. */
-  public CanalToBottomCMD(CanalSubsystem canalArgs, IndexSubsystem indexArgs) {
+  public MegaCommand(CanalSubsystem canalArgs, IndexSubsystem indexArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.canal = canalArgs;
     this.index = indexArgs;
@@ -29,22 +29,14 @@ public class CanalToBottomCMD extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-<<<<<<< HEAD:src/main/java/frc/robot/commands/CanalToBottomCMD.java
-    if (index.readBottomBanner()){
+    if (index.getBallPosition(2)){
       isDone = true;
     } else {
       isDone = false;
       canal.setSpeedBack(0.75);
       canal.setSpeedFront(0.75);
     }
-=======
-
-
-
-
->>>>>>> 62f9ad7 (Added 'mega command'):src/main/java/frc/robot/commands/OrganizeIndexCMD.java
   }
-
 
   // Called once the command ends or is interrupted.
   @Override
