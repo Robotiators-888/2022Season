@@ -16,6 +16,7 @@ public class Limelight extends SubsystemBase {
 
   public void periodic() {
     SmartDashboard.putNumber("dist", getDistance());
+    SmartDashboard.putBoolean("High Shoot?", getHeight());
 
   }
 

@@ -102,9 +102,6 @@ public final class Constants {
     public static final double D_VALUE = 0;
     public static final double F_VALUE = 0.000165;
 
-    public static final double P_VALUE = 0.00015;
-    public static final double I_VALUE = 0;
-    public static final double D_VALUE = 0;
-    public static final double F_VALUE = 0.000165;
+
 
 }
