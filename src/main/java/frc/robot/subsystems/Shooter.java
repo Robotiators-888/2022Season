@@ -44,14 +44,13 @@ public class Shooter extends SubsystemBase {
      */
     public void changeManualRPM(int change){
         this.manualRPM = this.manualRPM + change;
-        SmartDashboard.putNumber("Change", change);
     }
 
     /**
      * @return int manual rpm variable 
      */
     public int getManualRPM(){
-        return manualRPM;
+        return this.manualRPM;
     }
 
     /**

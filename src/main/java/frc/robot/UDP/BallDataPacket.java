@@ -28,7 +28,6 @@ public class BallDataPacket implements DataPacket {
         SmartDashboard.putNumber("X coord", x);
 
         SmartDashboard.putNumber("Y coord", y);
-        System.out.println(x + " " + y + " " + ballDetect);
         return this;
     }
 

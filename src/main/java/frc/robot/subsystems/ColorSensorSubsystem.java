@@ -49,7 +49,7 @@ public class ColorSensorSubsystem extends SubsystemBase {
     // number to that port
     boolean failed = I2CObject.write(i2cPortId, newMuxPort);
     if (failed) {
-      System.out.println("Failed to write to MUX over I2C");
+    
     }
     I2CObject.close();
   }
