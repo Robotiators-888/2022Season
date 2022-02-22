@@ -38,12 +38,15 @@ import frc.robot.UDP.LimelightDataPacket;
 import frc.robot.UDP.UDPReciever;
 import frc.robot.commands.Aim;
 import frc.robot.subsystems.IndexSubsystem;
+import frc.robot.subsystems.CanalSubsystem;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.commands.IntakeSpin;
 import frc.robot.commands.ShooterSpin;
 import frc.robot.commands.canalRun;
+import frc.robot.commands.teleopClimber;
 
 
 /**
@@ -194,9 +197,9 @@ public class RobotContainer {
                 // test banner sensor if it returns values
                 button12.whenPressed(new CanalToBottomCMD(canal, index)); 
         }
-
-        public Command getAutonomousCommand() {
-                return chooser.getSelected();
-        }
+        
+    public Command getAutonomousCommand() {
+        return chooser.getSelected();
+    }
 
 }
