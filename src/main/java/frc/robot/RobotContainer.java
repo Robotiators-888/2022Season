@@ -235,8 +235,7 @@ public class RobotContainer {
                                 new IntakeSpin(m_intake, 0.75)));
                 dPadDown.whileHeld(new ParallelCommandGroup(new canalRun(canal, Constants.BELT_SPEED),
                                 new IntakeSpin(m_intake, -0.75)));
-                // test banner sensor if it returns values
-                button12.whileHeld(new CanalToBottomCMD(canal, index)); 
+
         }
                                 
 
