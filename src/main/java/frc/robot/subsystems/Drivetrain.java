@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Drivetrain extends SubsystemBase {
+  private boolean reversed = false;
   // create motor controller objects
   private CANSparkMax leftPrimary = new CANSparkMax(Constants.ID_LEFT_PRIMARY,
       CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -70,12 +71,13 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putData("field", field2d);
     SmartDashboard.putNumber("x", driveOdometry.getPoseMeters().getX());
     SmartDashboard.putNumber("y", driveOdometry.getPoseMeters().getY());
-    SmartDashboard.putNumber("rev L", leftEncoder.getPosition());
-    SmartDashboard.putNumber("rev R", rightEncoder.getPosition());
+    // SmartDashboard.putNumber("rev L", leftEncoder.getPosition());
+    // SmartDashboard.putNumber("rev R", rightEncoder.getPosition());
     SmartDashboard.putNumber("odoHead", driveOdometry.getPoseMeters().getRotation().getDegrees());
-    SmartDashboard.putNumber("navHead", navx.getYaw());
-    SmartDashboard.putNumber("tester", this.rotationsToMeters(1));
-    SmartDashboard.putNumber("speed", getRate(leftEncoder.getVelocity()));
+    // SmartDashboard.putNumber("navHead", navx.getYaw());
+    // SmartDashboard.putNumber("tester", this.rotationsToMeters(1));
+    // SmartDashboard.putNumber("speed", getRate(leftEncoder.getVelocity()));
+    SmartDashboard.putBoolean("Is Reversed", reversed);
   }
 
   /**
@@ -92,6 +94,32 @@ public class Drivetrain extends SubsystemBase {
 
   public void setMotors(double leftSpeed, double rightSpeed) {
     driveTrain.tankDrive(leftSpeed, rightSpeed);
+  }
+
+  /**
+   * Sets the reverse variable ito given value
+   * @param state value to set reversed to
+   */
+  public void setReverse(boolean state){
+    reversed = state;
+  }
+
+  /**
+   * toggles state of reverse variable
+   */
+  public void toggleReverse(){
+    if(reversed){
+      reversed = false;
+    }else {
+      reversed = true;
+    }
+  }
+
+  /**
+   * @return boolean sotred in reverse variable
+   */
+  public boolean getReverse(){
+    return reversed;
   }
 
   /**
