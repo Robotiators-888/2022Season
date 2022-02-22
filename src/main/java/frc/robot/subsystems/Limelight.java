@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Limelight extends SubsystemBase {
   NetworkTable table;
+  Boolean isHigh = false;
 
   public Limelight() {
     table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -15,7 +16,7 @@ public class Limelight extends SubsystemBase {
 
   public void periodic() {
     SmartDashboard.putNumber("dist", getDistance());
-    
+
   }
 
   /**
@@ -93,5 +94,37 @@ public class Limelight extends SubsystemBase {
 
     return (double) ((h2 - h1) / (Math.tan(a1 + a2)));
   }
+  public void toggleHeight(){
+    if(isHigh){
+      this.isHigh = false;
+    }
+    else{
+      this.isHigh = true;
+    }
+
+  }
+
+  public void setHeight(boolean input){
+    this.isHigh = input;
+  }
+
+  public boolean getHeight(){
+    return this.isHigh;
+  }
+
+
+  public int distRpm(double dist) {
+
+    if(this.isHigh == true){
+      return (int) (450 * (Math.sqrt(dist)));
+
+    }
+    else{
+
+      return (int) (330 * (Math.sqrt(dist)));
+
+    }
+    
+  } 
 
 }
