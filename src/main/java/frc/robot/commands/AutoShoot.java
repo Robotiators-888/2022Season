@@ -6,7 +6,7 @@ import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ShootLow extends CommandBase {
+public class ShootHigh extends CommandBase {
   Limelight m_limelight;
   Shooter shoot;
   IndexSubsystem m_index;
@@ -16,7 +16,7 @@ public class ShootLow extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ShootLow(Limelight subsystem, Shooter shoot, IndexSubsystem m_index) {
+  public ShootHigh(Limelight subsystem, Shooter shoot, IndexSubsystem m_index) {
     this.m_limelight = subsystem;
     this.shoot = shoot;
     this.m_index = m_index;
@@ -38,11 +38,11 @@ public class ShootLow extends CommandBase {
 
     // If limelight has valid target and its within 50-270 inches, fire shooter
     if ((m_limelight.getTv() == true) && (m_limelight.getDistance() > 0) && (m_limelight.getDistance() < 270)) {
-      shoot.setRPM(-(shoot.lowDistRpm(m_limelight.getDistance())));
+      shoot.setRPM(-(m_limelight.distRpm(m_limelight.getDistance())));
       
       // If the difference between the actual and target rpms is less than 150, start
       // index
-      if ((double) Math.abs(shoot.getRPM() + shoot.lowDistRpm(m_limelight.getDistance())) <= 400) {
+      if ((double) Math.abs(shoot.getRPM() + m_limelight.distRpm(m_limelight.getDistance())) <= 400) {
         m_index.setSpeedTower(.5);
         // If requirements arent met at any time, set index and turret to 0
       }
