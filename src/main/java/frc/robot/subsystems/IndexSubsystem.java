@@ -60,6 +60,8 @@ public class IndexSubsystem extends SubsystemBase {
     return bannerSensor1.get(); 
 
   }
+  
+   
 
   /**  
    * readBottomBanner returns if the bottom banner sensor detects a ball or not with a boolean.  
