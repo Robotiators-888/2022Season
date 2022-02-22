@@ -48,7 +48,7 @@ public class Shooter extends SubsystemBase {
      * @param dist
      * @return
      */
-    public int lowdDistRpm(double dist) {
+    public int lowDistRpm(double dist) {
         return (int) (330 * (Math.sqrt(dist)));
 
     }
