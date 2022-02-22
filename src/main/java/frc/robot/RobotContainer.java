@@ -40,7 +40,7 @@ import frc.robot.UDP.GenericBuffer;
 import frc.robot.UDP.LimelightDataPacket;
 import frc.robot.UDP.UDPReciever;
 import frc.robot.commands.autoShoot;
-import frc.robot.commands.CMD_ShooterRPM;
+import frc.robot.commands.CMD_ShooterManualRPM;
 import frc.robot.commands.CMD_canalThrough;
 import frc.robot.commands.CMD_changeSetpoint;
 import frc.robot.subsystems.IndexSubsystem;
