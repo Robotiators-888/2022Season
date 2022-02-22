@@ -29,7 +29,6 @@ public class CanalToBottomCMD extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-<<<<<<< HEAD:src/main/java/frc/robot/commands/CanalToBottomCMD.java
     if (index.readBottomBanner()){
       isDone = true;
     } else {
@@ -37,12 +36,6 @@ public class CanalToBottomCMD extends CommandBase {
       canal.setSpeedBack(0.75);
       canal.setSpeedFront(0.75);
     }
-=======
-
-
-
-
->>>>>>> 62f9ad7 (Added 'mega command'):src/main/java/frc/robot/commands/OrganizeIndexCMD.java
   }
 
 
