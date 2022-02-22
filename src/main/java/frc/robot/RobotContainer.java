@@ -33,7 +33,7 @@ import frc.robot.UDP.GenericBuffer;
 import frc.robot.UDP.LimelightDataPacket;
 import frc.robot.UDP.UDPReciever;
 import frc.robot.commands.Aim;
-import frc.robot.commands.LimelightCommand;
+import frc.robot.commands.ShootHigh;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Limelight;
@@ -139,7 +139,7 @@ public class RobotContainer {
         thumbLeft.whenPressed(new PistonInCmd(m_intake));
         thumbRight.whenPressed(new PistonOutCmd(m_intake));
         // While a button is pressed, run autoshoot command
-        aButton.whileHeld(new LimelightCommand(m_limelight, shoot, index));
+        aButton.whileHeld(new ShootHigh(m_limelight, shoot, index));
         // While b button is pressed, run autoaim command
         startButton.whileHeld(new Aim(m_limelight, drivetrain));
         leftShoulder.whileHeld(new IntakeMotorTest(m_intake));

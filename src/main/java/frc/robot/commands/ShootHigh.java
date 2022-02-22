@@ -6,7 +6,7 @@ import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class LimelightCommand extends CommandBase {
+public class ShootHigh extends CommandBase {
   Limelight m_limelight;
   Shooter shoot;
   IndexSubsystem m_index;
@@ -16,7 +16,7 @@ public class LimelightCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public LimelightCommand(Limelight subsystem, Shooter shoot, IndexSubsystem m_index) {
+  public ShootHigh(Limelight subsystem, Shooter shoot, IndexSubsystem m_index) {
     this.m_limelight = subsystem;
     this.shoot = shoot;
     this.m_index = m_index;
@@ -39,8 +39,7 @@ public class LimelightCommand extends CommandBase {
     // If limelight has valid target and its within 50-270 inches, fire shooter
     if ((m_limelight.getTv() == true) && (m_limelight.getDistance() > 0) && (m_limelight.getDistance() < 270)) {
       shoot.setRPM(-(shoot.highDistRpm(m_limelight.getDistance())));
-      SmartDashboard.putNumber("imcry", 450 * (Math.sqrt(m_limelight.getDistance())));
-      SmartDashboard.putNumber("hell", shoot.highDistRpm(m_limelight.getDistance()));
+      
       // If the difference between the actual and target rpms is less than 150, start
       // index
       if ((double) Math.abs(shoot.getRPM() + shoot.highDistRpm(m_limelight.getDistance())) <= 400) {

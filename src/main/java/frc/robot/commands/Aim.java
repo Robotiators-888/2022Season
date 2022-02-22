@@ -51,8 +51,7 @@ public class Aim extends CommandBase{
       // Returns true when the command should end.
       @Override
       public boolean isFinished() {
-      return false;
-      //return m_limelight.getTx() <0.3 && m_limelight.getTx() > -0.3;
+      return m_limelight.getTx() <0.3 && m_limelight.getTx() > -0.3;
       
        
       }
