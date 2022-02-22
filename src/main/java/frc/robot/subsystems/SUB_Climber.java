@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import com.revrobotics.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.revrobotics.*;
+
 import frc.robot.Constants;
 
 public class SUB_Climber extends SubsystemBase {
