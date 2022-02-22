@@ -29,8 +29,6 @@ import frc.robot.commands.teleopDrive;
 import frc.robot.commands.indexRun;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.commands.CanalToUpCMD;
-import frc.robot.commands.CanalToBottomCMD; 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -48,6 +46,9 @@ import frc.robot.commands.IntakeSpin;
 import frc.robot.commands.ShooterSpin;
 import frc.robot.commands.canalRun;
 import frc.robot.commands.teleopClimber;
+import frc.robot.commands.CanalZeroToOneBottom;
+import frc.robot.commands.IndexBottomToTop;
+import frc.robot.commands.CanalOneToTwo;
 
 
 /**
@@ -212,8 +213,14 @@ public class RobotContainer {
                 // xButton.whenPressed(new zeroHeading(drivetrain));
                 yButton.whileHeld(new ParallelCommandGroup(new indexRun(index, Constants.BELT_SPEED),
                 new canalRun(canal, -Constants.BELT_SPEED)));
-                xButton.whileHeld(new ParallelCommandGroup(new indexRun(index, -Constants.BELT_SPEED),
-                                new canalRun(canal, Constants.BELT_SPEED)));
+                //xButton.whileHeld(new ParallelCommandGroup(new indexRun(index, -Constants.BELT_SPEED),
+                //                new canalRun(canal, Constants.BELT_SPEED)));
+
+                // INDEX AUTO TESTING, THIS SHOULD NOT BE IN A PULL REQUEST.
+                //xButton.whenPressed(new CanalOneToTwo(canal,index));
+                //xButton.whenPressed(new CanalZeroToOneBottom(canal,index));
+                //xButton.whenPressed(new IndexBottomToTop(canal,index));
+
                 // xButton.whileHeld (new OrganizeIndexCMD(index));
 
                 dPadUp.whileHeld(new ParallelCommandGroup(new canalRun(canal, -Constants.BELT_SPEED),
