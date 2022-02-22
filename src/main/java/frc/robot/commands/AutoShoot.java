@@ -6,7 +6,8 @@ import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ShootHigh extends CommandBase {
+public class AutoShoot extends CommandBase {
+ 
   Limelight m_limelight;
   Shooter shoot;
   IndexSubsystem m_index;
@@ -16,7 +17,7 @@ public class ShootHigh extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ShootHigh(Limelight subsystem, Shooter shoot, IndexSubsystem m_index) {
+  public AutoShoot(Limelight subsystem, Shooter shoot, IndexSubsystem m_index) {
     this.m_limelight = subsystem;
     this.shoot = shoot;
     this.m_index = m_index;
@@ -62,4 +63,5 @@ public class ShootHigh extends CommandBase {
   public boolean isFinished() {
     return false;
   }
+ 
 }

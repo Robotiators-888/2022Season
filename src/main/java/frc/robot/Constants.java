@@ -27,7 +27,7 @@ public final class Constants {
     public static final int ID_RIGHT_SECONDARY = 23;
 
     // Climber Motor Can IDs
-    public static final int CLIMBER_MOTOR_ID = 14;
+    public static final int CLIMBER_MOTOR_ID = 25;
 
     // Pneumatic Port IDs
     public static final int CLIMBER_LOCK_PORT_1 = 4;
@@ -47,7 +47,8 @@ public final class Constants {
 
     // Joystick ports
     public static final int JOYSTICK_PORT = 0;
-    public static final int TWISTSTICK_PORT = 2;
+    public static final int LEFTJOYSTICK_PORT = 1;
+    public static final int RIGHTSTICK_PORT = 2;
 
     // Joystick axis
     public static final int LEFT_AXIS = 1;
@@ -66,16 +67,16 @@ public final class Constants {
     // Auto Constants
     public static final double TRACKWIDTH = 35; // track width in inches
     public static final double WHEEL_RADIUS = 3; // wheel radius in inches
-    public static final double GEARRATIO = 10.85; // number of rotations per one inch of movement
+    public static final double GEARRATIO = 15.5; //gear ratio from output shaft of motor to wheel axle
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
             Units.inchesToMeters(TRACKWIDTH));
 
     // The Robot Characterization tool will help in obtaining
     // https://docs.wpilib.org/en/stable/docs/software/pathplanning/robot-characterization/index.html
-    public static final double ksVolts = 0.25;
-    public static final double kvVoltSecondsPerMeter = 0.28;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.03;
-    public static final double kPDriveVel = 1.31;
+    public static final double ksVolts = 0.15431;
+    public static final double kvVoltSecondsPerMeter = 1.9189;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.28843;
+    public static final double kPDriveVel = 2.5217;
 
     public static final double kMaxSpeedMetersPerSecond = 1;
     public static final double kMaxAccelerationMetersPerSecondSquared = 1;
@@ -91,6 +92,15 @@ public final class Constants {
     public static final int FLYWHEEL_MOTOR_ID = 24;
 
     public static final double BELT_SPEED = 0.75;
+    public static final double ShooterSpeed = -0.15;
+
+    public static final int DIO_PORT_0 = 0;
+    public static final int DIO_PORT_1 = 1;
+    
+    public static final double P_VALUE = 0.00015;
+    public static final double I_VALUE = 0;
+    public static final double D_VALUE = 0;
+    public static final double F_VALUE = 0.000165;
 
     public static final double P_VALUE = 0.00015;
     public static final double I_VALUE = 0;

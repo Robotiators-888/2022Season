@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -14,43 +15,44 @@ import frc.robot.Constants;
  * motor speed in percent and set pistons to on or off
  */
 public class IntakeSubsystem extends SubsystemBase {
-    // PS: SillyPandaDog is also Jokorie
-    // Initialize Intake Motors
     TalonSRX Intake = new TalonSRX(Constants.MOTOR_ID);
+    DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 2, 3);
 
-    // take double parameter as the percentage of power given to each motor
-    DoubleSolenoid solenoid1 = new DoubleSolenoid(PneumaticsModuleType.REVPH, 2, 3);
+    public IntakeSubsystem(){
+        solenoid.set(Value.kReverse);
+    }
+
     /**
      * Gets the status of the intake pistons.
      * 
      * @returna boolean true if pistons are on, else false
      */
-    public boolean intakeGet() {
-        return (solenoid1.get().equals(DoubleSolenoid.Value.kForward));
+    public Value intakeGet() {
+        return (solenoid.get());
     }
 
     /**
-     * Sets the state of the intake pistons.
-     * 
-     * @param pistonState sets Pistons to on or off depending on the pistonState, if
-     *                    the intake is up, it will be false, if intake is down, it
-     *                    will be false
+     * Toggles piston to the opposite position that it currently is in
      */
-    public void intakeSet(boolean pistonState) { // up false, down true
-        if (pistonState) {
-            solenoid1.set(DoubleSolenoid.Value.kForward);
+    public void pistonToggle() {
+        solenoid.toggle();
+    }
 
-        } else {
-            solenoid1.set(DoubleSolenoid.Value.kReverse);
-
+    /**
+     * sets the position of the intake. (true is extended and false is retracted)
+     */
+    public void pistonSet(boolean position){
+        if(position){
+            solenoid.set(Value.kForward);
+        }else{
+            solenoid.set(Value.kReverse);
         }
     }
 
     /**
      * Gets the percent output speed of the intake motor.
      * 
-     * @return the power of the motor control in percent, from -1 to 1 or -100% to
-     *         100%
+     * @return the power of the motor control in percent, from -1 to 1
      */
     public double intakeSpeedGet() {
         return Intake.getMotorOutputPercent();
@@ -64,7 +66,6 @@ public class IntakeSubsystem extends SubsystemBase {
      *                     the motor power in percent, or from -100% to 100%
      */
     public void intakeSpeedSet(double percentSpeed) {
-
         Intake.set(TalonSRXControlMode.PercentOutput, percentSpeed);
     }
 

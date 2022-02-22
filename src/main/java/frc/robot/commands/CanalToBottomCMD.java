@@ -5,42 +5,49 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.CanalSubsystem;
-import frc.robot.Constants;
 
-public class teleopCanal extends CommandBase {
+import frc.robot.subsystems.CanalSubsystem;
+import frc.robot.subsystems.IndexSubsystem;
+
+public class CanalToBottomCMD extends CommandBase {
 
   private CanalSubsystem canal;
-  /** Creates a new teleopCanal. */
-  public teleopCanal(CanalSubsystem canalArgs) {
+  private IndexSubsystem index;
+  private boolean isDone = false;
+
+  /** Creates a new MegaCommand. */
+  public CanalToBottomCMD(CanalSubsystem canalArgs, IndexSubsystem indexArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.canal = canalArgs;
-
-    addRequirements(canal);
+    this.index = indexArgs;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    canal.setSpeedBack(-Constants.BELT_SPEED);
-    canal.setSpeedFront(-Constants.BELT_SPEED);
+    if (index.readBottomBanner()){
+      isDone = true;
+    } else {
+      isDone = false;
+      canal.setSpeedBack(0.75);
+      canal.setSpeedFront(0.75);
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    canal.setSpeedFront(0);
     canal.setSpeedBack(0);
+    canal.setSpeedFront(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isDone;
   }
 }

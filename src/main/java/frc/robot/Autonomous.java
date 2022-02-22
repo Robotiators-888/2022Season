@@ -27,7 +27,6 @@ public class Autonomous {
      */
     public Autonomous(Drivetrain input) {
         this.drivetrain = input;
-
     }
 
     /**
