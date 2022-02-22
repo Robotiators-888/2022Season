@@ -37,8 +37,8 @@ public class Climber extends SubsystemBase {
    * 
    * @param speed Can set either a pos or neg speed for the climber arms
    */
-  public static void speedSet(double speed) {
-    climberMotor.set(speed * .25);
+  public void speedSet(double speed) {
+    climberMotor.set(speed);
   }
 
   /**
