@@ -41,6 +41,8 @@ import frc.robot.UDP.LimelightDataPacket;
 import frc.robot.UDP.UDPReciever;
 import frc.robot.commands.Aim;
 import frc.robot.commands.CMD_ShooterManualRPM;
+import frc.robot.commands.AutoShoot;
+import frc.robot.commands.CMD_ShooterRPM;
 import frc.robot.commands.CMD_canalThrough;
 import frc.robot.commands.CMD_changeSetpoint;
 import frc.robot.subsystems.IndexSubsystem;
@@ -206,7 +208,9 @@ public class RobotContainer {
                 R_button6.whileHeld(new CMD_changeSetpoint(shoot, 100));
                 R_trigger.whileHeld(new CMD_ShooterManualRPM(shoot));
                 //L_button2 auto aim and shoot
+                L_button2.whileHeld(new SequentialCommandGroup(new Aim(limelight, drivetrain), new AutoShoot(limelight, shoot, index)));
                 //C_yButton change auto target (high or low goal)
+                C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
 
         }
 
