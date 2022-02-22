@@ -11,9 +11,28 @@ import frc.robot.subsystems.Shooter;
  * edu.wpi.first.wpilibj2.command.InstantCommand}.
  */
 public class CMD_changeSetpoint extends CommandBase {
+    Shooter shoot;
+    int change;
 
     public CMD_changeSetpoint(Shooter subsystem, int change) {
         addRequirements(subsystem);
-        subsystem.changeManualRPM(change);
+        this.shoot = subsystem;
+        this.change = change;
+    }
+
+    @Override
+    public void initialize() {
+        shoot.changeManualRPM(change);
+    }
+
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {
+    }
+
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+        return true;
     }
 }

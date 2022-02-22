@@ -4,20 +4,20 @@
 
 package frc.robot.commands;
 
+import java.util.function.IntSupplier;
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.Shooter;
 
-public class CMD_ShooterRPM extends CommandBase {
+public class CMD_ShooterManualRPM extends CommandBase {
   /** Creates a new ShooterSpin. */
   private Shooter shoot;
-  private int RPM;
 
-  public CMD_ShooterRPM (Shooter subsystem, int shooterRPM) {
+  public CMD_ShooterManualRPM (Shooter subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.shoot = subsystem;
-
-    this.RPM = shooterRPM;
     addRequirements(shoot);
   }
 
@@ -29,8 +29,7 @@ public class CMD_ShooterRPM extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    shoot.setRPM(RPM);
+    shoot.setRPM(shoot.getManualRPM());
   }
 
   // Called once the command ends or is interrupted.

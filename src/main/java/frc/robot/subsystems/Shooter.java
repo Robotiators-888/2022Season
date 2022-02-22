@@ -46,14 +46,16 @@ public class Shooter extends SubsystemBase {
      * @param change positive or negative intiger to change the RPM by
      */
     public void changeManualRPM(int change){
-        manualRPM = manualRPM + change;
+        if((this.manualRPM + change) < 0){
+        this.manualRPM = this.manualRPM + change;
+        }
     }
 
     /**
      * @return int manual rpm variable 
      */
     public int getManualRPM(){
-        return manualRPM;
+        return this.manualRPM;
     }
 
     /**
