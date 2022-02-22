@@ -40,7 +40,7 @@ import frc.robot.UDP.GenericBuffer;
 import frc.robot.UDP.LimelightDataPacket;
 import frc.robot.UDP.UDPReciever;
 import frc.robot.commands.Aim;
-import frc.robot.commands.CMD_ShooterRPM;
+import frc.robot.commands.CMD_ShooterManualRPM;
 import frc.robot.commands.CMD_canalThrough;
 import frc.robot.commands.CMD_changeSetpoint;
 import frc.robot.subsystems.IndexSubsystem;
@@ -66,12 +66,12 @@ public class RobotContainer {
         
 
         // The robot's subsystems and commands are defined here...
-        private final GenericBuffer<BallDataPacket> ballBuffer = new GenericBuffer<>();
-        private final GenericBuffer<LimelightDataPacket> limelightBuffer = new GenericBuffer<>();
-        private final UDPReciever<BallDataPacket> BallReciever = new UDPReciever<>(Constants.BALL_PORT,
-                        () -> new BallDataPacket(), ballBuffer);
-        private final UDPReciever<LimelightDataPacket> limelightReciever = new UDPReciever<>(Constants.LIMELIGHT_PORT,
-                        () -> new LimelightDataPacket(), limelightBuffer);
+        // private final GenericBuffer<BallDataPacket> ballBuffer = new GenericBuffer<>();
+        // private final GenericBuffer<LimelightDataPacket> limelightBuffer = new GenericBuffer<>();
+        // private final UDPReciever<BallDataPacket> BallReciever = new UDPReciever<>(Constants.BALL_PORT,
+        //                 () -> new BallDataPacket(), ballBuffer);
+        // private final UDPReciever<LimelightDataPacket> limelightReciever = new UDPReciever<>(Constants.LIMELIGHT_PORT,
+        //                 () -> new LimelightDataPacket(), limelightBuffer);
 
         private final Field2d field2d = new Field2d();
 
@@ -160,8 +160,8 @@ public class RobotContainer {
                 chooser.addOption("Complex Auto", pwtest);
                 chooser.addOption("one Path Wonder", onePathWonder);
 
-                BallReciever.start();
-                limelightReciever.start();
+                // BallReciever.start();
+                // limelightReciever.start();
                 SmartDashboard.putData("chooser", chooser);
         }
 
@@ -201,11 +201,11 @@ public class RobotContainer {
                 C_bButton.whileHeld(new indexRun(index, 0.75));
 
                 //shooter
-                R_button3.whenPressed(new CMD_changeSetpoint(shoot, -500));
-                R_button4.whenPressed(new CMD_changeSetpoint(shoot, -100));
-                R_button5.whenPressed(new CMD_changeSetpoint(shoot, 500));
-                R_button6.whenPressed(new CMD_changeSetpoint(shoot, 100));
-                R_trigger.whileHeld(new CMD_ShooterRPM(shoot, shoot.getManualRPM()));
+                R_button3.whileHeld(new CMD_changeSetpoint(shoot, -500));
+                R_button4.whileHeld(new CMD_changeSetpoint(shoot, -100));
+                R_button5.whileHeld(new CMD_changeSetpoint(shoot, 500));
+                R_button6.whileHeld(new CMD_changeSetpoint(shoot, 100));
+                R_trigger.whileHeld(new CMD_ShooterManualRPM(shoot));
                 //L_button2 auto aim and shoot
                 //C_yButton change auto target (high or low goal)
 
