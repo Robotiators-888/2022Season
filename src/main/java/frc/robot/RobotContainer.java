@@ -6,8 +6,6 @@ package frc.robot;
 
 import java.util.List;
 
-import javax.management.InstanceAlreadyExistsException;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -23,7 +21,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -31,17 +28,14 @@ import frc.robot.commands.teleopDrive;
 import frc.robot.commands.indexRun;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.commands.CanalToBottomCMD; 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.Aim;
 import frc.robot.commands.CMD_ShooterManualRPM;
 import frc.robot.commands.CMD_canalThrough;
 import frc.robot.commands.CMD_changeSetpoint;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.commands.IntakeSpin;
@@ -65,7 +59,6 @@ public class RobotContainer {
         private final Field2d field2d = new Field2d();
 
         // subsystems
-        private Limelight limelight = new Limelight();
         private Shooter shoot = new Shooter();
         private Drivetrain drivetrain = new Drivetrain(field2d);
         private IntakeSubsystem intake = new IntakeSubsystem();

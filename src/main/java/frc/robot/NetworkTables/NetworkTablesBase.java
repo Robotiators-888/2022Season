@@ -1,9 +1,11 @@
 package frc.robot.NetworkTables;
 
+import edu.wpi.first.networktables.EntryListenerFlags;
 //imports
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.TableEntryListener;
 
 //Class
 public class NetworkTablesBase{
@@ -11,17 +13,22 @@ public class NetworkTablesBase{
     NetworkTableInstance inst;
     NetworkTableEntry xEntry;
     NetworkTableEntry yEntry;
+    TableEntryListener Ylistener;
+    TableEntryListener Xlistener;
+    NetworkTable piTable;
 
     public NetworkTablesBase(){
-        inst = NetworkTableInstance.create();
-        inst.startServer("Pi Table", "10.8.88.86", 5802);
+        inst = NetworkTableInstance.getDefault();
+        piTable = inst.getTable("Pi Datatable");
+        inst.setServer("Pi Table Prime", 5802);
         
-        NetworkTable piTable = inst.getTable("Pi Datatable");
-        
-        xEntry =piTable.getEntry("X");
-        yEntry = piTable.getEntry("Y");
+        piTable.addEntryListener("Pi Cam X", Xlistener, EntryListenerFlags.kNew);
+        piTable.addEntryListener("Pi Cam Y", Ylistener, EntryListenerFlags.kNew);
 
+    }
 
+    public void networkTableInit(){
+      //  Xlistener.valueChanged(piTable, "Pi Cam X", entry, value, flags);
     }
 
 
