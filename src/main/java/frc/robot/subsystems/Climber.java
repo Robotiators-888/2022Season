@@ -55,7 +55,6 @@ public class Climber extends SubsystemBase {
    * @param isPistonExtended same value as pistonExtended
    * @return The state of the piston
    */
-
     public Value lockGet() {
       return (cSolenoid.get());
   
