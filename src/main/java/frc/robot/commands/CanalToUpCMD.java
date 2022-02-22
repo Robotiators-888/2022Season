@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
 
-public class CanalToBottomCMD extends CommandBase {
+public class CanalToUpCMD extends CommandBase {
 
   private CanalSubsystem canal = new CanalSubsystem();
   private IndexSubsystem index;
@@ -24,8 +24,8 @@ public class CanalToBottomCMD extends CommandBase {
   }
 
   public States initalizeStates() {
-    if (index.readBottomBanner()) {
-      States activeState = States.ONE_BALL_BOTTOM;
+    if (index.readTopBanner()) {
+      States activeState = States.ONE_BALL_TOP;
       return activeState;
     } else {
       States activeState = States.ZERO_BALL;
@@ -34,7 +34,7 @@ public class CanalToBottomCMD extends CommandBase {
   }
 
   /** Creates a new MegaCommand. */
-  public CanalToBottomCMD(CanalSubsystem canalArgs, IndexSubsystem indexArgs) {
+  public CanalToUpCMD(CanalSubsystem canalArgs, IndexSubsystem indexArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.canal = canalArgs;
     this.index = indexArgs;
@@ -75,7 +75,6 @@ public class CanalToBottomCMD extends CommandBase {
     isDone = true;
 
   }
-
 
   // Called once the command ends or is interrupted.
   @Override
