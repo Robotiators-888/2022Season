@@ -76,7 +76,7 @@ public class Shooter extends SubsystemBase {
      * @param dist double distance in inches from target
      * @return int RPM to hit target
      */
-    public int lowdDistRpm(double dist) {
+    public int lowDistRpm(double dist) {
         return (int) (330 * (Math.sqrt(dist)));
 
     }
