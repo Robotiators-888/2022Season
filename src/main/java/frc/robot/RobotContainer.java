@@ -49,7 +49,8 @@ import frc.robot.commands.teleopClimber;
 import frc.robot.commands.CanalZeroToOneBottom;
 import frc.robot.commands.IndexBottomToTop;
 import frc.robot.commands.CanalOneToTwo;
-
+import edu.wpi.first.wpilibj2.command.SelectCommand;
+import java.util.Map;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -216,12 +217,21 @@ public class RobotContainer {
                 //xButton.whileHeld(new ParallelCommandGroup(new indexRun(index, -Constants.BELT_SPEED),
                 //                new canalRun(canal, Constants.BELT_SPEED)));
 
+
+
+
                 // INDEX AUTO TESTING, THIS SHOULD NOT BE IN A PULL REQUEST.
                 //xButton.whenPressed(new CanalOneToTwo(canal,index));
-                //xButton.whenPressed(new CanalZeroToOneBottom(canal,index));
-                //xButton.whenPressed(new IndexBottomToTop(canal,index));
+                xButton.whenPressed(new CanalZeroToOneBottom(canal,index));
+                // xButton.whenPressed(new IndexBottomToTop(canal,index));
+                // xButton.whenPressed( new SelectCommand());
+                // xButton.whenPressed(new NoStateCanalZeroToOneBottom(canal,index));
+                // xButton.whenPressed(new NoStateIndexBottomToTop(canal,index));
 
                 // xButton.whileHeld (new OrganizeIndexCMD(index));
+
+
+                
 
                 dPadUp.whileHeld(new ParallelCommandGroup(new canalRun(canal, -Constants.BELT_SPEED),
                                 new IntakeSpin(m_intake, 0.75)));
