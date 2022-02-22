@@ -33,7 +33,10 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.commands.CanalToBottomCMD; 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+<<<<<<< HEAD
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+=======
+>>>>>>> 0e4287e (almost down with climber)
 import frc.robot.UDP.BallDataPacket;
 import frc.robot.UDP.GenericBuffer;
 import frc.robot.UDP.LimelightDataPacket;
@@ -96,6 +99,7 @@ public class RobotContainer {
         JoystickButton thumbRight = new JoystickButton(joystick, 10);
         
 
+<<<<<<< HEAD
         POVButton dPadUp = new POVButton(joystick, 0);
         POVButton dPadDown = new POVButton(joystick, 180);
 
@@ -165,6 +169,10 @@ public class RobotContainer {
 
     Trigger leftTrigger;
     Trigger rightTrigger;
+=======
+    POVButton DpadUp = new POVButton(joystick, 0);
+    POVButton DpadDown = new POVButton(joystick, 180);
+>>>>>>> 0e4287e (almost down with climber)
     // Auto objects
    
 
