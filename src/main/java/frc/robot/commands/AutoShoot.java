@@ -3,27 +3,30 @@ package frc.robot.commands;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class AutoShoot extends CommandBase {
+public class autoShoot extends CommandBase {
  
   Limelight m_limelight;
   Shooter shoot;
   IndexSubsystem m_index;
+  Drivetrain drive;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public AutoShoot(Limelight subsystem, Shooter shoot, IndexSubsystem m_index) {
-    this.m_limelight = subsystem;
+  public autoShoot(Limelight limelight, IndexSubsystem index, Drivetrain drivetrain, Shooter shoot) {
+    this.m_limelight = limelight;
     this.shoot = shoot;
-    this.m_index = m_index;
+    this.m_index = index;
+    this.drive = drivetrain;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_limelight, m_index, shoot);
+    addRequirements(m_limelight, drivetrain, index, shoot);
   }
 
   // Called when the command is initially scheduled.
@@ -37,7 +40,9 @@ public class AutoShoot extends CommandBase {
   public void execute() {
     m_limelight.setLed(0);
 
-    // If limelight has valid target and its within 50-270 inches, fire shooter
+    if((m_limelight.getTx() < 1) && (m_limelight.getTx() > -1)){
+
+      // If limelight has valid target and its within 50-270 inches, fire shooter
     if ((m_limelight.getTv() == true) && (m_limelight.getDistance() > 0) && (m_limelight.getDistance() < 270)) {
       shoot.setRPM(-(m_limelight.distRpm(m_limelight.getDistance())));
       
@@ -47,6 +52,11 @@ public class AutoShoot extends CommandBase {
         m_index.setSpeedTower(.5);
         // If requirements arent met at any time, set index and turret to 0
       }
+    }
+
+    }
+    else{
+      drive.setMotors((0.03)*(m_limelight.getTx()),(-0.03)*(m_limelight.getTx()));
     }
   }
 
