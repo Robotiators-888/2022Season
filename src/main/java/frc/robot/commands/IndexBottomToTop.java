@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
-import frc.robot.Constants;
-public class CanalToBottomCMD extends CommandBase {
+import frc.robot.Constants; 
+public class IndexBottomToTop extends CommandBase {
 
   private CanalSubsystem canal = new CanalSubsystem();
   private IndexSubsystem index;
@@ -24,15 +24,14 @@ public class CanalToBottomCMD extends CommandBase {
   }
 
   public States initalizeStates() {
+    if (index.readTopBanner()) {
 
-    if (index.readBottomBanner()) {
-
-      if (index.readTopBanner()) {
+      if (index.readBottomBanner()) {
         States activeState = States.TWO_BALL;
         return activeState;
-      } 
-
-      States activeState = States.ONE_BALL_BOTTOM;
+      }
+      
+      States activeState = States.ONE_BALL_TOP;
       return activeState;
     } else {
       States activeState = States.ZERO_BALL;
@@ -41,7 +40,7 @@ public class CanalToBottomCMD extends CommandBase {
   }
 
   /** Creates a new MegaCommand. */
-  public CanalToBottomCMD(CanalSubsystem canalArgs, IndexSubsystem indexArgs) {
+  public IndexBottomToTop(CanalSubsystem canalArgs, IndexSubsystem indexArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.canal = canalArgs;
     this.index = indexArgs;
@@ -58,23 +57,19 @@ public class CanalToBottomCMD extends CommandBase {
     isDone = false;
     switch (initalizeStates()) {
       case ZERO_BALL:
-        canal.setSpeedBack(Constants.BELT_SPEED);
-        canal.setSpeedFront(Constants.BELT_SPEED);
-        index.setSpeedTower(0);
+        index.setSpeedTower(Constants.BELT_SPEED);
         break;
       case ONE_BALL_BOTTOM:
         index.setSpeedTower(Constants.BELT_SPEED);
         break;
       case ONE_BALL_TOP:
-        canal.setSpeedBack(Constants.BELT_SPEED);
-        canal.setSpeedFront(Constants.BELT_SPEED);
         break;
       case TWO_BALL:
-        isDone = true;
         break;
 
     }
     isDone = true;
+
   }
 
   // Called once the command ends or is interrupted.
@@ -83,6 +78,7 @@ public class CanalToBottomCMD extends CommandBase {
     index.setSpeedTower(0);
     canal.setSpeedBack(0);
     canal.setSpeedFront(0);
+
   }
 
   // Returns true when the command should end.

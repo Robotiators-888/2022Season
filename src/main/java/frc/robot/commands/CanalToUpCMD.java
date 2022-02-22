@@ -25,6 +25,12 @@ public class CanalToUpCMD extends CommandBase {
 
   public States initalizeStates() {
     if (index.readTopBanner()) {
+
+      if (index.readBottomBanner()) {
+        States activeState = States.TWO_BALL;
+        return activeState;
+      }
+      
       States activeState = States.ONE_BALL_TOP;
       return activeState;
     } else {

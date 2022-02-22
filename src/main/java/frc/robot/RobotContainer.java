@@ -196,7 +196,8 @@ public class RobotContainer {
                 // shooter controls
 
                 // intake Controls
-                leftShoulder.whileHeld(new IntakeSpin(m_intake, 0.75));
+                leftShoulder.whileHeld(
+                        new IntakeSpin(m_intake, 0.75));
                 rightShoulder.whileHeld(new IntakeSpin(m_intake, -0.75));
                 bButton.whenPressed(new InstantCommand(() -> m_intake.pistonToggle()));
 
