@@ -35,10 +35,6 @@ import frc.robot.commands.CanalToBottomCMD;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.UDP.BallDataPacket;
-import frc.robot.UDP.GenericBuffer;
-import frc.robot.UDP.LimelightDataPacket;
-import frc.robot.UDP.UDPReciever;
 import frc.robot.commands.Aim;
 import frc.robot.commands.CMD_ShooterManualRPM;
 import frc.robot.commands.CMD_canalThrough;
@@ -66,13 +62,6 @@ public class RobotContainer {
         
 
         // The robot's subsystems and commands are defined here...
-        // private final GenericBuffer<BallDataPacket> ballBuffer = new GenericBuffer<>();
-        // private final GenericBuffer<LimelightDataPacket> limelightBuffer = new GenericBuffer<>();
-        // private final UDPReciever<BallDataPacket> BallReciever = new UDPReciever<>(Constants.BALL_PORT,
-        //                 () -> new BallDataPacket(), ballBuffer);
-        // private final UDPReciever<LimelightDataPacket> limelightReciever = new UDPReciever<>(Constants.LIMELIGHT_PORT,
-        //                 () -> new LimelightDataPacket(), limelightBuffer);
-
         private final Field2d field2d = new Field2d();
 
         // subsystems
@@ -159,9 +148,6 @@ public class RobotContainer {
                 chooser.setDefaultOption("Simple Auto", straightAuto);
                 chooser.addOption("Complex Auto", pwtest);
                 chooser.addOption("one Path Wonder", onePathWonder);
-
-                // BallReciever.start();
-                // limelightReciever.start();
                 SmartDashboard.putData("chooser", chooser);
         }
 
