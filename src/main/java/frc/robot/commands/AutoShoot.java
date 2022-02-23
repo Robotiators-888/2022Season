@@ -42,7 +42,7 @@ public class autoShoot extends CommandBase {
     m_limelight.setLed(0);
     SmartDashboard.putNumber("ShooterRPM", shoot.getRPM());
     SmartDashboard.putNumber("TargetRPM", -(m_limelight.distRpm(m_limelight.getDistance())));
-    
+
     if((m_limelight.getTx() < 3) && (m_limelight.getTx() > -3)){
 
       // If limelight has valid target and its within 0-270 inches, fire shooter
@@ -67,9 +67,21 @@ public class autoShoot extends CommandBase {
 
     }
     else{
-      
-      drive.setMotors((0.03)*(m_limelight.getTx()),(-0.03)*(m_limelight.getTx()));
+      if((Math.abs(m_limelight.getTx()) <= 1)){
 
+        drive.setMotors(0, 0);
+
+      }
+      if((Math.abs(m_limelight.getTx()) <= 5)){
+
+        drive.setMotors(Math.signum(m_limelight.getTx())* 0.25, Math.signum(m_limelight.getTx())*-0.25);
+
+      }
+      else{
+
+        drive.setMotors((0.03)*(m_limelight.getTx()),(-0.03)*(m_limelight.getTx()));
+
+      }
     }
   }
 
