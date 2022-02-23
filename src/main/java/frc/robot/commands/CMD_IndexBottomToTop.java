@@ -34,7 +34,7 @@ public class CMD_IndexBottomToTop extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!index.readTopBanner()){
+    if (!index.readTopBanner() && index.readTopBanner()){
       isDone = false;
       index.setSpeedTower(Constants.BELT_SPEED);
       canal.setSpeedBack(-1 * Constants.BELT_SPEED);
