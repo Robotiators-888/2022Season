@@ -126,7 +126,6 @@ public class RobotContainer {
         Command twoball = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(twoBall_p1.getInitialPose())),
                         autoHelper.getRamset(twoBall_p1),
-                        new InstantCommand(()-> drivetrain.tankDriveVolts(0,0)), 
                         new ParallelRaceGroup(
                                 new ShooterSpin(shoot, -0.50), 
                                 new SequentialCommandGroup(
@@ -135,9 +134,8 @@ public class RobotContainer {
                                         )),
                         new ParallelRaceGroup(
                                 autoHelper.getRamset(twoBall_p2), 
-                                new canalRun(canal, -0.75) , 
-                                new IndexBottomToTopBanner(index, 0.75)),
-                        new InstantCommand(()-> drivetrain.tankDriveVolts(0,0)),
+                                new canalRun(canal, -0.50) , 
+                                new IndexBottomToTopBanner(index, 0.50)),
                         new ParallelRaceGroup(
                                 new ShooterSpin(shoot, -0.5),
                                 new SequentialCommandGroup(
