@@ -23,6 +23,15 @@ public class IndexSubsystem extends SubsystemBase {
   private DigitalInput bannerSensor2 = new DigitalInput(Constants.DIO_PORT_1);
 
 
+  public enum States {
+    ONE_BALL_TOP,
+    ONE_BALL_BOTTOM,
+    TWO_BALL,
+    ZERO_BALL,
+  }
+
+  public States currentState;
+
 
 
 

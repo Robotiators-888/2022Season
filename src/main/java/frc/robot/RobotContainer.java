@@ -54,6 +54,10 @@ import frc.robot.commands.teleopClimber;
 import frc.robot.commands.CanalZeroToOneBottom;
 import frc.robot.commands.IndexBottomToTop;
 import frc.robot.commands.CanalOneToTwo;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0d901a2 (Added button bindings, and added a currentState to index)
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -214,6 +218,77 @@ public class RobotContainer {
 
     // Auto objects
    
+<<<<<<< HEAD
+=======
+
+    /**
+     * Use this method to define your button->command mappings. Buttons can be
+     * created by
+     * instantiating a {@link GenericHID} or one of its subclasses ({@link
+     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
+     * it to a {@link
+     * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+     */
+    private void configureButtonBindings() {
+        drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> joystick.getRawAxis(Constants.LEFT_AXIS),
+                () -> joystick.getRawAxis(Constants.RIGHT_AXIS)));
+                
+        
+        
+        //xButton.whenPressed(new zeroHeading(drivetrain));
+        startButton.whileHeld(new Aim(m_limelight, drivetrain));
+        yButton.whileHeld(new indexRun(index, 0.75));
+        aButton.whileHeld(new ParallelCommandGroup(
+                                new ShooterSpin(shoot, Constants.ShooterSpeed),
+                                new SequentialCommandGroup(
+                                                new WaitCommand(2),
+                                                new ParallelCommandGroup(
+                                                                new indexRun(index, Constants.BELT_SPEED),
+                                                                new canalRun(canal, -Constants.BELT_SPEED)))));
+
+                // shooter controls
+
+                // intake Controls
+                leftShoulder.whileHeld(
+                        new IntakeSpin(m_intake, 0.75));
+                rightShoulder.whileHeld(new IntakeSpin(m_intake, -0.75));
+                bButton.whenPressed(new InstantCommand(() -> m_intake.pistonToggle()));
+
+                // spins shooter backwards
+                button7.toggleWhenPressed(new ShooterSpin(shoot, 0.50));
+
+                // aButton.whileHeld(new ShooterSpin(shoot, twiststick));
+                // bButton.whileHeld(new IntakeMotorTest(m_intake));
+
+                // xButton.whenPressed(new zeroHeading(drivetrain));
+                yButton.whileHeld(new ParallelCommandGroup(new indexRun(index, Constants.BELT_SPEED),
+                new canalRun(canal, -Constants.BELT_SPEED)));
+                //xButton.whileHeld(new ParallelCommandGroup(new indexRun(index, -Constants.BELT_SPEED),
+                //                new canalRun(canal, Constants.BELT_SPEED)));
+
+                // INDEX AUTO TESTING, THIS SHOULD NOT BE IN A PULL REQUEST.
+                //xButton.whenPressed(new CanalOneToTwo(canal,index));
+                //xButton.whenPressed(new CanalZeroToOneBottom(canal,index));
+                //xButton.whenPressed(new IndexBottomToTop(canal,index));
+
+                // xButton.whileHeld (new OrganizeIndexCMD(index));
+
+                dPadUp.whileHeld(new ParallelCommandGroup(new canalRun(canal, -Constants.BELT_SPEED),
+                                new IntakeSpin(m_intake, 0.75)));
+                dPadDown.whileHeld(new ParallelCommandGroup(new canalRun(canal, Constants.BELT_SPEED),
+                                new IntakeSpin(m_intake, -0.75)));
+
+                // test banner sensor if it returns values
+        
+
+                leftTrigger = new Trigger(()-> (joystick.getRawAxis(2) > 0.5));
+                rightTrigger = new Trigger(()-> (joystick.getRawAxis(3) > 0.5));
+                        
+                leftTrigger.whileActiveContinuous(new teleopClimber(climber, -0.25));
+                rightTrigger.whileActiveContinuous(new teleopClimber(climber, 0.25));
+                                
+
+>>>>>>> 0d901a2 (Added button bindings, and added a currentState to index)
         }
                                 
 
