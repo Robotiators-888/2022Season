@@ -216,8 +216,8 @@ public class RobotContainer {
 
 
                 // FOR INDEX TESTING. THIS SHOULD NOT BE IN A PULL REQUEST.
-                C_xButton.whenPressed(new NoStateCanalZeroToOneBottom(canal, index));
-                //C_xButton.whenPressed(new NoStateIndexToTop(canal, index));
+                // C_xButton.whenPressed(new NoStateCanalZeroToOneBottom(canal, index));
+                C_xButton.whenPressed(new NoStateIndexBottomToTop(canal, index));
 
     // Auto objects
    
