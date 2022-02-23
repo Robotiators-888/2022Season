@@ -9,13 +9,13 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.SUB_Shooter;
 
 public class CMD_ShooterManualRPM extends CommandBase {
   /** Creates a new ShooterSpin. */
-  private Shooter shoot;
+  private SUB_Shooter shoot;
 
-  public CMD_ShooterManualRPM (Shooter subsystem) {
+  public CMD_ShooterManualRPM (SUB_Shooter subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.shoot = subsystem;
     addRequirements(shoot);

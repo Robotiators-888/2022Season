@@ -1,22 +1,22 @@
 package frc.robot.commands;
 
-import frc.robot.subsystems.IndexSubsystem;
-import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.SUB_Index;
+import frc.robot.subsystems.SUB_Limelight;
+import frc.robot.subsystems.SUB_Shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class LimelightCommand extends CommandBase {
+public class CMD_Limelight extends CommandBase {
  
-  Limelight m_limelight;
-  Shooter shoot;
-  IndexSubsystem m_index;
+  SUB_Limelight m_limelight;
+  SUB_Shooter shoot;
+  SUB_Index m_index;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public LimelightCommand(Limelight subsystem, Shooter shoot, IndexSubsystem m_index) {
+  public CMD_Limelight(SUB_Limelight subsystem, SUB_Shooter shoot, SUB_Index m_index) {
     this.m_limelight = subsystem;
     this.shoot = shoot;
     this.m_index = m_index;

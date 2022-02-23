@@ -27,10 +27,10 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.teleopDrive;
+import frc.robot.commands.CMD_TeleopDrive;
 import frc.robot.commands.CMD_IndexRun;
-import frc.robot.subsystems.CanalSubsystem;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.SUB_Canal;
+import frc.robot.subsystems.SUB_Drivetrain;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -38,19 +38,19 @@ import frc.robot.UDP.BallDataPacket;
 import frc.robot.UDP.GenericBuffer;
 import frc.robot.UDP.LimelightDataPacket;
 import frc.robot.UDP.UDPReciever;
-import frc.robot.commands.Aim;
+import frc.robot.commands.CMD_Aim;
 import frc.robot.commands.CMD_ShooterManualRPM;
 import frc.robot.commands.CMD_canalThrough;
 import frc.robot.commands.CMD_changeSetpoint;
-import frc.robot.subsystems.IndexSubsystem;
-import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.commands.IntakeSpin;
-import frc.robot.commands.ShooterSpin;
+import frc.robot.subsystems.SUB_Index;
+import frc.robot.subsystems.SUB_Climber;
+import frc.robot.subsystems.SUB_Limelight;
+import frc.robot.subsystems.SUB_Shooter;
+import frc.robot.subsystems.SUB_Intake;
+import frc.robot.commands.CMD_IndexSpin;
+import frc.robot.commands.CMD_ShooterSpin;
 import frc.robot.commands.CMD_CanalRun;
-import frc.robot.commands.teleopClimber;
+import frc.robot.commands.CMD_TeleopClimber;
 
 
 import frc.robot.commands.CMD_CanalZeroToOneBottom;
@@ -80,14 +80,14 @@ public class RobotContainer {
         private final Field2d field2d = new Field2d();
 
         // subsystems
-        private Limelight limelight = new Limelight();
-        private Shooter shoot = new Shooter();
-        private Drivetrain drivetrain = new Drivetrain(field2d);
-        private IntakeSubsystem intake = new IntakeSubsystem();
-        private IndexSubsystem index = new IndexSubsystem();
+        private SUB_Limelight limelight = new SUB_Limelight();
+        private SUB_Shooter shoot = new SUB_Shooter();
+        private SUB_Drivetrain drivetrain = new SUB_Drivetrain(field2d);
+        private SUB_Intake intake = new SUB_Intake();
+        private SUB_Index index = new SUB_Index();
         private Autonomous autoHelper = new Autonomous(drivetrain);
-        private CanalSubsystem canal = new CanalSubsystem();
-        private Climber climber = new Climber();
+        private SUB_Canal canal = new SUB_Canal();
+        private SUB_Climber climber = new SUB_Climber();
 
         // Controller
         private Joystick controller = new Joystick(Constants.JOYSTICK_PORT);
@@ -150,7 +150,7 @@ public class RobotContainer {
                                         new InstantCommand(() -> drivetrain.setPosition(onePath.getInitialPose())),
                                         autoHelper.getRamset(onePath).andThen(() -> drivetrain.tankDriveVolts(0, 0)))),
                         new ParallelCommandGroup(new CMD_IndexRun(index, Constants.BELT_SPEED),
-                                        new ShooterSpin(shoot, 0.50)));
+                                        new CMD_ShooterSpin(shoot, 0.50)));
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -180,7 +180,7 @@ public class RobotContainer {
          */
         private void configureButtonBindings() {
                 //drivetrain
-                drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> leftJoystick.getRawAxis(1),
+                drivetrain.setDefaultCommand(new CMD_TeleopDrive(drivetrain, () -> leftJoystick.getRawAxis(1),
                                 () -> rightJoystick.getRawAxis(1)));
                 L_button2.whenPressed(new InstantCommand(drivetrain::toggleReverse, drivetrain));
 
@@ -188,12 +188,12 @@ public class RobotContainer {
                 C_leftTrigger = new Trigger(() -> (controller.getRawAxis(2) > 0.5));
                 C_rightTrigger = new Trigger(() -> (controller.getRawAxis(3) > 0.5));
 
-                C_leftTrigger.whileActiveContinuous(new teleopClimber(climber, -0.25));
-                C_rightTrigger.whileActiveContinuous(new teleopClimber(climber, 0.25));
+                C_leftTrigger.whileActiveContinuous(new CMD_TeleopClimber(climber, -0.25));
+                C_rightTrigger.whileActiveContinuous(new CMD_TeleopClimber(climber, 0.25));
 
                 //Intake
                 L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
-                L_Trigger.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75), new CMD_CanalRun(canal, -0.75)));
+                L_Trigger.whileHeld(new ParallelCommandGroup(new CMD_IndexSpin(intake, 0.75), new CMD_CanalRun(canal, -0.75)));
 
                 //Canal
                 C_dPadUp.whileHeld(new CMD_CanalRun(canal, -0.75));
@@ -202,7 +202,7 @@ public class RobotContainer {
                 C_dPadRight.whileHeld(new CMD_canalThrough(canal, -0.75));
 
                 //Index
-                C_aButton.whileHeld(new ParallelCommandGroup(new CMD_IndexRun(index, -0.75), new ShooterSpin(shoot, 0.25)));
+                C_aButton.whileHeld(new ParallelCommandGroup(new CMD_IndexRun(index, -0.75), new CMD_ShooterSpin(shoot, 0.25)));
                 C_bButton.whileHeld(new CMD_IndexRun(index, 0.75));
 
                 //shooter

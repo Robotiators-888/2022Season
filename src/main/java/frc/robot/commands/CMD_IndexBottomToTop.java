@@ -6,18 +6,18 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.subsystems.CanalSubsystem;
-import frc.robot.subsystems.IndexSubsystem;
+import frc.robot.subsystems.SUB_Canal;
+import frc.robot.subsystems.SUB_Index;
 import frc.robot.Constants; 
 public class CMD_IndexBottomToTop extends CommandBase {
 
-  private CanalSubsystem canal;
-  private IndexSubsystem index;
+  private SUB_Canal canal;
+  private SUB_Index index;
   private boolean isDone = false;
 
 
   /** Creates a new MegaCommand. */
-  public CMD_IndexBottomToTop(CanalSubsystem canalArgs, IndexSubsystem indexArgs) {
+  public CMD_IndexBottomToTop(SUB_Canal canalArgs, SUB_Index indexArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.canal = canalArgs;
     this.index = indexArgs;
