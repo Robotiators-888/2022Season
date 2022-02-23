@@ -119,6 +119,7 @@ public class RobotContainer {
         JoystickButton R_trigger = new JoystickButton(rightJoystick, 1);
 
 
+
         // Auto objects
         SendableChooser<Command> chooser = new SendableChooser<>();
         TrajectoryConfig config = new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
@@ -209,6 +210,9 @@ public class RobotContainer {
                 R_trigger.whileHeld(new CMD_ShooterManualRPM(shoot));
                 //L_button2 auto aim and shoot
                 //C_yButton change auto target (high or low goal)
+
+    // Auto objects
+   
 
         }
                                 
