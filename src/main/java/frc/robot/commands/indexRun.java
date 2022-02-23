@@ -14,7 +14,11 @@ public class indexRun extends CommandBase {
   private boolean isDone = false;
   private double speed;
   
-  /** Creates a new teleopIndex. */
+  /**
+   * runs index with a percent speed
+   * @param indexArgs index object
+   * @param speedArgs speed to run at
+   */
   public indexRun(IndexSubsystem indexArgs, double speedArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.speed = speedArgs;

@@ -10,6 +10,7 @@ import frc.robot.Constants;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * Manages the indexing subsystem, moves indexing belts, and detects balls and
  * ball color in the system.
@@ -17,11 +18,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class IndexSubsystem extends SubsystemBase {
 
   // Motors
-  
+
   private TalonSRX tower = new TalonSRX(Constants.TOWER_INDEX_ID);
   private DigitalInput bannerSensor1 = new DigitalInput(Constants.DIO_PORT_0);
   private DigitalInput bannerSensor2 = new DigitalInput(Constants.DIO_PORT_1);
-
 
   public enum States {
     ONE_BALL_TOP,
@@ -32,14 +32,6 @@ public class IndexSubsystem extends SubsystemBase {
 
   public States currentState;
 
-
-
-
-
-
-
-
-
   // Color sensor subsystem
   // private ColorSensorSubsystem colorSensor;
 
@@ -49,18 +41,17 @@ public class IndexSubsystem extends SubsystemBase {
     // this.colorSensor = colorSensorArg;
   }
 
-  
-
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("Top Banner sensor", readTopBanner());
     SmartDashboard.putBoolean("Bottom Banner sensor", readBottomBanner());
-    
-    // Updates the banner states, only used for the calling of intake-canal-index methods
+
+    // Updates the banner states, only used for the calling of intake-canal-index
+    // methods
     // Separate states are used to handle how the intake-canal-index methods work
-    if (readTopBanner()){
-      
-      if (readBottomBanner()){
+    if (readTopBanner()) {
+
+      if (readBottomBanner()) {
         currentState = States.TWO_BALL;
       } else {
         currentState = States.ONE_BALL_TOP;
@@ -72,29 +63,24 @@ public class IndexSubsystem extends SubsystemBase {
       currentState = States.ZERO_BALL;
     }
 
-
   }
 
-  /**  
-   * readTopBanner returns if the top banner sensor detects a ball or not with a boolean.  
-   * */ 
-
+  /**
+   * readTopBanner returns if the top banner sensor detects a ball or not with a
+   * boolean.
+   */
   public boolean readTopBanner() {
-    return !bannerSensor1.get(); 
+    return !bannerSensor1.get();
 
   }
-  
-   
 
-  /**  
-   * readBottomBanner returns if the bottom banner sensor detects a ball or not with a boolean.  
-   * */ 
+  /**
+   * readBottomBanner returns if the bottom banner sensor detects a ball or not
+   * with a boolean.
+   */
   public boolean readBottomBanner() {
-    return !bannerSensor2.get(); 
+    return !bannerSensor2.get();
   }
-  
-   
-
 
   /**
    * Sets the speed of the tower motor to a Constant speed
@@ -118,7 +104,7 @@ public class IndexSubsystem extends SubsystemBase {
   public void setSpeedTower(double speed) {
     // Top-most belt, move to get it into shooter
 
-      tower.set(TalonSRXControlMode.PercentOutput,speed);
+    tower.set(TalonSRXControlMode.PercentOutput, speed);
 
   }
 
