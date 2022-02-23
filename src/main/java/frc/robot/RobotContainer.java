@@ -51,8 +51,10 @@ import frc.robot.commands.IntakeSpin;
 import frc.robot.commands.ShooterSpin;
 import frc.robot.commands.canalRun;
 import frc.robot.commands.teleopClimber;
-import frc.robot.commands.CanalZeroToOneBottom;
-import frc.robot.commands.IndexBottomToTop;
+
+
+import frc.robot.commands.NoStateCanalZeroToOneBottom;
+import frc.robot.commands.NoStateIndexBottomToTop;
 import frc.robot.commands.CanalOneToTwo;
 
 /**
@@ -211,6 +213,11 @@ public class RobotContainer {
                 R_trigger.whileHeld(new CMD_ShooterManualRPM(shoot));
                 //L_button2 auto aim and shoot
                 //C_yButton change auto target (high or low goal)
+
+
+                // FOR INDEX TESTING. THIS SHOULD NOT BE IN A PULL REQUEST.
+                C_xButton.whenPressed(new NoStateCanalZeroToOneBottom(canal, index));
+                //C_xButton.whenPressed(new NoStateIndexToTop(canal, index));
 
     // Auto objects
    

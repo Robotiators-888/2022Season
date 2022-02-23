@@ -80,7 +80,7 @@ public class IndexSubsystem extends SubsystemBase {
    * */ 
 
   public boolean readTopBanner() {
-    return bannerSensor1.get(); 
+    return !bannerSensor1.get(); 
 
   }
   
@@ -90,7 +90,7 @@ public class IndexSubsystem extends SubsystemBase {
    * readBottomBanner returns if the bottom banner sensor detects a ball or not with a boolean.  
    * */ 
   public boolean readBottomBanner() {
-    return bannerSensor2.get(); 
+    return !bannerSensor2.get(); 
   }
   
    
