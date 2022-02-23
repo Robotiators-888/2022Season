@@ -9,38 +9,15 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.Constants; 
-public class IndexBottomToTop extends CommandBase {
+public class CMD_IndexBottomToTop extends CommandBase {
 
   private CanalSubsystem canal;
   private IndexSubsystem index;
   private boolean isDone = false;
 
-  // create States
-  public enum States {
-    ONE_BALL_TOP,
-    ONE_BALL_BOTTOM,
-    TWO_BALL,
-    ZERO_BALL,
-  }
-
-  public States initalizeStates() {
-    if (index.readTopBanner()) {
-
-      if (index.readBottomBanner()) {
-        States activeState = States.TWO_BALL;
-        return activeState;
-      }
-      
-      States activeState = States.ONE_BALL_TOP;
-      return activeState;
-    } else {
-      States activeState = States.ZERO_BALL;
-      return activeState;
-    }
-  }
 
   /** Creates a new MegaCommand. */
-  public IndexBottomToTop(CanalSubsystem canalArgs, IndexSubsystem indexArgs) {
+  public CMD_IndexBottomToTop(CanalSubsystem canalArgs, IndexSubsystem indexArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.canal = canalArgs;
     this.index = indexArgs;
@@ -54,21 +31,12 @@ public class IndexBottomToTop extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    isDone = false;
-    switch (initalizeStates()) {
-      case ZERO_BALL:
-        index.setSpeedTower(Constants.BELT_SPEED);
-        break;
-      case ONE_BALL_BOTTOM:
-        index.setSpeedTower(Constants.BELT_SPEED);
-        break;
-      case ONE_BALL_TOP:
-        break;
-      case TWO_BALL:
-        break;
-
+    if (!index.readTopBanner()){
+      isDone = false;
+      index.setSpeedTower(Constants.BELT_SPEED);
+    } else {
+      isDone = true;
     }
-    isDone = true;
 
   }
 
@@ -76,9 +44,6 @@ public class IndexBottomToTop extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     index.setSpeedTower(0);
-    canal.setSpeedBack(0);
-    canal.setSpeedFront(0);
-
   }
 
   // Returns true when the command should end.

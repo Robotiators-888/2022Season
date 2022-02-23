@@ -28,7 +28,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.teleopDrive;
-import frc.robot.commands.indexRun;
+import frc.robot.commands.CMD_IndexRun;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -49,13 +49,13 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.commands.IntakeSpin;
 import frc.robot.commands.ShooterSpin;
-import frc.robot.commands.canalRun;
+import frc.robot.commands.CMD_CanalRun;
 import frc.robot.commands.teleopClimber;
 
 
-import frc.robot.commands.NoStateCanalZeroToOneBottom;
-import frc.robot.commands.NoStateIndexBottomToTop;
-import frc.robot.commands.CanalOneToTwo;
+import frc.robot.commands.CMD_CanalZeroToOneBottom;
+import frc.robot.commands.CMD_IndexBottomToTop;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -144,12 +144,12 @@ public class RobotContainer {
                         autoHelper.getRamset(ballin2).andThen(() -> drivetrain.tankDriveVolts(0, 0)));
 
         Command onePathWonder = new SequentialCommandGroup(new ParallelRaceGroup(
-                        new ParallelCommandGroup(new indexRun(index, Constants.BELT_SPEED),
-                                        new canalRun(canal, -Constants.BELT_SPEED)),
+                        new ParallelCommandGroup(new CMD_IndexRun(index, Constants.BELT_SPEED),
+                                        new CMD_CanalRun(canal, -Constants.BELT_SPEED)),
                         new SequentialCommandGroup(
                                         new InstantCommand(() -> drivetrain.setPosition(onePath.getInitialPose())),
                                         autoHelper.getRamset(onePath).andThen(() -> drivetrain.tankDriveVolts(0, 0)))),
-                        new ParallelCommandGroup(new indexRun(index, Constants.BELT_SPEED),
+                        new ParallelCommandGroup(new CMD_IndexRun(index, Constants.BELT_SPEED),
                                         new ShooterSpin(shoot, 0.50)));
 
         /**
@@ -193,17 +193,17 @@ public class RobotContainer {
 
                 //Intake
                 L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
-                L_Trigger.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75), new canalRun(canal, -0.75)));
+                L_Trigger.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75), new CMD_CanalRun(canal, -0.75)));
 
                 //Canal
-                C_dPadUp.whileHeld(new canalRun(canal, -0.75));
-                C_dPadDown.whileHeld(new canalRun(canal, 0.75));
+                C_dPadUp.whileHeld(new CMD_CanalRun(canal, -0.75));
+                C_dPadDown.whileHeld(new CMD_CanalRun(canal, 0.75));
                 C_dPadLeft.whileHeld(new CMD_canalThrough(canal, 0.75));
                 C_dPadRight.whileHeld(new CMD_canalThrough(canal, -0.75));
 
                 //Index
-                C_aButton.whileHeld(new ParallelCommandGroup(new indexRun(index, -0.75), new ShooterSpin(shoot, 0.25)));
-                C_bButton.whileHeld(new indexRun(index, 0.75));
+                C_aButton.whileHeld(new ParallelCommandGroup(new CMD_IndexRun(index, -0.75), new ShooterSpin(shoot, 0.25)));
+                C_bButton.whileHeld(new CMD_IndexRun(index, 0.75));
 
                 //shooter
                 R_button3.whileHeld(new CMD_changeSetpoint(shoot, -500));
@@ -216,8 +216,8 @@ public class RobotContainer {
 
 
                 // FOR INDEX TESTING. THIS SHOULD NOT BE IN A PULL REQUEST.
-                // C_xButton.whenPressed(new NoStateCanalZeroToOneBottom(canal, index));
-                C_xButton.whenPressed(new NoStateIndexBottomToTop(canal, index));
+                // C_xButton.whenPressed(new CMD_CanalZeroToOneBottom(canal, index));
+                // C_xButton.whenPressed(new CMD_IndexBottomToTop(canal, index));
 
     // Auto objects
    
