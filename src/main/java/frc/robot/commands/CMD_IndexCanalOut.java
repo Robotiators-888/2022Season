@@ -6,15 +6,15 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.CanalSubsystem;
-import frc.robot.subsystems.IndexSubsystem;
+import frc.robot.subsystems.SUB_Canal;
+import frc.robot.subsystems.SUB_Index;
 
 public class CMD_IndexCanalOut extends CommandBase {
-  private CanalSubsystem canal;
-  private IndexSubsystem index;
+  private SUB_Canal canal;
+  private SUB_Index index;
   
   /** Creates a new canalOut. */
-  public CMD_IndexCanalOut(CanalSubsystem canalArgs, IndexSubsystem indexArgs) {
+  public CMD_IndexCanalOut(SUB_Canal canalArgs, SUB_Index indexArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.canal = canalArgs;
     this.index = indexArgs;

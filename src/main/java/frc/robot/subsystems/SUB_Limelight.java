@@ -5,10 +5,10 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Limelight extends SubsystemBase {
+public class SUB_Limelight extends SubsystemBase {
   NetworkTable table;
 
-  public Limelight() {
+  public SUB_Limelight() {
     table = NetworkTableInstance.getDefault().getTable("limelight");
 
   }

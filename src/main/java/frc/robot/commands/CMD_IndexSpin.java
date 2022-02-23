@@ -4,39 +4,36 @@
 
 package frc.robot.commands;
 
+import frc.robot.subsystems.SUB_Intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.subsystems.Shooter;
+public class CMD_IndexSpin extends CommandBase {
+  SUB_Intake Intake;
+  double speed;
 
-public class ShooterSpin extends CommandBase {
-  /** Creates a new ShooterSpin. */
-  private Shooter shoot;
-  private double shootSpeed;
-
-  public ShooterSpin(Shooter subsystem, double shooterSpeed) {
+  /** Creates a new IntakeMotorTest. */
+  public CMD_IndexSpin(SUB_Intake subsystem, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.shoot = subsystem;
-
-    this.shootSpeed = shooterSpeed;
-    addRequirements(shoot);
+    this.Intake = subsystem;
+    this.speed = speed;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    shoot.setSpeed(shootSpeed);
+    Intake.intakeSpeedSet(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shoot.setSpeed(0);
+    Intake.intakeSpeedSet(0.0);
   }
 
   // Returns true when the command should end.

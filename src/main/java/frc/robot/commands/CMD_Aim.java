@@ -2,14 +2,14 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.SUB_Drivetrain;
+import frc.robot.subsystems.SUB_Limelight;
 
-public class Aim extends CommandBase{
-    Limelight m_limelight;
-    Drivetrain drive;
+public class CMD_Aim extends CommandBase{
+    SUB_Limelight m_limelight;
+    SUB_Drivetrain drive;
 
-    public Aim(Limelight subsystem, Drivetrain drive) {
+    public CMD_Aim(SUB_Limelight subsystem, SUB_Drivetrain drive) {
         this.m_limelight = subsystem;
         this.drive = drive;
     

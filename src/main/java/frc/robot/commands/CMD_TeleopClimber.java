@@ -6,13 +6,13 @@ package frc.robot.commands;
 
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.SUB_Climber;
 
-public class teleopClimber extends CommandBase {
-  private Climber climber;
+public class CMD_TeleopClimber extends CommandBase {
+  private SUB_Climber climber;
   private double triggerSpeed;
   /** Creates a new teleopClimber. */
-  public teleopClimber(Climber climb, double speed) {
+  public CMD_TeleopClimber(SUB_Climber climb, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.climber = climb;
     this.triggerSpeed = speed;

@@ -1,7 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.SUB_Shooter;
 
 /**
  * A simple command that grabs a hatch with the {@link HatchSubsystem}. Written
@@ -11,10 +11,10 @@ import frc.robot.subsystems.Shooter;
  * edu.wpi.first.wpilibj2.command.InstantCommand}.
  */
 public class CMD_changeSetpoint extends CommandBase {
-    Shooter shoot;
+    SUB_Shooter shoot;
     int change;
 
-    public CMD_changeSetpoint(Shooter subsystem, int change) {
+    public CMD_changeSetpoint(SUB_Shooter subsystem, int change) {
         addRequirements(subsystem);
         this.shoot = subsystem;
         this.change = change;

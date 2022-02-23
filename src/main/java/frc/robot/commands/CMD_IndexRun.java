@@ -4,13 +4,13 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.IndexSubsystem;
+import frc.robot.subsystems.SUB_Index;
 
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 public class CMD_IndexRun extends CommandBase {
 
-  private IndexSubsystem index;
+  private SUB_Index index;
   private boolean isDone = false;
   private double speed;
   
@@ -19,7 +19,7 @@ public class CMD_IndexRun extends CommandBase {
    * @param indexArgs index object
    * @param speedArgs speed to run at
    */
-  public CMD_IndexRun(IndexSubsystem indexArgs, double speedArgs) {
+  public CMD_IndexRun(SUB_Index indexArgs, double speedArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.speed = speedArgs;
     this.index = indexArgs;

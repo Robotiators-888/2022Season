@@ -13,13 +13,13 @@ import com.revrobotics.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class Climber extends SubsystemBase {
+public class SUB_Climber extends SubsystemBase {
   /** Creates a new Climber. */
   static CANSparkMax climberMotor;
   static DoubleSolenoid cSolenoid;
   static boolean pistonExtended = false;
 
-  public Climber() {
+  public SUB_Climber() {
     climberMotor = new CANSparkMax(Constants.CLIMBER_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushed);
     cSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 4, 5);
   }

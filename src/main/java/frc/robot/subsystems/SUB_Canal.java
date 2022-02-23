@@ -15,12 +15,12 @@ import frc.robot.Constants;
 /**
  * Manages the canal subsystem, runs the front and back belts.
  */
-public class CanalSubsystem extends SubsystemBase {
+public class SUB_Canal extends SubsystemBase {
   private TalonSRX front = new TalonSRX(Constants.FRONT_CANAL_ID);
   private TalonSRX back = new TalonSRX(Constants.BACK_CANAL_ID);
 
   /** Creates a new CanalSubsystem. */
-  public CanalSubsystem() {
+  public SUB_Canal() {
 
   }
 
