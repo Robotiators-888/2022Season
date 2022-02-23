@@ -11,7 +11,7 @@ import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.Constants;
 public class CanalOneToTwo extends CommandBase {
 
-  private CanalSubsystem canal = new CanalSubsystem();
+  private CanalSubsystem canal;
   private IndexSubsystem index;
   private boolean isDone = false;
 
