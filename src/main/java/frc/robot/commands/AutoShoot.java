@@ -38,25 +38,38 @@ public class autoShoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //Limelight turned on and RPM displayed to dashboard
     m_limelight.setLed(0);
+    SmartDashboard.putNumber("ShooterRPM", shoot.getRPM());
+    SmartDashboard.putNumber("TargetRPM", -(m_limelight.distRpm(m_limelight.getDistance())));
+    
+    if((m_limelight.getTx() < 3) && (m_limelight.getTx() > -3)){
 
-    if((m_limelight.getTx() < 1) && (m_limelight.getTx() > -1)){
+      // If limelight has valid target and its within 0-270 inches, fire shooter
+      if ((m_limelight.getTv() == true) && (m_limelight.getDistance() > 0) && (m_limelight.getDistance() < 270)) {
+        //If distance RPM > -5700, set shooter RPM to -5700
+          if((-(m_limelight.distRpm(m_limelight.getDistance()))) < -5700){
+            shoot.setRPM(-5700);
+          }
 
-      // If limelight has valid target and its within 50-270 inches, fire shooter
-    if ((m_limelight.getTv() == true) && (m_limelight.getDistance() > 0) && (m_limelight.getDistance() < 270)) {
-      shoot.setRPM(-(m_limelight.distRpm(m_limelight.getDistance())));
-      
-      // If the difference between the actual and target rpms is less than 150, start
-      // index
-      if ((double) Math.abs(shoot.getRPM() + m_limelight.distRpm(m_limelight.getDistance())) <= 400) {
-        m_index.setSpeedTower(.5);
-        // If requirements arent met at any time, set index and turret to 0
+          else{
+          //Use distance to set RPM
+            shoot.setRPM(-(m_limelight.distRpm(m_limelight.getDistance())));
+          }
+        
+
+        // If the difference between the actual and target rpms is less than 150, start
+        // index
+        if ((double) Math.abs(shoot.getRPM() + m_limelight.distRpm(m_limelight.getDistance())) <= 250) {
+          m_index.setSpeedTower(.7);
+        }
       }
-    }
 
     }
     else{
+      
       drive.setMotors((0.03)*(m_limelight.getTx()),(-0.03)*(m_limelight.getTx()));
+
     }
   }
 

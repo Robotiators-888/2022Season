@@ -90,7 +90,7 @@ public class Limelight extends SubsystemBase {
   public double getDistance() {
     double h1 = 35.5;
     double h2 = 111;
-    double a1 = 0.3665;
+    double a1 = 0.3577;
     double a2 = Math.toRadians(this.getTy());
 
     return (double) ((h2 - h1) / (Math.tan(a1 + a2)));
@@ -117,7 +117,7 @@ public class Limelight extends SubsystemBase {
   public int distRpm(double dist) {
 
     if(this.isHigh == true){
-      return (int) (450 * (Math.sqrt(dist)));
+      return (int) (425 * (Math.sqrt(dist)));
 
     }
     else{
