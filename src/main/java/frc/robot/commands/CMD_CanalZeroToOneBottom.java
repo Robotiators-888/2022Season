@@ -7,20 +7,23 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.SUB_Canal;
+import frc.robot.subsystems.SUB_Index;
 import frc.robot.Constants;
 
 public class CMD_CanalZeroToOneBottom extends CommandBase {
 
   private SUB_Canal canal;
+  private SUB_Index index;
   private boolean isDone = false;
 
 
   
 
   /** Creates a new MegaCommand. */
-  public CMD_CanalZeroToOneBottom(SUB_Canal canalArgs) {
+  public CMD_CanalZeroToOneBottom(SUB_Canal canalArgs, SUB_Index indexArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.canal = canalArgs;
+    this.index = indexArgs;
   }
 
   // Called when the command is initially scheduled.
