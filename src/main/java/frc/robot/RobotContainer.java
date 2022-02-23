@@ -28,6 +28,8 @@ import frc.robot.commands.teleopDrive;
 import frc.robot.commands.indexRun;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.commands.CanalToBottomCMD;
+import frc.robot.commands.IndexBottomToTopBanner;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -125,21 +127,20 @@ public class RobotContainer {
                         new InstantCommand(() -> drivetrain.setPosition(twoBall_p1.getInitialPose())),
                         autoHelper.getRamset(twoBall_p1), 
                         new ParallelRaceGroup(
-                                new ShooterSpin(shoot, 0.25), 
+                                new ShooterSpin(shoot, -0.50), 
                                 new SequentialCommandGroup(
                                         new WaitCommand(2), 
-                                        new indexRun(index, 0.75), 
-                                        new WaitCommand(2))),
+                                        new indexRun(index, 0.75).withTimeout(2)
+                                        )),
                         new ParallelRaceGroup(
                                 autoHelper.getRamset(twoBall_p2), 
                                 new canalRun(canal, -0.75) , 
-                                new indexRun(index, 0.75)),
+                                new IndexBottomToTopBanner(index, 0.75)),
                         new ParallelRaceGroup(
-                                new ShooterSpin(shoot, 0.25),
+                                new ShooterSpin(shoot, -0.5),
                                 new SequentialCommandGroup(
                                         new WaitCommand(2),
-                                        new indexRun(index,0.75),
-                                        new WaitCommand(2))),
+                                        new indexRun(index,0.75).withTimeout(2))),
                         new InstantCommand(()-> drivetrain.tankDriveVolts(0,0)));
 
         /**
