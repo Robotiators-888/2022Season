@@ -36,8 +36,8 @@ public class NoStateCanalZeroToOneBottom extends CommandBase {
   public void execute() {
     if (!index.readBottomBanner()){
       isDone = false;
-      canal.setSpeedBack(Constants.BELT_SPEED);
-      canal.setSpeedFront(Constants.BELT_SPEED);
+      canal.setSpeedBack(-Constants.BELT_SPEED);
+      canal.setSpeedFront(-Constants.BELT_SPEED);
     } else{
       isDone = true;
     }
