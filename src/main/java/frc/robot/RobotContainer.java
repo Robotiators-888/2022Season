@@ -193,7 +193,7 @@ public class RobotContainer {
 
                 //Intake
                 L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
-                L_Trigger.whileHeld(new ParallelCommandGroup(new CMD_IndexSpin(intake, 0.75), new CMD_CanalRun(canal, -0.75)));
+                L_Trigger.whileHeld(new ParallelCommandGroup(new CMD_IndexSpin(intake, 0.75), new CMD_CanalZeroToOneBottom(canal, index)));
 
                 //Canal
                 C_dPadUp.whileHeld(new CMD_CanalRun(canal, -0.75));
@@ -202,8 +202,10 @@ public class RobotContainer {
                 C_dPadRight.whileHeld(new CMD_canalThrough(canal, -0.75));
 
                 //Index
+                index.setDefaultCommand(new CMD_IndexBottomToTop(canal, index));
                 C_aButton.whileHeld(new ParallelCommandGroup(new CMD_IndexRun(index, -0.75), new CMD_ShooterSpin(shoot, 0.25)));
                 C_bButton.whileHeld(new CMD_IndexRun(index, 0.75));
+
 
                 //shooter
                 R_button3.whileHeld(new CMD_changeSetpoint(shoot, -500));
