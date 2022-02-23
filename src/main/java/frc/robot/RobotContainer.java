@@ -31,6 +31,7 @@ import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.NetworkTables.NetworkTablesBase;
 import frc.robot.commands.CMD_ShooterManualRPM;
 import frc.robot.commands.CMD_canalThrough;
 import frc.robot.commands.CMD_changeSetpoint;
@@ -53,7 +54,6 @@ import frc.robot.commands.teleopClimber;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-        
 
         // The robot's subsystems and commands are defined here...
         private final Field2d field2d = new Field2d();
@@ -77,7 +77,7 @@ public class RobotContainer {
         POVButton C_dPadUp = new POVButton(controller, 0);
         POVButton C_dPadDown = new POVButton(controller, 180);
         POVButton C_dPadLeft = new POVButton(controller, 270);
-        POVButton C_dPadRight= new POVButton(controller, 90);
+        POVButton C_dPadRight = new POVButton(controller, 90);
         Trigger C_leftTrigger;
         Trigger C_rightTrigger;
 
@@ -98,7 +98,6 @@ public class RobotContainer {
         JoystickButton R_button3 = new JoystickButton(rightJoystick, 5);
         JoystickButton R_button4 = new JoystickButton(rightJoystick, 6);
         JoystickButton R_trigger = new JoystickButton(rightJoystick, 1);
-
 
         // Auto objects
         SendableChooser<Command> chooser = new SendableChooser<>();
@@ -142,6 +141,8 @@ public class RobotContainer {
                 chooser.addOption("Complex Auto", pwtest);
                 chooser.addOption("one Path Wonder", onePathWonder);
                 SmartDashboard.putData("chooser", chooser);
+
+                NetworkTablesBase.run();
         }
 
         /**
@@ -153,40 +154,40 @@ public class RobotContainer {
          * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
          */
         private void configureButtonBindings() {
-                //drivetrain
+                // drivetrain
                 drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> leftJoystick.getRawAxis(1),
                                 () -> rightJoystick.getRawAxis(1)));
                 L_button2.whenPressed(new InstantCommand(drivetrain::toggleReverse, drivetrain));
 
-                //climber                
+                // climber
                 C_leftTrigger = new Trigger(() -> (controller.getRawAxis(2) > 0.5));
                 C_rightTrigger = new Trigger(() -> (controller.getRawAxis(3) > 0.5));
 
                 C_leftTrigger.whileActiveContinuous(new teleopClimber(climber, -0.25));
                 C_rightTrigger.whileActiveContinuous(new teleopClimber(climber, 0.25));
 
-                //Intake
+                // Intake
                 L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
                 L_Trigger.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75), new canalRun(canal, -0.75)));
 
-                //Canal
+                // Canal
                 C_dPadUp.whileHeld(new canalRun(canal, -0.75));
                 C_dPadDown.whileHeld(new canalRun(canal, 0.75));
                 C_dPadLeft.whileHeld(new CMD_canalThrough(canal, 0.75));
                 C_dPadRight.whileHeld(new CMD_canalThrough(canal, -0.75));
 
-                //Index
+                // Index
                 C_aButton.whileHeld(new ParallelCommandGroup(new indexRun(index, -0.75), new ShooterSpin(shoot, 0.25)));
                 C_bButton.whileHeld(new indexRun(index, 0.75));
 
-                //shooter
+                // shooter
                 R_button3.whileHeld(new CMD_changeSetpoint(shoot, -500));
                 R_button4.whileHeld(new CMD_changeSetpoint(shoot, -100));
                 R_button5.whileHeld(new CMD_changeSetpoint(shoot, 500));
                 R_button6.whileHeld(new CMD_changeSetpoint(shoot, 100));
                 R_trigger.whileHeld(new CMD_ShooterManualRPM(shoot));
-                //L_button2 auto aim and shoot
-                //C_yButton change auto target (high or low goal)
+                // L_button2 auto aim and shoot
+                // C_yButton change auto target (high or low goal)
 
         }
 
