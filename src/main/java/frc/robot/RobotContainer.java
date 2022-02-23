@@ -110,9 +110,9 @@ public class RobotContainer {
         SendableChooser<Command> chooser = new SendableChooser<>();
         TrajectoryConfig config = new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
                         Constants.kMaxAccelerationMetersPerSecondSquared).setKinematics(Constants.kDriveKinematics);
-        Trajectory ballin1 = autoHelper.getTrajectory("paths/output/test2balll.wpilib.json");
-        Trajectory ballin2 = autoHelper.getTrajectory("paths/output/test2balll_0.wpilib.json");
-        Trajectory onePath = autoHelper.getTrajectory("paths/output/onepathwonder.wpilib.json");
+        Trajectory twoBall_p1 = autoHelper.getTrajectory("paths/output/2ball_p1.wpilib.json");
+        Trajectory twoBall_p2 = autoHelper.getTrajectory("paths/output/2ball_p2.wpilib.json");
+
         Trajectory Str8 = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)),
                         List.of(new Translation2d(1, 0)), new Pose2d(2, 0, new Rotation2d(0)), config);
 
@@ -121,19 +121,26 @@ public class RobotContainer {
                         new InstantCommand(() -> drivetrain.setPosition(Str8.getInitialPose())),
                         autoHelper.getRamset(Str8));
 
-        Command pwtest = new SequentialCommandGroup(
-                        new InstantCommand(() -> drivetrain.setPosition(ballin1.getInitialPose())),
-                        autoHelper.getRamset(ballin1),
-                        autoHelper.getRamset(ballin2).andThen(() -> drivetrain.tankDriveVolts(0, 0)));
-
-        Command onePathWonder = new SequentialCommandGroup(new ParallelRaceGroup(
-                        new ParallelCommandGroup(new indexRun(index, Constants.BELT_SPEED),
-                                        new canalRun(canal, -Constants.BELT_SPEED)),
-                        new SequentialCommandGroup(
-                                        new InstantCommand(() -> drivetrain.setPosition(onePath.getInitialPose())),
-                                        autoHelper.getRamset(onePath).andThen(() -> drivetrain.tankDriveVolts(0, 0)))),
-                        new ParallelCommandGroup(new indexRun(index, Constants.BELT_SPEED),
-                                        new ShooterSpin(shoot, 0.50)));
+        Command twoball = new SequentialCommandGroup(
+                        new InstantCommand(() -> drivetrain.setPosition(twoBall_p1.getInitialPose())),
+                        autoHelper.getRamset(twoBall_p1), 
+                        new ParallelRaceGroup(
+                                new ShooterSpin(shoot, 0.25), 
+                                new SequentialCommandGroup(
+                                        new WaitCommand(2), 
+                                        new indexRun(index, 0.75), 
+                                        new WaitCommand(2))),
+                        new ParallelRaceGroup(
+                                autoHelper.getRamset(twoBall_p2), 
+                                new canalRun(canal, -0.75) , 
+                                new indexRun(index, 0.75)),
+                        new ParallelRaceGroup(
+                                new ShooterSpin(shoot, 0.25),
+                                new SequentialCommandGroup(
+                                        new WaitCommand(2),
+                                        new indexRun(index,0.75),
+                                        new WaitCommand(2))),
+                        new InstantCommand(()-> drivetrain.tankDriveVolts(0,0)));
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -146,8 +153,11 @@ public class RobotContainer {
                 field2d.getObject("traj").setTrajectory(Str8);
 
                 chooser.setDefaultOption("Simple Auto", straightAuto);
-                chooser.addOption("Complex Auto", pwtest);
-                chooser.addOption("one Path Wonder", onePathWonder);
+                chooser.addOption("two ball", twoball);
+
+
+                // BallReciever.start();
+                // limelightReciever.start();
                 SmartDashboard.putData("chooser", chooser);
                 
 
