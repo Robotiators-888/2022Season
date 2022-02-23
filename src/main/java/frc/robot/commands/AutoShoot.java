@@ -13,6 +13,7 @@ public class autoShoot extends CommandBase {
   Shooter shoot;
   IndexSubsystem m_index;
   Drivetrain drive;
+  Boolean withinRange = false;
 
   /**
    * Creates a new ExampleCommand.
@@ -24,6 +25,7 @@ public class autoShoot extends CommandBase {
     this.shoot = shoot;
     this.m_index = index;
     this.drive = drivetrain;
+    
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_limelight, drivetrain, index, shoot);
@@ -32,7 +34,7 @@ public class autoShoot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,22 +42,18 @@ public class autoShoot extends CommandBase {
   public void execute() {
     //Limelight turned on and RPM displayed to dashboard
     m_limelight.setLed(0);
-    SmartDashboard.putNumber("ShooterRPM", shoot.getRPM());
+    SmartDashboard.putNumber("ShootRPM", shoot.getRPM());
     SmartDashboard.putNumber("TargetRPM", -(m_limelight.distRpm(m_limelight.getDistance())));
+    SmartDashboard.putBoolean("WithinRange?", withinRange);
 
     if((m_limelight.getTx() < 3) && (m_limelight.getTx() > -3)){
 
       // If limelight has valid target and its within 0-270 inches, fire shooter
-      if ((m_limelight.getTv() == true) && (m_limelight.getDistance() > 0) && (m_limelight.getDistance() < 270)) {
-        //If distance RPM > -5700, set shooter RPM to -5700
-          if((-(m_limelight.distRpm(m_limelight.getDistance()))) < -5700){
-            shoot.setRPM(-5700);
-          }
-
-          else{
-          //Use distance to set RPM
-            shoot.setRPM(-(m_limelight.distRpm(m_limelight.getDistance())));
-          }
+      if ((m_limelight.getTv() == true) && (m_limelight.getDistance() > 0) && (m_limelight.getDistance() < 250)) {
+        //Use distance to set RPM
+          shoot.setRPM(-(m_limelight.distRpm(m_limelight.getDistance())));
+          this.withinRange = true;
+          
         
 
         // If the difference between the actual and target rpms is less than 150, start
@@ -63,10 +61,11 @@ public class autoShoot extends CommandBase {
         if ((double) Math.abs(shoot.getRPM() + m_limelight.distRpm(m_limelight.getDistance())) <= 250) {
           m_index.setSpeedTower(.7);
         }
+      }else{
+        this.withinRange = false;
       }
 
-    }
-    else{
+    }else{
       if((Math.abs(m_limelight.getTx()) <= 1)){
 
         drive.setMotors(0, 0);
