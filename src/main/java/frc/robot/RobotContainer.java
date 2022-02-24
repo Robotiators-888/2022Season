@@ -205,10 +205,8 @@ public class RobotContainer {
                 R_button5.whileHeld(new CMD_changeSetpoint(shoot, 500));
                 R_button6.whileHeld(new CMD_changeSetpoint(shoot, 100));
                 R_trigger.whileHeld(new CMD_ShooterManualRPM(shoot));
-                //L_button2 auto aim and shoot
-                //L_button3.whileHeld(new AutoShoot(limelight, index, drivetrain, shoot)); 
+        
                 L_button3.whileHeld(new autoShoot (limelight, index, drivetrain, shoot));
-                //C_yButton change auto target (high or low goal)
                 C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
 
         }
