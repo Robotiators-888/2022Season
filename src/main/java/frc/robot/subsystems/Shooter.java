@@ -72,12 +72,6 @@ public class Shooter extends SubsystemBase {
         PID.setFF(F);
 
     }
-    /**
-     * 
-     * @param dist
-     * @return
-     */
-    
 
     /**
      * Sets speed for wheel to run at as a precentage of max
