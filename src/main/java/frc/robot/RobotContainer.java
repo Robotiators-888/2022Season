@@ -195,11 +195,7 @@ public class RobotContainer {
 
                 //Intake
                 L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
-<<<<<<< HEAD
-                L_Trigger.whileHeld(new ParallelCommandGroup(new CMD_IntakeSpin(intake, 0.75), new CMD_CanalZeroToOneBottom(canal,index)));
-=======
-                L_Trigger.whileHeld(new ParallelCommandGroup(new CMD_IndexSpin(intake, 0.75), new CMD_CanalZeroToOneBottom(canal, index)));
->>>>>>> 879c7b6b10162e3be0de7adafebd536e8ba08a82
+                L_Trigger.whileHeld(new ParallelCommandGroup(new CMD_IntakeSpin(intake, 0.75), new CMD_CanalRun(canal,0.75)));
 
                 //Canal
                 C_dPadUp.whileHeld(new CMD_CanalRun(canal, -0.75));
@@ -223,8 +219,7 @@ public class RobotContainer {
                 //C_yButton change auto target (high or low goal)
 
 
-                // Index Trigger
-                A_ToTopTrigger = new Trigger(() -> (index.currentState==States.ONE_BALL_BOTTOM));
+
 
     // Auto objects
    
