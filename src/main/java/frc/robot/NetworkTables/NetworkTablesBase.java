@@ -6,6 +6,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.TableEntryListener;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //Class
 public class NetworkTablesBase {
@@ -38,8 +39,10 @@ public class NetworkTablesBase {
         return;
       }
 
-      double x = xEntry.getDouble(0.0);
-      double y = yEntry.getDouble(0.0);
+      double x = SmartDashboard.getNumber("front_ball_x", 0);
+      double y = SmartDashboard.getNumber("front_ball_y", 0);
+
+ 
       System.out.println("X: " + x + " Y: " + y);
     }
   }
