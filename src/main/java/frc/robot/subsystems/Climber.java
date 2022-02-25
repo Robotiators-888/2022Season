@@ -9,6 +9,10 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+<<<<<<< HEAD
+=======
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+>>>>>>> 649ccff (almost down with climber)
 import com.revrobotics.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -22,7 +26,11 @@ public class Climber extends SubsystemBase {
 
   public Climber() {
     climberMotor = new CANSparkMax(Constants.CLIMBER_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushed);
+<<<<<<< HEAD
     cSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 4, 5);
+=======
+    cSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 1);
+>>>>>>> 649ccff (almost down with climber)
   }
 
   @Override
