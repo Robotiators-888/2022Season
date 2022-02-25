@@ -46,8 +46,9 @@ import frc.robot.subsystems.SUB_Index;
 import frc.robot.subsystems.SUB_Climber;
 import frc.robot.subsystems.SUB_Limelight;
 import frc.robot.subsystems.SUB_Shooter;
+import frc.robot.subsystems.SUB_Index.States;
 import frc.robot.subsystems.SUB_Intake;
-import frc.robot.commands.CMD_IndexSpin;
+import frc.robot.commands.CMD_IntakeSpin;
 import frc.robot.commands.CMD_ShooterSpin;
 import frc.robot.commands.CMD_CanalRun;
 import frc.robot.commands.CMD_TeleopClimber;
@@ -102,6 +103,7 @@ public class RobotContainer {
         POVButton C_dPadRight= new POVButton(controller, 90);
         Trigger C_leftTrigger;
         Trigger C_rightTrigger;
+        Trigger A_ToTopTrigger;
 
         // left Joystick
         private Joystick leftJoystick = new Joystick(Constants.LEFTJOYSTICK_PORT);
@@ -193,7 +195,7 @@ public class RobotContainer {
 
                 //Intake
                 L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
-                L_Trigger.whileHeld(new ParallelCommandGroup(new CMD_IndexSpin(intake, 0.75), new CMD_CanalRun(canal, -0.75)));
+                L_Trigger.whileHeld(new ParallelCommandGroup(new CMD_IntakeSpin(intake, 0.75), new CMD_CanalZeroToOneBottom(canal,index)));
 
                 //Canal
                 C_dPadUp.whileHeld(new CMD_CanalRun(canal, -0.75));
