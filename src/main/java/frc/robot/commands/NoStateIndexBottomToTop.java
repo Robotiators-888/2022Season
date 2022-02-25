@@ -35,10 +35,11 @@ public class NoStateIndexBottomToTop extends CommandBase {
       isDone = false;
       index.setSpeedTower(Constants.BELT_SPEED);
     } else {
-      isDone = true;
-    }
+        isDone = true;
+      }
 
   }
+
 
   // Called once the command ends or is interrupted.
   @Override
