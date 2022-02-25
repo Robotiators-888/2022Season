@@ -51,8 +51,10 @@ import frc.robot.commands.IntakeSpin;
 import frc.robot.commands.ShooterSpin;
 import frc.robot.commands.canalRun;
 import frc.robot.commands.teleopClimber;
-import frc.robot.commands.CanalZeroToOneBottom;
-import frc.robot.commands.IndexBottomToTop;
+
+
+import frc.robot.commands.NoStateCanalZeroToOneBottom;
+import frc.robot.commands.NoStateIndexBottomToTop;
 import frc.robot.commands.CanalOneToTwo;
 
 /**
