@@ -32,14 +32,11 @@ public class IndexSubsystem extends SubsystemBase {
 
   public States currentState;
 
-<<<<<<< HEAD
 
 
 
 
 
-=======
->>>>>>> d0d9545 (whitespace changes and commenting)
   // Color sensor subsystem
   // private ColorSensorSubsystem colorSensor;
 
