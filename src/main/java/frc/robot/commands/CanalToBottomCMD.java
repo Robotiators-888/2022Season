@@ -55,24 +55,12 @@ public class CanalToBottomCMD extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    isDone = false;
-    switch (initalizeStates()) {
-      case ZERO_BALL:
-        canal.setSpeedBack(Constants.BELT_SPEED);
-        canal.setSpeedFront(Constants.BELT_SPEED);
-        index.setSpeedTower(0);
-        break;
-      case ONE_BALL_BOTTOM:
-        index.setSpeedTower(Constants.BELT_SPEED);
-        break;
-      case ONE_BALL_TOP:
-        canal.setSpeedBack(Constants.BELT_SPEED);
-        canal.setSpeedFront(Constants.BELT_SPEED);
-        break;
-      case TWO_BALL:
-        isDone = true;
-        break;
-
+    if (index.readBottomBanner()){
+      isDone = true;
+    } else {
+      isDone = false;
+      canal.setSpeedBack(0.75);
+      canal.setSpeedFront(0.75);
     }
     isDone = true;
   }
