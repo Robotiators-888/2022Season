@@ -28,15 +28,6 @@ public class IndexSubsystem extends SubsystemBase {
 
 
 
-
-
-
-
-
-
-
-
-
   // Color sensor subsystem
   // private ColorSensorSubsystem colorSensor;
 
