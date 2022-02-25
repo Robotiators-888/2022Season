@@ -7,12 +7,12 @@ package frc.robot.commands;
 import frc.robot.subsystems.SUB_Intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class CMD_IndexSpin extends CommandBase {
+public class CMD_IntakeSpin extends CommandBase {
   SUB_Intake Intake;
   double speed;
 
   /** Creates a new IntakeMotorTest. */
-  public CMD_IndexSpin(SUB_Intake subsystem, double speed) {
+  public CMD_IntakeSpin(SUB_Intake subsystem, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.Intake = subsystem;
     this.speed = speed;
