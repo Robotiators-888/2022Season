@@ -25,12 +25,15 @@ public class CanalToUpCMD extends CommandBase {
 
   public States initalizeStates() {
     if (index.readTopBanner()) {
+<<<<<<< HEAD
 
       if (index.readBottomBanner()) {
         States activeState = States.TWO_BALL;
         return activeState;
       }
       
+=======
+>>>>>>> 93708b0 (FMC)
       States activeState = States.ONE_BALL_TOP;
       return activeState;
     } else {
@@ -57,6 +60,7 @@ public class CanalToUpCMD extends CommandBase {
     isDone = false;
     switch (initalizeStates()) {
       case ZERO_BALL:
+<<<<<<< HEAD
         canal.setSpeedBack(-Constants.BELT_SPEED);
         canal.setSpeedFront(-Constants.BELT_SPEED);
         index.setSpeedTower(0);
@@ -69,6 +73,20 @@ public class CanalToUpCMD extends CommandBase {
       case ONE_BALL_TOP:
         canal.setSpeedBack(Constants.BELT_SPEED);
         canal.setSpeedFront(Constants.BELT_SPEED);
+=======
+        canal.setSpeedBack(-0.75);
+        canal.setSpeedFront(-0.75);
+        index.setSpeedTower(0);
+        break;
+      case ONE_BALL_BOTTOM:
+        index.setSpeedTower(0.75);
+        canal.setSpeedBack(0.75);
+        canal.setSpeedFront(0.75);
+        break;
+      case ONE_BALL_TOP:
+        canal.setSpeedBack(0.75);
+        canal.setSpeedFront(0.75);
+>>>>>>> 93708b0 (FMC)
         index.setSpeedTower(0);
         break;
       case TWO_BALL:
