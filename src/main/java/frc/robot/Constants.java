@@ -91,7 +91,7 @@ public final class Constants {
     public static final double TOWER_BELT_SPEED = 0.5;
     public static final int FLYWHEEL_MOTOR_ID = 24;
 
-    public static final double BELT_SPEED = 0.75;
+    public static final double BELT_SPEED = 0.5;
     public static final double ShooterSpeed = -0.15;
 
     public static final int DIO_PORT_0 = 0;

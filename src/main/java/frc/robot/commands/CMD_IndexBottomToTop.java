@@ -21,6 +21,9 @@ public class CMD_IndexBottomToTop extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     this.canal = canalArgs;
     this.index = indexArgs;
+    addRequirements(canalArgs, indexArgs);
+
+
   }
 
   // Called when the command is initially scheduled.
@@ -34,6 +37,8 @@ public class CMD_IndexBottomToTop extends CommandBase {
     if (!index.readTopBanner()){
       isDone = false;
       index.setSpeedTower(Constants.BELT_SPEED);
+      canal.setSpeedBack(-1 * Constants.BELT_SPEED);
+      canal.setSpeedFront(-1 * Constants.BELT_SPEED);
     } else {
         isDone = true;
       }
@@ -45,6 +50,8 @@ public class CMD_IndexBottomToTop extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     index.setSpeedTower(0);
+      canal.setSpeedBack(0);
+      canal.setSpeedFront(0);
   }
 
   // Returns true when the command should end.

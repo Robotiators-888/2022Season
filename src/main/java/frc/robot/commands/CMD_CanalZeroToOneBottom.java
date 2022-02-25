@@ -21,6 +21,9 @@ public class CMD_CanalZeroToOneBottom extends CommandBase {
   public CMD_CanalZeroToOneBottom(SUB_Canal canalArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.canal = canalArgs;
+    this.index = indexArgs;
+    addRequirements(canalArgs, indexArgs);
+
   }
 
   // Called when the command is initially scheduled.
