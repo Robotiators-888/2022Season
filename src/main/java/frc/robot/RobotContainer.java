@@ -219,6 +219,11 @@ public class RobotContainer {
                 //C_yButton change auto target (high or low goal)
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 805f87656685a42db22b7edeb1f9aa84535093c5
     // Auto objects
    
         }
