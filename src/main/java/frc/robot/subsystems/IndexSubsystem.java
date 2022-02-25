@@ -23,6 +23,15 @@ public class IndexSubsystem extends SubsystemBase {
   private DigitalInput bannerSensor2 = new DigitalInput(Constants.DIO_PORT_1);
 
 
+  public enum States {
+    ONE_BALL_TOP,
+    ONE_BALL_BOTTOM,
+    TWO_BALL,
+    ZERO_BALL,
+  }
+
+  public States currentState;
+
 
 
 
@@ -49,6 +58,24 @@ public class IndexSubsystem extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putBoolean("Top Banner sensor", readTopBanner());
     SmartDashboard.putBoolean("Bottom Banner sensor", readBottomBanner());
+    
+    // Updates the banner states, only used for the calling of intake-canal-index methods
+    // Separate states are used to handle how the intake-canal-index methods work
+    if (readTopBanner()){
+      
+      if (readBottomBanner()){
+        currentState = States.TWO_BALL;
+      } else {
+        currentState = States.ONE_BALL_TOP;
+      }
+
+    } else if (readBottomBanner()) {
+      currentState = States.ONE_BALL_BOTTOM;
+    } else {
+      currentState = States.ZERO_BALL;
+    }
+
+
   }
 
   /**  
