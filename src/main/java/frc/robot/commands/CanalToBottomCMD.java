@@ -58,18 +58,18 @@ public class CanalToBottomCMD extends CommandBase {
     isDone = false;
     switch (initalizeStates()) {
       case ZERO_BALL:
-        canal.setSpeedBack(-0.75);
-        canal.setSpeedFront(-0.75);
+        canal.setSpeedBack(Constants.BELT_SPEED);
+        canal.setSpeedFront(Constants.BELT_SPEED);
         index.setSpeedTower(0);
         break;
       case ONE_BALL_BOTTOM:
-        index.setSpeedTower(0.75);
-        canal.setSpeedBack(0.75);
-        canal.setSpeedFront(0.75);
+        index.setSpeedTower(Constants.BELT_SPEED);
+        canal.setSpeedBack(Constants.BELT_SPEED);
+        canal.setSpeedFront(Constants.BELT_SPEED);
         break;
       case ONE_BALL_TOP:
-        canal.setSpeedBack(0.75);
-        canal.setSpeedFront(0.75);
+        canal.setSpeedBack(Constants.BELT_SPEED);
+        canal.setSpeedFront(Constants.BELT_SPEED);
         index.setSpeedTower(0);
         break;
       case TWO_BALL:
