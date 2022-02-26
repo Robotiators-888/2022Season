@@ -39,7 +39,7 @@ import frc.robot.UDP.BallDataPacket;
 import frc.robot.UDP.GenericBuffer;
 import frc.robot.UDP.LimelightDataPacket;
 import frc.robot.UDP.UDPReciever;
-import frc.robot.commands.Aim;
+import frc.robot.commands.autoShoot;
 import frc.robot.commands.CMD_ShooterManualRPM;
 import frc.robot.commands.CMD_canalThrough;
 import frc.robot.commands.CMD_changeSetpoint;
@@ -52,7 +52,6 @@ import frc.robot.commands.IntakeSpin;
 import frc.robot.commands.ShooterSpin;
 import frc.robot.commands.canalRun;
 import frc.robot.commands.teleopClimber;
-
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -206,8 +205,9 @@ public class RobotContainer {
                 R_button5.whileHeld(new CMD_changeSetpoint(shoot, 500));
                 R_button6.whileHeld(new CMD_changeSetpoint(shoot, 100));
                 R_trigger.whileHeld(new CMD_ShooterManualRPM(shoot));
-                //L_button2 auto aim and shoot
-                //C_yButton change auto target (high or low goal)
+        
+                L_button3.whileHeld(new autoShoot (limelight, index, drivetrain, shoot));
+                C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
 
         }
 
