@@ -11,7 +11,7 @@ import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.Constants;
 public class CanalZeroToOneBottom extends CommandBase {
 
-  private CanalSubsystem canal;
+  private CanalSubsystem canal = new CanalSubsystem();
   private IndexSubsystem index;
   private boolean isDone = false;
 
