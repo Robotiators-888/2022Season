@@ -22,7 +22,11 @@ public class SUB_Climber extends SubsystemBase {
 
   public SUB_Climber() {
     climberMotor = new CANSparkMax(Constants.CLIMBER_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushed);
+<<<<<<< HEAD
     cSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 4, 5);
+=======
+    cSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 1);
+>>>>>>> 0e4287e (almost down with climber)
   }
 
   @Override
@@ -36,15 +40,23 @@ public class SUB_Climber extends SubsystemBase {
    * 
    * @param speed Can set either a pos or neg speed for the climber arms
    */
+<<<<<<< HEAD
   public void speedSet(double speed) {
+=======
+  public static void speedSet(double speed) {
+>>>>>>> 0e4287e (almost down with climber)
     climberMotor.set(speed);
   }
 
   /**
    * Toggle lock and unlock of the climber
    */
+<<<<<<< HEAD
  
    public void climberLock(){
+=======
+  public void climberLock(){
+>>>>>>> 0e4287e (almost down with climber)
     cSolenoid.toggle();
   }
 
@@ -54,6 +66,10 @@ public class SUB_Climber extends SubsystemBase {
    * @param isPistonExtended same value as pistonExtended
    * @return The state of the piston
    */
+<<<<<<< HEAD
+=======
+  
+>>>>>>> 0e4287e (almost down with climber)
     public Value lockGet() {
       return (cSolenoid.get());
   
