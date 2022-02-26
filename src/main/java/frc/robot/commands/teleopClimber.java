@@ -4,21 +4,18 @@
 
 package frc.robot.commands;
 
-import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climber;
 
 public class teleopClimber extends CommandBase {
   private Climber climber;
-  private Supplier<Double> climbSpeed;
-  private boolean inverted;
+  private double triggerSpeed;
   /** Creates a new teleopClimber. */
-  public teleopClimber(Climber climb, Supplier<Double> climberSpeed, boolean invert) {
+  public teleopClimber(Climber climb, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.climber = climb;
-    this.climbSpeed = climberSpeed;
-    this.inverted = invert;
+    this.triggerSpeed = speed;
 
     addRequirements(climber);
     
@@ -31,11 +28,9 @@ public class teleopClimber extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   if(inverted){
-    Climber.speedSet(-climbSpeed.get());
-   }else{
-    Climber.speedSet(climbSpeed.get());
-   }
+   
+    climber.speedSet(triggerSpeed);
+   
   }
 
   // Called once the command ends or is interrupted.
