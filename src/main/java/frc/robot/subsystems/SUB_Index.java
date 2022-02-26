@@ -10,7 +10,6 @@ import frc.robot.Constants;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 /**
  * Manages the indexing subsystem, moves indexing belts, and detects balls and
  * ball color in the system.
