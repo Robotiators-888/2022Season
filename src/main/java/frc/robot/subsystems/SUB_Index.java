@@ -10,6 +10,7 @@ import frc.robot.Constants;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * Manages the indexing subsystem, moves indexing belts, and detects balls and
  * ball color in the system.
@@ -57,8 +58,6 @@ public class SUB_Index extends SubsystemBase {
     // this.colorSensor = colorSensorArg;
   }
 
-  
-
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("Top Banner sensor", readTopBanner());
@@ -91,8 +90,6 @@ public class SUB_Index extends SubsystemBase {
     return !bannerSensor1.get();
 
   }
-  
-   
 
   /**
    * readBottomBanner returns if the bottom banner sensor detects a ball or not
