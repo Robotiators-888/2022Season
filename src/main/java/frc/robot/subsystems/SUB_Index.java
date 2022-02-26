@@ -31,6 +31,15 @@ public class SUB_Index extends SubsystemBase {
 
 
 
+  public enum States {
+    ONE_BALL_TOP,
+    ONE_BALL_BOTTOM,
+    TWO_BALL,
+    ZERO_BALL,
+  }
+
+  public States currentState;
+
 
 
 
