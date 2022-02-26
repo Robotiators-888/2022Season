@@ -46,6 +46,8 @@ public class SUB_Index extends SubsystemBase {
     // this.colorSensor = colorSensorArg;
   }
 
+  
+
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("Top Banner sensor", readTopBanner());
@@ -78,6 +80,8 @@ public class SUB_Index extends SubsystemBase {
     return !bannerSensor1.get();
 
   }
+  
+   
 
   /**
    * readBottomBanner returns if the bottom banner sensor detects a ball or not
