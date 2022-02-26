@@ -29,7 +29,7 @@ public class SUB_Index extends SubsystemBase {
     ZERO_BALL,
   }
 
-  public States currentState;
+
 
 
 
