@@ -4,9 +4,10 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.UDP.BallDataPacket;
+
 
 public class CameraDrive extends CommandBase {
   /** Creates a new CameraDrive. */
@@ -25,12 +26,13 @@ public class CameraDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(BallDataPacket.getX() > 10){
+      double x = SmartDashboard.getNumber("front_ball_x", 0);
+    if(x > 10){
       cameraXValue = 10;
     }else{
-      cameraXValue = BallDataPacket.getX();
+      cameraXValue = x;
     }
-    drive.setMotors((0.05)*(BallDataPacket.getX()),(-0.05)*(BallDataPacket.getX()));
+    drive.setMotors((0.05)*(cameraXValue),(-0.05)*(cameraXValue));
   }
 
   // Called once the command ends or is interrupted.
