@@ -186,8 +186,8 @@ public class RobotContainer {
                 C_leftTrigger = new Trigger(() -> (controller.getRawAxis(2) > 0.5));
                 C_rightTrigger = new Trigger(() -> (controller.getRawAxis(3) > 0.5));
 
-                C_leftTrigger.whileActiveContinuous(new teleopClimber(climber, 0.25));
-                C_rightTrigger.whileActiveContinuous(new teleopClimber(climber, -0.25));
+                C_leftTrigger.whileActiveContinuous(new teleopClimber(climber, 0.50));
+                C_rightTrigger.whileActiveContinuous(new teleopClimber(climber, -0.50));
 
                 //Intake
                 L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
@@ -206,10 +206,10 @@ public class RobotContainer {
 
 
                 //shooter
-                R_button3.whenPressed(new CMD_changeSetpoint(shoot, -500)).cancelWhenPressed(DefCMD);
-                R_button4.whenPressed(new CMD_changeSetpoint(shoot, -100)).cancelWhenPressed(DefCMD);
-                R_button5.whenPressed(new CMD_changeSetpoint(shoot, 500)).cancelWhenPressed(DefCMD);
-                R_button6.whenPressed(new CMD_changeSetpoint(shoot, 100)).cancelWhenPressed(DefCMD);
+                R_button3.whenPressed(new CMD_changeSetpoint(shoot, -500));
+                R_button4.whenPressed(new CMD_changeSetpoint(shoot, -100));
+                R_button5.whenPressed(new CMD_changeSetpoint(shoot, 500));
+                R_button6.whenPressed(new CMD_changeSetpoint(shoot, 100)); 
                 R_trigger.whileHeld(new CMD_ShooterManualRPM(shoot));
         
                 L_button3.whileHeld(new autoShoot (limelight, index, drivetrain, shoot));
