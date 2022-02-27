@@ -39,7 +39,7 @@ public class NetworkTablesBase {
         return;
       }
 
-      double x = SmartDashboard.getNumber(" ", 0);
+      double x = SmartDashboard.getNumber("front_ball_x", 0);
       double y = SmartDashboard.getNumber("front_ball_y", 0);
 
  
