@@ -36,6 +36,7 @@ import frc.robot.commands.AutoShoot;
 import frc.robot.commands.CMD_ShooterManualRPM;
 import frc.robot.commands.CMD_canalThrough;
 import frc.robot.commands.CMD_changeSetpoint;
+import frc.robot.commands.CanalZeroToOneBottom;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Shooter;
@@ -45,6 +46,8 @@ import frc.robot.commands.IntakeSpin;
 import frc.robot.commands.ShooterSpin;
 import frc.robot.commands.canalRun;
 import frc.robot.commands.teleopClimber;
+import frc.robot.commands.IndexBottomToTop;
+
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -157,7 +160,9 @@ public class RobotContainer {
          * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
          */
         private void configureButtonBindings() {
-                // drivetrain
+               IndexBottomToTop DefCMD =  new IndexBottomToTop(canal,index);
+
+                //drivetrain
                 drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> leftJoystick.getRawAxis(1),
                                 () -> rightJoystick.getRawAxis(1)));
                 L_button2.whenPressed(new InstantCommand(drivetrain::toggleReverse, drivetrain));
@@ -166,12 +171,12 @@ public class RobotContainer {
                 C_leftTrigger = new Trigger(() -> (controller.getRawAxis(2) > 0.5));
                 C_rightTrigger = new Trigger(() -> (controller.getRawAxis(3) > 0.5));
 
-                C_leftTrigger.whileActiveContinuous(new teleopClimber(climber, 0.25));
-                C_rightTrigger.whileActiveContinuous(new teleopClimber(climber, -0.25));
+                C_leftTrigger.whileActiveContinuous(new teleopClimber(climber, 0.50));
+                C_rightTrigger.whileActiveContinuous(new teleopClimber(climber, -0.50));
 
                 // Intake
                 L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
-                L_Trigger.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75), new canalRun(canal, -0.75)));
+                L_Trigger.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75), new CanalZeroToOneBottom(canal, index)));
 
                 // Canal
                 C_dPadUp.whileHeld(new canalRun(canal, -0.75));
@@ -179,9 +184,11 @@ public class RobotContainer {
                 C_dPadLeft.whileHeld(new CMD_canalThrough(canal, 0.75));
                 C_dPadRight.whileHeld(new CMD_canalThrough(canal, -0.75));
 
-                // Index
+                //Index
+                index.setDefaultCommand(DefCMD);
                 C_aButton.whileHeld(new ParallelCommandGroup(new indexRun(index, -0.75), new ShooterSpin(shoot, 0.25)));
                 C_bButton.whileHeld(new indexRun(index, 0.75));
+
 
                 // shooter
                 R_button3.whileHeld(new CMD_changeSetpoint(shoot, -500));
