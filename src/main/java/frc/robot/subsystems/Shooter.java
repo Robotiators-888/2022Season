@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
+    CANSparkMax flywheelFollower = new CANSparkMax(Constants.FLYWHEEL_FOLLOWER_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
     CANSparkMax flywheel = new CANSparkMax(Constants.FLYWHEEL_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
     SparkMaxPIDController PID = flywheel.getPIDController();
 
@@ -17,6 +18,7 @@ public class Shooter extends SubsystemBase {
         this.setPIDF(Constants.P_VALUE, Constants.I_VALUE, Constants.D_VALUE, Constants.F_VALUE);
         flywheel.setIdleMode(IdleMode.kCoast);
         PID.setOutputRange(-1, 1);
+        flywheelFollower.follow(flywheel);
 
     }
 
