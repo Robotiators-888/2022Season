@@ -68,6 +68,7 @@ public class RobotContainer {
         private CanalSubsystem canal = new CanalSubsystem();
         private Climber climber = new Climber();
         private Limelight limelight = new Limelight();
+        private NetworkTablesBase networkTables = new NetworkTablesBase();
 
         // Controller
         private Joystick controller = new Joystick(Constants.JOYSTICK_PORT);
@@ -144,7 +145,7 @@ public class RobotContainer {
                 chooser.addOption("one Path Wonder", onePathWonder);
                 SmartDashboard.putData("chooser", chooser);
 
-                NetworkTablesBase.run();
+                networkTables.run();
         }
 
         /**
