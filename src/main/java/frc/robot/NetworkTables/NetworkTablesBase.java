@@ -29,7 +29,7 @@ public class NetworkTablesBase {
     NetworkTableEntry yEntry = table.getEntry("y");
 
     inst.startClientTeam(888); // where TEAM=190, 294, etc, or use inst.startClient("hostname") or similar
-    inst.startDSClient(); // recommended if running on DS computer; this gets the robot IP from the DS
+    inst.startDSClient(); // recommended if running on DS computer; this gets the robot IP from the DS 
 
     while (true) {
       try {
@@ -39,7 +39,7 @@ public class NetworkTablesBase {
         return;
       }
 
-      double x = SmartDashboard.getNumber("front_ball_x", 0);
+      double x = SmartDashboard.getNumber(" ", 0);
       double y = SmartDashboard.getNumber("front_ball_y", 0);
 
  

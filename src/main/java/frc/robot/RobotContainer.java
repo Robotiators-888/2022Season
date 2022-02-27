@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.NetworkTables.NetworkTablesBase;
+import frc.robot.commands.AutoShoot;
 import frc.robot.commands.CMD_ShooterManualRPM;
 import frc.robot.commands.CMD_canalThrough;
 import frc.robot.commands.CMD_changeSetpoint;
@@ -39,6 +40,7 @@ import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.Limelight;
 import frc.robot.commands.IntakeSpin;
 import frc.robot.commands.ShooterSpin;
 import frc.robot.commands.canalRun;
@@ -65,6 +67,7 @@ public class RobotContainer {
         private Autonomous autoHelper = new Autonomous(drivetrain);
         private CanalSubsystem canal = new CanalSubsystem();
         private Climber climber = new Climber();
+        private Limelight limelight = new Limelight();
 
         // Controller
         private Joystick controller = new Joystick(Constants.JOYSTICK_PORT);
@@ -186,7 +189,7 @@ public class RobotContainer {
                 R_button6.whileHeld(new CMD_changeSetpoint(shoot, 100));
                 R_trigger.whileHeld(new CMD_ShooterManualRPM(shoot));
         
-                L_button3.whileHeld(new autoShoot (limelight, index, drivetrain, shoot));
+                L_button3.whileHeld(new AutoShoot(limelight, index, drivetrain, shoot));
                 C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
 
         }
