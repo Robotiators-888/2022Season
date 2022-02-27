@@ -42,7 +42,7 @@ public class NetworkTablesBase {
       double y = SmartDashboard.getNumber("front_ball_y", 0);
 
  
-      System.out.println("X: " + x + " Y: " + y);
+      //System.out.println("X: " + x + " Y: " + y);
     }
   }
 
