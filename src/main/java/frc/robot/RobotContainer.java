@@ -6,8 +6,6 @@ package frc.robot;
 
 import java.util.List;
 
-import javax.management.InstanceAlreadyExistsException;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -23,7 +21,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -31,23 +28,19 @@ import frc.robot.commands.teleopDrive;
 import frc.robot.commands.indexRun;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.commands.CanalToBottomCMD; 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.UDP.BallDataPacket;
-import frc.robot.UDP.GenericBuffer;
-import frc.robot.UDP.LimelightDataPacket;
-import frc.robot.UDP.UDPReciever;
-import frc.robot.commands.autoShoot;
+import frc.robot.NetworkTables.NetworkTablesBase;
+import frc.robot.commands.AutoShoot;
 import frc.robot.commands.CMD_ShooterManualRPM;
 import frc.robot.commands.CMD_canalThrough;
 import frc.robot.commands.CMD_changeSetpoint;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.Limelight;
 import frc.robot.commands.IntakeSpin;
 import frc.robot.commands.ShooterSpin;
 import frc.robot.commands.canalRun;
@@ -62,20 +55,11 @@ import frc.robot.commands.teleopClimber;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-        
 
         // The robot's subsystems and commands are defined here...
-        // private final GenericBuffer<BallDataPacket> ballBuffer = new GenericBuffer<>();
-        // private final GenericBuffer<LimelightDataPacket> limelightBuffer = new GenericBuffer<>();
-        // private final UDPReciever<BallDataPacket> BallReciever = new UDPReciever<>(Constants.BALL_PORT,
-        //                 () -> new BallDataPacket(), ballBuffer);
-        // private final UDPReciever<LimelightDataPacket> limelightReciever = new UDPReciever<>(Constants.LIMELIGHT_PORT,
-        //                 () -> new LimelightDataPacket(), limelightBuffer);
-
         private final Field2d field2d = new Field2d();
 
         // subsystems
-        private Limelight limelight = new Limelight();
         private Shooter shoot = new Shooter();
         private Drivetrain drivetrain = new Drivetrain(field2d);
         private IntakeSubsystem intake = new IntakeSubsystem();
@@ -83,6 +67,8 @@ public class RobotContainer {
         private Autonomous autoHelper = new Autonomous(drivetrain);
         private CanalSubsystem canal = new CanalSubsystem();
         private Climber climber = new Climber();
+        private Limelight limelight = new Limelight();
+        private NetworkTablesBase networkTables = new NetworkTablesBase();
 
         // Controller
         private Joystick controller = new Joystick(Constants.JOYSTICK_PORT);
@@ -94,7 +80,7 @@ public class RobotContainer {
         POVButton C_dPadUp = new POVButton(controller, 0);
         POVButton C_dPadDown = new POVButton(controller, 180);
         POVButton C_dPadLeft = new POVButton(controller, 270);
-        POVButton C_dPadRight= new POVButton(controller, 90);
+        POVButton C_dPadRight = new POVButton(controller, 90);
         Trigger C_leftTrigger;
         Trigger C_rightTrigger;
 
@@ -115,7 +101,6 @@ public class RobotContainer {
         JoystickButton R_button3 = new JoystickButton(rightJoystick, 5);
         JoystickButton R_button4 = new JoystickButton(rightJoystick, 6);
         JoystickButton R_trigger = new JoystickButton(rightJoystick, 1);
-
 
         // Auto objects
         SendableChooser<Command> chooser = new SendableChooser<>();
@@ -158,10 +143,9 @@ public class RobotContainer {
                 chooser.setDefaultOption("Simple Auto", straightAuto);
                 chooser.addOption("Complex Auto", pwtest);
                 chooser.addOption("one Path Wonder", onePathWonder);
-
-                // BallReciever.start();
-                // limelightReciever.start();
                 SmartDashboard.putData("chooser", chooser);
+
+                networkTables.run();
         }
 
         /**
@@ -173,40 +157,40 @@ public class RobotContainer {
          * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
          */
         private void configureButtonBindings() {
-                //drivetrain
+                // drivetrain
                 drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> leftJoystick.getRawAxis(1),
                                 () -> rightJoystick.getRawAxis(1)));
                 L_button2.whenPressed(new InstantCommand(drivetrain::toggleReverse, drivetrain));
 
-                //climber                
+                // climber
                 C_leftTrigger = new Trigger(() -> (controller.getRawAxis(2) > 0.5));
                 C_rightTrigger = new Trigger(() -> (controller.getRawAxis(3) > 0.5));
 
                 C_leftTrigger.whileActiveContinuous(new teleopClimber(climber, 0.25));
                 C_rightTrigger.whileActiveContinuous(new teleopClimber(climber, -0.25));
 
-                //Intake
+                // Intake
                 L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
                 L_Trigger.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75), new canalRun(canal, -0.75)));
 
-                //Canal
+                // Canal
                 C_dPadUp.whileHeld(new canalRun(canal, -0.75));
                 C_dPadDown.whileHeld(new canalRun(canal, 0.75));
                 C_dPadLeft.whileHeld(new CMD_canalThrough(canal, 0.75));
                 C_dPadRight.whileHeld(new CMD_canalThrough(canal, -0.75));
 
-                //Index
+                // Index
                 C_aButton.whileHeld(new ParallelCommandGroup(new indexRun(index, -0.75), new ShooterSpin(shoot, 0.25)));
                 C_bButton.whileHeld(new indexRun(index, 0.75));
 
-                //shooter
+                // shooter
                 R_button3.whileHeld(new CMD_changeSetpoint(shoot, -500));
                 R_button4.whileHeld(new CMD_changeSetpoint(shoot, -100));
                 R_button5.whileHeld(new CMD_changeSetpoint(shoot, 500));
                 R_button6.whileHeld(new CMD_changeSetpoint(shoot, 100));
                 R_trigger.whileHeld(new CMD_ShooterManualRPM(shoot));
         
-                L_button3.whileHeld(new autoShoot (limelight, index, drivetrain, shoot));
+                L_button3.whileHeld(new AutoShoot(limelight, index, drivetrain, shoot));
                 C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
 
         }
