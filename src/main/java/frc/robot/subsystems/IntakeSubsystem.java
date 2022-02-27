@@ -16,7 +16,11 @@ import frc.robot.Constants;
  */
 public class IntakeSubsystem extends SubsystemBase {
     TalonSRX Intake = new TalonSRX(Constants.MOTOR_ID);
-    DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 2, 3);
+    DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 10, 11);
+
+    public IntakeSubsystem(){
+        solenoid.set(Value.kReverse);
+    }
 
     /**
      * Gets the status of the intake pistons.

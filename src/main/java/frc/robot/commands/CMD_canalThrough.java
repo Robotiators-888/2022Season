@@ -4,44 +4,39 @@
 
 package frc.robot.commands;
 
-
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.CanalSubsystem;
 
-public class teleopClimber extends CommandBase {
-  private Climber climber;
-  private double triggerSpeed;
-  /** Creates a new teleopClimber. */
-  public teleopClimber(Climber climb, double speed) {
+
+public class CMD_canalThrough  extends CommandBase {
+
+  private CanalSubsystem canal;
+  private double speed;
+  /** Creates a new teleopCanal. */
+  public CMD_canalThrough(CanalSubsystem canalArgs, double speedArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.climber = climb;
-    this.triggerSpeed = speed;
-
-    addRequirements(climber);
-    
+    this.canal = canalArgs;
+    this.speed = speedArgs;
+    addRequirements(canal);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    climber.lockSet(Value.kForward);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   
-    climber.speedSet(triggerSpeed);
-    
-   
+    canal.setSpeedBack(speed);
+    canal.setSpeedFront(-speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    climber.speedSet(0);
-    climber.lockSet(Value.kReverse);
+    canal.setSpeedFront(0);
+    canal.setSpeedBack(0);
   }
 
   // Returns true when the command should end.

@@ -4,44 +4,38 @@
 
 package frc.robot.commands;
 
+import java.util.function.IntSupplier;
+import java.util.function.Supplier;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Climber;
 
-public class teleopClimber extends CommandBase {
-  private Climber climber;
-  private double triggerSpeed;
-  /** Creates a new teleopClimber. */
-  public teleopClimber(Climber climb, double speed) {
+import frc.robot.subsystems.Shooter;
+
+public class CMD_ShooterManualRPM extends CommandBase {
+  /** Creates a new ShooterSpin. */
+  private Shooter shoot;
+
+  public CMD_ShooterManualRPM (Shooter subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.climber = climb;
-    this.triggerSpeed = speed;
-
-    addRequirements(climber);
-    
+    this.shoot = subsystem;
+    addRequirements(shoot);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    climber.lockSet(Value.kForward);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   
-    climber.speedSet(triggerSpeed);
-    
-   
+    shoot.setRPM(shoot.getManualRPM());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    climber.speedSet(0);
-    climber.lockSet(Value.kReverse);
+    shoot.setSpeed(0);
   }
 
   // Returns true when the command should end.
