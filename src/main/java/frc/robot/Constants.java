@@ -95,8 +95,8 @@ public final class Constants {
     public static final double BELT_SPEED = 0.75;
     public static final double ShooterSpeed = -0.15;
 
-    public static final int DIO_PORT_0 = 0;
-    public static final int DIO_PORT_1 = 1;
+    public static final int DIO_PORT_0 = 9;
+    public static final int DIO_PORT_1 = 8;
     
     public static final double P_VALUE = 0.00015;
     public static final double I_VALUE = 0;
