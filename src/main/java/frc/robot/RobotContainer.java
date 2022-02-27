@@ -36,6 +36,7 @@ import frc.robot.commands.AutoShoot;
 import frc.robot.commands.CMD_ShooterManualRPM;
 import frc.robot.commands.CMD_canalThrough;
 import frc.robot.commands.CMD_changeSetpoint;
+import frc.robot.commands.CanalZeroToOneBottom;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Shooter;
