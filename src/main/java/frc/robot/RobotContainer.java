@@ -31,7 +31,6 @@ import frc.robot.commands.teleopDrive;
 import frc.robot.commands.indexRun;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.commands.CanalToBottomCMD;
 import frc.robot.commands.CanalZeroToOneBottom;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -54,6 +53,7 @@ import frc.robot.commands.ShooterSpin;
 import frc.robot.commands.canalRun;
 import frc.robot.commands.teleopClimber;
 import frc.robot.commands.IndexBottomToTop;
+
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -175,6 +175,8 @@ public class RobotContainer {
          * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
          */
         private void configureButtonBindings() {
+               IndexBottomToTop DefCMD =  new IndexBottomToTop(canal,index);
+
                 //drivetrain
                 drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> leftJoystick.getRawAxis(1),
                                 () -> rightJoystick.getRawAxis(1)));
@@ -192,21 +194,22 @@ public class RobotContainer {
                 L_Trigger.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75), new CanalZeroToOneBottom(canal, index)));
 
                 //Canal
-                C_dPadUp.whileHeld(new canalRun(canal, -0.75));
+                C_dPadUp.whileHeld(new canalRun(canal, -0.75));               
                 C_dPadDown.whileHeld(new canalRun(canal, 0.75));
                 C_dPadLeft.whileHeld(new CMD_canalThrough(canal, 0.75));
                 C_dPadRight.whileHeld(new CMD_canalThrough(canal, -0.75));
 
                 //Index
+                index.setDefaultCommand(DefCMD);
                 C_aButton.whileHeld(new ParallelCommandGroup(new indexRun(index, -0.75), new ShooterSpin(shoot, 0.25)));
                 C_bButton.whileHeld(new indexRun(index, 0.75));
-                index.setDefaultCommand(new IndexBottomToTop(canal,index));
+
 
                 //shooter
-                R_button3.whileHeld(new CMD_changeSetpoint(shoot, -500));
-                R_button4.whileHeld(new CMD_changeSetpoint(shoot, -100));
-                R_button5.whileHeld(new CMD_changeSetpoint(shoot, 500));
-                R_button6.whileHeld(new CMD_changeSetpoint(shoot, 100));
+                R_button3.whenPressed(new CMD_changeSetpoint(shoot, -500)).cancelWhenPressed(DefCMD);
+                R_button4.whenPressed(new CMD_changeSetpoint(shoot, -100)).cancelWhenPressed(DefCMD);
+                R_button5.whenPressed(new CMD_changeSetpoint(shoot, 500)).cancelWhenPressed(DefCMD);
+                R_button6.whenPressed(new CMD_changeSetpoint(shoot, 100)).cancelWhenPressed(DefCMD);
                 R_trigger.whileHeld(new CMD_ShooterManualRPM(shoot));
         
                 L_button3.whileHeld(new autoShoot (limelight, index, drivetrain, shoot));
