@@ -15,6 +15,7 @@ public class AutoShoot extends CommandBase {
   Drivetrain drive;
   Boolean withinRange = false;
 
+
   /**
    * Creates a new ExampleCommand.
    *
@@ -95,7 +96,12 @@ public class AutoShoot extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    
+    if(m_index.readTopBanner()){
+      return false;
+    }else{
+      return true;
+    }
   }
  
 }

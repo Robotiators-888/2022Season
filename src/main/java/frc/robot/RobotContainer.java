@@ -19,8 +19,10 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,7 +30,6 @@ import frc.robot.commands.teleopDrive;
 import frc.robot.commands.indexRun;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.commands.CanalToBottomCMD;
 import frc.robot.commands.IndexBottomToTopBanner;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -112,8 +113,9 @@ public class RobotContainer {
         SendableChooser<Command> chooser = new SendableChooser<>();
         TrajectoryConfig config = new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
                         Constants.kMaxAccelerationMetersPerSecondSquared).setKinematics(Constants.kDriveKinematics);
-        Trajectory twoBall_p1 = autoHelper.getTrajectory("paths/output/2ball_p1.wpilib.json");
-        Trajectory twoBall_p2 = autoHelper.getTrajectory("paths/output/2ball_p2.wpilib.json");
+        Trajectory twoBall_p1 = autoHelper.getTrajectory("paths/output/2ball_ClimbSide_p1.wpilib.json");
+        Trajectory twoBall_p2 = autoHelper.getTrajectory("paths/output/2ball_ClimbSide_p2.wpilib.json");
+        Trajectory twoBall_p3 = autoHelper.getTrajectory("paths/output/2ball_ClimbSide_p3.wpilib.json");
 
         Trajectory Str8 = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)),
                         List.of(new Translation2d(1, 0)), new Pose2d(2, 0, new Rotation2d(0)), config);
@@ -126,21 +128,13 @@ public class RobotContainer {
         Command twoball = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(twoBall_p1.getInitialPose())),
                         autoHelper.getRamset(twoBall_p1),
-                        new ParallelRaceGroup(
-                                new ShooterSpin(shoot, -0.50), 
-                                new SequentialCommandGroup(
-                                        new WaitCommand(2), 
-                                        new indexRun(index, 0.75).withTimeout(2)
-                                        )),
-                        new ParallelRaceGroup(
+                        new AutoShoot(limelight, index, drivetrain, shoot),
+                        new ParallelDeadlineGroup(
                                 autoHelper.getRamset(twoBall_p2), 
-                                new canalRun(canal, -0.50) , 
+                                new canalRun(canal, -0.75) , 
                                 new IndexBottomToTopBanner(index, 0.50)),
-                        new ParallelRaceGroup(
-                                new ShooterSpin(shoot, -0.5),
-                                new SequentialCommandGroup(
-                                        new WaitCommand(2),
-                                        new indexRun(index,0.75).withTimeout(2))),
+                        autoHelper.getRamset(twoBall_p3),
+                        new AutoShoot(limelight, index, drivetrain, shoot),
                         new InstantCommand(()-> drivetrain.tankDriveVolts(0,0)));
 
         /**
@@ -153,7 +147,7 @@ public class RobotContainer {
                 limelight.setLed(1);
                 field2d.getObject("traj").setTrajectory(Str8);
 
-                chooser.setDefaultOption("Simple Auto", straightAuto);
+                chooser.setDefaultOption("Straight Auto", straightAuto);
                 chooser.addOption("two ball", twoball);
 
 
