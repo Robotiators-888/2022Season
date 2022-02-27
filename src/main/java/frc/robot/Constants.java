@@ -27,7 +27,7 @@ public final class Constants {
     public static final int ID_RIGHT_SECONDARY = 23;
 
     // Climber Motor Can IDs
-    public static final int CLIMBER_MOTOR_ID = 25;
+    public static final int CLIMBER_MOTOR_ID = 27;
 
     // Pneumatic Port IDs
     public static final int CLIMBER_LOCK_PORT_1 = 4;
@@ -35,7 +35,7 @@ public final class Constants {
     // Intake Can IDs
     public static final int MOTOR_ID = 13;
     public static final int FRONT_CANAL_ID = 10;
-    public static final int TOWER_INDEX_ID = 12;
+    public static final int TOWER_INDEX_ID = 26;
     public static final int BACK_CANAL_ID = 11;
 
     // Solenoid IDS
@@ -90,6 +90,7 @@ public final class Constants {
 
     public static final double TOWER_BELT_SPEED = 0.5;
     public static final int FLYWHEEL_MOTOR_ID = 24;
+    public static final int FLYWHEEL_FOLLOWER_MOTOR_ID = 25;
 
     public static final double BELT_SPEED = 0.75;
     public static final double ShooterSpeed = -0.15;
@@ -97,4 +98,9 @@ public final class Constants {
     public static final int DIO_PORT_0 = 0;
     public static final int DIO_PORT_1 = 1;
     
+    public static final double P_VALUE = 0.00015;
+    public static final double I_VALUE = 0;
+    public static final double D_VALUE = 0;
+    public static final double F_VALUE = 0.000165;
+
 }

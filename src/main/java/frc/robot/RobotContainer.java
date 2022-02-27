@@ -43,7 +43,6 @@ import frc.robot.commands.IntakeSpin;
 import frc.robot.commands.ShooterSpin;
 import frc.robot.commands.canalRun;
 import frc.robot.commands.teleopClimber;
-
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -163,8 +162,8 @@ public class RobotContainer {
                 C_leftTrigger = new Trigger(() -> (controller.getRawAxis(2) > 0.5));
                 C_rightTrigger = new Trigger(() -> (controller.getRawAxis(3) > 0.5));
 
-                C_leftTrigger.whileActiveContinuous(new teleopClimber(climber, -0.25));
-                C_rightTrigger.whileActiveContinuous(new teleopClimber(climber, 0.25));
+                C_leftTrigger.whileActiveContinuous(new teleopClimber(climber, 0.25));
+                C_rightTrigger.whileActiveContinuous(new teleopClimber(climber, -0.25));
 
                 // Intake
                 L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
@@ -186,8 +185,9 @@ public class RobotContainer {
                 R_button5.whileHeld(new CMD_changeSetpoint(shoot, 500));
                 R_button6.whileHeld(new CMD_changeSetpoint(shoot, 100));
                 R_trigger.whileHeld(new CMD_ShooterManualRPM(shoot));
-                // L_button2 auto aim and shoot
-                // C_yButton change auto target (high or low goal)
+        
+                L_button3.whileHeld(new autoShoot (limelight, index, drivetrain, shoot));
+                C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
 
         }
 
