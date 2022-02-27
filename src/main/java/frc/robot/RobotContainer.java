@@ -182,8 +182,8 @@ public class RobotContainer {
                 C_leftTrigger = new Trigger(() -> (controller.getRawAxis(2) > 0.5));
                 C_rightTrigger = new Trigger(() -> (controller.getRawAxis(3) > 0.5));
 
-                C_leftTrigger.whileActiveContinuous(new teleopClimber(climber, -0.25));
-                C_rightTrigger.whileActiveContinuous(new teleopClimber(climber, 0.25));
+                C_leftTrigger.whileActiveContinuous(new teleopClimber(climber, 0.25));
+                C_rightTrigger.whileActiveContinuous(new teleopClimber(climber, -0.25));
 
                 //Intake
                 L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
