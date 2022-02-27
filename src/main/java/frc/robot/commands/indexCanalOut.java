@@ -19,8 +19,8 @@ public class indexCanalOut extends CommandBase {
     this.canal = canalArgs;
     this.index = indexArgs;
     
-    addRequirements(canal);
-    addRequirements(index);
+    addRequirements(canal, index);
+
   }
 
   // Called when the command is initially scheduled.

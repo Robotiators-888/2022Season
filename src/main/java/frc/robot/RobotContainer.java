@@ -46,6 +46,7 @@ import frc.robot.commands.ShooterSpin;
 import frc.robot.commands.canalRun;
 import frc.robot.commands.teleopClimber;
 import frc.robot.commands.IndexBottomToTop;
+
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -183,7 +184,7 @@ public class RobotContainer {
                 // Index
                 C_aButton.whileHeld(new ParallelCommandGroup(new indexRun(index, -0.75), new ShooterSpin(shoot, 0.25)));
                 C_bButton.whileHeld(new indexRun(index, 0.75));
-                index.setDefaultCommand(new IndexBottomToTop(canal,index));
+
 
                 // shooter
                 R_button3.whileHeld(new CMD_changeSetpoint(shoot, -500));

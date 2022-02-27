@@ -24,7 +24,7 @@ public class CanalZeroToOneBottom extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     this.canal = canalArgs;
     this.index = indexArgs;
-    addRequirements(canalArgs, indexArgs);
+    addRequirements(canal,index);
 
   }
 
