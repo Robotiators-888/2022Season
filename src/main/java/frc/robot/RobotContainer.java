@@ -74,7 +74,7 @@ public class RobotContainer {
         private CanalSubsystem canal = new CanalSubsystem();
         private Climber climber = new Climber();
         private Limelight limelight = new Limelight();
-        //private NetworkTablesBase networkTables = new NetworkTablesBase();
+        // private NetworkTablesBase networkTables = new NetworkTablesBase();
 
         // Controller
         private Joystick controller = new Joystick(Constants.JOYSTICK_PORT);
@@ -111,7 +111,8 @@ public class RobotContainer {
         // Auto objects
         SendableChooser<Command> chooser = new SendableChooser<>();
         TrajectoryConfig configReversed = new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
-                        Constants.kMaxAccelerationMetersPerSecondSquared).setKinematics(Constants.kDriveKinematics).setReversed(true);
+                        Constants.kMaxAccelerationMetersPerSecondSquared).setKinematics(Constants.kDriveKinematics)
+                                        .setReversed(true);
         Trajectory twoball_ClimbSide_p1 = autoHelper.getTrajectory("paths/output/2ball_ClimbSide_p1.wpilib.json");
         Trajectory twoball_ClimbSide_p2 = autoHelper.getTrajectory("paths/output/2ball_ClimbSide_p2.wpilib.json");
         Trajectory twoball_ClimbSide_p3 = autoHelper.getTrajectory("paths/output/2ball_ClimbSide_p3.wpilib.json");
@@ -132,31 +133,29 @@ public class RobotContainer {
                         new InstantCommand(() -> drivetrain.setPosition(Str8.getInitialPose())),
                         new WaitCommand(5),
                         autoHelper.getRamset(Str8));
-        
-        Command lowDump= new SequentialCommandGroup(
+
+        Command lowDump = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(Str8.getInitialPose())),
                         new WaitCommand(5),
                         new ParallelRaceGroup(
-                                new ShooterSpin(shoot, 0.25),
-                                new ShooterSpin(shoot, -0.5),
-                                new SequentialCommandGroup(
-                                        new WaitCommand(2),
-                                        new indexRun(index,0.75).withTimeout(2))),
-                        autoHelper.getRamset(Str8)
-                        );
-
+                                        new ShooterSpin(shoot, 0.25),
+                                        new ShooterSpin(shoot, -0.5),
+                                        new SequentialCommandGroup(
+                                                        new WaitCommand(2),
+                                                        new indexRun(index, 0.75).withTimeout(2))),
+                        autoHelper.getRamset(Str8));
 
         Command twoball_ClimbSide = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(twoball_ClimbSide_p1.getInitialPose())),
                         autoHelper.getRamset(twoball_ClimbSide_p1),
                         new AutoShoot(limelight, index, drivetrain, shoot),
                         new ParallelDeadlineGroup(
-                                autoHelper.getRamset(twoball_ClimbSide_p2), 
-                                new canalRun(canal, -0.75) , 
-                                new IndexBottomToTopBanner(index, 0.50)),
+                                        autoHelper.getRamset(twoball_ClimbSide_p2),
+                                        new canalRun(canal, -0.75),
+                                        new IndexBottomToTopBanner(index, 0.50)),
                         autoHelper.getRamset(twoball_ClimbSide_p3),
                         new AutoShoot(limelight, index, drivetrain, shoot),
-                        new InstantCommand(()-> drivetrain.tankDriveVolts(0,0)));
+                        new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -172,13 +171,11 @@ public class RobotContainer {
                 chooser.setDefaultOption("Low Dump", lowDump);
                 chooser.addOption("two ball Climb Side", twoball_ClimbSide);
 
-
                 // BallReciever.start();
                 // limelightReciever.start();
                 SmartDashboard.putData("chooser", chooser);
-                
 
-                //networkTables.run();
+                // networkTables.run();
                 System.out.println("RobotContainer initialization complete.");
         }
 
@@ -191,9 +188,9 @@ public class RobotContainer {
          * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
          */
         private void configureButtonBindings() {
-               IndexBottomToTop DefCMD =  new IndexBottomToTop(canal,index);
+                IndexBottomToTop DefCMD = new IndexBottomToTop(canal, index);
 
-                //drivetrain
+                // drivetrain
                 drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> leftJoystick.getRawAxis(1),
                                 () -> rightJoystick.getRawAxis(1)));
                 L_button2.whenPressed(new InstantCommand(drivetrain::toggleReverse, drivetrain));
@@ -207,7 +204,8 @@ public class RobotContainer {
 
                 // Intake
                 L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
-                L_Trigger.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75), new CanalZeroToOneBottom(canal, index)));
+                L_Trigger.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),
+                                new CanalZeroToOneBottom(canal, index)));
 
                 // Canal
                 C_dPadUp.whileHeld(new canalRun(canal, -0.75));
@@ -215,11 +213,10 @@ public class RobotContainer {
                 C_dPadLeft.whileHeld(new CMD_canalThrough(canal, 0.75));
                 C_dPadRight.whileHeld(new CMD_canalThrough(canal, -0.75));
 
-                //Index
+                // Index
                 index.setDefaultCommand(DefCMD);
                 C_aButton.whileHeld(new ParallelCommandGroup(new indexRun(index, -0.75), new ShooterSpin(shoot, 0.25)));
                 C_bButton.whileHeld(new indexRun(index, 0.75));
-
 
                 // shooter
                 R_button3.whileHeld(new CMD_changeSetpoint(shoot, -500));
@@ -227,7 +224,7 @@ public class RobotContainer {
                 R_button5.whileHeld(new CMD_changeSetpoint(shoot, 500));
                 R_button6.whileHeld(new CMD_changeSetpoint(shoot, 100));
                 R_trigger.whileHeld(new CMD_ShooterManualRPM(shoot));
-        
+
                 L_button3.whileHeld(new AutoShoot(limelight, index, drivetrain, shoot));
                 C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
 
