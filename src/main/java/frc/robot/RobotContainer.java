@@ -111,29 +111,51 @@ public class RobotContainer {
 
         // Auto objects
         SendableChooser<Command> chooser = new SendableChooser<>();
-        TrajectoryConfig config = new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
-                        Constants.kMaxAccelerationMetersPerSecondSquared).setKinematics(Constants.kDriveKinematics);
-        Trajectory twoBall_p1 = autoHelper.getTrajectory("paths/output/2ball_ClimbSide_p1.wpilib.json");
-        Trajectory twoBall_p2 = autoHelper.getTrajectory("paths/output/2ball_ClimbSide_p2.wpilib.json");
-        Trajectory twoBall_p3 = autoHelper.getTrajectory("paths/output/2ball_ClimbSide_p3.wpilib.json");
+        TrajectoryConfig configReversed = new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
+                        Constants.kMaxAccelerationMetersPerSecondSquared).setKinematics(Constants.kDriveKinematics).setReversed(true);
+        Trajectory twoball_ClimbSide_p1 = autoHelper.getTrajectory("paths/output/2ball_ClimbSide_p1.wpilib.json");
+        Trajectory twoball_ClimbSide_p2 = autoHelper.getTrajectory("paths/output/2ball_ClimbSide_p2.wpilib.json");
+        Trajectory twoball_ClimbSide_p3 = autoHelper.getTrajectory("paths/output/2ball_ClimbSide_p3.wpilib.json");
+
+        Trajectory twoball_HumanSide_p1 = autoHelper.getTrajectory("paths/output/2ball_HumanSide_p1.wpilib.json");
+        Trajectory twoball_HumanSide_p2 = autoHelper.getTrajectory("paths/output/2ball_HumanSide_p2.wpilib.json");
+        Trajectory twoball_HumanSide_p3 = autoHelper.getTrajectory("paths/output/2ball_HumanSide_p3.wpilib.json");
+
+        Trajectory twoball_WallSide_p1 = autoHelper.getTrajectory("paths/output/2ball_WallSide_p1.wpilib.json");
+        Trajectory twoball_WallSide_p2 = autoHelper.getTrajectory("paths/output/2ball_WallSide_p2.wpilib.json");
+        Trajectory twoball_WallSide_p3 = autoHelper.getTrajectory("paths/output/2ball_WallSide_p3.wpilib.json");
 
         Trajectory Str8 = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)),
-                        List.of(new Translation2d(1, 0)), new Pose2d(2, 0, new Rotation2d(0)), config);
+                        List.of(new Translation2d(1, 0)), new Pose2d(2, 0, new Rotation2d(0)), configReversed);
 
         // Auto command groups
         Command straightAuto = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(Str8.getInitialPose())),
+                        new WaitCommand(5),
                         autoHelper.getRamset(Str8));
+        
+        Command lowDump= new SequentialCommandGroup(
+                        new InstantCommand(() -> drivetrain.setPosition(Str8.getInitialPose())),
+                        new WaitCommand(5),
+                        new ParallelRaceGroup(
+                                new ShooterSpin(shoot, 0.25),
+                                new ShooterSpin(shoot, -0.5),
+                                new SequentialCommandGroup(
+                                        new WaitCommand(2),
+                                        new indexRun(index,0.75).withTimeout(2))),
+                        autoHelper.getRamset(Str8)
+                        );
 
-        Command twoball = new SequentialCommandGroup(
-                        new InstantCommand(() -> drivetrain.setPosition(twoBall_p1.getInitialPose())),
-                        autoHelper.getRamset(twoBall_p1),
+
+        Command twoball_ClimbSide = new SequentialCommandGroup(
+                        new InstantCommand(() -> drivetrain.setPosition(twoball_ClimbSide_p1.getInitialPose())),
+                        autoHelper.getRamset(twoball_ClimbSide_p1),
                         new AutoShoot(limelight, index, drivetrain, shoot),
                         new ParallelDeadlineGroup(
-                                autoHelper.getRamset(twoBall_p2), 
+                                autoHelper.getRamset(twoball_ClimbSide_p2), 
                                 new canalRun(canal, -0.75) , 
                                 new IndexBottomToTopBanner(index, 0.50)),
-                        autoHelper.getRamset(twoBall_p3),
+                        autoHelper.getRamset(twoball_ClimbSide_p3),
                         new AutoShoot(limelight, index, drivetrain, shoot),
                         new InstantCommand(()-> drivetrain.tankDriveVolts(0,0)));
 
@@ -148,7 +170,8 @@ public class RobotContainer {
                 field2d.getObject("traj").setTrajectory(Str8);
 
                 chooser.setDefaultOption("Straight Auto", straightAuto);
-                chooser.addOption("two ball", twoball);
+                chooser.setDefaultOption("Low Dump", lowDump);
+                chooser.addOption("two ball Climb Side", twoball_ClimbSide);
 
 
                 // BallReciever.start();
