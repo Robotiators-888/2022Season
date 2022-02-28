@@ -72,7 +72,7 @@ public class RobotContainer {
         private CanalSubsystem canal = new CanalSubsystem();
         private Climber climber = new Climber();
         private Limelight limelight = new Limelight();
-        private NetworkTablesBase networkTables = new NetworkTablesBase();
+        //private NetworkTablesBase networkTables = new NetworkTablesBase();
 
         // Controller
         private Joystick controller = new Joystick(Constants.JOYSTICK_PORT);
@@ -142,14 +142,17 @@ public class RobotContainer {
                 LiveWindow.disableAllTelemetry();
                 configureButtonBindings();
 
+                limelight.setLed(1);
                 field2d.getObject("traj").setTrajectory(Str8);
 
                 chooser.setDefaultOption("Simple Auto", straightAuto);
                 chooser.addOption("Complex Auto", pwtest);
                 chooser.addOption("one Path Wonder", onePathWonder);
                 SmartDashboard.putData("chooser", chooser);
+                
 
-                networkTables.run();
+                //networkTables.run();
+                System.out.println("RobotContainer initialization complete.");
         }
 
         /**

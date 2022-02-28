@@ -19,7 +19,7 @@ public class Shooter extends SubsystemBase {
         flywheel.setIdleMode(IdleMode.kCoast);
         PID.setOutputRange(-1, 1);
         flywheelFollower.follow(flywheel);
-        flywheelFollower.setInverted(true);
+
 
     }
 
