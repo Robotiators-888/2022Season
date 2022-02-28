@@ -117,7 +117,7 @@ public class Limelight extends SubsystemBase {
   public int distRpm(double dist) {
 
     if(this.isHigh == true){
-      return (int) (425 * (Math.sqrt(dist)));
+      return (int) (450 * (Math.sqrt(dist)));
 
     }
     else{
