@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
@@ -12,6 +13,7 @@ import java.lang.Math;
 public class CameraDriveCommand extends CommandBase {
   /** Creates a new CameraDrive. */
   Drivetrain drive;
+  Timer diveTimeout = new Timer();
 
     double ballX;
     double ballY;
@@ -30,13 +32,11 @@ public class CameraDriveCommand extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
 
-double XDeadzone = 3; // inches
-double forwardDriveSpeed = 0.2;
+double XDeadzone = 6.5; // inches
+double YDeadzone = 4;
+double forwardDriveSpeed = 0.6;
 
-  public void setBallLocation(double x, double y) {
-    ballX = x;
-    ballY = y;
-  }
+  
 
   @Override
   public void execute() {
@@ -46,21 +46,36 @@ double forwardDriveSpeed = 0.2;
       // drive forward
         if (ballY>4){
             // drive forward at constant speed
+            
+            /// ball close keep moving
+       
+            diveTimeout.start();
+           if(!(diveTimeout.hasElapsed(0.5))){
             drive.setMotors(forwardDriveSpeed, forwardDriveSpeed);
-        }
-        else{
-            // stop driving
+           }else{
             drive.setMotors(0,0);
+            diveTimeout.stop();
+            diveTimeout.reset();
+           }
+           
+            // drive.setMotors(0,0);
+
         }
     }
     else{
         // turn to ball
-        if(ballX > 3){
-            moveXValue = 3;
+        if(Math.abs(ballX) > 3){
+            moveXValue = 4;
+            if (ballX < 0){
+              moveXValue=moveXValue*-1;
+            }else{
+              moveXValue = moveXValue * 1;
+            }
           }else{
             moveXValue = ballX;
           }
           drive.setMotors((0.05)*(moveXValue),(-0.05)*(moveXValue));
+          
     }
     
   }
