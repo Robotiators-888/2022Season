@@ -31,6 +31,7 @@ import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.CameraDriveCommand;
 import frc.robot.NetworkTables.NetworkTablesBase;
 import frc.robot.commands.AutoShoot;
 import frc.robot.commands.CMD_ShooterManualRPM;
@@ -71,7 +72,7 @@ public class RobotContainer {
         private CanalSubsystem canal = new CanalSubsystem();
         private Climber climber = new Climber();
         private Limelight limelight = new Limelight();
-        //private NetworkTablesBase networkTables = new NetworkTablesBase();
+        private NetworkTablesBase networkTables = new NetworkTablesBase();
 
         // Controller
         private Joystick controller = new Joystick(Constants.JOYSTICK_PORT);
@@ -150,7 +151,7 @@ public class RobotContainer {
                 SmartDashboard.putData("chooser", chooser);
                 
 
-                //networkTables.run();
+                networkTables.start();
                 System.out.println("RobotContainer initialization complete.");
         }
 
@@ -200,7 +201,11 @@ public class RobotContainer {
                 R_button6.whileHeld(new CMD_changeSetpoint(shoot, 100));
                 R_trigger.whileHeld(new CMD_ShooterManualRPM(shoot));
         
-                L_button3.whileHeld(new AutoShoot(limelight, index, drivetrain, shoot));
+        
+       
+               // L_button5.whileHeld(new CameraDriveCommand(drivetrain));
+               L_button5.whileHeld(new ParallelCommandGroup(new CameraDriveCommand(drivetrain), new ParallelCommandGroup(new IntakeSpin(intake, 0.75), new CanalZeroToOneBottom(canal, index))));
+                L_button3.whileHeld(new AutoShoot (limelight, index, drivetrain, shoot));
                 C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
 
         }
