@@ -8,7 +8,6 @@ import java.util.List;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
@@ -278,12 +277,12 @@ public class RobotContainer {
                 R_button5.whileHeld(new CMD_changeSetpoint(shoot, 500));
                 R_button6.whileHeld(new CMD_changeSetpoint(shoot, 100));
                 R_trigger.whileHeld(new CMD_ShooterManualRPM(shoot));
-        
-        
-       
-               // L_button5.whileHeld(new CameraDriveCommand(drivetrain));
-               L_button5.whileHeld(new ParallelCommandGroup(new CameraDriveCommand(drivetrain), new ParallelCommandGroup(new IntakeSpin(intake, 0.75), new CanalZeroToOneBottom(canal, index))));
-                L_button3.whileHeld(new AutoShoot (limelight, index, drivetrain, shoot));
+
+                // L_button5.whileHeld(new CameraDriveCommand(drivetrain));
+                L_button5.whileHeld(
+                                new ParallelCommandGroup(new CameraDriveCommand(drivetrain), new ParallelCommandGroup(
+                                                new IntakeSpin(intake, 0.75), new CanalZeroToOneBottom(canal, index))));
+                L_button3.whileHeld(new AutoShoot(limelight, index, drivetrain, shoot));
                 C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
 
         }
