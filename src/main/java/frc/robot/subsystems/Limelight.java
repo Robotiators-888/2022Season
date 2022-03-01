@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Limelight extends SubsystemBase {
   NetworkTable table;
-  Boolean isHigh = false;
+  Boolean isHigh = true;
 
   public Limelight() {
     table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -117,7 +117,7 @@ public class Limelight extends SubsystemBase {
   public int distRpm(double dist) {
 
     if(this.isHigh == true){
-      return (int) (425 * (Math.sqrt(dist)));
+      return (int) (450 * (Math.sqrt(dist)));
 
     }
     else{
