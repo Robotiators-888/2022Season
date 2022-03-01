@@ -15,11 +15,15 @@ public class CameraDriveCommand extends CommandBase {
   Drivetrain drive;
   Timer diveTimeout = new Timer();
 
-    double ballX;
-    double ballY;
+  double ballX;
+  double ballY;
 
   double moveXValue;
   double moveYValue;
+  static final double X_DEADZONE = 6.5; // inches
+  static final double Y_DEADZONE = 4;
+  static final double FORWARD_DRIVE_SPEED = 0.6;
+
   public CameraDriveCommand(Drivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drive = drivetrain;
@@ -28,61 +32,56 @@ public class CameraDriveCommand extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
-
-double XDeadzone = 6.5; // inches
-double YDeadzone = 4;
-double forwardDriveSpeed = 0.6;
-
-  
 
   @Override
   public void execute() {
     ballX = SmartDashboard.getNumber("front_ball_x", 0);
     ballY = SmartDashboard.getNumber("front_ball_y", 0);
-    if (Math.abs(ballX) < XDeadzone) {
+    if (Math.abs(ballX) < X_DEADZONE) {
       // drive forward
-        if (ballY>4){
-            // drive forward at constant speed
-            
-            /// ball close keep moving
-       
-            diveTimeout.start();
-           if(!(diveTimeout.hasElapsed(0.5))){
-            drive.setMotors(forwardDriveSpeed, forwardDriveSpeed);
-           }else{
-            drive.setMotors(0,0);
-            diveTimeout.stop();
-            diveTimeout.reset();
-           }
-           
-            // drive.setMotors(0,0);
+      if (ballY > 4) {
+        // drive forward at constant speed
 
+        /// ball close keep moving
+
+        diveTimeout.start();
+        if (!(diveTimeout.hasElapsed(0.5))) {
+          drive.setMotors(FORWARD_DRIVE_SPEED, FORWARD_DRIVE_SPEED);
+        } else {
+          drive.setMotors(0, 0);
+          diveTimeout.stop();
+          diveTimeout.reset();
         }
+
+        // drive.setMotors(0,0);
+
+      }
+    } else {
+      // turn to ball
+      if (Math.abs(ballX) > 3) {
+        moveXValue = 4;
+        if (ballX < 0) {
+          moveXValue = moveXValue * -1;
+        } else {
+          moveXValue = moveXValue * 1;
+        }
+      } else {
+        moveXValue = ballX;
+      }
+      drive.setMotors((0.05) * (moveXValue), (-0.05) * (moveXValue));
+
     }
-    else{
-        // turn to ball
-        if(Math.abs(ballX) > 3){
-            moveXValue = 4;
-            if (ballX < 0){
-              moveXValue=moveXValue*-1;
-            }else{
-              moveXValue = moveXValue * 1;
-            }
-          }else{
-            moveXValue = ballX;
-          }
-          drive.setMotors((0.05)*(moveXValue),(-0.05)*(moveXValue));
-          
-    }
-    
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override

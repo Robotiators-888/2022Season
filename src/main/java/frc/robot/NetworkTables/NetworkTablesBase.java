@@ -21,6 +21,7 @@ public class NetworkTablesBase extends Thread {
     run();
   }
 
+  @Override
   public void run() {
     NetworkTableInstance inst = NetworkTableInstance.getDefault();
     NetworkTable table = inst.getTable("datatable");
@@ -33,6 +34,6 @@ public class NetworkTablesBase extends Thread {
     double x = SmartDashboard.getNumber("front_ball_x", 0);
     double y = SmartDashboard.getNumber("front_ball_y", 0);
 
-    System.out.println("X: " + x + " Y: " + y);
+    // System.out.println("X: " + x + " Y: " + y);
   }
 }
