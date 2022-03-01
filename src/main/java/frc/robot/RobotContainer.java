@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -113,48 +114,97 @@ public class RobotContainer {
         TrajectoryConfig configReversed = new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
                         Constants.kMaxAccelerationMetersPerSecondSquared).setKinematics(Constants.kDriveKinematics)
                                         .setReversed(true);
-        Trajectory twoball_ClimbSide_p1 = autoHelper.getTrajectory("paths/output/2ball_ClimbSide_p1.wpilib.json");
-        Trajectory twoball_ClimbSide_p2 = autoHelper.getTrajectory("paths/output/2ball_ClimbSide_p2.wpilib.json");
-        Trajectory twoball_ClimbSide_p3 = autoHelper.getTrajectory("paths/output/2ball_ClimbSide_p3.wpilib.json");
 
-        Trajectory twoball_HumanSide_p1 = autoHelper.getTrajectory("paths/output/2ball_HumanSide_p1.wpilib.json");
-        Trajectory twoball_HumanSide_p2 = autoHelper.getTrajectory("paths/output/2ball_HumanSide_p2.wpilib.json");
-        Trajectory twoball_HumanSide_p3 = autoHelper.getTrajectory("paths/output/2ball_HumanSide_p3.wpilib.json");
+        Trajectory LS_twoBall_Low_p1 = autoHelper.getTrajectory("paths/output/LS_twoBall_Low_p1.wpilib.json");
+        Trajectory LS_twoBall_Low_p2 = autoHelper.getTrajectory("paths/output/LS_twoBall_Low_p2.wpilib.json");
 
-        Trajectory twoball_WallSide_p1 = autoHelper.getTrajectory("paths/output/2ball_WallSide_p1.wpilib.json");
-        Trajectory twoball_WallSide_p2 = autoHelper.getTrajectory("paths/output/2ball_WallSide_p2.wpilib.json");
-        Trajectory twoball_WallSide_p3 = autoHelper.getTrajectory("paths/output/2ball_WallSide_p3.wpilib.json");
+        Trajectory RS_RB_twoBall_Low_p1 = autoHelper.getTrajectory("paths/output/RS_RB_twoBall_Low_p1.wpilib.json");
+        Trajectory RS_RB_twoBall_Low_p2 = autoHelper.getTrajectory("paths/output/RS_RB_twoBall_Low_p2.wpilib.json");
 
-        Trajectory Str8 = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)),
-                        List.of(new Translation2d(1, 0)), new Pose2d(2, 0, new Rotation2d(0)), configReversed);
+        Trajectory RS_LB_twoBall_Low_p1 = autoHelper.getTrajectory("paths/output/RS_LB_twoBall_Low_p1.wpilib.json");
+        Trajectory RS_LB_twoBall_Low_p2 = autoHelper.getTrajectory("paths/output/RS_LB_twoBall_Low_p2.wpilib.json");
+
+        Trajectory Str8 = TrajectoryGenerator.generateTrajectory(
+                        new Pose2d(0, 0, new Rotation2d(Units.degreesToRadians(180))),
+                        List.of(), new Pose2d(2, 0, new Rotation2d(Units.degreesToRadians(180))), configReversed);
 
         // Auto command groups
         Command straightAuto = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(Str8.getInitialPose())),
-                        new WaitCommand(5),
                         autoHelper.getRamset(Str8));
 
         Command lowDump = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(Str8.getInitialPose())),
-                        new WaitCommand(5),
                         new ParallelRaceGroup(
-                                        new ShooterSpin(shoot, 0.25),
-                                        new ShooterSpin(shoot, -0.5),
+                                        new ShooterSpin(shoot, -0.35),
                                         new SequentialCommandGroup(
                                                         new WaitCommand(2),
                                                         new indexRun(index, 0.75).withTimeout(2))),
                         autoHelper.getRamset(Str8));
 
-        Command twoball_ClimbSide = new SequentialCommandGroup(
-                        new InstantCommand(() -> drivetrain.setPosition(twoball_ClimbSide_p1.getInitialPose())),
-                        autoHelper.getRamset(twoball_ClimbSide_p1),
-                        new AutoShoot(limelight, index, drivetrain, shoot),
+        Command lowDumpNoDrive = new SequentialCommandGroup(
+                        new InstantCommand(() -> drivetrain.setPosition(Str8.getInitialPose())),
+                        new ParallelRaceGroup(
+                                        new ShooterSpin(shoot, -0.35),
+                                        new SequentialCommandGroup(
+                                                        new WaitCommand(1),
+                                                        new indexRun(index, 0.75).withTimeout(2))));
+
+        Command RS_RB_twoBall = new SequentialCommandGroup(
+                        new InstantCommand(() -> drivetrain.setPosition(RS_RB_twoBall_Low_p1.getInitialPose())),
+                        new ParallelRaceGroup(
+                                        new ShooterSpin(shoot, -0.35),
+                                        new SequentialCommandGroup(
+                                                        new WaitCommand(1),
+                                                        new indexRun(index, 0.75).withTimeout(2))),
                         new ParallelDeadlineGroup(
-                                        autoHelper.getRamset(twoball_ClimbSide_p2),
+                                        autoHelper.getRamset(RS_RB_twoBall_Low_p1),
                                         new canalRun(canal, -0.75),
                                         new IndexBottomToTopBanner(index, 0.50)),
-                        autoHelper.getRamset(twoball_ClimbSide_p3),
-                        new AutoShoot(limelight, index, drivetrain, shoot),
+                        autoHelper.getRamset(RS_RB_twoBall_Low_p2),
+                        new ParallelRaceGroup(
+                                        new ShooterSpin(shoot, -0.35),
+                                        new SequentialCommandGroup(
+                                                        new WaitCommand(1),
+                                                        new indexRun(index, 0.75).withTimeout(2))),
+                        new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
+
+        Command RS_LB_twoBall = new SequentialCommandGroup(
+                        new InstantCommand(() -> drivetrain.setPosition(RS_LB_twoBall_Low_p1.getInitialPose())),
+                        new ParallelRaceGroup(
+                                        new ShooterSpin(shoot, -0.35),
+                                        new SequentialCommandGroup(
+                                                        new WaitCommand(1),
+                                                        new indexRun(index, 0.75).withTimeout(2))),
+                        new ParallelDeadlineGroup(
+                                        autoHelper.getRamset(RS_LB_twoBall_Low_p1),
+                                        new canalRun(canal, -0.75),
+                                        new IndexBottomToTopBanner(index, 0.50)),
+                        autoHelper.getRamset(RS_LB_twoBall_Low_p2),
+                        new ParallelRaceGroup(
+                                        new ShooterSpin(shoot, -0.35),
+                                        new SequentialCommandGroup(
+                                                        new WaitCommand(1),
+                                                        new indexRun(index, 0.75).withTimeout(2))),
+                        new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
+
+        Command LS_twoBall = new SequentialCommandGroup(
+                        new InstantCommand(() -> drivetrain.setPosition(LS_twoBall_Low_p1.getInitialPose())),
+                        new ParallelRaceGroup(
+                                        new ShooterSpin(shoot, -0.35),
+                                        new SequentialCommandGroup(
+                                                        new WaitCommand(1),
+                                                        new indexRun(index, 0.75).withTimeout(2))),
+                        new ParallelDeadlineGroup(
+                                        autoHelper.getRamset(LS_twoBall_Low_p1),
+                                        new canalRun(canal, -0.75),
+                                        new IndexBottomToTopBanner(index, 0.50)),
+                        autoHelper.getRamset(LS_twoBall_Low_p2),
+                        new ParallelRaceGroup(
+                                        new ShooterSpin(shoot, -0.35),
+                                        new SequentialCommandGroup(
+                                                        new WaitCommand(1),
+                                                        new indexRun(index, 0.75).withTimeout(2))),
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
         /**
@@ -167,9 +217,12 @@ public class RobotContainer {
                 limelight.setLed(1);
                 field2d.getObject("traj").setTrajectory(Str8);
 
-                chooser.setDefaultOption("Straight Auto", straightAuto);
                 chooser.setDefaultOption("Low Dump", lowDump);
-                chooser.addOption("two ball Climb Side", twoball_ClimbSide);
+                chooser.setDefaultOption("Low Dump no drive", lowDumpNoDrive);
+                chooser.addOption("Drive Back", straightAuto);
+                chooser.addOption("Right side Right Ball", RS_RB_twoBall);
+                chooser.addOption("Right side Left Ball", RS_LB_twoBall);
+                chooser.addOption("Left side", LS_twoBall);
 
                 // BallReciever.start();
                 // limelightReciever.start();
