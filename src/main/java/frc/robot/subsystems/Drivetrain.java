@@ -76,7 +76,7 @@ public class Drivetrain extends SubsystemBase {
     // SmartDashboard.putNumber("rev L", leftEncoder.getPosition());
     // SmartDashboard.putNumber("rev R", rightEncoder.getPosition());
     SmartDashboard.putNumber("odoHead", driveOdometry.getPoseMeters().getRotation().getDegrees());
-    // SmartDashboard.putNumber("navHead", navx.getYaw());
+    SmartDashboard.putNumber("navHead", navx.getAngle());
     // SmartDashboard.putNumber("tester", this.rotationsToMeters(1));
     // SmartDashboard.putNumber("speed", getRate(leftEncoder.getVelocity()));
     SmartDashboard.putBoolean("Is Reversed", reversed);
@@ -190,7 +190,7 @@ public class Drivetrain extends SubsystemBase {
    * @return rotation2d object with current heading
    */
   public Rotation2d getGyroHeading() {
-    return new Rotation2d(Math.toRadians(-1 * navx.getYaw()));
+    return new Rotation2d(Math.toRadians(-1 * navx.getAngle()));
   }
 
   /**
@@ -202,6 +202,7 @@ public class Drivetrain extends SubsystemBase {
    */
   public void setPosition(double x, double y, Rotation2d angle) {
     setPosition(new Pose2d(x, y, angle));
+    zeroHeading();
     navx.setAngleAdjustment(angle.getDegrees());
     zeroEncoders();
   }
@@ -212,10 +213,13 @@ public class Drivetrain extends SubsystemBase {
    * @param position The position (both translation and rotation)
    */
   public void setPosition(Pose2d position) {
-    driveOdometry.resetPosition(position, position.getRotation());
-    navx.setAngleAdjustment(position.getRotation().getDegrees());
+    zeroHeading();
     zeroEncoders();
-
+    navx.setAngleAdjustment(position.getRotation().getDegrees());
+    System.out.println(position.getX());
+    System.out.println(position.getY());
+    driveOdometry.resetPosition(position, position.getRotation());
+    
   }
 
   /**
