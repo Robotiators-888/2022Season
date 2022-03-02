@@ -72,7 +72,7 @@ public class CameraDriveCommand extends CommandBase {
       } else {
         moveXValue = ballX;
       }
-      drive.setMotors((0.05) * (moveXValue), (-0.05) * (moveXValue));
+      drive.setMotors((0.07) * (moveXValue), (-0.07) * (moveXValue));
 
     }
 
