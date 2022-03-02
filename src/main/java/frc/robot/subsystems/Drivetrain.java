@@ -15,6 +15,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -216,8 +217,8 @@ public class Drivetrain extends SubsystemBase {
     zeroHeading();
     zeroEncoders();
     navx.setAngleAdjustment(position.getRotation().getDegrees());
-    System.out.println(position.getX());
-    System.out.println(position.getY());
+    SmartDashboard.putNumber("WHY",position.getY());
+    SmartDashboard.putNumber("EXX",position.getX());
     driveOdometry.resetPosition(position, position.getRotation());
     
   }
