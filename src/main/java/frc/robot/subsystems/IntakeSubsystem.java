@@ -27,8 +27,12 @@ public class IntakeSubsystem extends SubsystemBase {
      * 
      * @returna boolean true if pistons are on, else false
      */
-    public Value intakeGet() {
-        return (solenoid.get());
+    public boolean intakeGet() {
+        if((solenoid.get()) == Value.kForward){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /**
