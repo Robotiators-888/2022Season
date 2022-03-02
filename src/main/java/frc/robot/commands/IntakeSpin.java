@@ -16,6 +16,7 @@ public class IntakeSpin extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     this.Intake = subsystem;
     this.speed = speed;
+    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.

@@ -127,7 +127,7 @@ public class RobotContainer {
 
         Trajectory Str8 = TrajectoryGenerator.generateTrajectory(
                         new Pose2d(0, 0, new Rotation2d(Units.degreesToRadians(180))),
-                        List.of(), new Pose2d(2, 0, new Rotation2d(Units.degreesToRadians(180))), configReversed);
+                        List.of(), new Pose2d(4, 0, new Rotation2d(Units.degreesToRadians(180))), configReversed);
 
         // Auto command groups
         Command straightAuto = new SequentialCommandGroup(
@@ -219,7 +219,7 @@ public class RobotContainer {
                 field2d.getObject("traj").setTrajectory(Str8);
 
                 chooser.setDefaultOption("Low Dump", lowDump);
-                chooser.setDefaultOption("Low Dump no drive", lowDumpNoDrive);
+                chooser.addOption("Low Dump no drive", lowDumpNoDrive);
                 chooser.addOption("Drive Back", straightAuto);
                 chooser.addOption("Right side Right Ball", RS_RB_twoBall);
                 chooser.addOption("Right side Left Ball", RS_LB_twoBall);
@@ -257,9 +257,9 @@ public class RobotContainer {
                 C_rightTrigger.whileActiveContinuous(new teleopClimber(climber, -0.50));
 
                 // Intake
-                intake.setDefaultCommand(new ConditionalCommand(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),
-                new CanalZeroToOneBottom(canal, index)), new InstantCommand(), intake::intakeGet));
+                //intake.setDefaultCommand(new ConditionalCommand(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),new CanalZeroToOneBottom(canal, index)), new InstantCommand(), intake::intakeGet));
                 L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
+                L_button5.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),new CanalZeroToOneBottom(canal, index)));
                 
 
                 // Canal
@@ -282,9 +282,7 @@ public class RobotContainer {
                 R_trigger.whileHeld(new CMD_ShooterManualRPM(shoot));
 
                 // L_button5.whileHeld(new CameraDriveCommand(drivetrain));
-                L_button5.whileHeld(
-                                new ParallelCommandGroup(new CameraDriveCommand(drivetrain), new ParallelCommandGroup(
-                                                new IntakeSpin(intake, 0.75), new CanalZeroToOneBottom(canal, index))));
+                //L_button5.whileHeld(new ParallelCommandGroup(new CameraDriveCommand(drivetrain), new ParallelCommandGroup(new IntakeSpin(intake, 0.75), new CanalZeroToOneBottom(canal, index))));
                 L_button3.whileHeld(new AutoShoot(limelight, index, drivetrain, shoot));
                 C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
 

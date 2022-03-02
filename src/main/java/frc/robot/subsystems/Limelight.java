@@ -86,6 +86,14 @@ public class Limelight extends SubsystemBase {
 
   }
 
+  /**
+   * Sets pipeline
+   */
+  public void setPipline(int value) {
+    table.getEntry("pipeline").setNumber(value);
+
+  }
+
   // Finds distance from robot to target and returns distance
   public double getDistance() {
     double h1 = 35.5;
@@ -95,6 +103,7 @@ public class Limelight extends SubsystemBase {
 
     return (double) ((h2 - h1) / (Math.tan(a1 + a2)));
   }
+
   public void toggleHeight(){
     if(isHigh){
       this.isHigh = false;

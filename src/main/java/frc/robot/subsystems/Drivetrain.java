@@ -209,7 +209,7 @@ public class Drivetrain extends SubsystemBase {
    * @param position The position (both translation and rotation)
    */
   public void setPosition(Pose2d position) {
-    driveOdometry.resetPosition(position, getGyroHeading());
+    driveOdometry.resetPosition(position, position.getRotation());
     zeroEncoders();
   }
 
