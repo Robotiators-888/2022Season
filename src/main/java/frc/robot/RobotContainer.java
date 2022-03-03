@@ -289,6 +289,8 @@ public class RobotContainer {
         }
 
         public Command getAutonomousCommand() {
+                drivetrain.zeroHeading();
+                drivetrain.zeroEncoders();
                 return chooser.getSelected();
         }
 
