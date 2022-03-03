@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.teleopDrive;
+import frc.robot.commands.LEDPatterns.CMD_RAINBOWLED;
 import frc.robot.commands.indexRun;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Drivetrain;
@@ -47,6 +48,8 @@ import frc.robot.commands.ShooterSpin;
 import frc.robot.commands.canalRun;
 import frc.robot.commands.teleopClimber;
 import frc.robot.commands.IndexBottomToTop;
+
+import frc.robot.subsystems.SUB_LED;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -71,6 +74,7 @@ public class RobotContainer {
         private CanalSubsystem canal = new CanalSubsystem();
         private Climber climber = new Climber();
         private Limelight limelight = new Limelight();
+        private SUB_LED LED = new SUB_LED();
         //private NetworkTablesBase networkTables = new NetworkTablesBase();
 
         // Controller
@@ -202,6 +206,9 @@ public class RobotContainer {
         
                 L_button3.whileHeld(new AutoShoot(limelight, index, drivetrain, shoot));
                 C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
+
+                //LED
+                LED.setDefaultCommand(new CMD_RAINBOWLED(LED));
 
         }
 
