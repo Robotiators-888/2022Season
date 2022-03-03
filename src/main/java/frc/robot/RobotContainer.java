@@ -125,6 +125,9 @@ public class RobotContainer {
         Trajectory RS_LB_twoBall_Low_p1 = autoHelper.getTrajectory("paths/output/RS_LB_twoBall_Low_p1.wpilib.json");
         Trajectory RS_LB_twoBall_Low_p2 = autoHelper.getTrajectory("paths/output/RS_LB_twoBall_Low_p2.wpilib.json");
 
+        Trajectory RS_threeBall_p1 = autoHelper.getTrajectory("paths/output/RS_threeBall_p1.wpilib.json");
+        Trajectory RS_threeBall_p2 = autoHelper.getTrajectory("paths/output/RS_threeBall_p2.wpilib.json");
+
         Trajectory Str8 = TrajectoryGenerator.generateTrajectory(
                         new Pose2d(0, 0, new Rotation2d(Units.degreesToRadians(180))),
                         List.of(), new Pose2d(4, 0, new Rotation2d(Units.degreesToRadians(180))), configReversed);
@@ -207,6 +210,28 @@ public class RobotContainer {
                                                         new WaitCommand(1),
                                                         new indexRun(index, 0.75).withTimeout(2))),
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
+
+        Command RS_threeBall = new SequentialCommandGroup(
+                new InstantCommand(() -> drivetrain.setPosition(RS_threeBall_p1.getInitialPose())),
+                new ParallelDeadlineGroup(
+                        autoHelper.getRamset(RS_threeBall_p1),
+                        new canalRun(canal, -0.75),
+                        new IndexBottomToTopBanner(index, 0.50)),
+                
+                new ParallelRaceGroup(
+                                new ShooterSpin(shoot, -0.35),
+                                new SequentialCommandGroup(
+                                                new WaitCommand(1),
+                                                new indexRun(index, 0.75).withTimeout(2))),
+
+                autoHelper.getRamset(LS_twoBall_Low_p2),
+                new ParallelRaceGroup(
+                                new ShooterSpin(shoot, -0.35),
+                                new SequentialCommandGroup(
+                                                new WaitCommand(1),
+                                                new indexRun(index, 0.75).withTimeout(2))),
+                new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
+
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
