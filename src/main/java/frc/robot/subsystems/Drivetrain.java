@@ -15,7 +15,6 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -77,7 +76,7 @@ public class Drivetrain extends SubsystemBase {
     // SmartDashboard.putNumber("rev L", leftEncoder.getPosition());
     // SmartDashboard.putNumber("rev R", rightEncoder.getPosition());
     SmartDashboard.putNumber("odoHead", driveOdometry.getPoseMeters().getRotation().getDegrees());
-    SmartDashboard.putNumber("navHead", navx.getAngle());
+    // SmartDashboard.putNumber("navHead", navx.getYaw());
     // SmartDashboard.putNumber("tester", this.rotationsToMeters(1));
     // SmartDashboard.putNumber("speed", getRate(leftEncoder.getVelocity()));
     SmartDashboard.putBoolean("Is Reversed", reversed);
@@ -191,7 +190,7 @@ public class Drivetrain extends SubsystemBase {
    * @return rotation2d object with current heading
    */
   public Rotation2d getGyroHeading() {
-    return new Rotation2d(Math.toRadians(-1 * navx.getAngle()));
+    return new Rotation2d(Math.toRadians(-1 * navx.getYaw()));
   }
 
   /**
@@ -203,7 +202,6 @@ public class Drivetrain extends SubsystemBase {
    */
   public void setPosition(double x, double y, Rotation2d angle) {
     setPosition(new Pose2d(x, y, angle));
-    zeroHeading();
     navx.setAngleAdjustment(angle.getDegrees());
     zeroEncoders();
   }
@@ -214,13 +212,10 @@ public class Drivetrain extends SubsystemBase {
    * @param position The position (both translation and rotation)
    */
   public void setPosition(Pose2d position) {
-    zeroHeading();
-    zeroEncoders();
-    navx.setAngleAdjustment(position.getRotation().getDegrees());
-    SmartDashboard.putNumber("WHY",position.getY());
-    SmartDashboard.putNumber("EXX",position.getX());
     driveOdometry.resetPosition(position, position.getRotation());
-    
+    navx.setAngleAdjustment(position.getRotation().getDegrees());
+    zeroEncoders();
+
   }
 
   /**

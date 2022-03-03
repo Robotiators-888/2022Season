@@ -4,29 +4,16 @@
 
 package frc.robot.commands;
 
-import java.util.function.Supplier;
-
-import com.revrobotics.CANSparkMax.IdleMode;
-
 import frc.robot.subsystems.Drivetrain;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class teleopDrive extends CommandBase {
+public class zeroHeading extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private Drivetrain drive;
-  private Supplier<Double> Left, Right;
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-  public teleopDrive(Drivetrain drivetrain, Supplier<Double> L, Supplier<Double> R) {
-    this.drive = drivetrain;
-    this.Left = L;
-    this.Right = R;
-    addRequirements(drive);
+  public zeroHeading(Drivetrain input) {
+    this.drive = input;
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -34,28 +21,21 @@ public class teleopDrive extends CommandBase {
   public void initialize() {
     drive.zeroHeading();
     drive.setPosition(0, 0, drive.getGyroHeading());
-    drive.setIdleMode(IdleMode.kCoast);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(drive.getReverse()){
-      drive.setMotors(Right.get(), Left.get(), 0.75);
-    }else{
-      drive.setMotors(-1 * Left.get(), -1 * Right.get(), 0.75);
-    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    drive.setMotors(0, 0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

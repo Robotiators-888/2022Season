@@ -190,23 +190,23 @@ public class RobotContainer {
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
         Command LS_twoBall = new SequentialCommandGroup(
-                        new InstantCommand(() -> drivetrain.setPosition(LS_twoBall_Low_p1.getInitialPose())));//,
-                        // new ParallelRaceGroup(
-                        //                 new ShooterSpin(shoot, -0.35),
-                        //                 new SequentialCommandGroup(
-                        //                                 new WaitCommand(1),
-                        //                                 new indexRun(index, 0.75).withTimeout(2))),
-                        // new ParallelDeadlineGroup(
-                        //                 autoHelper.getRamset(LS_twoBall_Low_p1),
-                        //                 new canalRun(canal, -0.75),
-                        //                 new IndexBottomToTopBanner(index, 0.50)),
-                        // autoHelper.getRamset(LS_twoBall_Low_p2),
-                        // new ParallelRaceGroup(
-                        //                 new ShooterSpin(shoot, -0.35),
-                        //                 new SequentialCommandGroup(
-                        //                                 new WaitCommand(1),
-                        //                                 new indexRun(index, 0.75).withTimeout(2))),
-                        // new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
+                        new InstantCommand(() -> drivetrain.setPosition(LS_twoBall_Low_p1.getInitialPose())),
+                        new ParallelRaceGroup(
+                                        new ShooterSpin(shoot, -0.35),
+                                        new SequentialCommandGroup(
+                                                        new WaitCommand(1),
+                                                        new indexRun(index, 0.75).withTimeout(2))),
+                        new ParallelDeadlineGroup(
+                                        autoHelper.getRamset(LS_twoBall_Low_p1),
+                                        new canalRun(canal, -0.75),
+                                        new IndexBottomToTopBanner(index, 0.50)),
+                        autoHelper.getRamset(LS_twoBall_Low_p2),
+                        new ParallelRaceGroup(
+                                        new ShooterSpin(shoot, -0.35),
+                                        new SequentialCommandGroup(
+                                                        new WaitCommand(1),
+                                                        new indexRun(index, 0.75).withTimeout(2))),
+                        new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -216,7 +216,7 @@ public class RobotContainer {
                 configureButtonBindings();
 
                 limelight.setLed(1);
-                field2d.getObject("traj").setTrajectory(LS_twoBall_Low_p1);
+                field2d.getObject("traj").setTrajectory(Str8);
 
                 chooser.setDefaultOption("Low Dump", lowDump);
                 chooser.addOption("Low Dump no drive", lowDumpNoDrive);
@@ -257,7 +257,7 @@ public class RobotContainer {
                 C_rightTrigger.whileActiveContinuous(new teleopClimber(climber, -0.50));
 
                 // Intake
-                //intake.setDefaultCommand(new ConditionalCommand(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),new CanalZeroToOneBottom(canal, index)), new IntakeSpin(intake, 0.75), () -> {return false;}));
+                //intake.setDefaultCommand(new ConditionalCommand(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),new CanalZeroToOneBottom(canal, index)), new InstantCommand(), intake::intakeGet));
                 L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
                 L_button5.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),new CanalZeroToOneBottom(canal, index)));
                 
