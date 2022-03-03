@@ -36,7 +36,7 @@ public class CMD_HALFLED extends CommandBase {
     if (counterID<Constants.LED_LENGTH/2){
       LED.setRGBLED(counterID,255,8,0);
     } else {
-      LED.setLED(counterID,0,47,167);
+      LED.setRGBLED(counterID,0,47,167);
     }
 
     counterID++;

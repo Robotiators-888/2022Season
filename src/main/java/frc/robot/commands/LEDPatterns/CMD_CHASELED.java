@@ -33,7 +33,7 @@ public class CMD_CHASELED extends CommandBase {
     if (counterID>=Constants.LED_LENGTH){
       counterID = 0;
     }
-    LED.setLED(counterID,0,255,255);
+    LED.setRGBLED(counterID,0,0,255);
 
     if (counterID-2>=0){
       LED.setLED(counterID-2,0,0,0);

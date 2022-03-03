@@ -36,7 +36,9 @@ public class CMD_RAINBOWLED extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
+    if (counterID>=60){
+      counterID=0;
+    }
     final var hue = (m_rainbowFirstPixelHue + (counterID * 180 / Constants.LED_LENGTH)) % 180;
     LED.setLED(counterID,hue,255,128);
     counterID++;
