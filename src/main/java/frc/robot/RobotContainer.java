@@ -141,7 +141,7 @@ public class RobotContainer {
         Command lowDump = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(Str8.getInitialPose())),
                         new ParallelRaceGroup(
-                                        new ShooterSpin(shoot, -0.35),
+                                        new ShooterRPM(shoot, 2000),
                                         new SequentialCommandGroup(
                                                         new WaitCommand(2),
                                                         new indexRun(index, 0.75).withTimeout(2))),
@@ -150,7 +150,7 @@ public class RobotContainer {
         Command lowDumpNoDrive = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(Str8.getInitialPose())),
                         new ParallelRaceGroup(
-                                        new ShooterSpin(shoot, -0.35),
+                                        new ShooterRPM(shoot, 2000),
                                         new SequentialCommandGroup(
                                                         new WaitCommand(1),
                                                         new indexRun(index, 0.75).withTimeout(2))));
@@ -158,7 +158,7 @@ public class RobotContainer {
         Command RS_RB_twoBall = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(RS_RB_twoBall_Low_p1.getInitialPose())),
                         new ParallelRaceGroup(
-                                        new ShooterSpin(shoot, -0.35),
+                                        new ShooterRPM(shoot, 2000),
                                         new SequentialCommandGroup(
                                                         new WaitCommand(1),
                                                         new indexRun(index, 0.75).withTimeout(2))),
@@ -168,7 +168,7 @@ public class RobotContainer {
                                         new IndexBottomToTopBanner(index, 0.50)),
                         autoHelper.getRamset(RS_RB_twoBall_Low_p2),
                         new ParallelRaceGroup(
-                                        new ShooterSpin(shoot, -0.35),
+                                        new ShooterRPM(shoot, 2000),
                                         new SequentialCommandGroup(
                                                         new WaitCommand(1),
                                                         new indexRun(index, 0.75).withTimeout(2))),
@@ -177,7 +177,7 @@ public class RobotContainer {
         Command RS_LB_twoBall = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(RS_LB_twoBall_Low_p1.getInitialPose())),
                         new ParallelRaceGroup(
-                                        new ShooterSpin(shoot, -0.35),
+                                        new ShooterRPM(shoot, 2000),
                                         new SequentialCommandGroup(
                                                         new WaitCommand(1),
                                                         new indexRun(index, 0.75).withTimeout(2))),
@@ -187,7 +187,7 @@ public class RobotContainer {
                                         new IndexBottomToTopBanner(index, 0.50)),
                         autoHelper.getRamset(RS_LB_twoBall_Low_p2),
                         new ParallelRaceGroup(
-                                        new ShooterSpin(shoot, -0.35),
+                                        new ShooterRPM(shoot, 2000),
                                         new SequentialCommandGroup(
                                                         new WaitCommand(1),
                                                         new indexRun(index, 0.75).withTimeout(2))),
@@ -196,7 +196,7 @@ public class RobotContainer {
         Command LS_twoBall = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(LS_twoBall_Low_p1.getInitialPose())),
                         new ParallelRaceGroup(
-                                        new ShooterSpin(shoot, -0.35),
+                                        new ShooterRPM(shoot, 2000),
                                         new SequentialCommandGroup(
                                                         new WaitCommand(1),
                                                         new indexRun(index, 0.75).withTimeout(2))),
@@ -206,7 +206,7 @@ public class RobotContainer {
                                         new IndexBottomToTopBanner(index, 0.50)),
                         autoHelper.getRamset(LS_twoBall_Low_p2),
                         new ParallelRaceGroup(
-                                        new ShooterSpin(shoot, -0.35),
+                                        new ShooterRPM(shoot, 2000),
                                         new SequentialCommandGroup(
                                                         new WaitCommand(1),
                                                         new indexRun(index, 0.75).withTimeout(2))),

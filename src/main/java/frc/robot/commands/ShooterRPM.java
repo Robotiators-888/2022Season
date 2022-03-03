@@ -30,7 +30,7 @@ public class ShooterRPM extends CommandBase {
   @Override
   public void execute() {
 
-    shoot.setRPM(shootRPM);
+    shoot.setRPM(-1 * shootRPM);
   }
 
   // Called once the command ends or is interrupted.
