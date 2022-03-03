@@ -76,7 +76,7 @@ public class Drivetrain extends SubsystemBase {
     // SmartDashboard.putNumber("rev L", leftEncoder.getPosition());
     // SmartDashboard.putNumber("rev R", rightEncoder.getPosition());
     SmartDashboard.putNumber("odoHead", driveOdometry.getPoseMeters().getRotation().getDegrees());
-    // SmartDashboard.putNumber("navHead", navx.getYaw());
+    SmartDashboard.putNumber("navHead", navx.getYaw());
     // SmartDashboard.putNumber("tester", this.rotationsToMeters(1));
     // SmartDashboard.putNumber("speed", getRate(leftEncoder.getVelocity()));
     SmartDashboard.putBoolean("Is Reversed", reversed);
