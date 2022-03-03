@@ -54,6 +54,7 @@ import frc.robot.commands.teleopClimber;
 import frc.robot.commands.IndexBottomToTop;
 
 import frc.robot.subsystems.SUB_LED;
+import frc.robot.commands.LEDPatterns.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -291,7 +292,7 @@ public class RobotContainer {
                 C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
 
                 //LED
-                LED.setDefaultCommand(new CMD_RAINBOWLED(LED));
+                LED.setDefaultCommand(new CMD_HALFLED(LED));
 
         }
 
