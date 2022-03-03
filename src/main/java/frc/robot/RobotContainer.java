@@ -230,7 +230,7 @@ public class RobotContainer {
                                 new SequentialCommandGroup(
                                                 new WaitCommand(0.5),
                                                 new indexRun(index, 0.75).withTimeout(1))),
-                new InstantCommand(() -> intake.pistonSet(true), intake),
+                new InstantCommand(() -> intake.pistonSet(false), intake),
                 new ParallelDeadlineGroup(
                                 autoHelper.getRamset(RS_threeBall_p2),
                                 new IntakeSpin(intake, 0.75),
