@@ -48,6 +48,7 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.commands.IntakeSpin;
+import frc.robot.commands.ShooterRPM;
 import frc.robot.commands.ShooterSpin;
 import frc.robot.commands.canalRun;
 import frc.robot.commands.teleopClimber;
@@ -215,21 +216,31 @@ public class RobotContainer {
                 new InstantCommand(() -> drivetrain.setPosition(RS_threeBall_p1.getInitialPose())),
                 new ParallelDeadlineGroup(
                         autoHelper.getRamset(RS_threeBall_p1),
-                        new canalRun(canal, -0.75),
-                        new IndexBottomToTopBanner(index, 0.50)),
-                
+                        new SequentialCommandGroup(     
+                                new CanalZeroToOneBottom(canal, index),
+                                new IndexBottomToTopBanner(index, 0.50))),
                 new ParallelRaceGroup(
-                                new ShooterSpin(shoot, -0.35),
+                                new ShooterRPM(shoot, 2000),
                                 new SequentialCommandGroup(
-                                                new WaitCommand(1),
-                                                new indexRun(index, 0.75).withTimeout(2))),
-
-                autoHelper.getRamset(LS_twoBall_Low_p2),
+                                                new WaitCommand(0.5),
+                                                new indexRun(index, 0.75).withTimeout(1))),
+                new IndexBottomToTopBanner(index, 0.50),
                 new ParallelRaceGroup(
-                                new ShooterSpin(shoot, -0.35),
+                                new ShooterRPM(shoot, 2000),
                                 new SequentialCommandGroup(
-                                                new WaitCommand(1),
-                                                new indexRun(index, 0.75).withTimeout(2))),
+                                                new WaitCommand(0.5),
+                                                new indexRun(index, 0.75).withTimeout(1))),
+                new InstantCommand(() -> intake.pistonSet(true), intake),
+                new ParallelDeadlineGroup(
+                                autoHelper.getRamset(RS_threeBall_p2),
+                                new IntakeSpin(intake, 0.75),
+                                new canalRun(canal, -0.75),
+                                new IndexBottomToTopBanner(index, 0.50)),
+                new ParallelRaceGroup(
+                                new ShooterRPM(shoot, 2000),
+                                new SequentialCommandGroup(
+                                                new WaitCommand(0.5),
+                                                new indexRun(index, 0.75).withTimeout(1))),               
                 new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
 
@@ -249,9 +260,8 @@ public class RobotContainer {
                 chooser.addOption("Right side Right Ball", RS_RB_twoBall);
                 chooser.addOption("Right side Left Ball", RS_LB_twoBall);
                 chooser.addOption("Left side", LS_twoBall);
+                chooser.addOption("Right side three ball", RS_threeBall);
 
-                // BallReciever.start();
-                // limelightReciever.start();
                 SmartDashboard.putData("chooser", chooser);
 
                 networkTables.start();

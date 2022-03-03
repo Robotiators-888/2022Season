@@ -49,7 +49,7 @@ public class CanalZeroToOneBottom extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    index.setSpeedTower(0);
+      index.setSpeedTower(0);
       canal.setSpeedBack(0);
       canal.setSpeedFront(0);
   }
