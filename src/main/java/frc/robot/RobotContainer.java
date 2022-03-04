@@ -126,7 +126,7 @@ public class RobotContainer {
         Trajectory RS_LB_twoBall_Low_p2 = autoHelper.getTrajectory("paths/output/RS_LB_twoBall_Low_p2.wpilib.json");
 
         Trajectory RS_threeBall_p1 = autoHelper.getTrajectory("paths/output/RS_threeBall_p1.wpilib.json");
-        Trajectory RS_threeBall_p2 = autoHelper.getTrajectory("paths/output/RS_threeBall_p2.wpilib.json");
+        Trajectory RS_threeBall_p2 = autoHelper.getTrajectory("paths/output/RS_threeBall_p2_v2.wpilib.json");
 
         Trajectory Str8 = TrajectoryGenerator.generateTrajectory(
                         new Pose2d(0, 0, new Rotation2d(Units.degreesToRadians(180))),
@@ -213,33 +213,26 @@ public class RobotContainer {
 
         Command RS_threeBall = new SequentialCommandGroup(
                 new InstantCommand(() -> drivetrain.setPosition(RS_threeBall_p1.getInitialPose())),
+                new AutoShoot(limelight, index, drivetrain, shoot).withInterrupt(() -> !index.readTopBanner()),
                 new ParallelDeadlineGroup(
                         autoHelper.getRamset(RS_threeBall_p1),
                         new SequentialCommandGroup(     
                                 new CanalZeroToOneBottom(canal, index),
                                 new IndexBottomToTopBanner(index, 0.50))),
-                new ParallelRaceGroup(
-                                new ShooterRPM(shoot, 2000),
-                                new SequentialCommandGroup(
-                                                new WaitCommand(0.5),
-                                                new indexRun(index, 0.75).withTimeout(1))),
-                new IndexBottomToTopBanner(index, 0.50),
-                new ParallelRaceGroup(
-                                new ShooterRPM(shoot, 2000),
-                                new SequentialCommandGroup(
-                                                new WaitCommand(0.5),
-                                                new indexRun(index, 0.75).withTimeout(1))),
+                new ParallelDeadlineGroup(
+                        new WaitCommand(2),
+                        new SequentialCommandGroup(     
+                                new CanalZeroToOneBottom(canal, index),
+                                new IndexBottomToTopBanner(index, 0.50))),
+                new AutoShoot(limelight, index, drivetrain, shoot).withInterrupt(() -> !index.readTopBanner()),
                 new InstantCommand(() -> intake.pistonSet(false), intake),
                 new ParallelDeadlineGroup(
-                                autoHelper.getRamset(RS_threeBall_p2),
-                                new IntakeSpin(intake, 0.75),
-                                new canalRun(canal, -0.75),
-                                new IndexBottomToTopBanner(index, 0.50)),
-                new ParallelRaceGroup(
-                                new ShooterRPM(shoot, 2000),
-                                new SequentialCommandGroup(
-                                                new WaitCommand(0.5),
-                                                new indexRun(index, 0.75).withTimeout(1))),               
+                        autoHelper.getRamset(RS_threeBall_p2),
+                        new IntakeSpin(intake, 0.75),
+                        new canalRun(canal, -0.75),
+                        new IndexBottomToTopBanner(index, 0.50)),
+                new AutoShoot(limelight, index, drivetrain, shoot).withInterrupt(() -> !index.readTopBanner()),
+                            
                 new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
 

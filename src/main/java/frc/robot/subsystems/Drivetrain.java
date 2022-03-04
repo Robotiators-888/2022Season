@@ -54,6 +54,7 @@ public class Drivetrain extends SubsystemBase {
     this.field2d = input;
     navx.setAngleAdjustment(0);
 
+
     rightPrimary.setInverted(false);
     rightSecondary.setInverted(false);
     leftPrimary.setInverted(true);
@@ -133,7 +134,7 @@ public class Drivetrain extends SubsystemBase {
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     groupLeft.setVoltage(leftVolts);
     groupRight.setVoltage(rightVolts);
-    driveTrain.feed();
+    driveTrain.feedWatchdog();
   }
 
   /**
