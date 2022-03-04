@@ -52,16 +52,19 @@ public class Drivetrain extends SubsystemBase {
 
   public Drivetrain(Field2d input) {
     this.field2d = input;
+    navx.setAngleAdjustment(0);
+
 
     rightPrimary.setInverted(false);
     rightSecondary.setInverted(false);
     leftPrimary.setInverted(true);
     leftSecondary.setInverted(true);
 
-    setIdleMode(IdleMode.kBrake);
+    setIdleMode(IdleMode.kCoast);
   }
 
   public void periodic() {
+    
     driveOdometry.update(getGyroHeading(), this.rotationsToMeters(leftEncoder.getPosition()),
         this.rotationsToMeters(rightEncoder.getPosition()));
 
@@ -74,7 +77,7 @@ public class Drivetrain extends SubsystemBase {
     // SmartDashboard.putNumber("rev L", leftEncoder.getPosition());
     // SmartDashboard.putNumber("rev R", rightEncoder.getPosition());
     SmartDashboard.putNumber("odoHead", driveOdometry.getPoseMeters().getRotation().getDegrees());
-    // SmartDashboard.putNumber("navHead", navx.getYaw());
+    SmartDashboard.putNumber("navHead", navx.getYaw());
     // SmartDashboard.putNumber("tester", this.rotationsToMeters(1));
     // SmartDashboard.putNumber("speed", getRate(leftEncoder.getVelocity()));
     SmartDashboard.putBoolean("Is Reversed", reversed);
@@ -131,7 +134,7 @@ public class Drivetrain extends SubsystemBase {
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     groupLeft.setVoltage(leftVolts);
     groupRight.setVoltage(rightVolts);
-    driveTrain.feed();
+    driveTrain.feedWatchdog();
   }
 
   /**
@@ -200,6 +203,7 @@ public class Drivetrain extends SubsystemBase {
    */
   public void setPosition(double x, double y, Rotation2d angle) {
     setPosition(new Pose2d(x, y, angle));
+    navx.setAngleAdjustment(angle.getDegrees());
     zeroEncoders();
   }
 
@@ -209,8 +213,9 @@ public class Drivetrain extends SubsystemBase {
    * @param position The position (both translation and rotation)
    */
   public void setPosition(Pose2d position) {
-    driveOdometry.resetPosition(position, getGyroHeading());
+    driveOdometry.resetPosition(position, navx.getRotation2d());
     zeroEncoders();
+
   }
 
   /**

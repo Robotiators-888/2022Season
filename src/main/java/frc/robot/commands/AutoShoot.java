@@ -35,14 +35,13 @@ public class AutoShoot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     //Limelight turned on and RPM displayed to dashboard
-    m_limelight.setLed(0);
+    m_limelight.setLed(3);
     SmartDashboard.putNumber("ShootRPM", shoot.getRPM());
     SmartDashboard.putNumber("TargetRPM", -(m_limelight.distRpm(m_limelight.getDistance())));
     SmartDashboard.putBoolean("WithinRange?", withinRange);
@@ -88,7 +87,7 @@ public class AutoShoot extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_limelight.setLed(1);
+    m_limelight.setLed(0);
     m_index.setSpeedTower(0);
     shoot.setSpeed(0);
   }
@@ -96,12 +95,12 @@ public class AutoShoot extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    
-    if(m_index.readTopBanner()){
-      return false;
-    }else{
-      return true;
-    }
+    return false;
+    // if(m_index.readTopBanner()){
+    //   return false;
+    // }else{
+    //   return true;
+    // }
   }
  
 }
