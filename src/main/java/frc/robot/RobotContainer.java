@@ -231,7 +231,7 @@ public class RobotContainer {
                         new IntakeSpin(intake, 0.75),
                         new canalRun(canal, -0.75),
                         new IndexBottomToTopBanner(index, 0.50)),
-                new AutoShoot(limelight, index, drivetrain, shoot).withInterrupt(() -> !index.readTopBanner()),
+               new AutoShoot(limelight, index, drivetrain, shoot).withInterrupt(() -> !index.readTopBanner()),
                             
                 new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
@@ -302,10 +302,10 @@ public class RobotContainer {
                 L_Trigger.whileHeld(new indexRun(index, 0.75));
 
                 // shooter
-                R_button3.whileHeld(new CMD_changeSetpoint(shoot, -500));
-                R_button4.whileHeld(new CMD_changeSetpoint(shoot, -100));
-                R_button5.whileHeld(new CMD_changeSetpoint(shoot, 500));
-                R_button6.whileHeld(new CMD_changeSetpoint(shoot, 100));
+                R_button3.whenPressed(new CMD_changeSetpoint(shoot, -500));
+                R_button4.whenPressed(new CMD_changeSetpoint(shoot, -100));
+                R_button5.whenPressed(new CMD_changeSetpoint(shoot, 500));
+                R_button6.whenPressed(new CMD_changeSetpoint(shoot, 100));
                 R_trigger.whileHeld(new CMD_ShooterManualRPM(shoot));
 
                 // L_button5.whileHeld(new CameraDriveCommand(drivetrain));
