@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Limelight extends SubsystemBase {
   NetworkTable table;
-  Boolean isHigh = false;
+  Boolean isHigh = true;
 
   public Limelight() {
     table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -86,6 +86,14 @@ public class Limelight extends SubsystemBase {
 
   }
 
+  /**
+   * Sets pipeline
+   */
+  public void setPipline(int value) {
+    table.getEntry("pipeline").setNumber(value);
+
+  }
+
   // Finds distance from robot to target and returns distance
   public double getDistance() {
     double h1 = 35.5;
@@ -95,6 +103,7 @@ public class Limelight extends SubsystemBase {
 
     return (double) ((h2 - h1) / (Math.tan(a1 + a2)));
   }
+
   public void toggleHeight(){
     if(isHigh){
       this.isHigh = false;
@@ -117,7 +126,7 @@ public class Limelight extends SubsystemBase {
   public int distRpm(double dist) {
 
     if(this.isHigh == true){
-      return (int) (425 * (Math.sqrt(dist)));
+      return (int) (450 * (Math.sqrt(dist)));
 
     }
     else{

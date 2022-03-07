@@ -4,42 +4,50 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.IndexSubsystem;
+
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class IntakeSpin extends CommandBase {
-  IntakeSubsystem Intake;
-  double speed;
+public class IndexBottomToTopBanner extends CommandBase {
 
-  /** Creates a new IntakeMotorTest. */
-  public IntakeSpin(IntakeSubsystem subsystem, double speed) {
+  private IndexSubsystem index;
+  private boolean isDone = false;
+  private double speed;
+  
+  /** Creates a new teleopIndex. */
+  public IndexBottomToTopBanner(IndexSubsystem indexArgs, double speedArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.Intake = subsystem;
-    this.speed = speed;
-    addRequirements(subsystem);
+    this.speed = speedArgs;
+    this.index = indexArgs;
+    addRequirements(index);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Intake.intakeSpeedSet(speed);
+    if ((index.readTopBanner())){
+      isDone = true;
+    } else {
+      isDone = false;
+      index.setSpeedTower(speed);
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Intake.intakeSpeedSet(0.0);
+    index.setSpeedTower(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isDone;
   }
 }

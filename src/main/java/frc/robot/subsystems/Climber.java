@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -23,7 +24,8 @@ public class Climber extends SubsystemBase {
   public Climber() {
     climberMotor = new CANSparkMax(Constants.CLIMBER_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
     cSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 12, 13);
-    cSolenoid.set(Value.kForward);
+    cSolenoid.set(Value.kReverse);
+    climberMotor.setIdleMode(IdleMode.kBrake);
   }
 
   @Override
