@@ -153,6 +153,8 @@ public class RobotContainer {
 
                 networkTables.start();
                 System.out.println("RobotContainer initialization complete.");
+
+                
         }
 
         /**
@@ -207,6 +209,8 @@ public class RobotContainer {
                L_button5.whileHeld(new ParallelCommandGroup(new CameraDriveCommand(drivetrain), new ParallelCommandGroup(new IntakeSpin(intake, 0.75), new CanalZeroToOneBottom(canal, index))));
                 L_button3.whileHeld(new AutoShoot (limelight, index, drivetrain, shoot));
                 C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
+
+
 
         }
 
