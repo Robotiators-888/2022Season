@@ -17,7 +17,7 @@ public class CMD_AutoIntake extends CommandBase {
     this.intake = subsystem;
     this.speed = intakeSpeed;
 
-    addRequirements(subsystem);
+    
   }
 
   // Called when the command is initially scheduled.
@@ -38,6 +38,9 @@ public class CMD_AutoIntake extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+   if(!(intake.getPosition())){
+    intake.intakeSpeedSet(0);
+   }
   }
 
   // Returns true when the command should end.

@@ -68,6 +68,7 @@ public class RobotContainer {
         // The robot's subsystems and commands are defined here...
         private final Field2d field2d = new Field2d();
 
+        
         // subsystems
         private Shooter shoot = new Shooter();
         private Drivetrain drivetrain = new Drivetrain(field2d);
@@ -256,7 +257,7 @@ public class RobotContainer {
 
                 SmartDashboard.putData("chooser", chooser);
 
-                networkTables.start();
+                //networkTables.start();
                 System.out.println("RobotContainer initialization complete.");
         }
 
@@ -287,8 +288,9 @@ public class RobotContainer {
                 // intake.setDefaultCommand(new ConditionalCommand(new ParallelCommandGroup(new
                 // IntakeSpin(intake, 0.75),new CanalZeroToOneBottom(canal, index)), new
                 // InstantCommand(), intake::intakeGet));
-                L_button4.whenPressed(new ParallelCommandGroup(new InstantCommand(intake::pistonToggle, intake),
-                                new CMD_AutoIntake(intake, 0.75)));
+                L_button4.whenPressed(new SequentialCommandGroup(new InstantCommand(intake::pistonToggle),
+                new InstantCommand(intake::toggleIntakeSpeed)));
+                                
                 L_Trigger.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),
                                 new CanalZeroToOneBottom(canal, index)));
 
