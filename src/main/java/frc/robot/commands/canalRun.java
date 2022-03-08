@@ -7,12 +7,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.CanalSubsystem;
 
-
+/** The command canalRun runs the canal belts either both in or both out */
 public class canalRun extends CommandBase {
 
   private CanalSubsystem canal;
   private double speed;
-  /** Creates a new teleopCanal. */
+  /** Creates a new canalRun. */
   public canalRun(CanalSubsystem canalArgs, double speedArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.canal = canalArgs;

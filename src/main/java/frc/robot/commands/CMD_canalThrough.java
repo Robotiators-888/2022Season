@@ -7,12 +7,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.CanalSubsystem;
 
-
+/** The command CMD_canalThrough runs the canals both in opposite directions, one in and one out, to shoot the ball out the other side.  */
 public class CMD_canalThrough  extends CommandBase {
 
   private CanalSubsystem canal;
   private double speed;
-  /** Creates a new teleopCanal. */
+  /** Creates a new CMD_canalThrough. */
   public CMD_canalThrough(CanalSubsystem canalArgs, double speedArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.canal = canalArgs;

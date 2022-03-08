@@ -9,6 +9,7 @@ import frc.robot.subsystems.IndexSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+/** The command indexRun runs the index at a certain speed. */
 public class indexRun extends CommandBase {
 
   private IndexSubsystem index;
