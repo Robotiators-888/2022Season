@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.teleopDrive;
+import frc.robot.commands.LEDPatterns.CMD_RAINBOWLED;
 import frc.robot.commands.indexRun;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Drivetrain;
@@ -53,6 +54,9 @@ import frc.robot.commands.canalRun;
 import frc.robot.commands.teleopClimber;
 import frc.robot.commands.IndexBottomToTop;
 
+import frc.robot.subsystems.SUB_LED;
+import frc.robot.commands.LEDPatterns.*;
+
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -77,6 +81,8 @@ public class RobotContainer {
         private Climber climber = new Climber();
         private Limelight limelight = new Limelight();
         private NetworkTablesBase networkTables = new NetworkTablesBase();
+        private SUB_LED LED = new SUB_LED();
+        //private NetworkTablesBase networkTables = new NetworkTablesBase();
 
         // Controller
         private Joystick controller = new Joystick(Constants.JOYSTICK_PORT);
@@ -312,6 +318,9 @@ public class RobotContainer {
                 //L_button5.whileHeld(new ParallelCommandGroup(new CameraDriveCommand(drivetrain), new ParallelCommandGroup(new IntakeSpin(intake, 0.75), new CanalZeroToOneBottom(canal, index))));
                 L_button3.whileHeld(new AutoShoot(limelight, index, drivetrain, shoot));
                 C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
+
+                //LED
+                LED.setDefaultCommand(new CMD_HALFLED(LED));
 
         }
 
