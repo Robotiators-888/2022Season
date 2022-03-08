@@ -26,13 +26,10 @@ public class IndexSubsystem extends SubsystemBase {
   private DigitalInput bannerSensor1 = new DigitalInput(Constants.DIO_PORT_0);
   private DigitalInput bannerSensor2 = new DigitalInput(Constants.DIO_PORT_1);
 
-  // Color sensor subsystem
-  // private ColorSensorSubsystem colorSensor;
 
-  /** Creates a new ColorSensorSubsystem. */
+
+  /** Creates a new IndexSubsystem. */
   public IndexSubsystem() {
-    // ColorSensorSubsystem colorSensorArg
-    // this.colorSensor = colorSensorArg;
     tower.setIdleMode(IdleMode.kBrake);
   }
 
@@ -47,6 +44,7 @@ public class IndexSubsystem extends SubsystemBase {
    * boolean.
    */
   public boolean readTopBanner() {
+    // Add a NOT to account for the banner sensor returning false if the ball is there
     return !bannerSensor1.get();
 
   }
@@ -56,6 +54,7 @@ public class IndexSubsystem extends SubsystemBase {
    * with a boolean.
    */
   public boolean readBottomBanner() {
+    // Add a NOT to account for the banner sensor returning false if the ball is there
     return !bannerSensor2.get();
   }
 

@@ -82,7 +82,7 @@ public class RobotContainer {
         private Climber climber = new Climber();
         private Limelight limelight = new Limelight();
         private SUB_LED LED = new SUB_LED();
-        //private NetworkTablesBase networkTables = new NetworkTablesBase();
+        private NetworkTablesBase networkTables = new NetworkTablesBase();
 
         // Controller
         private Joystick controller = new Joystick(Constants.JOYSTICK_PORT);
