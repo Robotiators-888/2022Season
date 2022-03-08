@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Limelight extends SubsystemBase {
   NetworkTable table;
-  Boolean isHigh = true;
+  Boolean isHigh = false;
 
   public Limelight() {
     table = NetworkTableInstance.getDefault().getTable("limelight");
