@@ -11,9 +11,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class CMD_limeSpin extends CommandBase {
-    Limelight limelight;
-    Shooter shooter;
-    boolean aimHigh;
+  Limelight limelight;
+  Shooter shooter;
+  boolean aimHigh;
 
   public CMD_limeSpin(Limelight limein, Shooter shootIn, boolean aimHigh) {
     this.limelight = limein;
@@ -22,12 +22,10 @@ public class CMD_limeSpin extends CommandBase {
     addRequirements(limein, shootIn);
   }
 
-
   @Override
   public void initialize() {
     limelight.setLed(3);
   }
-
 
   @Override
   public void execute() {
@@ -36,7 +34,6 @@ public class CMD_limeSpin extends CommandBase {
 
     shooter.setRPM(limelight.distRpm(limelight.getDistance(), aimHigh));
   }
-
 
   @Override
   public void end(boolean interrupted) {
@@ -47,9 +44,9 @@ public class CMD_limeSpin extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if((limelight.getTv() == false) || (limelight.getDistance() > Constants.MAX_RANGE)){
+    if ((limelight.getTv() == false) || (limelight.getDistance() > Constants.MAX_RANGE)) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }
