@@ -103,4 +103,6 @@ public final class Constants {
     public static final double D_VALUE = 0;
     public static final double F_VALUE = 0.000165;
 
+    public static final double MAX_RANGE = 190;
+
 }
