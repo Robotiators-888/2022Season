@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.teleopDrive;
+import frc.robot.commands.LimeLight.CMD_limeAlign;
 import frc.robot.commands.indexRun;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Drivetrain;
@@ -310,7 +311,9 @@ public class RobotContainer {
 
                 // L_button5.whileHeld(new CameraDriveCommand(drivetrain));
                 //L_button5.whileHeld(new ParallelCommandGroup(new CameraDriveCommand(drivetrain), new ParallelCommandGroup(new IntakeSpin(intake, 0.75), new CanalZeroToOneBottom(canal, index))));
-                L_button3.whileHeld(new AutoShoot(limelight, index, drivetrain, shoot));
+                L_button3.whileHeld()
+                                                                
+                );
                 C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
 
         }
