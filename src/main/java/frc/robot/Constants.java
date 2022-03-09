@@ -105,4 +105,7 @@ public final class Constants {
 
     public static final int LED_PORT = 0;
     public static final int LED_LENGTH = 60;
+    
+    public static final double MAX_RANGE = 190;
+
 }
