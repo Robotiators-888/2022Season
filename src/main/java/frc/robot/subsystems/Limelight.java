@@ -122,10 +122,15 @@ public class Limelight extends SubsystemBase {
     return this.isHigh;
   }
 
+  /**
+   * calculates rpm for shooter to spin at given distance in inches from goal
+   * @param dist false for rpm for low
+   * @param shootHigh true for rpm for high goal
+   * @return returns the rpm to hit specified goal
+   */
+  public int distRpm(double dist, boolean shootHigh) {
 
-  public int distRpm(double dist) {
-
-    if(this.isHigh == true){
+    if(shootHigh == true){
       return (int) ((19.67775*dist) + 1875.97386);
 
     }

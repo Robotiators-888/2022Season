@@ -6,14 +6,20 @@ package frc.robot.commands.LimeLight;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.Shooter;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class CMD_limeShoot extends CommandBase {
+public class CMD_limeSpin extends CommandBase {
     Limelight limelight;
+    Shooter shooter;
+    boolean aimHigh;
 
-  public CMD_limeShoot(Limelight limein) {
+  public CMD_limeSpin(Limelight limein, Shooter shootIn, boolean aimHigh) {
     this.limelight = limein;
-    addRequirements(limein);
+    this.shooter = shootIn;
+    this.aimHigh = aimHigh;
+    addRequirements(limein, shootIn);
   }
 
 
@@ -25,11 +31,16 @@ public class CMD_limeShoot extends CommandBase {
 
   @Override
   public void execute() {
+    SmartDashboard.putNumber("TargetRPM", -(limelight.distRpm(limelight.getDistance(), aimHigh)));
+    SmartDashboard.putBoolean("WithinRange?", !(limelight.getDistance() > Constants.MAX_RANGE));
+
+    shooter.setRPM(limelight.distRpm(limelight.getDistance(), aimHigh));
   }
 
 
   @Override
   public void end(boolean interrupted) {
+    shooter.setSpeed(0);
     limelight.setLed(0);
   }
 
