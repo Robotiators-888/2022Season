@@ -43,7 +43,7 @@ public class AutoShoot extends CommandBase {
     //Limelight turned on and RPM displayed to dashboard
     m_limelight.setLed(3);
     SmartDashboard.putNumber("ShootRPM", shoot.getRPM());
-    SmartDashboard.putNumber("TargetRPM", -(m_limelight.distRpm(m_limelight.getDistance())));
+    SmartDashboard.putNumber("TargetRPM", -(m_limelight.distRpm(m_limelight.getDistance(), m_limelight.getHeight())));
     SmartDashboard.putBoolean("WithinRange?", withinRange);
 
     if((m_limelight.getTx() < 3) && (m_limelight.getTx() > -3)){
@@ -51,14 +51,14 @@ public class AutoShoot extends CommandBase {
       // If limelight has valid target and its within 0-270 inches, fire shooter
       if ((m_limelight.getTv() == true) && (m_limelight.getDistance() > 0) && (m_limelight.getDistance() < 250)) {
         //Use distance to set RPM
-          shoot.setRPM(-(m_limelight.distRpm(m_limelight.getDistance())));
+          shoot.setRPM(-(m_limelight.distRpm(m_limelight.getDistance(), m_limelight.getHeight())));
           this.withinRange = true;
           
         
 
         // If the difference between the actual and target rpms is less than 150, start
         // index
-        if ((double) Math.abs(shoot.getRPM() + m_limelight.distRpm(m_limelight.getDistance())) <= 250) {
+        if ((double) Math.abs(shoot.getRPM() + m_limelight.distRpm(m_limelight.getDistance(), m_limelight.getHeight())) <= 250) {
           m_index.setSpeedTower(.7);
         }
       }else{
