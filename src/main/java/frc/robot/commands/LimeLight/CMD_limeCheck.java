@@ -6,6 +6,7 @@ package frc.robot.commands.LimeLight;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.Limelight;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class CMD_limeCheck extends CommandBase {
@@ -25,6 +26,7 @@ public class CMD_limeCheck extends CommandBase {
 
   @Override
   public void execute() {
+    SmartDashboard.putBoolean("WithinRange?", !(limelight.getDistance() > Constants.MAX_RANGE));
   }
 
 
@@ -36,10 +38,6 @@ public class CMD_limeCheck extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if((limelight.getTv() == false) || (limelight.getDistance() > Constants.MAX_RANGE)){
-      return true;
-    }else{
-      return false;
-    }
+    return true;
   }
 }
