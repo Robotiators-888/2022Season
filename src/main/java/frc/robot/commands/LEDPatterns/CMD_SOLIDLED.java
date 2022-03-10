@@ -17,7 +17,7 @@ public class CMD_SOLIDLED extends CommandBase {
   private int counterID = 0;
   private SUB_LED LED;
   private Alliance color;
-  private int[] rgbVals;
+  private int[] rgbVals = new int[3];
   private boolean invalid = false;
 
   /** Creates a new CMD_CHASELED. */
