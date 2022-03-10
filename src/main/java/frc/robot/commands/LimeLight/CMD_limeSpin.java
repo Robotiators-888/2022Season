@@ -29,6 +29,7 @@ public class CMD_limeSpin extends CommandBase {
 
   @Override
   public void execute() {
+    limelight.setLed(3);
     SmartDashboard.putNumber("TargetRPM", -(limelight.distRpm(limelight.getDistance(), aimHigh)));
     SmartDashboard.putBoolean("WithinRange?", !(limelight.getDistance() > Constants.MAX_RANGE));
 
@@ -38,13 +39,14 @@ public class CMD_limeSpin extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     shooter.setSpeed(0);
-    limelight.setLed(0);
+  
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if ((limelight.getTv() == false) || (limelight.getDistance() > Constants.MAX_RANGE)) {
+    limelight.setLed(3);
+    if ((limelight.getTv() == false) || !(limelight.getDistance() > Constants.MAX_RANGE)) {
       return true;
     } else {
       return false;
