@@ -320,7 +320,7 @@ public class RobotContainer {
                 C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
 
                 //LED
-                LED.setDefaultCommand(new CMD_HALFLED(LED));
+                LED.setDefaultCommand(new CMD_SOLIDLED(LED));
 
         }
 
