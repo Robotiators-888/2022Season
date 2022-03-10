@@ -19,17 +19,17 @@ public class CMD_limeCheck extends CommandBase {
 
     @Override
     public void initialize() {
-        
+        limelight.setLed(3);
     }
     @Override
     public void execute() {
-        limelight.setLed(3);
-        SmartDashboard.putBoolean("WithinRange?", !(limelight.getDistance() > Constants.MAX_RANGE));
+
+        SmartDashboard.putBoolean("WithinRange?", (limelight.getDistance() > Constants.MAX_RANGE));
     }
 
     @Override
     public void end(boolean interrupted) {
-        limelight.setLed(0);
+
     }
 
     // Returns true when the command should end.
