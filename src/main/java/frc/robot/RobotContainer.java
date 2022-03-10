@@ -289,7 +289,7 @@ public class RobotContainer {
                 // IntakeSpin(intake, 0.75),new CanalZeroToOneBottom(canal, index)), new
                 // InstantCommand(), intake::intakeGet));
                 L_button4.whenPressed(new SequentialCommandGroup(new InstantCommand(intake::pistonToggle),
-                new ParallelCommandGroup(new InstantCommand(intake::toggleIntakeSpeed), new InstantCommand(canal::toggleCanalSpeed, canal))));
+                new ParallelCommandGroup( new InstantCommand(canal::toggleCanalSpeed, canal), new InstantCommand(intake::toggleIntakeSpeed))));
                                 
                 L_Trigger.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),
                                 new CanalZeroToOneBottom(canal, index)));
