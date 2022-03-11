@@ -127,6 +127,8 @@ public class RobotContainer {
                         List.of(), new Pose2d(4, 0, new Rotation2d(Units.degreesToRadians(180))), configReversed);
 
         // Auto command groups
+        Command limelightHighShot = new SequentialCommandGroup(new SEQ_limeShot(shoot, drivetrain, index, limelight, true));
+
         Command straightAuto = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(Str8.getInitialPose())),
                         autoHelper.getRamset(Str8));
@@ -197,7 +199,7 @@ public class RobotContainer {
                 new SEQ_limeShot(shoot, drivetrain, index, limelight, false).withTimeout(5),
                 new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
-                Command limelightHighShot = new SequentialCommandGroup(new SEQ_limeShot(shoot, drivetrain, index, limelight, false));
+                
 
 
         /**
