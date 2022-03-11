@@ -32,7 +32,7 @@ public class CMD_limeSpin extends CommandBase {
     SmartDashboard.putNumber("TargetRPM", -(limelight.distRpm(limelight.getDistance(), aimHigh)));
     SmartDashboard.putBoolean("WithinRange?", !(limelight.getDistance() > Constants.MAX_RANGE));
 
-    shooter.setRPM(limelight.distRpm(limelight.getDistance(), aimHigh));
+    shooter.setRPM(-limelight.distRpm(limelight.getDistance(), aimHigh));
   }
 
   @Override
@@ -44,7 +44,7 @@ public class CMD_limeSpin extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if ((limelight.getTv() == false) || (limelight.getDistance() > Constants.MAX_RANGE)) {
+    if ((limelight.getTv() && limelight.getDistance() > Constants.MAX_RANGE)) {
       return true;
     } else {
       return false;
