@@ -52,6 +52,7 @@ import frc.robot.commands.ShooterSpin;
 import frc.robot.commands.canalRun;
 import frc.robot.commands.teleopClimber;
 import frc.robot.commands.IndexBottomToTop;
+import frc.robot.subsystems.CameraDriveSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -77,6 +78,8 @@ public class RobotContainer {
         private Climber climber = new Climber();
         private Limelight limelight = new Limelight();
         private NetworkTablesBase networkTables = new NetworkTablesBase();
+        private CameraDriveSubsystem cameraDrive = new CameraDriveSubsystem();
+
 
         // Controller
         private Joystick controller = new Joystick(Constants.JOYSTICK_PORT);
@@ -99,6 +102,7 @@ public class RobotContainer {
         JoystickButton L_button3 = new JoystickButton(leftJoystick, 3);
         JoystickButton L_button4 = new JoystickButton(leftJoystick, 4);
         JoystickButton L_button5 = new JoystickButton(leftJoystick, 5);
+        JoystickButton L_button7 = new JoystickButton(leftJoystick, 7);
         JoystickButton L_Trigger = new JoystickButton(leftJoystick, 1);
 
         // right Joytick
@@ -287,7 +291,10 @@ public class RobotContainer {
 
                 // Intake
                 //intake.setDefaultCommand(new ConditionalCommand(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),new CanalZeroToOneBottom(canal, index)), new InstantCommand(), intake::intakeGet));
-                L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
+                L_button4.whenPressed(new InstantCommand(cameraDrive::toggleDirection, cameraDrive));
+                L_button7.whenPressed(new InstantCommand(intake::pistonToggle, intake));
+                // if piston toggle not working then you messed up!  
+
                 L_Trigger.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),new CanalZeroToOneBottom(canal, index)));
                 
 
@@ -301,7 +308,7 @@ public class RobotContainer {
                 index.setDefaultCommand(DefCMD);
                 C_aButton.whileHeld(new ParallelCommandGroup(new indexRun(index, -0.75), new ShooterSpin(shoot, 0.25)));
                 C_bButton.whileHeld(new indexRun(index, 0.75));
-                L_button5.whileHeld(new indexRun(index, 0.75));
+                //L_button5.whileHeld(new indexRun(index, 0.75));
 
                 // shooter
                 R_button3.whenPressed(new CMD_changeSetpoint(shoot, -500));
@@ -315,8 +322,11 @@ public class RobotContainer {
                 L_button3.whileHeld(new AutoShoot(limelight, index, drivetrain, shoot));
                 C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
 
+                L_button5.whileHeld(
+                                new ParallelCommandGroup(new CameraDriveCommand(drivetrain, cameraDrive), new ParallelCommandGroup(
+                                                new IntakeSpin(intake, 0.75), new CanalZeroToOneBottom(canal, index))));
 
-
+                
         }
 
         public Command getAutonomousCommand() {
