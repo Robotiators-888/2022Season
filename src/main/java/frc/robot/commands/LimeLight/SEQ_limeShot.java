@@ -15,7 +15,7 @@ public class SEQ_limeShot extends SequentialCommandGroup {
         addCommands(
                 new InstantCommand(() -> limeIn.setLed(3), limeIn),
                 new CMD_limeAlign(limeIn, driveIn),
-                parallel(
+                race(
                         new CMD_limeSpin(limeIn, shootIn, aimHigh),
                         new SequentialCommandGroup(
                                 new WaitCommand(1),
