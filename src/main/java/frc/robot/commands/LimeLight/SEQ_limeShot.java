@@ -18,8 +18,8 @@ public class SEQ_limeShot extends SequentialCommandGroup {
                 race(
                         new CMD_limeSpin(limeIn, shootIn, aimHigh),
                         new SequentialCommandGroup(
-                                new WaitCommand(1),
-                                new indexRun(indexIn, 0.75).withTimeout(2)))
+                                new WaitCommand(0.5),
+                                new indexRun(indexIn, 0.75).withTimeout(1)))
         );
     }
 }
