@@ -8,10 +8,10 @@ import frc.robot.subsystems.Shooter;
 
 public class SEQ_dumbShot extends SequentialCommandGroup {
 
-    public SEQ_dumbShot(Shooter shootIn, Drivetrain driveIn, IndexSubsystem indexIn, int RPM) {
+    public SEQ_dumbShot(Shooter shootIn, IndexSubsystem indexIn, int RPM) {
         addCommands(
                 race(
-                        new ShooterRPM(shootIn, 2000),
+                        new ShooterRPM(shootIn, RPM),
                         new SequentialCommandGroup(
                                 new WaitCommand(1),
                                 new indexRun(indexIn, 0.75).withTimeout(2)))

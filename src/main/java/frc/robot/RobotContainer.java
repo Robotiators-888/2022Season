@@ -37,7 +37,6 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.NetworkTables.NetworkTablesBase;
 
-
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
@@ -207,28 +206,31 @@ public class RobotContainer {
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
         Command RS_threeBall = new SequentialCommandGroup(
-                        new InstantCommand(() -> drivetrain.setPosition(RS_threeBall_p1.getInitialPose())),
-                        new AutoShoot(limelight, index, drivetrain, shoot).withInterrupt(() -> !index.readTopBanner()),
-                        new ParallelDeadlineGroup(
-                                        autoHelper.getRamset(RS_threeBall_p1),
-                                        new SequentialCommandGroup(
-                                                        new CanalZeroToOneBottom(canal, index),
-                                                        new IndexBottomToTopBanner(index, 0.50))),
-                        new ParallelDeadlineGroup(
-                                        new WaitCommand(2),
-                                        new SequentialCommandGroup(
-                                                        new CanalZeroToOneBottom(canal, index),
-                                                        new IndexBottomToTopBanner(index, 0.50))),
-                        new AutoShoot(limelight, index, drivetrain, shoot).withInterrupt(() -> !index.readTopBanner()),
-                        new InstantCommand(() -> intake.pistonSet(false), intake),
-                        new ParallelDeadlineGroup(
-                                        autoHelper.getRamset(RS_threeBall_p2),
-                                        new IntakeSpin(intake, 0.75),
-                                        new canalRun(canal, -0.75),
-                                        new IndexBottomToTopBanner(index, 0.50)),
-                        new AutoShoot(limelight, index, drivetrain, shoot).withInterrupt(() -> !index.readTopBanner()),
+                new InstantCommand(() -> drivetrain.setPosition(RS_threeBall_p1.getInitialPose())),
+                new InstantCommand(() -> intake.pistonSet(false), intake),
+                new SEQ_dumbShot(shoot, index, 2000),
+                new ParallelDeadlineGroup(
+                        autoHelper.getRamset(RS_threeBall_p1),
+                        new SequentialCommandGroup(     
+                                new CanalZeroToOneBottom(canal, index),
+                                new IndexBottomToTopBanner(index, 0.50))),
+                new ParallelDeadlineGroup(
+                        new WaitCommand(2),
+                        new SequentialCommandGroup(     
+                                new CanalZeroToOneBottom(canal, index),
+                                new IndexBottomToTopBanner(index, 0.50))),
+                new SEQ_limeShot(shoot, drivetrain, index, limelight, false).withTimeout(5),
+                new InstantCommand(() -> intake.pistonSet(true), intake),
+                new ParallelDeadlineGroup(
+                        autoHelper.getRamset(RS_threeBall_p2),
+                        new IntakeSpin(intake, 0.75),
+                        new canalRun(canal, -0.75),
+                        new IndexBottomToTopBanner(index, 0.50)),
+                new SEQ_limeShot(shoot, drivetrain, index, limelight, false).withTimeout(5),
+                new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
-                        new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
+                Command limelightHighShot = new SequentialCommandGroup(new SEQ_limeShot(shoot, drivetrain, index, limelight, false));
+
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -247,6 +249,7 @@ public class RobotContainer {
                 chooser.addOption("Right side Left Ball", RS_LB_twoBall);
                 chooser.addOption("Left side", LS_twoBall);
                 chooser.addOption("Right side three ball", RS_threeBall);
+                chooser.addOption("limelight High Shot", limelightHighShot);
 
                 SmartDashboard.putData("chooser", chooser);
 
