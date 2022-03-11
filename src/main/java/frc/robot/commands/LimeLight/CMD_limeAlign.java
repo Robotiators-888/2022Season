@@ -43,7 +43,7 @@ public class CMD_limeAlign extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if ((limelight.getTv() == false) || (limelight.getTx() < 3) && (limelight.getTx() > -3)) {
+    if ((limelight.getTv() && (limelight.getTx() < 3) && (limelight.getTx() > -3))) {
       return true;
     } else {
       return false;
