@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.teleopDrive;
+import frc.robot.commands.LEDPatterns.CMD_RAINBOWLED;
 import frc.robot.commands.indexRun;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Drivetrain;
@@ -54,6 +55,9 @@ import frc.robot.commands.teleopClimber;
 import frc.robot.commands.IndexBottomToTop;
 import frc.robot.subsystems.CameraDriveSubsystem;
 
+import frc.robot.subsystems.SUB_LED;
+import frc.robot.commands.LEDPatterns.*;
+
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -80,6 +84,8 @@ public class RobotContainer {
         private NetworkTablesBase networkTables = new NetworkTablesBase();
         private CameraDriveSubsystem cameraDrive = new CameraDriveSubsystem();
 
+        private SUB_LED LED = new SUB_LED();
+        //private NetworkTablesBase networkTables = new NetworkTablesBase();
 
         // Controller
         private Joystick controller = new Joystick(Constants.JOYSTICK_PORT);
@@ -327,6 +333,9 @@ public class RobotContainer {
                                                 new IntakeSpin(intake, 0.75), new CanalZeroToOneBottom(canal, index))));
 
                 
+                //LED
+                LED.setDefaultCommand(new CMD_HALFLED(LED));
+
         }
 
         public Command getAutonomousCommand() {
