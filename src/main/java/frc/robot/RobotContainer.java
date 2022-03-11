@@ -183,7 +183,7 @@ public class RobotContainer {
                                 new CanalZeroToOneBottom(canal, index),
                                 new IndexBottomToTopBanner(index, 0.50))),
                 new ParallelDeadlineGroup(
-                        new WaitCommand(2),
+                        new WaitCommand(1),
                         new SequentialCommandGroup(     
                                 new CanalZeroToOneBottom(canal, index),
                                 new IndexBottomToTopBanner(index, 0.50))),
