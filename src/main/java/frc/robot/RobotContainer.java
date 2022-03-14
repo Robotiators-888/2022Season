@@ -82,6 +82,7 @@ public class RobotContainer {
         JoystickButton L_button3 = new JoystickButton(leftJoystick, 3);
         JoystickButton L_button4 = new JoystickButton(leftJoystick, 4);
         JoystickButton L_button5 = new JoystickButton(leftJoystick, 5);
+        JoystickButton L_button7 = new JoystickButton(leftJoystick, 7);
         JoystickButton L_Trigger = new JoystickButton(leftJoystick, 1);
 
         // right Joytick
@@ -266,7 +267,7 @@ public class RobotContainer {
 
                 
                 //intake.setDefaultCommand(new ConditionalCommand(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),new CanalZeroToOneBottom(canal, index)), new InstantCommand(), intake::intakeGet));
-                L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
+                L_button7.whenPressed(new InstantCommand(intake::pistonToggle, intake));
                 L_Trigger.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),new CanalZeroToOneBottom(canal, index)));
 
                 // Canal
