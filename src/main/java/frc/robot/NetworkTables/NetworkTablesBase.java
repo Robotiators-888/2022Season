@@ -6,6 +6,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.TableEntryListener;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.DriverStation;
 
 //Class
 public class NetworkTablesBase extends Thread {
@@ -16,6 +17,7 @@ public class NetworkTablesBase extends Thread {
   TableEntryListener Ylistener;
   TableEntryListener Xlistener;
   NetworkTable piTable;
+  DriverStation ds;
 
   public NetworkTablesBase() {
     run();
@@ -30,6 +32,8 @@ public class NetworkTablesBase extends Thread {
 
     inst.startClientTeam(888); // where TEAM=190, 294, etc, or use inst.startClient("hostname") or similar
     inst.startDSClient(); // recommended if running on DS computer; this gets the robot IP from the DS
+
+    
 
     double x = SmartDashboard.getNumber("front_ball_x", 0);
     double y = SmartDashboard.getNumber("front_ball_y", 0);
