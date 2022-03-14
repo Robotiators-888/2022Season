@@ -25,8 +25,8 @@ public class CMD_limeAlign extends CommandBase {
 
   @Override
   public void execute() {
-    if ((Math.abs(limelight.getTx()) <= 5)) {
-      drivetrain.setMotors(Math.signum(limelight.getTx()) * 0.25, Math.signum(limelight.getTx()) * -0.25);
+    if ((Math.abs(limelight.getTx()) > 5)) {
+      drivetrain.setMotors(Math.signum(limelight.getTx()) * 0.3, Math.signum(limelight.getTx()) * -0.3);
 
     } else {
       drivetrain.setMotors((0.03) * (limelight.getTx()), (-0.03) * (limelight.getTx()));
@@ -43,7 +43,7 @@ public class CMD_limeAlign extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if ((limelight.getTv() && (limelight.getTx() < 3) && (limelight.getTx() > -3))) {
+    if ((limelight.getTv() && (limelight.getTx() < 4) && (limelight.getTx() > -4))) {
       return true;
     } else {
       return false;
