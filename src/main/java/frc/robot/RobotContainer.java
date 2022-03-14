@@ -26,34 +26,13 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.teleopDrive;
-import frc.robot.commands.LEDPatterns.CMD_RAINBOWLED;
-import frc.robot.commands.indexRun;
-import frc.robot.subsystems.CanalSubsystem;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.commands.IndexBottomToTopBanner;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.CameraDriveCommand;
-import frc.robot.NetworkTables.NetworkTablesBase;
-import frc.robot.commands.AutoShoot;
-import frc.robot.commands.CMD_ShooterManualRPM;
-import frc.robot.commands.CMD_canalThrough;
-import frc.robot.commands.CMD_changeSetpoint;
-import frc.robot.commands.CanalZeroToOneBottom;
-import frc.robot.subsystems.IndexSubsystem;
-import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.Limelight;
-import frc.robot.commands.IntakeSpin;
-import frc.robot.commands.ShooterRPM;
-import frc.robot.commands.ShooterSpin;
-import frc.robot.commands.canalRun;
-import frc.robot.commands.teleopClimber;
-import frc.robot.commands.IndexBottomToTop;
 
+import frc.robot.NetworkTables.NetworkTablesBase;
+import frc.robot.subsystems.*;
+import frc.robot.commands.*;
 import frc.robot.subsystems.SUB_LED;
 import frc.robot.commands.LEDPatterns.*;
 
@@ -80,9 +59,7 @@ public class RobotContainer {
         private CanalSubsystem canal = new CanalSubsystem();
         private Climber climber = new Climber();
         private Limelight limelight = new Limelight();
-        private NetworkTablesBase networkTables = new NetworkTablesBase();
         private SUB_LED LED = new SUB_LED();
-        //private NetworkTablesBase networkTables = new NetworkTablesBase();
 
         // Controller
         private Joystick controller = new Joystick(Constants.JOYSTICK_PORT);
@@ -218,29 +195,28 @@ public class RobotContainer {
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
         Command RS_threeBall = new SequentialCommandGroup(
-                new InstantCommand(() -> drivetrain.setPosition(RS_threeBall_p1.getInitialPose())),
-                new AutoShoot(limelight, index, drivetrain, shoot).withInterrupt(() -> !index.readTopBanner()),
-                new ParallelDeadlineGroup(
-                        autoHelper.getRamset(RS_threeBall_p1),
-                        new SequentialCommandGroup(     
-                                new CanalZeroToOneBottom(canal, index),
-                                new IndexBottomToTopBanner(index, 0.50))),
-                new ParallelDeadlineGroup(
-                        new WaitCommand(2),
-                        new SequentialCommandGroup(     
-                                new CanalZeroToOneBottom(canal, index),
-                                new IndexBottomToTopBanner(index, 0.50))),
-                new AutoShoot(limelight, index, drivetrain, shoot).withInterrupt(() -> !index.readTopBanner()),
-                new InstantCommand(() -> intake.pistonSet(false), intake),
-                new ParallelDeadlineGroup(
-                        autoHelper.getRamset(RS_threeBall_p2),
-                        new IntakeSpin(intake, 0.75),
-                        new canalRun(canal, -0.75),
-                        new IndexBottomToTopBanner(index, 0.50)),
-               new AutoShoot(limelight, index, drivetrain, shoot).withInterrupt(() -> !index.readTopBanner()),
-                            
-                new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
+                        new InstantCommand(() -> drivetrain.setPosition(RS_threeBall_p1.getInitialPose())),
+                        new AutoShoot(limelight, index, drivetrain, shoot).withInterrupt(() -> !index.readTopBanner()),
+                        new ParallelDeadlineGroup(
+                                        autoHelper.getRamset(RS_threeBall_p1),
+                                        new SequentialCommandGroup(
+                                                        new CanalZeroToOneBottom(canal, index),
+                                                        new IndexBottomToTopBanner(index, 0.50))),
+                        new ParallelDeadlineGroup(
+                                        new WaitCommand(2),
+                                        new SequentialCommandGroup(
+                                                        new CanalZeroToOneBottom(canal, index),
+                                                        new IndexBottomToTopBanner(index, 0.50))),
+                        new AutoShoot(limelight, index, drivetrain, shoot).withInterrupt(() -> !index.readTopBanner()),
+                        new InstantCommand(() -> intake.pistonSet(false), intake),
+                        new ParallelDeadlineGroup(
+                                        autoHelper.getRamset(RS_threeBall_p2),
+                                        new IntakeSpin(intake, 0.75),
+                                        new canalRun(canal, -0.75),
+                                        new IndexBottomToTopBanner(index, 0.50)),
+                        new AutoShoot(limelight, index, drivetrain, shoot).withInterrupt(() -> !index.readTopBanner()),
 
+                        new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -250,7 +226,7 @@ public class RobotContainer {
                 configureButtonBindings();
 
                 limelight.setLed(1);
-                //field2d.getObject("traj").setTrajectory(Str8);
+                // field2d.getObject("traj").setTrajectory(Str8);
 
                 chooser.setDefaultOption("Low Dump", lowDump);
                 chooser.addOption("Low Dump no drive", lowDumpNoDrive);
@@ -262,7 +238,6 @@ public class RobotContainer {
 
                 SmartDashboard.putData("chooser", chooser);
 
-                networkTables.start();
                 System.out.println("RobotContainer initialization complete.");
         }
 
@@ -289,11 +264,10 @@ public class RobotContainer {
                 C_leftTrigger.whileActiveContinuous(new teleopClimber(climber, 0.50));
                 C_rightTrigger.whileActiveContinuous(new teleopClimber(climber, -0.50));
 
-                // Intake
+                
                 //intake.setDefaultCommand(new ConditionalCommand(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),new CanalZeroToOneBottom(canal, index)), new InstantCommand(), intake::intakeGet));
                 L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
                 L_Trigger.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),new CanalZeroToOneBottom(canal, index)));
-                
 
                 // Canal
                 C_dPadUp.whileHeld(new canalRun(canal, -0.75));
@@ -315,7 +289,9 @@ public class RobotContainer {
                 R_trigger.whileHeld(new CMD_ShooterManualRPM(shoot));
 
                 // L_button5.whileHeld(new CameraDriveCommand(drivetrain));
-                //L_button5.whileHeld(new ParallelCommandGroup(new CameraDriveCommand(drivetrain), new ParallelCommandGroup(new IntakeSpin(intake, 0.75), new CanalZeroToOneBottom(canal, index))));
+                // L_button5.whileHeld(new ParallelCommandGroup(new
+                // CameraDriveCommand(drivetrain), new ParallelCommandGroup(new
+                // IntakeSpin(intake, 0.75), new CanalZeroToOneBottom(canal, index))));
                 L_button3.whileHeld(new AutoShoot(limelight, index, drivetrain, shoot));
                 C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
 

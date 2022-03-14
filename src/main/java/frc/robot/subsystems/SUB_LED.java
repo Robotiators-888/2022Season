@@ -28,10 +28,24 @@ public class SUB_LED extends SubsystemBase {
     LED.setData(buffer);
   }
 
+  /** 
+   * The method setLED updates the LED at the provided ID with the HSV color provided
+   * @param id The id of the LED
+   * @param h The hue value
+   * @param s The saturation value
+   * @param v The value value
+   */
   public void setLED(int id, int h, int s, int v ){
     buffer.setHSV(id, h, s, v);
   }
 
+  /** 
+   * The method setRGBLED updates the LED at the provided ID with the RGB color provided
+   * @param id The id of the LED, first LED is 0, second LED is 1, etc.
+   * @param r The red value
+   * @param g The green value
+   * @param b The blue value
+   */
   public void setRGBLED(int id, int r, int g, int b ){
     buffer.setRGB(id, r, g, b);
   }

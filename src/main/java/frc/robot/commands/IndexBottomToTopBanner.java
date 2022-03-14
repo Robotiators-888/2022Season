@@ -9,13 +9,17 @@ import frc.robot.subsystems.IndexSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+/** The command IndexBottomToTopBanner is an escape sequence for the one ball bottom state
+ * The command runs the index until there is a ball at the top
+ * This command assumes there is a ball at the bottom banner
+ */
 public class IndexBottomToTopBanner extends CommandBase {
 
   private IndexSubsystem index;
   private boolean isDone = false;
   private double speed;
   
-  /** Creates a new teleopIndex. */
+  /** Creates a new IndexBottomToTopBanner. */
   public IndexBottomToTopBanner(IndexSubsystem indexArgs, double speedArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.speed = speedArgs;

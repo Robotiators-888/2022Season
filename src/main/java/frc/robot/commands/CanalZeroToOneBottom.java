@@ -10,6 +10,10 @@ import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.Constants;
 
+/** The CanalZeroToOneBottom command is the escape sequence from the zero ball state. 
+ * TThe command runs the canal until a ball is detected in the bottom banner.
+ * This command assumes that there are zero balls within the robot.
+ */
 public class CanalZeroToOneBottom extends CommandBase {
 
   private CanalSubsystem canal;
@@ -19,7 +23,7 @@ public class CanalZeroToOneBottom extends CommandBase {
 
   
 
-  /** Creates a new MegaCommand. */
+  /** Creates a new CanalZeroToOneBottom. */
   public CanalZeroToOneBottom(CanalSubsystem canalArgs, IndexSubsystem indexArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.canal = canalArgs;
