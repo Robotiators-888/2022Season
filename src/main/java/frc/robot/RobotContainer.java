@@ -266,7 +266,7 @@ public class RobotContainer {
 
                 SmartDashboard.putData("chooser", chooser);
 
-                networkTables.start();
+                // networkTables.start();
                 System.out.println("RobotContainer initialization complete.");
 
                 
