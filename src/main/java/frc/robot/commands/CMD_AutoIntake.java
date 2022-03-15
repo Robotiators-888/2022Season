@@ -5,18 +5,19 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class CMD_AutoIntake extends CommandBase {
   /** Creates a new CMD_AutoIntake. */
   IntakeSubsystem intake;
+  CanalSubsystem canal;
   double speed;
 
-  public CMD_AutoIntake(IntakeSubsystem subsystem, double intakeSpeed) {
+  public CMD_AutoIntake(IntakeSubsystem intakeSubsystem, CanalSubsystem canalSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.intake = subsystem;
-    this.speed = intakeSpeed;
-
+    this.intake = intakeSubsystem;
+    this.canal = canalSubsystem;
     
   }
 
@@ -29,9 +30,11 @@ public class CMD_AutoIntake extends CommandBase {
   @Override
   public void execute() {
     if (intake.getPosition()) {
-      intake.intakeSpeedSet(speed);
+      intake.intakeSpeedSet(intake.intakeSpeedGet());
+      canal.toggleCanalSpeed();
     } else {
       intake.intakeSpeedSet(0);
+      canal.toggleCanalSpeed();
     }
   }
 
