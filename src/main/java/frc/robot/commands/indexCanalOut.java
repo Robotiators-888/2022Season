@@ -9,6 +9,7 @@ import frc.robot.Constants;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
 
+/** The command indexCanalOut runs both the index and canal in the direction out. */
 public class indexCanalOut extends CommandBase {
   private CanalSubsystem canal;
   private IndexSubsystem index;

@@ -26,33 +26,15 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.teleopDrive;
-import frc.robot.commands.indexRun;
-import frc.robot.subsystems.CanalSubsystem;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.commands.IndexBottomToTopBanner;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.CameraDriveCommand;
+
 import frc.robot.NetworkTables.NetworkTablesBase;
-import frc.robot.commands.AutoShoot;
-import frc.robot.commands.CMD_AutoIntake;
-import frc.robot.commands.CMD_ShooterManualRPM;
-import frc.robot.commands.CMD_canalThrough;
-import frc.robot.commands.CMD_changeSetpoint;
-import frc.robot.commands.CanalZeroToOneBottom;
-import frc.robot.subsystems.IndexSubsystem;
-import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.Limelight;
-import frc.robot.commands.IntakeSpin;
-import frc.robot.commands.ShooterRPM;
-import frc.robot.commands.ShooterSpin;
-import frc.robot.commands.canalRun;
-import frc.robot.commands.teleopClimber;
-import frc.robot.commands.IndexBottomToTop;
+import frc.robot.subsystems.*;
+import frc.robot.commands.*;
+import frc.robot.subsystems.SUB_LED;
+import frc.robot.commands.LEDPatterns.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -78,7 +60,7 @@ public class RobotContainer {
         private CanalSubsystem canal = new CanalSubsystem();
         private Climber climber = new Climber();
         private Limelight limelight = new Limelight();
-        private NetworkTablesBase networkTables = new NetworkTablesBase();
+        private SUB_LED LED = new SUB_LED();
 
         // Controller
         private Joystick controller = new Joystick(Constants.JOYSTICK_PORT);
@@ -257,7 +239,6 @@ public class RobotContainer {
 
                 SmartDashboard.putData("chooser", chooser);
 
-                //networkTables.start();
                 System.out.println("RobotContainer initialization complete.");
         }
 
@@ -293,6 +274,9 @@ public class RobotContainer {
                 
                 L_Trigger.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),
                                 new CanalZeroToOneBottom(canal, index)));
+                
+                //intake.setDefaultCommand(new ConditionalCommand(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),new CanalZeroToOneBottom(canal, index)), new InstantCommand(), intake::intakeGet));
+                L_Trigger.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),new CanalZeroToOneBottom(canal, index)));
 
                 // Canal
                  canal.setDefaultCommand(new InstantCommand(canal::run, canal).perpetually());
@@ -320,6 +304,9 @@ public class RobotContainer {
                 // IntakeSpin(intake, 0.75), new CanalZeroToOneBottom(canal, index))));
                 L_button3.whileHeld(new AutoShoot(limelight, index, drivetrain, shoot));
                 C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
+
+                //LED
+                LED.setDefaultCommand(new CMD_HALFLED(LED));
 
         }
 

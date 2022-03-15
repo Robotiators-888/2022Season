@@ -2,49 +2,49 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.LEDPatterns;
 
-import frc.robot.subsystems.IndexSubsystem;
-
+import frc.robot.subsystems.SUB_LED;
+import frc.robot.Constants;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-/** The command indexRun runs the index at a certain speed. */
-public class indexRun extends CommandBase {
+public class CMD_BLUELED extends CommandBase {
 
-  private IndexSubsystem index;
-  private boolean isDone = false;
-  private double speed;
-  
-  /** Creates a new teleopIndex. */
-  public indexRun(IndexSubsystem indexArgs, double speedArgs) {
+  private int counterID = 0;
+  private SUB_LED LED;
+
+  /** Creates a new CMD_CHASELED. */
+  public CMD_BLUELED(SUB_LED LEDArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.speed = speedArgs;
-    this.index = indexArgs;
-    addRequirements(index);
+    this.LED = LEDArgs;
+    addRequirements(LED);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-    index.setSpeedTower(speed);
+    if (counterID>=Constants.LED_LENGTH){
+      counterID = 0;
+    }
+
+    LED.setRGBLED(counterID,0,47,167);
+
+    counterID++;
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    index.setSpeedTower(0);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return isDone;
+    return false;
   }
 }

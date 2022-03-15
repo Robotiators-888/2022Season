@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.Constants; 
+/** The command IndexBottomToTop runs the index if there is a ball in the bottom and not a ball in the top */
 public class IndexBottomToTop extends CommandBase {
 
   private CanalSubsystem canal;
@@ -16,7 +17,7 @@ public class IndexBottomToTop extends CommandBase {
   private boolean isDone = false;
 
 
-  /** Creates a new MegaCommand. */
+  /** Creates a new IndexBottomToTOp. */
   public IndexBottomToTop(CanalSubsystem canalArgs, IndexSubsystem indexArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.canal = canalArgs;
@@ -36,6 +37,9 @@ public class IndexBottomToTop extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
+    // If there isn't a ball at the top and there is a ball at the bottom
+    // run the index until there is a ball at the top
     if (!index.readTopBanner() && index.readBottomBanner()){
       isDone = false;
       index.setSpeedTower(Constants.BELT_SPEED);
