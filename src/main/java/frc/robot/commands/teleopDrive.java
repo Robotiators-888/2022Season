@@ -32,8 +32,6 @@ public class teleopDrive extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drive.zeroHeading();
-    drive.setPosition(0, 0, drive.getGyroHeading());
     drive.setIdleMode(IdleMode.kCoast);
   }
 
