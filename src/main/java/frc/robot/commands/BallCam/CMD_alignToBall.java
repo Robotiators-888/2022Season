@@ -11,12 +11,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class CMD_alignToBall extends CommandBase {
     SUB_CameraData ballCam;
     Drivetrain drivetrain;
-    boolean camSelect = false; 
-    //false -> back 
-    //true -> front
+    boolean camSelect = false;
+    // false -> back
+    // true -> front
 
     /**
      * turn robot to ball
+     * 
      * @param cam
      * @param drive
      * @param camSel
@@ -33,18 +34,18 @@ public class CMD_alignToBall extends CommandBase {
         ballCam.setDirection(camSelect);
     }
 
-    //Ryansete controller TM
+    // Ryansete controller TM
     @Override
     public void execute() {
-        if(camSelect && ballCam.getX() > 0){
+        if (camSelect && ballCam.getX() > 0) {
             drivetrain.setMotors(0.25, -0.25);
-        }else if(camSelect){
+        } else if (camSelect) {
             drivetrain.setMotors(-0.25, 0.25);
-        } else if(!camSelect && ballCam.getX() > 0){
+        } else if (!camSelect && ballCam.getX() > 0) {
             drivetrain.setMotors(-0.25, 0.25);
-        }else if(!camSelect){
+        } else if (!camSelect) {
             drivetrain.setMotors(0.25, -0.25);
-        } else{
+        } else {
             drivetrain.setMotors(0, 0);
         }
     }

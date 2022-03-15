@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.teleopDrive;
+import frc.robot.commands.BallCam.SEQ_getBall;
 import frc.robot.commands.LimeLight.*;
 import frc.robot.commands.indexRun;
 import frc.robot.subsystems.CanalSubsystem;
@@ -211,8 +212,7 @@ public class RobotContainer {
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
         Command RS_threeBall_WC = new SequentialCommandGroup(
-                
-        );
+                new SEQ_getBall(cameraData, drivetrain, canal, intake, index, true));
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.

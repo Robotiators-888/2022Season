@@ -12,12 +12,13 @@ public class CMD_DriveToBall extends CommandBase {
     SUB_CameraData ballCam;
     Drivetrain drivetrain;
 
-    boolean camSelect = false; 
-    //false -> back 
-    //true -> front
+    boolean camSelect = false;
+    // false -> back
+    // true -> front
 
     /**
      * Drive robot straight to ball
+     * 
      * @param cam
      * @param drive
      * @param camSel
@@ -35,15 +36,15 @@ public class CMD_DriveToBall extends CommandBase {
         ballCam.setDirection(camSelect);
     }
 
-    //Ryansete controller TM
+    // Ryansete controller TM
     @Override
     public void execute() {
-        if(camSelect){
+        if (camSelect) {
             drivetrain.setMotors(0.25, 0.25);
-        }else{
+        } else {
             drivetrain.setMotors(-0.25, -0.25);
-        } 
-        
+        }
+
     }
 
     @Override
@@ -60,6 +61,5 @@ public class CMD_DriveToBall extends CommandBase {
             return false;
         }
     }
-
 
 }
