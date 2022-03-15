@@ -45,6 +45,7 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.SUB_CameraData;
 import frc.robot.commands.IntakeSpin;
 import frc.robot.commands.SEQ_dumbShot;
 import frc.robot.commands.ShooterSpin;
@@ -76,6 +77,7 @@ public class RobotContainer {
         private Climber climber = new Climber();
         private Limelight limelight = new Limelight();
         private NetworkTablesBase networkTables = new NetworkTablesBase();
+        private SUB_CameraData cameraData = new SUB_CameraData();
 
         // Controller
         private Joystick controller = new Joystick(Constants.JOYSTICK_PORT);
@@ -114,6 +116,9 @@ public class RobotContainer {
         TrajectoryConfig configReversed = new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
                         Constants.kMaxAccelerationMetersPerSecondSquared).setKinematics(Constants.kDriveKinematics)
                                         .setReversed(true);
+
+        TrajectoryConfig configForward = new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
+                        Constants.kMaxAccelerationMetersPerSecondSquared).setKinematics(Constants.kDriveKinematics);
 
         Trajectory LS_twoBall_Low_p1 = autoHelper.getTrajectory("paths/output/LS_twoBall_Low_p1.wpilib.json");
         Trajectory LS_twoBall_Low_p2 = autoHelper.getTrajectory("paths/output/LS_twoBall_Low_p2.wpilib.json");
@@ -206,28 +211,8 @@ public class RobotContainer {
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
         Command RS_threeBall_WC = new SequentialCommandGroup(
-                        new InstantCommand(() -> drivetrain.setPosition(RS_threeBall_p1.getInitialPose())),
-                        new InstantCommand(() -> intake.pistonSet(false), intake),
-                        new SEQ_dumbShot(shoot, index, 2000),
-                        new ParallelDeadlineGroup(
-                                        autoHelper.getRamset(RS_threeBall_p1),
-                                        new SequentialCommandGroup(
-                                                        new CanalZeroToOneBottom(canal, index),
-                                                        new IndexBottomToTopBanner(index, 0.50))),
-                        new ParallelDeadlineGroup(
-                                        new WaitCommand(1),
-                                        new SequentialCommandGroup(
-                                                        new CanalZeroToOneBottom(canal, index),
-                                                        new IndexBottomToTopBanner(index, 0.50))),
-                        new InstantCommand(() -> intake.pistonSet(false), intake),
-                        new SEQ_limeShot(shoot, drivetrain, index, limelight, false).withTimeout(5),
-                        new ParallelDeadlineGroup(
-                                        autoHelper.getRamset(RS_threeBall_p2),
-                                        new IntakeSpin(intake, 0.75),
-                                        new canalRun(canal, -0.75),
-                                        new IndexBottomToTopBanner(index, 0.50)),
-                        new SEQ_limeShot(shoot, drivetrain, index, limelight, false).withTimeout(5),
-                        new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
+                
+        );
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -247,7 +232,8 @@ public class RobotContainer {
                 chooser.addOption("Right side Right Ball", RS_RB_twoBall);
                 chooser.addOption("Right side Left Ball", RS_LB_twoBall);
                 chooser.addOption("Left side", LS_twoBall);
-                chooser.addOption("Right side three ball", RS_threeBall_NC);
+                chooser.addOption("Right side three ball No Cam", RS_threeBall_NC);
+                chooser.addOption("Right side three ball With Cam", RS_threeBall_WC);
 
                 SmartDashboard.putData("chooser", chooser);
 
