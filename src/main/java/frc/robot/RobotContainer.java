@@ -29,29 +29,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.CameraDriveCommand;
 import frc.robot.NetworkTables.NetworkTablesBase;
-import frc.robot.commands.AutoShoot;
-import frc.robot.commands.CMD_ShooterManualRPM;
-import frc.robot.commands.CMD_canalThrough;
-import frc.robot.commands.CMD_changeSetpoint;
-import frc.robot.commands.CanalZeroToOneBottom;
-import frc.robot.subsystems.IndexSubsystem;
-import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.Limelight;
-import frc.robot.commands.IntakeSpin;
-import frc.robot.commands.ShooterRPM;
-import frc.robot.commands.ShooterSpin;
-import frc.robot.commands.canalRun;
-import frc.robot.commands.teleopClimber;
-import frc.robot.commands.IndexBottomToTop;
-import frc.robot.subsystems.CameraDriveSubsystem;
 
-import frc.robot.NetworkTables.NetworkTablesBase;
-import frc.robot.subsystems.*;
+
 import frc.robot.commands.*;
+import frc.robot.subsystems.*;
+
 import frc.robot.subsystems.SUB_LED;
 import frc.robot.commands.LEDPatterns.*;
 
