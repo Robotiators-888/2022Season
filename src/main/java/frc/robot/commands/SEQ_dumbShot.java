@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.subsystems.IndexSubsystem;
@@ -12,8 +13,8 @@ public class SEQ_dumbShot extends SequentialCommandGroup {
                 race(
                         new ShooterRPM(shootIn, RPM),
                         new SequentialCommandGroup(
-                                new WaitUntilCommand(() -> ((shootIn.getRPM() <= RPM + 500) && (shootIn.getRPM() >= RPM - 500))),
-                                new indexRun(indexIn, 0.75).withTimeout(2)))
+                                new WaitUntilCommand(() -> ((shootIn.getRPM() <= (-RPM + 200)) && (shootIn.getRPM() >= (-RPM - 200)))),
+                                new indexRun(indexIn, 0.75).withTimeout(1.25)))
 
         );
 
