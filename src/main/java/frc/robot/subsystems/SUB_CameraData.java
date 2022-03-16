@@ -7,7 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
- * Manages the canal subsystem, runs the front and back belts.
+ * ball camera.
  */
 public class SUB_CameraData extends SubsystemBase {
 
