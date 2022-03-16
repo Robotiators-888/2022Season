@@ -212,7 +212,7 @@ public class RobotContainer {
                                                         new SEQ_dumbShot(shoot, index, 2000),
                                                         autoHelper.getRamset(RS_threeBall_p1),
                                                         new WaitCommand(1),
-                                                        new InstantCommand(() -> intake.pistonSet(true), intake),
+                                                        new InstantCommand(() -> intake.pistonSet(false), intake),
                                                         new ParallelDeadlineGroup(
                                                                         autoHelper.getRamset(RS_threeBall_p2_LOW),
                                                                         new IntakeSpin(intake, 0.75),
