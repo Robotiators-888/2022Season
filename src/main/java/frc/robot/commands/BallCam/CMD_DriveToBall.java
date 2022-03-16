@@ -40,9 +40,9 @@ public class CMD_DriveToBall extends CommandBase {
     @Override
     public void execute() {
         if (camSelect) {
-            drivetrain.setMotors(0.25, 0.25);
+            drivetrain.setMotors(0.10, 0.10);
         } else {
-            drivetrain.setMotors(-0.25, -0.25);
+            drivetrain.setMotors(-0.10, -0.10);
         }
 
     }
@@ -55,7 +55,7 @@ public class CMD_DriveToBall extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if ((ballCam.getY() < 1)) {
+        if (ballCam.ballDetected() && (ballCam.getY() < 1)) {
             return true;
         } else {
             return false;

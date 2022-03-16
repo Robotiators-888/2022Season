@@ -6,20 +6,21 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * Manages the canal subsystem, runs the front and back belts.
  */
 public class SUB_CameraData extends SubsystemBase {
 
-    public boolean direction = true; // true is forward, false is backward
-    public static boolean forward = true;
-    public static boolean backward = false;
-    
+  public boolean direction = true; // true is forward, false is backward
+  public static boolean forward = true;
+  public static boolean backward = false;
+
   /** Creates a new CanalSubsystem. */
   public SUB_CameraData() {
 
   }
-  
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -30,21 +31,29 @@ public class SUB_CameraData extends SubsystemBase {
     }
   }
 
-  public double getX(){
-    if (direction){
+  public double getX() {
+    if (direction) {
       return SmartDashboard.getNumber("front_ball_x", 0);
     } else {
       return SmartDashboard.getNumber("back_ball_x", 0);
     }
   }
 
-    public double getY(){
-        if (direction){
-        return SmartDashboard.getNumber("front_ball_y", 0);
-        } else {
-        return SmartDashboard.getNumber("back_ball_y", 0);
-        }
+  public double getY() {
+    if (direction) {
+      return SmartDashboard.getNumber("front_ball_y", 0);
+    } else {
+      return SmartDashboard.getNumber("back_ball_y", 0);
     }
+  }
+
+  public boolean ballDetected() {
+    if (direction) {
+      return SmartDashboard.getBoolean("ballDetectedFront", false);
+    } else {
+      return SmartDashboard.getBoolean("ballDetectedBack", false);
+    }
+  }
 
   public void toggleDirection() {
     direction = !direction;
