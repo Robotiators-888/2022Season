@@ -216,7 +216,7 @@ public class RobotContainer {
                                                         new ParallelDeadlineGroup(
                                                                         autoHelper.getRamset(RS_threeBall_p2_LOW),
                                                                         new IntakeSpin(intake, 0.75),
-                                                                        new ShooterRPM(shoot, 2000)),
+                                                                        new ShooterRPM(shoot, 2500)),
                                                                         new InstantCommand(
                                                                                         () -> intake.pistonSet(false),
                                                                                         intake),
