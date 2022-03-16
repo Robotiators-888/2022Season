@@ -78,7 +78,7 @@ public final class Constants {
     public static final double kaVoltSecondsSquaredPerMeter = 0.28843;
     public static final double kPDriveVel = 2.5217;
 
-    public static final double kMaxSpeedMetersPerSecond = 3;
+    public static final double kMaxSpeedMetersPerSecond = 5;
     public static final double kMaxAccelerationMetersPerSecondSquared = 1;
 
     public static final double kRamseteB = 2;

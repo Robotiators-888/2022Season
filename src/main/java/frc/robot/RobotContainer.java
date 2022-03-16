@@ -197,9 +197,32 @@ public class RobotContainer {
                         new ParallelDeadlineGroup(
                                         autoHelper.getRamset(RS_threeBall_p2),
                                         new IntakeSpin(intake, 0.75),
-                                        new canalRun(canal, -0.75),
-                                        new IndexBottomToTopBanner(index, 0.50)),
-                        new SEQ_limeShot(shoot, drivetrain, index, limelight, false).withTimeout(5),
+                                        new SequentialCommandGroup(
+                                                        new CanalZeroToOneBottom(canal, index),
+                                                        new IndexBottomToTop(canal, index))),
+                        new SEQ_limeShot(shoot, drivetrain, index, limelight, true).withTimeout(5),
+                        new SEQ_limeShot(shoot, drivetrain, index, limelight, true).withTimeout(5),
+                        new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
+
+        Command RS_threeBall_NC_LOW = new SequentialCommandGroup(
+                        new InstantCommand(() -> drivetrain.setPosition(RS_threeBall_p1.getInitialPose())),
+                        new InstantCommand(() -> intake.pistonSet(false), intake),
+                        new ParallelDeadlineGroup(
+                                        new SequentialCommandGroup(
+                                                        new SEQ_dumbShot(shoot, index, 2000),
+                                                        autoHelper.getRamset(RS_threeBall_p1),
+                                                        new WaitCommand(1),
+                                                        new InstantCommand(() -> intake.pistonSet(true), intake),
+                                                        new ParallelDeadlineGroup(
+                                                                        autoHelper.getRamset(RS_threeBall_p2_LOW),
+                                                                        new IntakeSpin(intake, 0.75),
+                                                                        new ShooterRPM(shoot, 2000)),
+                                                                        new InstantCommand(
+                                                                                        () -> intake.pistonSet(false),
+                                                                                        intake),
+                                                                        new SEQ_dumbShot(shoot, index, 2500),
+                                                                        new SEQ_dumbShot(shoot, index, 2500)),
+                                                        new canalRun(canal, -0.5)),
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
         Command RS_threeBall_WC = new SequentialCommandGroup(
