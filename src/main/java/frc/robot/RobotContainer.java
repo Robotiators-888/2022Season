@@ -238,7 +238,7 @@ public class RobotContainer {
                                                                                         intake),
                                                                         new SEQ_dumbShot(shoot, index, 2500),
                                                                         new SEQ_dumbShot(shoot, index, 2500)),
-                                                        new canalRun(canal, -0.5)),
+                                                        new canalRun(canal, -0.75)),
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
         Command RS_threeBall_WC = new SequentialCommandGroup(
@@ -292,13 +292,10 @@ public class RobotContainer {
                 C_leftTrigger = new Trigger(() -> (controller.getRawAxis(2) > 0.5));
                 C_rightTrigger = new Trigger(() -> (controller.getRawAxis(3) > 0.5));
 
-                C_leftTrigger.whileActiveContinuous(new teleopClimber(climber, 0.50));
-                C_rightTrigger.whileActiveContinuous(new teleopClimber(climber, -0.50));
+                C_leftTrigger.whileActiveContinuous(new teleopClimber(climber, 1));
+                C_rightTrigger.whileActiveContinuous(new teleopClimber(climber, -1));
 
                 // Intake
-                // intake.setDefaultCommand(new ConditionalCommand(new ParallelCommandGroup(new
-                // IntakeSpin(intake, 0.75),new CanalZeroToOneBottom(canal, index)), new
-                // InstantCommand(), intake::intakeGet));
                 L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
                 L_Trigger.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),
                                 new CanalZeroToOneBottom(canal, index)));
