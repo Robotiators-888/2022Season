@@ -4,8 +4,10 @@ import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.CanalSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 
 public class AutoShoot extends CommandBase {
  
@@ -13,6 +15,7 @@ public class AutoShoot extends CommandBase {
   Shooter shoot;
   IndexSubsystem m_index;
   Drivetrain drive;
+  CanalSubsystem canal;
   Boolean withinRange = false;
 
 
@@ -21,15 +24,16 @@ public class AutoShoot extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public AutoShoot(Limelight limelight, IndexSubsystem index, Drivetrain drivetrain, Shooter shoot) {
+  public AutoShoot(Limelight limelight, IndexSubsystem index, Drivetrain drivetrain, Shooter shoot, CanalSubsystem canal) {
     this.m_limelight = limelight;
     this.shoot = shoot;
     this.m_index = index;
     this.drive = drivetrain;
+    this.canal = canal;
     
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_limelight, drivetrain, index, shoot);
+    addRequirements(m_limelight, drivetrain, index, shoot, canal);
   }
 
   // Called when the command is initially scheduled.
@@ -52,14 +56,18 @@ public class AutoShoot extends CommandBase {
       if ((m_limelight.getTv() == true) && (m_limelight.getDistance() > 0) && (m_limelight.getDistance() < 250)) {
         //Use distance to set RPM
           shoot.setRPM(-(m_limelight.distRpm(m_limelight.getDistance())));
+          canal.setSpeedFront(-0.75);
+          canal.setSpeedBack(-0.75);
           this.withinRange = true;
           
         
 
         // If the difference between the actual and target rpms is less than 150, start
         // index
-        if ((double) Math.abs(shoot.getRPM() + m_limelight.distRpm(m_limelight.getDistance())) <= 250) {
+        if ((double) Math.abs(shoot.getRPM() + m_limelight.distRpm(m_limelight.getDistance())) <= 100) {
           m_index.setSpeedTower(.7);
+          canal.setSpeedFront(-0.75);
+          canal.setSpeedBack(-0.75);
         }
       }else{
         this.withinRange = false;
@@ -90,6 +98,7 @@ public class AutoShoot extends CommandBase {
     m_limelight.setLed(0);
     m_index.setSpeedTower(0);
     shoot.setSpeed(0);
+    
   }
 
   // Returns true when the command should end.

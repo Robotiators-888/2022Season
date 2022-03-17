@@ -202,7 +202,7 @@ public class RobotContainer {
 
         Command RS_threeBall = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(RS_threeBall_p1.getInitialPose())),
-                        new AutoShoot(limelight, index, drivetrain, shoot).withInterrupt(() -> !index.readTopBanner()),
+                        new AutoShoot(limelight, index, drivetrain, shoot, canal).withInterrupt(() -> !index.readTopBanner()),
                         new ParallelDeadlineGroup(
                                         autoHelper.getRamset(RS_threeBall_p1),
                                         new SequentialCommandGroup(
@@ -213,14 +213,14 @@ public class RobotContainer {
                                         new SequentialCommandGroup(
                                                         new CanalZeroToOneBottom(canal, index),
                                                         new IndexBottomToTopBanner(index, 0.50))),
-                        new AutoShoot(limelight, index, drivetrain, shoot).withInterrupt(() -> !index.readTopBanner()),
+                        new AutoShoot(limelight, index, drivetrain, shoot, canal).withInterrupt(() -> !index.readTopBanner()),
                         new InstantCommand(() -> intake.pistonSet(false), intake),
                         new ParallelDeadlineGroup(
                                         autoHelper.getRamset(RS_threeBall_p2),
                                         new IntakeSpin(intake, 0.75),
                                         new canalRun(canal, -0.75),
                                         new IndexBottomToTopBanner(index, 0.50)),
-                        new AutoShoot(limelight, index, drivetrain, shoot).withInterrupt(() -> !index.readTopBanner()),
+                        new AutoShoot(limelight, index, drivetrain, shoot, canal).withInterrupt(() -> !index.readTopBanner()),
 
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
@@ -304,7 +304,7 @@ public class RobotContainer {
                 // L_button5.whileHeld(new ParallelCommandGroup(new
                 // CameraDriveCommand(drivetrain), new ParallelCommandGroup(new
                 // IntakeSpin(intake, 0.75), new CanalZeroToOneBottom(canal, index))));
-                L_button3.whileHeld(new AutoShoot(limelight, index, drivetrain, shoot));
+                L_button3.whileHeld(new AutoShoot(limelight, index, drivetrain, shoot, canal));
                 C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
 
                 L_button5.whileHeld(
