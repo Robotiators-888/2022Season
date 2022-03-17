@@ -29,10 +29,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-
 import frc.robot.NetworkTables.NetworkTablesBase;
-import frc.robot.subsystems.*;
+
+
 import frc.robot.commands.*;
+import frc.robot.subsystems.*;
+
 import frc.robot.subsystems.SUB_LED;
 import frc.robot.commands.LEDPatterns.*;
 
@@ -59,6 +61,9 @@ public class RobotContainer {
         private CanalSubsystem canal = new CanalSubsystem();
         private Climber climber = new Climber();
         private Limelight limelight = new Limelight();
+        //private NetworkTablesBase networkTables = new NetworkTablesBase();
+        private CameraDriveSubsystem cameraDrive = new CameraDriveSubsystem();
+
         private SUB_LED LED = new SUB_LED();
 
         // Controller
@@ -82,6 +87,7 @@ public class RobotContainer {
         JoystickButton L_button3 = new JoystickButton(leftJoystick, 3);
         JoystickButton L_button4 = new JoystickButton(leftJoystick, 4);
         JoystickButton L_button5 = new JoystickButton(leftJoystick, 5);
+        JoystickButton L_button7 = new JoystickButton(leftJoystick, 7);
         JoystickButton L_Trigger = new JoystickButton(leftJoystick, 1);
 
         // right Joytick
@@ -238,7 +244,10 @@ public class RobotContainer {
 
                 SmartDashboard.putData("chooser", chooser);
 
+                // networkTables.start();
                 System.out.println("RobotContainer initialization complete.");
+
+                
         }
 
         /**
@@ -266,7 +275,10 @@ public class RobotContainer {
 
                 
                 //intake.setDefaultCommand(new ConditionalCommand(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),new CanalZeroToOneBottom(canal, index)), new InstantCommand(), intake::intakeGet));
-                L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
+                L_button4.whenPressed(new InstantCommand(cameraDrive::toggleDirection, cameraDrive));
+                L_button7.whenPressed(new InstantCommand(intake::pistonToggle, intake));
+                // if piston toggle not working then you messed up!  
+
                 L_Trigger.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),new CanalZeroToOneBottom(canal, index)));
 
                 // Canal
@@ -279,7 +291,7 @@ public class RobotContainer {
                 index.setDefaultCommand(DefCMD);
                 C_aButton.whileHeld(new ParallelCommandGroup(new indexRun(index, -0.75), new ShooterSpin(shoot, 0.25)));
                 C_bButton.whileHeld(new indexRun(index, 0.75));
-                L_button5.whileHeld(new indexRun(index, 0.75));
+                //L_button5.whileHeld(new indexRun(index, 0.75));
 
                 // shooter
                 R_button3.whenPressed(new CMD_changeSetpoint(shoot, -500));
@@ -295,6 +307,11 @@ public class RobotContainer {
                 L_button3.whileHeld(new AutoShoot(limelight, index, drivetrain, shoot));
                 C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
 
+                L_button5.whileHeld(
+                                new ParallelCommandGroup(new CameraDriveCommand(drivetrain, cameraDrive), new ParallelCommandGroup(
+                                                new IntakeSpin(intake, 0.75), new CanalZeroToOneBottom(canal, index))));
+
+                
                 //LED
                 LED.setDefaultCommand(new CMD_SOLIDLED(LED));
 

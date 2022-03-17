@@ -9,24 +9,38 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 import java.lang.Math;
+import frc.robot.subsystems.CameraDriveSubsystem;
 
+ /**
+ * when run, drives robot to ball based on pi ballDetection
+ * 1. runs intake
+ * 2. turns to ball
+ * 3. drives to ball until out of camera fov
+ * 4. keep driving for some time to get on top of ball
+ */
 public class CameraDriveCommand extends CommandBase {
   /** Creates a new CameraDrive. */
   Drivetrain drive;
   Timer diveTimeout = new Timer();
+  CameraDriveSubsystem cameraSub;
 
   double ballX;
   double ballY;
 
   double moveXValue;
   double moveYValue;
-  static final double X_DEADZONE = 6.5; // inches
+  // intake deadzone front is 6.5 inches
+  static final double X_DEADZONE = 5.5; // inches
+  //X deadzone back intake 3.5 inches
   static final double Y_DEADZONE = 4;
-  static final double FORWARD_DRIVE_SPEED = 0.6;
+  static final double FORWARD_DRIVE_SPEED = 0.68;
+  // driving to Y:50 x:25 inches
 
-  public CameraDriveCommand(Drivetrain drivetrain) {
+  public CameraDriveCommand(Drivetrain drivetrain, CameraDriveSubsystem cameraDrive) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drive = drivetrain;
+    this.cameraSub = cameraDrive;
+
     addRequirements(drive);
   }
 
@@ -39,8 +53,8 @@ public class CameraDriveCommand extends CommandBase {
 
   @Override
   public void execute() {
-    ballX = SmartDashboard.getNumber("front_ball_x", 0);
-    ballY = SmartDashboard.getNumber("front_ball_y", 0);
+    ballX = cameraSub.getX();
+    ballY = cameraSub.getY();
     if (Math.abs(ballX) < X_DEADZONE) {
       // drive forward
       if (ballY > 4) {
@@ -49,8 +63,12 @@ public class CameraDriveCommand extends CommandBase {
         /// ball close keep moving
 
         diveTimeout.start();
-        if (!(diveTimeout.hasElapsed(0.5))) {
-          drive.setMotors(FORWARD_DRIVE_SPEED, FORWARD_DRIVE_SPEED);
+        if (!(diveTimeout.hasElapsed(0.4))) {
+          if (cameraSub.direction == CameraDriveSubsystem.forward) {
+            drive.setMotors(FORWARD_DRIVE_SPEED, FORWARD_DRIVE_SPEED);   
+          } else {
+            drive.setMotors(-FORWARD_DRIVE_SPEED, -FORWARD_DRIVE_SPEED);
+          }
         } else {
           drive.setMotors(0, 0);
           diveTimeout.stop();
@@ -63,6 +81,7 @@ public class CameraDriveCommand extends CommandBase {
     } else {
       // turn to ball
       if (Math.abs(ballX) > 3) {
+        // if ball really far away, set turn speed to max
         moveXValue = 4;
         if (ballX < 0) {
           moveXValue = moveXValue * -1;
@@ -70,9 +89,13 @@ public class CameraDriveCommand extends CommandBase {
           moveXValue = moveXValue * 1;
         }
       } else {
+        // if less than 3 inches to right or left
+        // then turn speed equals Xball inches
         moveXValue = ballX;
       }
-      drive.setMotors((0.05) * (moveXValue), (-0.05) * (moveXValue));
+
+      // multiply turn speeds down, then turn
+      drive.setMotors((0.06) * (moveXValue), (-0.06) * (moveXValue));
 
     }
 
@@ -88,4 +111,5 @@ public class CameraDriveCommand extends CommandBase {
   public boolean isFinished() {
     return false;
   }
+
 }
