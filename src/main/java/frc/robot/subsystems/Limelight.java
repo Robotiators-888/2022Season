@@ -125,8 +125,8 @@ public class Limelight extends SubsystemBase {
 
   public int distRpm(double dist) {
 
-    if(this.isHigh == true){
-      return (int) (450 * (Math.sqrt(dist)));
+    if(isHigh == true){
+      return (int) ((24*dist) + 880);
 
     }
     else{
@@ -138,3 +138,5 @@ public class Limelight extends SubsystemBase {
   } 
 
 }
+
+

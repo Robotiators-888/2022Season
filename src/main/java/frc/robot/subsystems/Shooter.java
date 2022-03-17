@@ -20,13 +20,15 @@ public class Shooter extends SubsystemBase {
         PID.setOutputRange(-1, 1);
         flywheel.setInverted(true);
         flywheelFollower.follow(flywheel, true);
-
+        flywheel.enableVoltageCompensation(12);
+        flywheelFollower.enableVoltageCompensation(12);
     }
 
 
     public void periodic() {
         SmartDashboard.putNumber("RPM", getRPM());
         SmartDashboard.putNumber("Manual RPM SetPoint", manualRPM);
+        SmartDashboard.putNumber("%out", flywheel.getAppliedOutput());
     }
 
     /**

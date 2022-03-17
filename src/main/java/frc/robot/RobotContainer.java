@@ -275,8 +275,8 @@ public class RobotContainer {
 
                 
                 //intake.setDefaultCommand(new ConditionalCommand(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),new CanalZeroToOneBottom(canal, index)), new InstantCommand(), intake::intakeGet));
-                L_button4.whenPressed(new InstantCommand(cameraDrive::toggleDirection, cameraDrive));
-                L_button7.whenPressed(new InstantCommand(intake::pistonToggle, intake));
+                L_button7.whenPressed(new InstantCommand(cameraDrive::toggleDirection, cameraDrive));
+                L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
                 // if piston toggle not working then you messed up!  
 
                 L_Trigger.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),new CanalZeroToOneBottom(canal, index)));
