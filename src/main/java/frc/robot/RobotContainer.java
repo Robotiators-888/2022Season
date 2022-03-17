@@ -27,7 +27,6 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.teleopDrive;
-import frc.robot.commands.BallCam.SEQ_getBall;
 import frc.robot.commands.LimeLight.*;
 import frc.robot.commands.indexRun;
 import frc.robot.subsystems.CanalSubsystem;
