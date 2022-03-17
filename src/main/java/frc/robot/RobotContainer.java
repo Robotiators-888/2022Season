@@ -61,7 +61,7 @@ public class RobotContainer {
         private CanalSubsystem canal = new CanalSubsystem();
         private Climber climber = new Climber();
         private Limelight limelight = new Limelight();
-        private NetworkTablesBase networkTables = new NetworkTablesBase();
+        //private NetworkTablesBase networkTables = new NetworkTablesBase();
         private CameraDriveSubsystem cameraDrive = new CameraDriveSubsystem();
 
         private SUB_LED LED = new SUB_LED();

@@ -7,18 +7,23 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
- * Manages the canal subsystem, runs the front and back belts.
+ *  Allows getting location of ball based on camera from pi
+ *  Allows switching between cameras for streaming and ballDetection
  */
 public class CameraDriveSubsystem extends SubsystemBase {
 
     public boolean direction = true; // true is forward, false is backward
-    public static boolean forward = true;
-    public static boolean backward = false;
+    public static final boolean forward = true;
+    public static final boolean backward = false;
   /** Creates a new CanalSubsystem. */
   public CameraDriveSubsystem() {
 
   }
   
+  /**
+ * sets active camera front/back to smartdashboard
+ * so PIs can switch there camera
+ */
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -29,6 +34,9 @@ public class CameraDriveSubsystem extends SubsystemBase {
     }
   }
 
+   /**
+ * get the inches left or right from the ball from pi cam
+ */
   public double getX(){
     if (direction){
       return SmartDashboard.getNumber("front_ball_x", 0);
@@ -37,6 +45,9 @@ public class CameraDriveSubsystem extends SubsystemBase {
     }
   }
 
+   /**
+ * get the inches forward to the ball from pi cam
+ */
     public double getY(){
         if (direction){
         return SmartDashboard.getNumber("front_ball_y", 0);
@@ -45,6 +56,9 @@ public class CameraDriveSubsystem extends SubsystemBase {
         }
     }
 
+   /**
+ * toggle between front or back cam for streaming and ballDetection
+ */
   public void toggleDirection() {
     direction = !direction;
   }

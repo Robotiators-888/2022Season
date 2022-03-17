@@ -11,6 +11,13 @@ import frc.robot.subsystems.Drivetrain;
 import java.lang.Math;
 import frc.robot.subsystems.CameraDriveSubsystem;
 
+ /**
+ * when run, drives robot to ball based on pi ballDetection
+ * 1. runs intake
+ * 2. turns to ball
+ * 3. drives to ball until out of camera fov
+ * 4. keep driving for some time to get on top of ball
+ */
 public class CameraDriveCommand extends CommandBase {
   /** Creates a new CameraDrive. */
   Drivetrain drive;
