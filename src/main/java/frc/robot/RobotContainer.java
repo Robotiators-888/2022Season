@@ -252,12 +252,12 @@ public class RobotContainer {
                                                         new ParallelDeadlineGroup(
                                                                         autoHelper.getRamset(RS_threeBall_p2_LOW),
                                                                         new IntakeSpin(intake, 0.75),
-                                                                        new ShooterRPM(shoot, 2500)),
+                                                                        new ShooterRPM(shoot, 2250)),
                                                         new InstantCommand(
                                                                         () -> intake.pistonSet(false),
                                                                         intake),
-                                                        new SEQ_dumbShot(shoot, index, 2500),
-                                                        new SEQ_dumbShot(shoot, index, 2500)),
+                                                        new SEQ_dumbShot(shoot, index, 2250),
+                                                        new SEQ_dumbShot(shoot, index, 2250)),
                                         new canalRun(canal, -0.75)),
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
@@ -355,9 +355,11 @@ public class RobotContainer {
         }
 
         public Command getAutonomousCommand() {
-                drivetrain.zeroHeading();
-                drivetrain.zeroEncoders();
-                return chooser.getSelected();
+                return new SequentialCommandGroup(
+                        new InstantCommand(drivetrain::zeroEncoders, drivetrain),
+                        new InstantCommand(drivetrain::zeroHeading, drivetrain),
+                        chooser.getSelected()
+                );
         }
 
         public static void sendBallColor(){
