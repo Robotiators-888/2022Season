@@ -6,7 +6,6 @@ package frc.robot;
 
 import java.util.List;
 
-import javax.swing.GroupLayout.ParallelGroup;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -29,7 +28,6 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.teleopDrive;
-import frc.robot.commands.BallCam.SEQ_getBall;
 import frc.robot.commands.LimeLight.*;
 import frc.robot.commands.indexRun;
 import frc.robot.subsystems.CanalSubsystem;
