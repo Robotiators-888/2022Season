@@ -24,6 +24,7 @@ public class Climber extends SubsystemBase {
   public Climber() {
     climberMotor = new CANSparkMax(Constants.CLIMBER_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
     cSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 12, 13);
+    climberMotor.setOpenLoopRampRate(0.5);
     cSolenoid.set(Value.kReverse);
     climberMotor.setIdleMode(IdleMode.kBrake);
   }
