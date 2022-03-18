@@ -6,6 +6,7 @@ package frc.robot;
 
 import java.util.List;
 
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -91,6 +92,8 @@ public class RobotContainer {
         JoystickButton L_button4 = new JoystickButton(leftJoystick, 4);
         JoystickButton L_button5 = new JoystickButton(leftJoystick, 5);
         JoystickButton L_button7 = new JoystickButton(leftJoystick, 7);
+        JoystickButton L_button10 = new JoystickButton(leftJoystick, 10);
+        JoystickButton L_button11 = new JoystickButton(leftJoystick, 11);
         JoystickButton L_Trigger = new JoystickButton(leftJoystick, 1);
 
         // right Joytick
@@ -122,6 +125,8 @@ public class RobotContainer {
 
         Trajectory RS_threeBall_p1 = autoHelper.getTrajectory("paths/output/RS_threeBall_p1.wpilib.json");
         Trajectory RS_threeBall_p2 = autoHelper.getTrajectory("paths/output/RS_threeBall_p2_v2.wpilib.json");
+
+        Trajectory RS_threeBall_p2_LOW = autoHelper.getTrajectory("paths/output/RS_threeBall_p2_LOW.wpilib.json");
 
         Trajectory Str8 = TrajectoryGenerator.generateTrajectory(
                         new Pose2d(0, 0, new Rotation2d(Units.degreesToRadians(180))),
@@ -202,14 +207,13 @@ public class RobotContainer {
                                         autoHelper.getRamset(RS_threeBall_p1),
                                         new SequentialCommandGroup(
                                                         new CanalZeroToOneBottom(canal, index),
-                                                        new IndexBottomToTopBanner(index, 0.50))),
+                                                        new IndexBottomToTop(canal, index))),
                         new ParallelDeadlineGroup(
-                                        new WaitCommand(1),
+                                        new WaitCommand(5),
                                         new SequentialCommandGroup(
                                                         new CanalZeroToOneBottom(canal, index),
-                                                        new IndexBottomToTopBanner(index, 0.50))),
+                                                        new IndexBottomToTop(canal, index))),
                         new InstantCommand(() -> intake.pistonSet(true), intake),
-                        new SEQ_limeShot(shoot, drivetrain, index, limelight, false).withTimeout(5),
                         new ParallelDeadlineGroup(
                                         autoHelper.getRamset(RS_threeBall_p2),
                                         new IntakeSpin(intake, 0.75),
@@ -344,15 +348,16 @@ public class RobotContainer {
                 limelight.setDefaultCommand(new InstantCommand(() -> limelight.setLed(1), limelight).perpetually());
                 L_button3.whileHeld(new SEQ_limeShot(shoot, drivetrain, index, limelight, limelight.getHeight()));
                 C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
-
-                L_button5.whileHeld(
-                                new ParallelCommandGroup(new CameraDriveCommand(drivetrain, cameraDrive), new ParallelCommandGroup(
-                                                new IntakeSpin(intake, 0.75), new CanalZeroToOneBottom(canal, index))));
-
-                
+                L_button10.whenPressed(cameraData::toggleDirection, cameraData);
+                // L_button11.whileHeld(new SEQ_getBall(cameraData, drivetrain, canal, intake,
+                // index, false));
+                L_button11.whenPressed(new ParallelDeadlineGroup(
+                                new CameraDriveCommand(drivetrain, cameraData),
+                                new SequentialCommandGroup(
+                                                new CanalZeroToOneBottom(canal, index),
+                                                new IndexBottomToTop(canal, index))));
                 //LED
                 LED.setDefaultCommand(new CMD_SOLIDLED(LED));
-
         }
 
         public Command getAutonomousCommand() { 
@@ -362,15 +367,14 @@ public class RobotContainer {
                 );
         }
 
-        public static void sendBallColor(){
+        public static void sendBallColor() {
                 var color = DriverStation.getAlliance();
                 // send color to ball detection
-                if (color == DriverStation.Alliance.Red){
-                  SmartDashboard.putString("ballColor", "red");
-                    
-                  }
-                  else if (color == DriverStation.Alliance.Blue){
-                      SmartDashboard.putString("ballColor", "blue");
-                  }
+                if (color == DriverStation.Alliance.Red) {
+                        SmartDashboard.putString("ballColor", "red");
+
+                } else if (color == DriverStation.Alliance.Blue) {
+                        SmartDashboard.putString("ballColor", "blue");
+                }
         }
 }

@@ -38,13 +38,13 @@ public class CMD_alignToBall extends CommandBase {
     @Override
     public void execute() {
         if (camSelect && ballCam.getX() > 0) {
-            drivetrain.setMotors(0.25, -0.25);
-        } else if (camSelect) {
-            drivetrain.setMotors(-0.25, 0.25);
+            drivetrain.setMotors(-0.10, 0.10);
+        } else if (camSelect && ballCam.getX() < 0) {
+            drivetrain.setMotors(0.10, -0.10);
+        } else if (!camSelect && ballCam.getX() < 0) {
+            drivetrain.setMotors(0.10, -0.10);
         } else if (!camSelect && ballCam.getX() > 0) {
-            drivetrain.setMotors(-0.25, 0.25);
-        } else if (!camSelect) {
-            drivetrain.setMotors(0.25, -0.25);
+            drivetrain.setMotors(-0.10, 0.10);
         } else {
             drivetrain.setMotors(0, 0);
         }
@@ -58,7 +58,7 @@ public class CMD_alignToBall extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if ((ballCam.getX() < 1) && (ballCam.getX() > -1)) {
+        if (ballCam.ballDetected() && (ballCam.getX() < 1) && (ballCam.getX() > -1)) {
             return true;
         } else {
             return false;

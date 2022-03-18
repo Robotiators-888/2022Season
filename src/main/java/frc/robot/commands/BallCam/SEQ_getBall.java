@@ -18,17 +18,17 @@ public class SEQ_getBall extends SequentialCommandGroup {
             IndexSubsystem index, boolean camSel) {
         if (camSel) {
             addCommands(
-                    new CMD_alignToBall(cam, drive, camSel),
+                    new CMD_alignToBall(cam, drive, camSel).withTimeout(5),
                     new InstantCommand(() -> intake.pistonSet(false), intake),
                     deadline(
-                            new CMD_DriveToBall(cam, drive, camSel),
+                            new CMD_DriveToBall(cam, drive, camSel).withTimeout(5),
                             sequence(
                                     new CanalZeroToOneBottom(canal, index),
                                     new IndexBottomToTop(canal, index),
                                     new IntakeSpin(intake, 0.75))),
                     new InstantCommand(() -> intake.pistonSet(true), intake),
                     deadline(
-                            new CMD_setDrive(drive, 0.25, 0.25).withTimeout(1),
+                            new CMD_setDrive(drive, 0.10, -0.10).withTimeout(1),
                             sequence(
                                     new CanalZeroToOneBottom(canal, index),
                                     new IndexBottomToTop(canal, index),
@@ -38,15 +38,15 @@ public class SEQ_getBall extends SequentialCommandGroup {
             );
         } else {
             addCommands(
-                    new CMD_alignToBall(cam, drive, camSel),
+                    new CMD_alignToBall(cam, drive, camSel).withTimeout(5),
                     new InstantCommand(() -> intake.pistonSet(false), intake),
                     deadline(
-                            new CMD_DriveToBall(cam, drive, camSel),
+                            new CMD_DriveToBall(cam, drive, camSel).withTimeout(5),
                             sequence(
                                     new CanalZeroToOneBottom(canal, index),
                                     new IndexBottomToTop(canal, index))),
                     deadline(
-                            new CMD_setDrive(drive, -0.25, -0.25).withTimeout(1),
+                            new CMD_setDrive(drive, -0.10, 0.10).withTimeout(1),
                             sequence(
                                     new CanalZeroToOneBottom(canal, index),
                                     new IndexBottomToTop(canal, index))),
