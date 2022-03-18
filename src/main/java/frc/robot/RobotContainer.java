@@ -36,7 +36,6 @@ import frc.robot.commands.IndexBottomToTopBanner;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.NetworkTables.NetworkTablesBase;
 
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -67,8 +66,8 @@ public class RobotContainer {
         private CanalSubsystem canal = new CanalSubsystem();
         private Climber climber = new Climber();
         private Limelight limelight = new Limelight();
-        private NetworkTablesBase networkTables = new NetworkTablesBase();
         private SUB_CameraData cameraData = new SUB_CameraData();
+        private SUB_LED LED = new SUB_LED();
 
         // Controller
         private Joystick controller = new Joystick(Constants.JOYSTICK_PORT);
