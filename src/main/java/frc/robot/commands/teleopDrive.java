@@ -39,9 +39,9 @@ public class teleopDrive extends CommandBase {
   @Override
   public void execute() {
     if(drive.getReverse()){
-      drive.setMotors(Right.get(), Left.get(), 0.75);
+      drive.setMotors(Right.get(), Left.get(), 0.80);
     }else{
-      drive.setMotors(-1 * Left.get(), -1 * Right.get(), 0.75);
+      drive.setMotors(-1 * Left.get(), -1 * Right.get(), 0.80);
     }
   }
 

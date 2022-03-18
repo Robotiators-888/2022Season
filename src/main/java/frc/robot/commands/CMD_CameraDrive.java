@@ -11,6 +11,9 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.SUB_CameraData;
 
 import java.lang.Math;
+
+import com.revrobotics.CANSparkMax.IdleMode;
+
 import frc.robot.subsystems.CameraDriveSubsystem;
 
 public class CMD_CameraDrive extends CommandBase {
@@ -28,7 +31,7 @@ public class CMD_CameraDrive extends CommandBase {
   static final double X_DEADZONE = 5.5; // inches
   //X deadzone back intake 3.5 inches
   static final double Y_DEADZONE = 4;
-  static final double FORWARD_DRIVE_SPEED = 0.68;
+  static final double FORWARD_DRIVE_SPEED = 0.40;
   public boolean doneDriving = false;
   
   // driving to Y:50 x:25 inches
@@ -37,6 +40,8 @@ public class CMD_CameraDrive extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drive = drivetrain;
     this.cameraSub = cameraData;
+
+    drivetrain.setIdleMode(IdleMode.kCoast);
 
     addRequirements(drive);
   }

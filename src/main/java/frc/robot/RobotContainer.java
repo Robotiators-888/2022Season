@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.teleopDrive;
+import frc.robot.commands.BallCam.SEQ_getBall;
 import frc.robot.commands.LimeLight.*;
 import frc.robot.commands.indexRun;
 import frc.robot.subsystems.CanalSubsystem;
@@ -348,13 +349,8 @@ public class RobotContainer {
                 L_button3.whileHeld(new SEQ_limeShot(shoot, drivetrain, index, limelight, limelight.getHeight()));
                 C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
                 L_button10.whenPressed(cameraData::toggleDirection, cameraData);
-                // L_button11.whileHeld(new SEQ_getBall(cameraData, drivetrain, canal, intake,
-                // index, false));
-                L_button11.whenPressed(new ParallelDeadlineGroup(
-                                new CMD_CameraDrive(drivetrain, cameraData),
-                                new SequentialCommandGroup(
-                                                new CanalZeroToOneBottom(canal, index),
-                                                new IndexBottomToTop(canal, index))));
+                L_button11.whileHeld(new SEQ_getBall(cameraData, drivetrain, canal, intake,index, cameraData.getDirection()));
+
                 //LED
                 LED.setDefaultCommand(new CMD_SOLIDLED(LED));
         }
@@ -363,6 +359,10 @@ public class RobotContainer {
                 drivetrain.zeroEncoders();
                 drivetrain.zeroHeading();
                 return chooser.getSelected();
+        }
+
+        public void teleInit(){
+                cameraData.setDirection(true);
         }
 
         public static void sendBallColor() {

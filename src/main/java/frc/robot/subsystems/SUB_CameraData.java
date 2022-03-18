@@ -60,4 +60,8 @@ public class SUB_CameraData extends SubsystemBase {
   public void setDirection(boolean direction) { // true is forward, false is backward
     this.direction = direction;
   }
+
+  public boolean getDirection(){
+    return this.direction;
+  }
 }

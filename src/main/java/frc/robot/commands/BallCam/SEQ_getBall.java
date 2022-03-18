@@ -26,9 +26,9 @@ public class SEQ_getBall extends SequentialCommandGroup {
                                     new CanalZeroToOneBottom(canal, index),
                                     new IndexBottomToTop(canal, index),
                                     new IntakeSpin(intake, 0.75))),
-                    new InstantCommand(() -> intake.pistonSet(true), intake),
+                    new InstantCommand(() -> intake.pistonSet(false), intake),
                     deadline(
-                            new CMD_setDrive(drive, 0.10, -0.10).withTimeout(1),
+                            new CMD_setDrive(drive, -0.60, -0.60).withTimeout(2),
                             sequence(
                                     new CanalZeroToOneBottom(canal, index),
                                     new IndexBottomToTop(canal, index),
@@ -46,7 +46,7 @@ public class SEQ_getBall extends SequentialCommandGroup {
                                     new CanalZeroToOneBottom(canal, index),
                                     new IndexBottomToTop(canal, index))),
                     deadline(
-                            new CMD_setDrive(drive, -0.10, 0.10).withTimeout(1),
+                            new CMD_setDrive(drive, 0.60, 0.60).withTimeout(2),
                             sequence(
                                     new CanalZeroToOneBottom(canal, index),
                                     new IndexBottomToTop(canal, index))),
