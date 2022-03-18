@@ -11,7 +11,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class CMD_limeAlign extends CommandBase {
   Limelight limelight;
   Drivetrain drivetrain;
-
+  
+  /**
+   * turn to goal using limelight
+   * @param limeIn
+   * @param driveIn
+   */
   public CMD_limeAlign(Limelight limeIn, Drivetrain driveIn) {
     this.limelight = limeIn;
     this.drivetrain = driveIn;

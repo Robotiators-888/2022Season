@@ -11,6 +11,14 @@ import frc.robot.subsystems.Shooter;
 
 public class SEQ_limeShot extends SequentialCommandGroup {
 
+    /**
+     * command to automatically turn to goal and shoot using the limelight
+     * @param shootIn
+     * @param driveIn
+     * @param indexIn
+     * @param limeIn
+     * @param aimHigh
+     */
     public SEQ_limeShot(Shooter shootIn, Drivetrain driveIn, IndexSubsystem indexIn, Limelight limeIn, boolean aimHigh) {
         addCommands(
                 new InstantCommand(() -> limeIn.setLed(3), limeIn),
