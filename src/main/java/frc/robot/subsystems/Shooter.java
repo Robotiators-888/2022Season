@@ -18,6 +18,8 @@ public class Shooter extends SubsystemBase {
         this.setPIDF(Constants.P_VALUE, Constants.I_VALUE, Constants.D_VALUE, Constants.F_VALUE);
         flywheel.setIdleMode(IdleMode.kCoast);
         PID.setOutputRange(-1, 1);
+        flywheel.enableVoltageCompensation(12);
+        flywheelFollower.enableVoltageCompensation(12);
         flywheel.setInverted(true);
         flywheelFollower.follow(flywheel, true);
 
