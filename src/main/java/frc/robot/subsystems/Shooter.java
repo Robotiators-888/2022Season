@@ -12,7 +12,7 @@ public class Shooter extends SubsystemBase {
     CANSparkMax flywheel = new CANSparkMax(Constants.FLYWHEEL_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
     SparkMaxPIDController PID = flywheel.getPIDController();
 
-    private int manualRPM = -2000;
+    private int manualRPM = -1800;
 
     public Shooter() {
         this.setPIDF(Constants.P_VALUE, Constants.I_VALUE, Constants.D_VALUE, Constants.F_VALUE);
