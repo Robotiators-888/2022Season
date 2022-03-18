@@ -6,6 +6,7 @@ package frc.robot;
 
 import java.util.List;
 
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -26,19 +27,22 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.teleopDrive;
 import frc.robot.commands.BallCam.SEQ_getBall;
-import frc.robot.commands.*;
+import frc.robot.commands.LimeLight.*;
+import frc.robot.commands.indexRun;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.commands.IndexBottomToTopBanner;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
+import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
 import frc.robot.subsystems.SUB_LED;
 import frc.robot.commands.LEDPatterns.*;
-import frc.robot.commands.LimeLight.SEQ_limeShot;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -187,7 +191,7 @@ public class RobotContainer {
                                                         () -> ((cameraData.getY() <= 40) && (cameraData.getY() >= 10))),
                                         new canalRun(canal, -0.75),
                                         new IndexBottomToTopBanner(index, 0.50)),
-                        new SEQ_getBall(cameraData, drivetrain, canal, intake, index, false),
+                        new SEQ_getBall(cameraData, drivetrain, canal, intake,index, false),
                         autoHelper.getRamset(LS_twoBall_Low_p2),
                         new SEQ_dumbShot(shoot, index, 1800),
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
@@ -287,6 +291,7 @@ public class RobotContainer {
                 // networkTables.start();
                 System.out.println("RobotContainer initialization complete.");
 
+                
         }
 
         /**
@@ -341,24 +346,23 @@ public class RobotContainer {
                 L_button3.whileHeld(new SEQ_limeShot(shoot, drivetrain, index, limelight, limelight.getHeight()));
                 C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
                 L_button10.whenPressed(cameraData::toggleDirection, cameraData);
-                L_button11.whileHeld(new SEQ_getBall(cameraData, drivetrain, canal, intake, index,
-                                cameraData.getDirection()));
+                L_button11.whileHeld(new SEQ_getBall(cameraData, drivetrain, canal, intake,index, cameraData.getDirection()));
 
-                // LED
+                //LED
                 LED.setDefaultCommand(new CMD_SOLIDLED(LED));
         }
 
-        public Command getAutonomousCommand() {
+        public Command getAutonomousCommand() {                        
                 drivetrain.zeroEncoders();
                 drivetrain.zeroHeading();
                 return chooser.getSelected();
         }
 
-        public void teleInit() {
+        public void teleInit(){
                 cameraData.setDirection(true);
         }
 
-        public void teleopPeroid() {
+        public void teleopPeroid(){
                 SmartDashboard.putBoolean("cam takeover", ((cameraData.getY() <= 40) && (cameraData.getY() >= 10)));
         }
 

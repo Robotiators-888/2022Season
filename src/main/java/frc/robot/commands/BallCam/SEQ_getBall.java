@@ -2,7 +2,10 @@ package frc.robot.commands.BallCam;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.*;
+import frc.robot.commands.CMD_setDrive;
+import frc.robot.commands.CanalZeroToOneBottom;
+import frc.robot.commands.IndexBottomToTop;
+import frc.robot.commands.IntakeSpin;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.IndexSubsystem;
