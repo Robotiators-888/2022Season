@@ -15,6 +15,12 @@ public class CMD_limeSpin extends CommandBase {
   Shooter shooter;
   boolean aimHigh;
 
+  /**
+   * spends shooter to speed for the range the limelight gets
+   * @param limein
+   * @param shootIn
+   * @param aimHigh
+   */
   public CMD_limeSpin(Limelight limein, Shooter shootIn, boolean aimHigh) {
     this.limelight = limein;
     this.shooter = shootIn;
