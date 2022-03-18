@@ -34,7 +34,7 @@ public class CMD_SOLIDLED extends CommandBase {
 
     if (color == Alliance.Red){
       rgbVals[0] = 255;
-      rgbVals[1] = 8;
+      rgbVals[1] = 0;
       rgbVals[2] = 0;
     } else if (color == Alliance.Blue){
       rgbVals[0] = 0;

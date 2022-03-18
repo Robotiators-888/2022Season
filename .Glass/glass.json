@@ -83,6 +83,7 @@
     }
   },
   "NetworkTables Settings": {
+    "dsClient": false,
     "mode": "Client",
     "serverTeam": "888"
   },

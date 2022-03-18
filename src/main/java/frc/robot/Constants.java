@@ -78,8 +78,8 @@ public final class Constants {
     public static final double kaVoltSecondsSquaredPerMeter = 0.28843;
     public static final double kPDriveVel = 2.5217;
 
-    public static final double kMaxSpeedMetersPerSecond = 5;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 2;
+    public static final double kMaxSpeedMetersPerSecond = 3.5;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 1;
 
     public static final double kRamseteB = 2;
     public static final double kRamseteZeta = 0.7;
@@ -101,8 +101,11 @@ public final class Constants {
     public static final double P_VALUE = 0.00015;
     public static final double I_VALUE = 0;
     public static final double D_VALUE = 0;
-    public static final double F_VALUE = 0.000165;
+    public static final double F_VALUE = 0.000183;
 
     public static final int LED_PORT = 0;
     public static final int LED_LENGTH = 60;
+    
+    public static final double MAX_RANGE = 250;
+
 }

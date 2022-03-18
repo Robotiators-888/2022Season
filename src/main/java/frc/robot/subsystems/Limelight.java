@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Limelight extends SubsystemBase {
   NetworkTable table;
-  Boolean isHigh = true;
+  Boolean isHigh = false;
 
   public Limelight() {
     table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -122,16 +122,21 @@ public class Limelight extends SubsystemBase {
     return this.isHigh;
   }
 
+  /**
+   * calculates rpm for shooter to spin at given distance in inches from goal
+   * @param dist false for rpm for low
+   * @param shootHigh true for rpm for high goal
+   * @return returns the rpm to hit specified goal
+   */
+  public int distRpm(double dist, boolean shootHigh) {
 
-  public int distRpm(double dist) {
-
-    if(this.isHigh == true){
-      return (int) (450 * (Math.sqrt(dist)));
+    if(shootHigh == true){
+      return (int) ((24*dist) + 880);
 
     }
     else{
 
-      return (int) (330 * (Math.sqrt(dist)));
+      return (int) (325 * (Math.sqrt(dist)));
 
     }
     
