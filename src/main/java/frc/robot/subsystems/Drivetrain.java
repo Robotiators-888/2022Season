@@ -51,9 +51,11 @@ public class Drivetrain extends SubsystemBase {
       new Pose2d(0, 0, new Rotation2d()));
 
   public Drivetrain(Field2d input) {
+    
     this.field2d = input;
     navx.setAngleAdjustment(0);
 
+    driveTrain.feedWatchdog();
 
     rightPrimary.setInverted(false);
     rightSecondary.setInverted(false);

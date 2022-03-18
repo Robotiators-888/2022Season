@@ -334,7 +334,7 @@ public class RobotContainer {
                 index.setDefaultCommand(DefCMD);
                 C_aButton.whileHeld(new ParallelCommandGroup(new indexRun(index, -0.75), new ShooterSpin(shoot, 0.25)));
                 C_bButton.whileHeld(new indexRun(index, 0.75));
-                //L_button5.whileHeld(new indexRun(index, 0.75));
+                L_button5.whileHeld(new indexRun(index, 0.75));
 
                 // shooter
                 R_button3.whenPressed(new CMD_changeSetpoint(shoot, -500));
