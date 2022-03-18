@@ -191,10 +191,7 @@ public class RobotContainer {
                                                         () -> ((cameraData.getY() <= 40) && (cameraData.getY() >= 10))),
                                         new canalRun(canal, -0.75),
                                         new IndexBottomToTopBanner(index, 0.50)),
-                        new ParallelDeadlineGroup(
-                                        new CMD_CameraDrive(drivetrain, cameraData),
-                                        new canalRun(canal, -0.75),
-                                        new IndexBottomToTopBanner(index, 0.50)),
+                        new SEQ_getBall(cameraData, drivetrain, canal, intake,index, false),
                         autoHelper.getRamset(LS_twoBall_Low_p2),
                         new SEQ_dumbShot(shoot, index, 1800),
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
@@ -363,6 +360,10 @@ public class RobotContainer {
 
         public void teleInit(){
                 cameraData.setDirection(true);
+        }
+
+        public void teleopPeroid(){
+                SmartDashboard.putBoolean("cam takeover", ((cameraData.getY() <= 40) && (cameraData.getY() >= 10)));
         }
 
         public static void sendBallColor() {

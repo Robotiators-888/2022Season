@@ -30,14 +30,14 @@ public class CMD_DriveToBall extends CommandBase {
 
     double ballX;
     double ballY;
-  
+
     double moveXValue;
     double moveYValue;
     // intake deadzone front is 6.5 inches
     static final double X_DEADZONE = 5.5; // inches
-    //X deadzone back intake 3.5 inches
+    // X deadzone back intake 3.5 inches
     static final double Y_DEADZONE = 4;
-    static final double FORWARD_DRIVE_SPEED = 0.50;
+    static final double FORWARD_DRIVE_SPEED = 0.65;
     public boolean doneDriving = false;
 
     Timer driveTimeout = new Timer();
@@ -58,22 +58,15 @@ public class CMD_DriveToBall extends CommandBase {
     // Ryansete controller TM
     @Override
     public void execute() {
-        ballX = cameraSub.getX();
-        ballY = cameraSub.getY();
-
-        if (ballY > 20){
-            doneDriving = false;
+        if (cameraSub.ballDetected()) {
             if (cameraSub.direction == true) {
-                drivetrain.setMotors(FORWARD_DRIVE_SPEED, FORWARD_DRIVE_SPEED);   
+                drivetrain.setMotors(FORWARD_DRIVE_SPEED, FORWARD_DRIVE_SPEED);
             } else {
                 drivetrain.setMotors(-FORWARD_DRIVE_SPEED, -FORWARD_DRIVE_SPEED);
             }
+        } else {
+            drivetrain.setMotors(0, 0);
         }
-        else{
-            doneDriving = true;
-            
-        }
-        
     }
 
     @Override
@@ -84,10 +77,10 @@ public class CMD_DriveToBall extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if (doneDriving) {
-          return true;
+        if (cameraSub.ballDetected() && (cameraSub.getX() < 20)) {
+            return true;
         } else {
-          return false;
+            return false;
         }
     }
 
