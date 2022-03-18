@@ -6,7 +6,6 @@ package frc.robot;
 
 import java.util.List;
 
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -188,10 +187,16 @@ public class RobotContainer {
                         new SEQ_dumbShot(shoot, index, 1800),
                         new ParallelDeadlineGroup(
                                         autoHelper.getRamset(LS_twoBall_Low_p1).withInterrupt(
-                                                        () -> ((cameraData.getY() <= 40) && (cameraData.getY() >= 10))),
+                                                        () -> ((cameraData.getY() <= 45) && (cameraData.getY() >= 10) || (Math.abs(cameraData.getX()) > 3) && (cameraData.getY() <= 30))),
                                         new canalRun(canal, -0.75),
                                         new IndexBottomToTopBanner(index, 0.50)),
-                        new SEQ_getBall(cameraData, drivetrain, canal, intake,index, false),
+                        new InstantCommand(() -> drivetrain.setMotors(0, 0), drivetrain),
+                        new SEQ_getBall(cameraData, drivetrain, canal, intake, index, false).withTimeout(6),
+                        new ParallelDeadlineGroup(
+                                new WaitCommand(2),
+                                new SequentialCommandGroup(
+                                                new CanalZeroToOneBottom(canal, index),
+                                                new IndexBottomToTop(canal, index))),
                         autoHelper.getRamset(LS_twoBall_Low_p2),
                         new SEQ_dumbShot(shoot, index, 1800),
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
@@ -291,7 +296,6 @@ public class RobotContainer {
                 // networkTables.start();
                 System.out.println("RobotContainer initialization complete.");
 
-                
         }
 
         /**
@@ -346,23 +350,24 @@ public class RobotContainer {
                 L_button3.whileHeld(new SEQ_limeShot(shoot, drivetrain, index, limelight, limelight.getHeight()));
                 C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
                 L_button10.whenPressed(cameraData::toggleDirection, cameraData);
-                L_button11.whileHeld(new SEQ_getBall(cameraData, drivetrain, canal, intake,index, cameraData.getDirection()));
+                L_button11.whileHeld(new SEQ_getBall(cameraData, drivetrain, canal, intake, index,
+                                cameraData.getDirection()));
 
-                //LED
+                // LED
                 LED.setDefaultCommand(new CMD_SOLIDLED(LED));
         }
 
-        public Command getAutonomousCommand() {                        
+        public Command getAutonomousCommand() {
                 drivetrain.zeroEncoders();
                 drivetrain.zeroHeading();
                 return chooser.getSelected();
         }
 
-        public void teleInit(){
+        public void teleInit() {
                 cameraData.setDirection(true);
         }
 
-        public void teleopPeroid(){
+        public void teleopPeroid() {
                 SmartDashboard.putBoolean("cam takeover", ((cameraData.getY() <= 40) && (cameraData.getY() >= 10)));
         }
 

@@ -25,9 +25,8 @@ public class CMD_alignToBall extends CommandBase {
   double moveYValue;
 
   // intake deadzone front is 6.5 inches
-  static final double X_DEADZONE = 5.5; // inches
-  // X deadzone back intake 3.5 inches
-  static final double Y_DEADZONE = 4;
+  static final double X_DEADZONE = 1; // inches
+
   static final double FORWARD_DRIVE_SPEED = 0.65;
 
   /**
@@ -55,7 +54,6 @@ public class CMD_alignToBall extends CommandBase {
   @Override
   public void execute() {
     ballX = cameraSub.getX();
-    ballY = cameraSub.getY();
 
     if (cameraSub.ballDetected()) {
       // turn to ball
