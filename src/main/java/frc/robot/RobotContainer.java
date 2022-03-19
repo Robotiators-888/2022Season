@@ -375,8 +375,8 @@ public class RobotContainer {
 
                 // limelight
                 limelight.setDefaultCommand(new InstantCommand(() -> limelight.setLed(1), limelight).perpetually());
-                L_button3.whileHeld(new SEQ_limeShot(shoot, drivetrain, index, limelight, limelight.getHeight()));
-                C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
+                L_button3.whileHeld(new SEQ_limeShot(shoot, drivetrain, index, limelight, true));
+                //C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
                 L_button10.whenPressed(cameraData::toggleDirection, cameraData);
                 L_button11.whileHeld(new SEQ_getBall(cameraData, drivetrain, canal, intake, index,
                                 cameraData.getDirection()));
