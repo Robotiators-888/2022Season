@@ -6,6 +6,8 @@ package frc.robot;
 
 import java.util.List;
 
+import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -26,13 +28,10 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.teleopDrive;
 import frc.robot.commands.BallCam.SEQ_getBall;
 import frc.robot.commands.LimeLight.*;
-import frc.robot.commands.indexRun;
 import frc.robot.subsystems.CanalSubsystem;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.commands.IndexBottomToTopBanner;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -187,16 +186,18 @@ public class RobotContainer {
                         new SEQ_dumbShot(shoot, index, 1800),
                         new ParallelDeadlineGroup(
                                         autoHelper.getRamset(LS_twoBall_Low_p1).withInterrupt(
-                                                        () -> ((cameraData.getY() <= 45) && (cameraData.getY() >= 10) || (Math.abs(cameraData.getX()) > 3) && (cameraData.getY() <= 30))),
+                                                        () -> ((cameraData.getY() <= 45) && (cameraData.getY() >= 10)
+                                                                        || (Math.abs(cameraData.getX()) > 3)
+                                                                                        && (cameraData.getY() <= 30))),
                                         new canalRun(canal, -0.75),
                                         new IndexBottomToTopBanner(index, 0.50)),
                         new InstantCommand(() -> drivetrain.setMotors(0, 0), drivetrain),
                         new SEQ_getBall(cameraData, drivetrain, canal, intake, index, false).withTimeout(6),
                         new ParallelDeadlineGroup(
-                                new WaitCommand(2),
-                                new SequentialCommandGroup(
-                                                new CanalZeroToOneBottom(canal, index),
-                                                new IndexBottomToTop(canal, index))),
+                                        new WaitCommand(2),
+                                        new SequentialCommandGroup(
+                                                        new CanalZeroToOneBottom(canal, index),
+                                                        new IndexBottomToTop(canal, index))),
                         autoHelper.getRamset(LS_twoBall_Low_p2),
                         new SEQ_dumbShot(shoot, index, 1800),
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
@@ -247,6 +248,32 @@ public class RobotContainer {
                                         new canalRun(canal, -0.75)),
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
+        Command RS_threeBall_NC_LOW_FullRun = new SequentialCommandGroup(
+                        new InstantCommand(() -> drivetrain.setPosition(RS_threeBall_p1.getInitialPose())),
+                        new InstantCommand(() -> intake.pistonSet(false), intake),
+                        new ParallelDeadlineGroup(
+                                        new SequentialCommandGroup(
+                                                        new SEQ_dumbShot(shoot, index, 1800),
+                                                        autoHelper.getRamset(RS_threeBall_p1),
+                                                        new WaitCommand(1),
+                                                        new InstantCommand(() -> intake.pistonSet(true), intake),
+                                                        new ParallelDeadlineGroup(
+                                                                        autoHelper.getRamset(RS_threeBall_p2_LOW),
+                                                                        new IntakeSpin(intake, 0.75),
+                                                                        new ShooterRPM(shoot, 2000)),
+                                                        new InstantCommand(
+                                                                        () -> intake.pistonSet(false),
+                                                                        intake),
+                                                        new SEQ_dumbShot(shoot, index, 2000),
+                                                        new SEQ_dumbShot(shoot, index, 2000)),
+                                        new canalRun(canal, -0.75)),
+                        new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)),
+                        new ParallelCommandGroup(
+                                        new canalRun(canal, -0.75),
+                                        new IntakeSpin(intake, 0.75),
+                                        new indexRun(index, 0.75),
+                                        new ShooterRPM(shoot, 2000)).perpetually());
+
         Command RS_threeBall_WC_LOW = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(RS_threeBall_p1.getInitialPose())),
                         new InstantCommand(() -> intake.pistonSet(false), intake),
@@ -290,6 +317,7 @@ public class RobotContainer {
                 chooser.addOption("Right side three ball - No Cam - HIGH", RS_threeBall_NC_HIGH);
                 // chooser.addOption("Right side three ball With Cam LOW", RS_threeBall_WC_LOW);
                 chooser.addOption("Right side three ball - No cam - LOW", RS_threeBall_NC_LOW);
+                chooser.addOption("three ball run end", RS_threeBall_NC_LOW_FullRun);
 
                 SmartDashboard.putData("chooser", chooser);
 
