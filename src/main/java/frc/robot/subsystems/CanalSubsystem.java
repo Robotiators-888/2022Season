@@ -19,6 +19,7 @@ import frc.robot.Constants;
 public class CanalSubsystem extends SubsystemBase {
   private TalonSRX front = new TalonSRX(Constants.FRONT_CANAL_ID);
   private TalonSRX back = new TalonSRX(Constants.BACK_CANAL_ID);
+  double canalSpeed = 0.75;
   /** Creates a new CanalSubsystem. */
   public CanalSubsystem() {
 
@@ -49,4 +50,16 @@ public class CanalSubsystem extends SubsystemBase {
     back.set(TalonSRXControlMode.PercentOutput, speed);
   }
 
+  public double getCanalSpeed(){
+    return front.getMotorOutputPercent();
+  }
+
+  public void toggleCanalSpeed(){
+    if((getCanalSpeed() == 0)){
+        front.set(TalonSRXControlMode.PercentOutput, -1*canalSpeed);
+    }else{
+        front.set(TalonSRXControlMode.PercentOutput, 0);
+    }
+    
+}
 }
