@@ -17,6 +17,8 @@ import frc.robot.Constants;
 public class IntakeSubsystem extends SubsystemBase {
     TalonSRX Intake = new TalonSRX(Constants.MOTOR_ID);
     DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 10, 11);
+    double intakeSpeed = 0.75;
+
 
     public IntakeSubsystem(){
         solenoid.set(Value.kReverse);
@@ -33,6 +35,16 @@ public class IntakeSubsystem extends SubsystemBase {
         }else{
             return false;
         }
+    }
+
+    public void toggleIntakeSpeed(){
+        if(!(intakeSpeedGet() > 0)){
+
+            Intake.set(TalonSRXControlMode.PercentOutput, intakeSpeed);
+        }else{
+            Intake.set(TalonSRXControlMode.PercentOutput, 0);
+        }
+        
     }
 
     /**
