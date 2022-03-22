@@ -20,7 +20,7 @@ public class CanalSubsystem extends SubsystemBase {
   private TalonSRX front = new TalonSRX(Constants.FRONT_CANAL_ID);
   private TalonSRX back = new TalonSRX(Constants.BACK_CANAL_ID);
   double canalSpeed = 0.75;
-  double outputSpeed = 0;
+  public double outputSpeed = 0;
   /** Creates a new CanalSubsystem. */
   public CanalSubsystem() {
 
@@ -61,10 +61,12 @@ public class CanalSubsystem extends SubsystemBase {
   }
 
   public void toggleCanalSpeed(){
-    System.out.println("Code Work dummy");
-    if(!(getCanalSpeed()> 0)){
+  
+    if(getCanalSpeed() == 0){
+      System.out.println("Code Work dummy On");
       outputSpeed = .75;
     }else{
+      System.out.println("Code Work dummy OFF");
       outputSpeed = 0;
     }
     
