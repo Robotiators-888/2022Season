@@ -9,6 +9,10 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.CanalSubsystem;
 
 
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.CanalSubsystem;
+
+
 public class CMD_AutoIntake extends CommandBase {
   /** Creates a new CMD_AutoIntake. */
   private IntakeSubsystem intake;
