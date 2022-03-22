@@ -356,6 +356,7 @@ public class RobotContainer {
                                 new CanalZeroToOneBottom(canal, index)));
 
                 // Canal
+                canal.setDefaultCommand(new InstantCommand(canal::run, canal).perpetually());
                 C_dPadUp.whileHeld(new canalRun(canal, -0.75));
                 C_dPadDown.whileHeld(new canalRun(canal, 0.75));
                 C_dPadLeft.whileHeld(new CMD_canalThrough(canal, 0.75));
