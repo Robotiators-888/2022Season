@@ -75,6 +75,10 @@ public class RobotContainer {
         POVButton C_dPadRight = new POVButton(controller, 90);
         Trigger C_leftTrigger;
         Trigger C_rightTrigger;
+        Trigger intakeDown = new Trigger(()->intake.getPosition());
+        Trigger bottomIndexTrigger = new Trigger(()->index.readBottomBanner());
+        Trigger topIndexTrigger = new Trigger(()->!index.readTopBanner());
+        Trigger indexBottomToTopTrigger = topIndexTrigger.and(bottomIndexTrigger);
 
         // left Joystick
         private Joystick leftJoystick = new Joystick(Constants.LEFTJOYSTICK_PORT);
@@ -251,7 +255,6 @@ public class RobotContainer {
          * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
          */
         private void configureButtonBindings() {
-                IndexBottomToTop DefCMD = new IndexBottomToTop(canal, index);
 
                 // drivetrain
                 drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> leftJoystick.getRawAxis(1),
@@ -269,24 +272,23 @@ public class RobotContainer {
                 // intake.setDefaultCommand(new ConditionalCommand(new ParallelCommandGroup(new
                 // IntakeSpin(intake, 0.75),new CanalZeroToOneBottom(canal, index)), new
                 // InstantCommand(), intake::intakeGet));
-                L_button4.whenPressed(new SequentialCommandGroup(new InstantCommand(intake::pistonToggle), new ParallelCommandGroup( new InstantCommand(canal::toggleCanalSpeed), new InstantCommand(intake::toggleIntakeSpeed))));
+                intakeDown.whileActiveContinuous(new CMD_AutoIntake(intake,canal));
+                L_button4.whenPressed(new InstantCommand(intake::pistonToggle));
                 //L_button4.whenPressed(new SequentialCommandGroup(new InstantCommand(intake::pistonToggle), new InstantCommand(canal::toggleCanalSpeed).alongWith( new InstantCommand(intake::toggleIntakeSpeed))));
                 
                 L_Trigger.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),
                                 new CanalZeroToOneBottom(canal, index)));
                 
                 //intake.setDefaultCommand(new ConditionalCommand(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),new CanalZeroToOneBottom(canal, index)), new InstantCommand(), intake::intakeGet));
-                L_Trigger.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),new CanalZeroToOneBottom(canal, index)));
 
                 // Canal
-                 canal.setDefaultCommand(new InstantCommand(canal::run, canal).perpetually());
                 C_dPadUp.whileHeld(new canalRun(canal, -0.75));
                 C_dPadDown.whileHeld(new canalRun(canal, 0.75));
                 C_dPadLeft.whileHeld(new CMD_canalThrough(canal, 0.75));
                 C_dPadRight.whileHeld(new CMD_canalThrough(canal, -0.75));
 
                 // Index
-                index.setDefaultCommand(DefCMD);
+                indexBottomToTopTrigger.whileActiveContinuous(new IndexBottomToTop(canal, index));
                 C_aButton.whileHeld(new ParallelCommandGroup(new indexRun(index, -0.75), new ShooterSpin(shoot, 0.25)));
                 C_bButton.whileHeld(new indexRun(index, 0.75));
                 L_button5.whileHeld(new indexRun(index, 0.75));
