@@ -35,8 +35,8 @@ public class canalRun extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //canal.setSpeedFront(0);
-    //canal.setSpeedBack(0);
+    canal.setSpeedFront(0);
+    canal.setSpeedBack(0);
   }
 
   // Returns true when the command should end.

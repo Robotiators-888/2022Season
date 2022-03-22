@@ -60,15 +60,4 @@ public class CanalSubsystem extends SubsystemBase {
     front.set(TalonSRXControlMode.PercentOutput, outputSpeed);
   }
 
-  public void toggleCanalSpeed(){
-  
-    if(getCanalSpeed() == 0){
-      System.out.println("Code Work dummy On");
-      outputSpeed = .75;
-    }else{
-      System.out.println("Code Work dummy OFF");
-      outputSpeed = 0;
-    }
-    
-}
 }
