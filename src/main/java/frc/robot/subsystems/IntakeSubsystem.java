@@ -30,6 +30,7 @@ public class IntakeSubsystem extends SubsystemBase {
      * @returna boolean true if pistons are on, else false
      */
     public boolean getPosition() {
+        // kForward is when it is down
         if((solenoid.get()) == Value.kForward){
             return true;
         }else{

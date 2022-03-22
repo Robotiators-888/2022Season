@@ -14,7 +14,6 @@ public class IndexBottomToTop extends CommandBase {
 
   private CanalSubsystem canal;
   private IndexSubsystem index;
-  private boolean isDone = false;
 
 
   /** Creates a new IndexBottomToTOp. */
@@ -37,17 +36,9 @@ public class IndexBottomToTop extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    // If there isn't a ball at the top and there is a ball at the bottom
-    // run the index until there is a ball at the top
-    if (!index.readTopBanner() && index.readBottomBanner()){
-      isDone = false;
-      index.setSpeedTower(Constants.BELT_SPEED);
-      canal.setSpeedBack(-1 * Constants.BELT_SPEED);
-      canal.setSpeedFront(-1 * Constants.BELT_SPEED);
-    } else {
-        isDone = true;
-      }
+    index.setSpeedTower(Constants.BELT_SPEED);
+    canal.setSpeedBack(-1 * Constants.BELT_SPEED);
+    canal.setSpeedFront(-1 * Constants.BELT_SPEED);
 
   }
 
@@ -56,13 +47,13 @@ public class IndexBottomToTop extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     index.setSpeedTower(0);
-      canal.setSpeedBack(0);
-      canal.setSpeedFront(0);
+    canal.setSpeedBack(0);
+    canal.setSpeedFront(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return isDone;
+    return false;
   }
 }
