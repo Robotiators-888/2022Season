@@ -20,11 +20,7 @@ public class CMD_AutoIntake extends CommandBase {
     this.intake = intakeArgs;
     this.canal = canalArgs;
 
-<<<<<<< HEAD
     addRequirements(intake,canal);
-=======
-    
->>>>>>> d419e4d (SPE - Added intake speed toggle)
   }
 
   // Called when the command is initially scheduled.
@@ -42,15 +38,9 @@ public class CMD_AutoIntake extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-<<<<<<< HEAD
     intake.intakeSpeedSet(0);
     canal.setSpeedFront(0);
     canal.setSpeedBack(0);
-=======
-   if(!(intake.getPosition())){
-    intake.intakeSpeedSet(0);
-   }
->>>>>>> d419e4d (SPE - Added intake speed toggle)
   }
 
   // Returns true when the command should end.
