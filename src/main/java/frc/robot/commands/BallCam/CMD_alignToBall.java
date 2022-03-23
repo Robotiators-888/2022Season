@@ -4,7 +4,7 @@
 
 package frc.robot.commands.BallCam;
 
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.SUB_Drivetrain;
 import frc.robot.subsystems.SUB_CameraData;
 
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class CMD_alignToBall extends CommandBase {
   SUB_CameraData cameraSub;
-  Drivetrain drivetrain;
+  SUB_Drivetrain drivetrain;
   boolean camSelect = false;
   // false -> back
   // true -> front
@@ -36,7 +36,7 @@ public class CMD_alignToBall extends CommandBase {
    * @param drive
    * @param camSel
    */
-  public CMD_alignToBall(SUB_CameraData cam, Drivetrain drive, boolean camSel) {
+  public CMD_alignToBall(SUB_CameraData cam, SUB_Drivetrain drive, boolean camSel) {
     this.cameraSub = cam;
     this.camSelect = camSel;
     this.drivetrain = drive;

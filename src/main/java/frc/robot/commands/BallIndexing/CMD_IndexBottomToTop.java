@@ -2,23 +2,23 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.BallIndexing;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.subsystems.CanalSubsystem;
-import frc.robot.subsystems.IndexSubsystem;
+import frc.robot.subsystems.SUB_Canal;
+import frc.robot.subsystems.SUB_Index;
 import frc.robot.Constants; 
 /** The command IndexBottomToTop runs the index if there is a ball in the bottom and not a ball in the top */
-public class IndexBottomToTop extends CommandBase {
+public class CMD_IndexBottomToTop extends CommandBase {
 
-  private CanalSubsystem canal;
-  private IndexSubsystem index;
+  private SUB_Canal canal;
+  private SUB_Index index;
   private boolean isDone = false;
 
 
   /** Creates a new IndexBottomToTOp. */
-  public IndexBottomToTop(CanalSubsystem canalArgs, IndexSubsystem indexArgs) {
+  public CMD_IndexBottomToTop(SUB_Canal canalArgs, SUB_Index indexArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.canal = canalArgs;
     this.index = indexArgs;

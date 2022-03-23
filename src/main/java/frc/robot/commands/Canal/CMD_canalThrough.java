@@ -2,46 +2,41 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.Canal;
 
-
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.SUB_Canal;
 
-public class teleopClimber extends CommandBase {
-  private Climber climber;
-  private double triggerSpeed;
-  /** Creates a new teleopClimber. */
-  public teleopClimber(Climber climb, double speed) {
+/** The command CMD_canalThrough runs the canals both in opposite directions, one in and one out, to shoot the ball out the other side.  */
+public class CMD_canalThrough  extends CommandBase {
+
+  private SUB_Canal canal;
+  private double speed;
+  /** Creates a new CMD_canalThrough. */
+  public CMD_canalThrough(SUB_Canal canalArgs, double speedArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.climber = climb;
-    this.triggerSpeed = speed;
-
-    addRequirements(climber);
-    
+    this.canal = canalArgs;
+    this.speed = speedArgs;
+    addRequirements(canal);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    climber.lockSet(Value.kForward);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   
-    climber.speedSet(triggerSpeed);
-    
-   
+    canal.setSpeedBack(speed);
+    canal.setSpeedFront(-speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    climber.speedSet(0);
-    climber.lockSet(Value.kReverse);
+    //canal.setSpeedFront(0);
+    //canal.setSpeedBack(0);
   }
 
   // Returns true when the command should end.

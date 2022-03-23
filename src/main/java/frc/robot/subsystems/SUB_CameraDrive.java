@@ -10,13 +10,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *  Allows getting location of ball based on camera from pi
  *  Allows switching between cameras for streaming and ballDetection
  */
-public class CameraDriveSubsystem extends SubsystemBase {
+public class SUB_CameraDrive extends SubsystemBase {
 
     public boolean direction = true; // true is forward, false is backward
     public static final boolean forward = true;
     public static final boolean backward = false;
   /** Creates a new CanalSubsystem. */
-  public CameraDriveSubsystem() {
+  public SUB_CameraDrive() {
 
   }
   

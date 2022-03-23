@@ -4,7 +4,7 @@
 
 package frc.robot.commands.BallCam;
 
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.SUB_Drivetrain;
 import frc.robot.subsystems.SUB_CameraData;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class CMD_DriveToBall extends CommandBase {
     SUB_CameraData cameraSub;
-    Drivetrain drivetrain;
+    SUB_Drivetrain drivetrain;
 
     boolean camSelect = false;
     // false -> back
@@ -42,7 +42,7 @@ public class CMD_DriveToBall extends CommandBase {
 
     Timer driveTimeout = new Timer();
 
-    public CMD_DriveToBall(SUB_CameraData cam, Drivetrain drive, boolean camSel) {
+    public CMD_DriveToBall(SUB_CameraData cam, SUB_Drivetrain drive, boolean camSel) {
         this.cameraSub = cam;
         this.camSelect = camSel;
         this.drivetrain = drive;

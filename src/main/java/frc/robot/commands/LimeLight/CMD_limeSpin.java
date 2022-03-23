@@ -5,14 +5,14 @@
 package frc.robot.commands.LimeLight;
 
 import frc.robot.Constants;
-import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.SUB_Limelight;
+import frc.robot.subsystems.SUB_Shooter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class CMD_limeSpin extends CommandBase {
-  Limelight limelight;
-  Shooter shooter;
+  SUB_Limelight limelight;
+  SUB_Shooter shooter;
   boolean aimHigh;
 
   /**
@@ -21,7 +21,7 @@ public class CMD_limeSpin extends CommandBase {
    * @param shootIn
    * @param aimHigh
    */
-  public CMD_limeSpin(Limelight limein, Shooter shootIn, boolean aimHigh) {
+  public CMD_limeSpin(SUB_Limelight limein, SUB_Shooter shootIn, boolean aimHigh) {
     this.limelight = limein;
     this.shooter = shootIn;
     this.aimHigh = aimHigh;

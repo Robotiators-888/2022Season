@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Manages the indexing subsystem, moves indexing belts, and detects balls and
  * ball color in the system.
  */
-public class IndexSubsystem extends SubsystemBase {
+public class SUB_Index extends SubsystemBase {
 
   // Motors
 
@@ -29,7 +29,7 @@ public class IndexSubsystem extends SubsystemBase {
 
 
   /** Creates a new IndexSubsystem. */
-  public IndexSubsystem() {
+  public SUB_Index() {
     tower.setIdleMode(IdleMode.kBrake);
   }
 

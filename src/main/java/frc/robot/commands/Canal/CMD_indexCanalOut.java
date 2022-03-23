@@ -2,29 +2,26 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
-
-import frc.robot.subsystems.IndexSubsystem;
-
+package frc.robot.commands.Canal;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
+import frc.robot.subsystems.SUB_Canal;
+import frc.robot.subsystems.SUB_Index;
 
-/** The command IndexBottomToTopBanner is an escape sequence for the one ball bottom state
- * The command runs the index until there is a ball at the top
- * This command assumes there is a ball at the bottom banner
- */
-public class IndexBottomToTopBanner extends CommandBase {
-
-  private IndexSubsystem index;
-  private boolean isDone = false;
-  private double speed;
+/** The command indexCanalOut runs both the index and canal in the direction out. */
+public class CMD_indexCanalOut extends CommandBase {
+  private SUB_Canal canal;
+  private SUB_Index index;
   
-  /** Creates a new IndexBottomToTopBanner. */
-  public IndexBottomToTopBanner(IndexSubsystem indexArgs, double speedArgs) {
+  /** Creates a new canalOut. */
+  public CMD_indexCanalOut(SUB_Canal canalArgs, SUB_Index indexArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.speed = speedArgs;
+    this.canal = canalArgs;
     this.index = indexArgs;
-    addRequirements(index);
+    
+    addRequirements(canal, index);
+
   }
 
   // Called when the command is initially scheduled.
@@ -35,23 +32,22 @@ public class IndexBottomToTopBanner extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if ((index.readTopBanner())){
-      isDone = true;
-    } else {
-      isDone = false;
-      index.setSpeedTower(speed);
-    }
+    index.setSpeedTower(-Constants.BELT_SPEED);
+    canal.setSpeedBack(Constants.BELT_SPEED);
+    canal.setSpeedFront(Constants.BELT_SPEED);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    canal.setSpeedBack(0);
+    canal.setSpeedFront(0);
     index.setSpeedTower(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return isDone;
+    return false;
   }
 }

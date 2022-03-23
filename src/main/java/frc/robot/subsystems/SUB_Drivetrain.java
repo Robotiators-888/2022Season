@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
 
-public class Drivetrain extends SubsystemBase {
+public class SUB_Drivetrain extends SubsystemBase {
   private boolean reversed = false;
   // create motor controller objects
   private CANSparkMax leftPrimary = new CANSparkMax(Constants.ID_LEFT_PRIMARY,
@@ -50,7 +50,7 @@ public class Drivetrain extends SubsystemBase {
   DifferentialDriveOdometry driveOdometry = new DifferentialDriveOdometry(getGyroHeading(),
       new Pose2d(0, 0, new Rotation2d()));
 
-  public Drivetrain(Field2d input) {
+  public SUB_Drivetrain(Field2d input) {
     
     this.field2d = input;
     navx.setAngleAdjustment(0);

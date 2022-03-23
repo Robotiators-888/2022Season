@@ -4,20 +4,20 @@
 
 package frc.robot.commands.LimeLight;
 
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.SUB_Drivetrain;
+import frc.robot.subsystems.SUB_Limelight;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class CMD_limeAlign extends CommandBase {
-  Limelight limelight;
-  Drivetrain drivetrain;
+  SUB_Limelight limelight;
+  SUB_Drivetrain drivetrain;
   
   /**
    * turn to goal using limelight
    * @param limeIn
    * @param driveIn
    */
-  public CMD_limeAlign(Limelight limeIn, Drivetrain driveIn) {
+  public CMD_limeAlign(SUB_Limelight limeIn, SUB_Drivetrain driveIn) {
     this.limelight = limeIn;
     this.drivetrain = driveIn;
     addRequirements(limeIn, driveIn);

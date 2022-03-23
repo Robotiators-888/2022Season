@@ -2,29 +2,29 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.BallIndexing;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.subsystems.CanalSubsystem;
-import frc.robot.subsystems.IndexSubsystem;
+import frc.robot.subsystems.SUB_Canal;
+import frc.robot.subsystems.SUB_Index;
 import frc.robot.Constants;
 
 /** The CanalZeroToOneBottom command is the escape sequence from the zero ball state. 
  * TThe command runs the canal until a ball is detected in the bottom banner.
  * This command assumes that there are zero balls within the robot.
  */
-public class CanalZeroToOneBottom extends CommandBase {
+public class CMD_CanalZeroToOneBottom extends CommandBase {
 
-  private CanalSubsystem canal;
-  private IndexSubsystem index;
+  private SUB_Canal canal;
+  private SUB_Index index;
   private boolean isDone = false;
 
 
   
 
   /** Creates a new CanalZeroToOneBottom. */
-  public CanalZeroToOneBottom(CanalSubsystem canalArgs, IndexSubsystem indexArgs) {
+  public CMD_CanalZeroToOneBottom(SUB_Canal canalArgs, SUB_Index indexArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.canal = canalArgs;
     this.index = indexArgs;
