@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.LEDPatterns;
+package frc.robot.commands.LEDs;
 
 import frc.robot.subsystems.SUB_LED;
 import frc.robot.Constants;

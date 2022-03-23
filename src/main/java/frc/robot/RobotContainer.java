@@ -38,6 +38,7 @@ import frc.robot.commands.Climber.CMD_ClimberSpeed;
 import frc.robot.commands.Drivetrain.CMD_teleopDrive;
 import frc.robot.commands.Index.CMD_indexRun;
 import frc.robot.commands.Intake.CMD_IntakeSpin;
+import frc.robot.commands.LEDs.*;
 import frc.robot.commands.LimeLight.*;
 import frc.robot.commands.Shooter.CMD_ShooterManualRPM;
 import frc.robot.commands.Shooter.CMD_changeSetpoint;
@@ -53,7 +54,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.*;
 
 import frc.robot.subsystems.SUB_LED;
-import frc.robot.commands.LEDPatterns.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
