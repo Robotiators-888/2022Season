@@ -326,18 +326,11 @@ public class RobotContainer {
                 C_rightTrigger.whileActiveContinuous(new teleopClimber(climber, -1));
 
                 // Intake
-                // intake.setDefaultCommand(new ConditionalCommand(new ParallelCommandGroup(new
-                // IntakeSpin(intake, 0.75),new CanalZeroToOneBottom(canal, index)), new
-                // InstantCommand(), intake::intakeGet));
                 intakeDown.whileActiveContinuous(new CMD_AutoIntake(intake,canal));
                 L_button4.whenPressed(new InstantCommand(intake::pistonToggle));
-                //L_button4.whenPressed(new SequentialCommandGroup(new InstantCommand(intake::pistonToggle), new InstantCommand(canal::toggleCanalSpeed).alongWith( new InstantCommand(intake::toggleIntakeSpeed))));
-                
                 L_Trigger.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),
                                 new CanalZeroToOneBottom(canal, index)));
-                
-                //intake.setDefaultCommand(new ConditionalCommand(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),new CanalZeroToOneBottom(canal, index)), new InstantCommand(), intake::intakeGet));
-
+                                
                 // Canal
                 C_dPadUp.whileHeld(new canalRun(canal, -0.75));
                 C_dPadDown.whileHeld(new canalRun(canal, 0.75));
