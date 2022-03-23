@@ -367,7 +367,7 @@ public class RobotContainer {
                 //intake.setDefaultCommand(new ConditionalCommand(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),new CanalZeroToOneBottom(canal, index)), new InstantCommand(), intake::intakeGet));
 
                 // Canal
-                canal.setDefaultCommand(new InstantCommand(canal::run, canal).perpetually());
+                 canal.setDefaultCommand(new InstantCommand(canal::run, canal).perpetually());
                 C_dPadUp.whileHeld(new canalRun(canal, -0.75));
                 C_dPadDown.whileHeld(new canalRun(canal, 0.75));
                 C_dPadLeft.whileHeld(new CMD_canalThrough(canal, 0.75));
