@@ -41,8 +41,8 @@ public class CMD_ClimberToPosition extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return(climber.getClimberPosition()>destPos-Constants.CLIMBER_TOLERANCE && 
-    climber.getClimberPosition()<destPos+Constants.CLIMBER_TOLERANCE);
+    return(climber.getClimberPosition()>=destPos-Constants.CLIMBER_TOLERANCE && 
+    climber.getClimberPosition()<=destPos+Constants.CLIMBER_TOLERANCE);
 
   }
 }
