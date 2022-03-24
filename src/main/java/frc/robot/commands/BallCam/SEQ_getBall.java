@@ -16,7 +16,7 @@ public class SEQ_getBall extends SequentialCommandGroup {
 
         public SEQ_getBall(SUB_CameraData cam, Drivetrain drive, CanalSubsystem canal, IntakeSubsystem intake,
                         IndexSubsystem index, boolean camSel) {
-                addRequirements(drive);
+                // addRequirements(drive);
                 if (camSel) {
                         addCommands(
                                         new CMD_alignToBall(cam, drive, camSel).withTimeout(5).alongWith(

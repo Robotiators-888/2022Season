@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -105,7 +106,7 @@ public class RobotContainer {
         SendableChooser<Command> chooser = new SendableChooser<>();
         TrajectoryConfig configReversed = new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
                         Constants.kMaxAccelerationMetersPerSecondSquared).setKinematics(Constants.kDriveKinematics)
-                                        .setReversed(true)
+                                        .setReversed(true).setEndVelocity(0.2);
 
         TrajectoryConfig configForward = new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
                         Constants.kMaxAccelerationMetersPerSecondSquared).setKinematics(Constants.kDriveKinematics);
@@ -182,26 +183,38 @@ public class RobotContainer {
                         new InstantCommand(() -> drivetrain.setPosition(LS_twoBall_Low_p1.getInitialPose())),
                         new InstantCommand(() -> cameraData.setDirection(false), cameraData),
                         new SEQ_dumbShot(shoot, index, 1800),
-                        new ParallelDeadlineGroup(
-                                        autoHelper.getRamset(LS_twoBall_Low_p1).alongWith(
-                                                        () -> ((cameraData.getY() <= 45) && (cameraData.getY() >= 10)
-                                                                        || (Math.abs(cameraData.getX()) > 3)
-                                                                                        && (cameraData.getY() <= 30)))
-                                                        .andThen(new InstantCommand(() -> autoHelper
-                                                                        .getRamset(LS_twoBall_Low_p1).end(false))),
+                        new ParallelRaceGroup(
+                                        autoHelper.getRamset(LS_twoBall_Low_p1),
 
-                                        new canalRun(canal, -0.75),
-                                        new IndexBottomToTopBanner(index, 0.50)),
-                        // new InstantCommand(() -> drivetrain.setMotors(0, 0), drivetrain),
-                        new SEQ_getBall(cameraData, drivetrain, canal, intake, index, false).withTimeout(6),
-                        new ParallelDeadlineGroup(
-                                        new WaitCommand(2),
                                         new SequentialCommandGroup(
-                                                        new CanalZeroToOneBottom(canal, index),
-                                                        new IndexBottomToTop(canal, index))),
-                        autoHelper.getRamset(LS_twoBall_Low_p2),
-                        new SEQ_dumbShot(shoot, index, 1800),
-                        new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
+                                                        new InstantCommand().withInterrupt(
+                                                                        () -> ((cameraData.getY() <= 45)
+                                                                                        && (cameraData.getY() >= 10)
+                                                                                        || (Math.abs(cameraData
+                                                                                                        .getX()) > 3)
+                                                                                                        && (cameraData.getY() <= 30))),
+                                                        new SEQ_getBall(cameraData, drivetrain, canal, intake, index,
+                                                                        false).withTimeout(6))));
+        // .andThen(new SEQ_getBall(cameraData, drivetrain, canal, intake, index,
+        // false).withTimeout(6))
+        // new ParallelDeadlineGroup(
+        // autoHelper.getRamset(LS_twoBall_Low_p1).withInterrupt(
+        // () -> ((cameraData.getY() <= 45) && (cameraData.getY() >= 10)
+        // || (Math.abs(cameraData.getX()) > 3)
+        // && (cameraData.getY() <= 30)))));
+        // new canalRun(canal, -0.75),
+        // new IndexBottomToTopBanner(index, 0.50)),
+        // //new InstantCommand(() -> drivetrain.setMotors(0, 0), drivetrain),
+        // new SEQ_getBall(cameraData, drivetrain, canal, intake, index,
+        // false).withTimeout(6),
+        // new ParallelDeadlineGroup(
+        // new WaitCommand(2),
+        // new SequentialCommandGroup(
+        // new CanalZeroToOneBottom(canal, index),
+        // new IndexBottomToTop(canal, index))),
+        // autoHelper.getRamset(LS_twoBall_Low_p2),
+        // new SEQ_dumbShot(shoot, index, 1800),
+        // new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
         Command RS_threeBall_NC_HIGH = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(RS_threeBall_p1.getInitialPose())),
