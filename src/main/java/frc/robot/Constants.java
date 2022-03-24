@@ -108,4 +108,6 @@ public final class Constants {
     
     public static final double MAX_RANGE = 250;
 
+    public static final double CLIMBER_TOLERANCE = 1;
+
 }

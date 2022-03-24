@@ -25,6 +25,7 @@ public class SUB_Climber extends SubsystemBase {
   private DoubleSolenoid cSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 12, 13);
   private AHRS navx; 
 
+  // 180 top, zero bottom
   private RelativeEncoder climberEncoder = climberMotor.getEncoder();
   private SparkMaxLimitSwitch climberLimitSwitch =  climberMotor.getReverseLimitSwitch(Type.kNormallyOpen);
 
@@ -43,7 +44,7 @@ public class SUB_Climber extends SubsystemBase {
    SmartDashboard.putNumber("Navx Pitch Val", getPitch());
    SmartDashboard.putNumber("Climber Encoder Val", climberEncoder.getPosition());
 
-   if(climberLimitSwitch.isPressed()==true==true){
+   if(climberLimitSwitch.isPressed()){
      climberEncoder.setPosition(0);
    }
   }
@@ -89,6 +90,10 @@ public class SUB_Climber extends SubsystemBase {
 
   public void zeroPitch(){
     navx.reset();
+  }
+
+  public double getClimberPosition(){
+    return climberEncoder.getPosition();
   }
 
 }
