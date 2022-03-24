@@ -84,7 +84,7 @@ public class SUB_Climber extends SubsystemBase {
   }
 
   public double getPitch(){
-    return navx.getPitch();
+    return navx.getRoll();
   }
 
   public void zeroPitch(){
