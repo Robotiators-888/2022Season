@@ -6,7 +6,6 @@ package frc.robot;
 
 import java.util.List;
 
-import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -50,6 +49,8 @@ import frc.robot.subsystems.SUB_Drivetrain;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SerialPort;
 
 import frc.robot.subsystems.*;
 
@@ -68,15 +69,16 @@ public class RobotContainer {
 
         // The robot's subsystems and commands are defined here...
         private final Field2d field2d = new Field2d();
+        private AHRS navx = new AHRS(SerialPort.Port.kMXP);
 
         // subsystems
         private SUB_Shooter shooter = new SUB_Shooter();
-        private SUB_Drivetrain drivetrain = new SUB_Drivetrain(field2d);
+        private SUB_Drivetrain drivetrain = new SUB_Drivetrain(field2d, navx);
         private SUB_Intake intake = new SUB_Intake();
         private SUB_Index index = new SUB_Index();
         private Autonomous autoHelper = new Autonomous(drivetrain);
         private SUB_Canal canal = new SUB_Canal();
-        private SUB_Climber climber = new SUB_Climber();
+        private SUB_Climber climber = new SUB_Climber(navx);
         private SUB_Limelight limelight = new SUB_Limelight();
         private SUB_CameraData cameraData = new SUB_CameraData();
         private SUB_LED LED = new SUB_LED();

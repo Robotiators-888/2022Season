@@ -6,8 +6,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
-
-import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
@@ -43,15 +41,17 @@ public class SUB_Drivetrain extends SubsystemBase {
   private RelativeEncoder leftEncoder = leftPrimary.getEncoder();
   private RelativeEncoder rightEncoder = rightPrimary.getEncoder();
 
-  AHRS navx = new AHRS(SerialPort.Port.kMXP);
+  AHRS navx;
 
   private Field2d field2d;
 
   DifferentialDriveOdometry driveOdometry = new DifferentialDriveOdometry(getGyroHeading(),
       new Pose2d(0, 0, new Rotation2d()));
 
-  public SUB_Drivetrain(Field2d input) {
+  public SUB_Drivetrain(Field2d input, AHRS navxArgs) {
     
+    this.navx = navxArgs;
+
     this.field2d = input;
     navx.setAngleAdjustment(0);
 
