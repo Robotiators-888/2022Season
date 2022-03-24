@@ -346,8 +346,6 @@ public class RobotContainer {
          * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
          */
         private void configureButtonBindings() {
-                CMD_IndexBottomToTop DefCMD = new CMD_IndexBottomToTop(canal, index);
-
                 // drivetrain
                 drivetrain.setDefaultCommand(new CMD_teleopDrive(drivetrain, () -> leftJoystick.getRawAxis(1),
                                 () -> rightJoystick.getRawAxis(1)));
@@ -372,7 +370,7 @@ public class RobotContainer {
                 C_dPadRight.whileHeld(new CMD_canalThrough(canal, -0.75));
 
                 // Index
-                index.setDefaultCommand(DefCMD);
+                index.setDefaultCommand(new CMD_IndexBottomToTop(canal, index));
                 C_aButton.whileHeld(new ParallelCommandGroup(new CMD_indexRun(index, -0.75), new CMD_ShooterSpin(shooter, 0.25)));
                 C_bButton.whileHeld(new CMD_indexRun(index, 0.75));
                 L_button5.whileHeld(new CMD_indexRun(index, 0.75));
