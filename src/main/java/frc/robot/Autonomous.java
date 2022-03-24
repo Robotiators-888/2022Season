@@ -9,19 +9,19 @@ import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.SUB_Drivetrain;
 
 //this is a helper class which provides useful methods for running autonomus
 
 public class Autonomous {
-    private Drivetrain drivetrain;
+    private SUB_Drivetrain drivetrain;
 
     /**
      * this is a helper class which provides useful methods for running autonomus
      * 
      * @param input drivetrain instance from robot container
      */
-    public Autonomous(Drivetrain input) {
+    public Autonomous(SUB_Drivetrain input) {
         this.drivetrain = input;
     }
 

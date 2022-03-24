@@ -29,18 +29,31 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.BallCam.SEQ_getBall;
+import frc.robot.commands.BallIndexing.CMD_CanalZeroToOneBottom;
+import frc.robot.commands.BallIndexing.CMD_IndexBottomToTop;
+import frc.robot.commands.BallIndexing.CMD_IndexBottomToTopBanner;
+import frc.robot.commands.Canal.CMD_canalThrough;
+import frc.robot.commands.Canal.CMD_canalRun;
+import frc.robot.commands.Climber.CMD_ClimberSpeed;
+import frc.robot.commands.Drivetrain.CMD_teleopDrive;
+import frc.robot.commands.Index.CMD_indexRun;
+import frc.robot.commands.Intake.CMD_IntakeSpin;
+import frc.robot.commands.LEDs.*;
 import frc.robot.commands.LimeLight.*;
-import frc.robot.subsystems.CanalSubsystem;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.commands.Shooter.CMD_ShooterManualRPM;
+import frc.robot.commands.Shooter.CMD_changeSetpoint;
+import frc.robot.commands.Shooter.SEQ_dumbShot;
+import frc.robot.commands.Shooter.CMD_ShooterRPM;
+import frc.robot.commands.Shooter.CMD_ShooterSpin;
+import frc.robot.subsystems.SUB_Canal;
+import frc.robot.subsystems.SUB_Drivetrain;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
 import frc.robot.subsystems.SUB_LED;
-import frc.robot.commands.LEDPatterns.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -57,14 +70,14 @@ public class RobotContainer {
         private final Field2d field2d = new Field2d();
 
         // subsystems
-        private Shooter shoot = new Shooter();
-        private Drivetrain drivetrain = new Drivetrain(field2d);
-        private IntakeSubsystem intake = new IntakeSubsystem();
-        private IndexSubsystem index = new IndexSubsystem();
+        private SUB_Shooter shooter = new SUB_Shooter();
+        private SUB_Drivetrain drivetrain = new SUB_Drivetrain(field2d);
+        private SUB_Intake intake = new SUB_Intake();
+        private SUB_Index index = new SUB_Index();
         private Autonomous autoHelper = new Autonomous(drivetrain);
-        private CanalSubsystem canal = new CanalSubsystem();
-        private Climber climber = new Climber();
-        private Limelight limelight = new Limelight();
+        private SUB_Canal canal = new SUB_Canal();
+        private SUB_Climber climber = new SUB_Climber();
+        private SUB_Limelight limelight = new SUB_Limelight();
         private SUB_CameraData cameraData = new SUB_CameraData();
         private SUB_LED LED = new SUB_LED();
 
@@ -132,7 +145,7 @@ public class RobotContainer {
 
         // Auto command groups
         Command limelightHighShot = new SequentialCommandGroup(
-                        new SEQ_limeShot(shoot, drivetrain, index, limelight, true));
+                        new SEQ_limeShot(shooter, drivetrain, index, limelight, true));
 
         Command straightAuto = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(Str8.getInitialPose())),
@@ -140,91 +153,89 @@ public class RobotContainer {
 
         Command lowDump = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(Str8.getInitialPose())),
-                        new SEQ_dumbShot(shoot, index, 1800),
+                        new SEQ_dumbShot(shooter, index, 1800),
                         autoHelper.getRamset(Str8));
 
         Command lowDumpNoDrive = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(Str8.getInitialPose())),
-                        new SEQ_dumbShot(shoot, index, 1800));
+                        new SEQ_dumbShot(shooter, index, 1800));
 
         Command RS_RB_twoBall = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(RS_RB_twoBall_Low_p1.getInitialPose())),
-                        new SEQ_dumbShot(shoot, index, 1800),
+                        new SEQ_dumbShot(shooter, index, 1800),
                         new ParallelDeadlineGroup(
                                         autoHelper.getRamset(RS_RB_twoBall_Low_p1),
-                                        new canalRun(canal, -0.75),
-                                        new IndexBottomToTopBanner(index, 0.50)),
+                                        new CMD_canalRun(canal, -0.75),
+                                        new CMD_IndexBottomToTopBanner(index, 0.50)),
                         autoHelper.getRamset(RS_RB_twoBall_Low_p2),
-                        new SEQ_dumbShot(shoot, index, 1800),
+                        new SEQ_dumbShot(shooter, index, 1800),
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
         Command RS_LB_twoBall = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(RS_LB_twoBall_Low_p1.getInitialPose())),
-                        new SEQ_dumbShot(shoot, index, 1800),
+                        new SEQ_dumbShot(shooter, index, 1800),
                         new ParallelDeadlineGroup(
                                         autoHelper.getRamset(RS_LB_twoBall_Low_p1),
-                                        new canalRun(canal, -0.75),
-                                        new IndexBottomToTopBanner(index, 0.50)),
+                                        new CMD_canalRun(canal, -0.75),
+                                        new CMD_IndexBottomToTopBanner(index, 0.50)),
                         autoHelper.getRamset(RS_LB_twoBall_Low_p2),
-                        new SEQ_dumbShot(shoot, index, 1800),
+                        new SEQ_dumbShot(shooter, index, 1800),
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
         Command LS_twoBall_NC = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(LS_twoBall_Low_p1.getInitialPose())),
-                        new SEQ_dumbShot(shoot, index, 1800),
+                        new SEQ_dumbShot(shooter, index, 1800),
                         new ParallelDeadlineGroup(
                                         autoHelper.getRamset(LS_twoBall_Low_p1),
-                                        new canalRun(canal, -0.75),
-                                        new IndexBottomToTopBanner(index, 0.50)),
+                                        new CMD_canalRun(canal, -0.75),
+                                        new CMD_IndexBottomToTopBanner(index, 0.50)),
                         autoHelper.getRamset(LS_twoBall_Low_p2),
-                        new SEQ_dumbShot(shoot, index, 1800),
+                        new SEQ_dumbShot(shooter, index, 1800),
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
         Command LS_twoBall_WC = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(LS_twoBall_Low_p1.getInitialPose())),
                         new InstantCommand(() -> cameraData.setDirection(false), cameraData),
-                        new SEQ_dumbShot(shoot, index, 1800),
+                        new SEQ_dumbShot(shooter, index, 1800),
                         new ParallelDeadlineGroup(
                                         autoHelper.getRamset(LS_twoBall_Low_p1).withInterrupt(
-                                                        () -> ((cameraData.getY() <= 45) && (cameraData.getY() >= 10)
-                                                                        || (Math.abs(cameraData.getX()) > 3)
-                                                                                        && (cameraData.getY() <= 30))),
-                                        new canalRun(canal, -0.75),
-                                        new IndexBottomToTopBanner(index, 0.50)),
+                                                        () -> ((cameraData.getY() <= 45) && (cameraData.getY() >= 10) || (Math.abs(cameraData.getX()) > 3) && (cameraData.getY() <= 30))),
+                                        new CMD_canalRun(canal, -0.75),
+                                        new CMD_IndexBottomToTopBanner(index, 0.50)),
                         new InstantCommand(() -> drivetrain.setMotors(0, 0), drivetrain),
                         new SEQ_getBall(cameraData, drivetrain, canal, intake, index, false).withTimeout(6),
                         new ParallelDeadlineGroup(
-                                        new WaitCommand(2),
-                                        new SequentialCommandGroup(
-                                                        new CanalZeroToOneBottom(canal, index),
-                                                        new IndexBottomToTop(canal, index))),
+                                new WaitCommand(2),
+                                new SequentialCommandGroup(
+                                                new CMD_CanalZeroToOneBottom(canal, index),
+                                                new CMD_IndexBottomToTop(canal, index))),
                         autoHelper.getRamset(LS_twoBall_Low_p2),
-                        new SEQ_dumbShot(shoot, index, 1800),
+                        new SEQ_dumbShot(shooter, index, 1800),
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
         Command RS_threeBall_NC_HIGH = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(RS_threeBall_p1.getInitialPose())),
                         new InstantCommand(() -> intake.pistonSet(false), intake),
-                        new SEQ_dumbShot(shoot, index, 1800),
+                        new SEQ_dumbShot(shooter, index, 1800),
                         new ParallelDeadlineGroup(
                                         autoHelper.getRamset(RS_threeBall_p1),
                                         new SequentialCommandGroup(
-                                                        new CanalZeroToOneBottom(canal, index),
-                                                        new IndexBottomToTop(canal, index))),
+                                                        new CMD_CanalZeroToOneBottom(canal, index),
+                                                        new CMD_IndexBottomToTop(canal, index))),
                         new ParallelDeadlineGroup(
                                         new WaitCommand(5),
                                         new SequentialCommandGroup(
-                                                        new CanalZeroToOneBottom(canal, index),
-                                                        new IndexBottomToTop(canal, index))),
+                                                        new CMD_CanalZeroToOneBottom(canal, index),
+                                                        new CMD_IndexBottomToTop(canal, index))),
                         new InstantCommand(() -> intake.pistonSet(true), intake),
                         new ParallelDeadlineGroup(
                                         autoHelper.getRamset(RS_threeBall_p2),
-                                        new IntakeSpin(intake, 0.75),
+                                        new CMD_IntakeSpin(intake, 0.75),
                                         new SequentialCommandGroup(
-                                                        new CanalZeroToOneBottom(canal, index),
-                                                        new IndexBottomToTop(canal, index))),
-                        new SEQ_limeShot(shoot, drivetrain, index, limelight, true).withTimeout(5),
-                        new SEQ_limeShot(shoot, drivetrain, index, limelight, true).withTimeout(5),
+                                                        new CMD_CanalZeroToOneBottom(canal, index),
+                                                        new CMD_IndexBottomToTop(canal, index))),
+                        new SEQ_limeShot(shooter, drivetrain, index, limelight, true).withTimeout(5),
+                        new SEQ_limeShot(shooter, drivetrain, index, limelight, true).withTimeout(5),
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
         Command RS_threeBall_NC_LOW = new SequentialCommandGroup(
@@ -232,20 +243,20 @@ public class RobotContainer {
                         new InstantCommand(() -> intake.pistonSet(false), intake),
                         new ParallelDeadlineGroup(
                                         new SequentialCommandGroup(
-                                                        new SEQ_dumbShot(shoot, index, 1800),
+                                                        new SEQ_dumbShot(shooter, index, 1800),
                                                         autoHelper.getRamset(RS_threeBall_p1),
                                                         new WaitCommand(1),
                                                         new InstantCommand(() -> intake.pistonSet(true), intake),
                                                         new ParallelDeadlineGroup(
                                                                         autoHelper.getRamset(RS_threeBall_p2_LOW),
-                                                                        new IntakeSpin(intake, 0.75),
-                                                                        new ShooterRPM(shoot, 2000)),
+                                                                        new CMD_IntakeSpin(intake, 0.75),
+                                                                        new CMD_ShooterRPM(shooter, 2000)),
                                                         new InstantCommand(
                                                                         () -> intake.pistonSet(false),
                                                                         intake),
-                                                        new SEQ_dumbShot(shoot, index, 2000),
-                                                        new SEQ_dumbShot(shoot, index, 2000)),
-                                        new canalRun(canal, -0.75)),
+                                                        new SEQ_dumbShot(shooter, index, 2000),
+                                                        new SEQ_dumbShot(shooter, index, 2000)),
+                                        new CMD_canalRun(canal, -0.75)),
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
         Command RS_threeBall_NC_LOW_FullRun = new SequentialCommandGroup(
@@ -253,46 +264,46 @@ public class RobotContainer {
                         new InstantCommand(() -> intake.pistonSet(false), intake),
                         new ParallelDeadlineGroup(
                                         new SequentialCommandGroup(
-                                                        new SEQ_dumbShot(shoot, index, 1800),
+                                                        new SEQ_dumbShot(shooter, index, 1800),
                                                         autoHelper.getRamset(RS_threeBall_p1),
                                                         new WaitCommand(1),
                                                         new InstantCommand(() -> intake.pistonSet(true), intake),
                                                         new ParallelDeadlineGroup(
                                                                         autoHelper.getRamset(RS_threeBall_p2_LOW),
-                                                                        new IntakeSpin(intake, 0.75),
-                                                                        new ShooterRPM(shoot, 2000)),
+                                                                        new CMD_IntakeSpin(intake, 0.75),
+                                                                        new CMD_ShooterRPM(shooter, 2000)),
                                                         new InstantCommand(
                                                                         () -> intake.pistonSet(false),
                                                                         intake),
-                                                        new SEQ_dumbShot(shoot, index, 2000),
-                                                        new SEQ_dumbShot(shoot, index, 2000)),
-                                        new canalRun(canal, -0.75)),
+                                                        new SEQ_dumbShot(shooter, index, 2000),
+                                                        new SEQ_dumbShot(shooter, index, 2000)),
+                                        new CMD_canalRun(canal, -0.75)),
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)),
                         new ParallelCommandGroup(
-                                        new canalRun(canal, -0.75),
-                                        new IntakeSpin(intake, 0.75),
-                                        new indexRun(index, 0.75),
-                                        new ShooterRPM(shoot, 2000)).perpetually());
+                                        new CMD_canalRun(canal, -0.75),
+                                        new CMD_IntakeSpin(intake, 0.75),
+                                        new CMD_indexRun(index, 0.75),
+                                        new CMD_ShooterRPM(shooter, 2000)).perpetually());
 
         Command RS_threeBall_WC_LOW = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(RS_threeBall_p1.getInitialPose())),
                         new InstantCommand(() -> intake.pistonSet(false), intake),
                         new ParallelDeadlineGroup(
                                         new SequentialCommandGroup(
-                                                        new SEQ_dumbShot(shoot, index, 1800),
+                                                        new SEQ_dumbShot(shooter, index, 1800),
                                                         autoHelper.getRamset(RS_threeBall_p1),
                                                         new WaitCommand(1),
                                                         new InstantCommand(() -> intake.pistonSet(true), intake),
                                                         new ParallelDeadlineGroup(
                                                                         autoHelper.getRamset(RS_threeBall_p2_LOW),
-                                                                        new IntakeSpin(intake, 0.75),
-                                                                        new ShooterRPM(shoot, 2000)),
+                                                                        new CMD_IntakeSpin(intake, 0.75),
+                                                                        new CMD_ShooterRPM(shooter, 2000)),
                                                         new InstantCommand(
                                                                         () -> intake.pistonSet(false),
                                                                         intake),
-                                                        new SEQ_dumbShot(shoot, index, 2000),
-                                                        new SEQ_dumbShot(shoot, index, 2000)),
-                                        new canalRun(canal, -0.75)),
+                                                        new SEQ_dumbShot(shooter, index, 2000),
+                                                        new SEQ_dumbShot(shooter, index, 2000)),
+                                        new CMD_canalRun(canal, -0.75)),
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
         /**
@@ -335,10 +346,8 @@ public class RobotContainer {
          * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
          */
         private void configureButtonBindings() {
-                IndexBottomToTop DefCMD = new IndexBottomToTop(canal, index);
-
                 // drivetrain
-                drivetrain.setDefaultCommand(new teleopDrive(drivetrain, () -> leftJoystick.getRawAxis(1),
+                drivetrain.setDefaultCommand(new CMD_teleopDrive(drivetrain, () -> leftJoystick.getRawAxis(1),
                                 () -> rightJoystick.getRawAxis(1)));
                 L_button2.whenPressed(new InstantCommand(drivetrain::toggleReverse, drivetrain));
 
@@ -346,37 +355,39 @@ public class RobotContainer {
                 C_leftTrigger = new Trigger(() -> (controller.getRawAxis(2) > 0.5));
                 C_rightTrigger = new Trigger(() -> (controller.getRawAxis(3) > 0.5));
 
-                C_leftTrigger.whileActiveContinuous(new teleopClimber(climber, 0.85));
-                C_rightTrigger.whileActiveContinuous(new teleopClimber(climber, -0.85));
+                C_leftTrigger.whileActiveContinuous(new CMD_ClimberSpeed(climber, 1));
+                C_rightTrigger.whileActiveContinuous(new CMD_ClimberSpeed(climber, -1));
 
                 // Intake
                 L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
-                L_Trigger.whileHeld(new ParallelCommandGroup(new IntakeSpin(intake, 0.75),
-                                new CanalZeroToOneBottom(canal, index)));
+                L_Trigger.whileHeld(new ParallelCommandGroup(new CMD_IntakeSpin(intake, 0.75),
+                                new CMD_CanalZeroToOneBottom(canal, index)));
 
                 // Canal
-                C_dPadUp.whileHeld(new canalRun(canal, -0.75));
-                C_dPadDown.whileHeld(new canalRun(canal, 0.75));
+                C_dPadUp.whileHeld(new CMD_canalRun(canal, -0.75));
+                C_dPadDown.whileHeld(new CMD_canalRun(canal, 0.75));
                 C_dPadLeft.whileHeld(new CMD_canalThrough(canal, 0.75));
                 C_dPadRight.whileHeld(new CMD_canalThrough(canal, -0.75));
 
                 // Index
-                index.setDefaultCommand(DefCMD);
-                C_aButton.whileHeld(new ParallelCommandGroup(new indexRun(index, -0.75), new ShooterSpin(shoot, 0.25)));
-                C_bButton.whileHeld(new indexRun(index, 0.75));
-                L_button5.whileHeld(new indexRun(index, 0.75));
+                index.setDefaultCommand(new CMD_IndexBottomToTop(canal, index));
+                C_aButton.whileHeld(new ParallelCommandGroup(new CMD_indexRun(index, -0.75), new CMD_ShooterSpin(shooter, 0.25)));
+                C_bButton.whileHeld(new CMD_indexRun(index, 0.75));
+                L_button5.whileHeld(new CMD_indexRun(index, 0.75));
 
                 // shooter
-                R_button3.whenPressed(new CMD_changeSetpoint(shoot, -500));
-                R_button4.whenPressed(new CMD_changeSetpoint(shoot, -100));
-                R_button5.whenPressed(new CMD_changeSetpoint(shoot, 500));
-                R_button6.whenPressed(new CMD_changeSetpoint(shoot, 100));
-                R_trigger.whileHeld(new CMD_ShooterManualRPM(shoot));
+                R_button3.whenPressed(new CMD_changeSetpoint(shooter, -500));
+                R_button4.whenPressed(new CMD_changeSetpoint(shooter, -100));
+                R_button5.whenPressed(new CMD_changeSetpoint(shooter, 500));
+                R_button6.whenPressed(new CMD_changeSetpoint(shooter, 100));
+                R_trigger.whileHeld(new CMD_ShooterManualRPM(shooter));
 
                 // limelight
                 limelight.setDefaultCommand(new InstantCommand(() -> limelight.setLed(1), limelight).perpetually());
-                L_button3.whileHeld(new SEQ_limeShot(shoot, drivetrain, index, limelight, true));
-                //C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
+                L_button3.whileHeld(new SEQ_limeShot(shooter, drivetrain, index, limelight, limelight.getHeight()));
+                C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
+
+                //Ball Camera
                 L_button10.whenPressed(cameraData::toggleDirection, cameraData);
                 L_button11.whileHeld(new SEQ_getBall(cameraData, drivetrain, canal, intake, index,
                                 cameraData.getDirection()));

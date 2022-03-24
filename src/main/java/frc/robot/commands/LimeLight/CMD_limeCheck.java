@@ -5,18 +5,18 @@
 package frc.robot.commands.LimeLight;
 
 import frc.robot.Constants;
-import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.SUB_Limelight;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class CMD_limeCheck extends CommandBase {
-    Limelight limelight;
+    SUB_Limelight limelight;
 
     /**
      * turns limelight on to get the distance
      * @param limein
      */
-    public CMD_limeCheck(Limelight limein) {
+    public CMD_limeCheck(SUB_Limelight limein) {
         this.limelight = limein;
         addRequirements(limein);
     }
