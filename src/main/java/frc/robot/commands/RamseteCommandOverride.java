@@ -42,6 +42,6 @@ public class RamseteCommandOverride extends RamseteCommand {
 
     @Override
     public void end(boolean interrupted) {
-
+      RamseteCommandOverride.super.end(false);
     }
 }
