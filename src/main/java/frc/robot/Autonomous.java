@@ -16,9 +16,7 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 //this is a helper class which provides useful methods for running autonomus
 
 
-
 public class Autonomous {
-    
 
     private Drivetrain drivetrain;
 
@@ -58,28 +56,29 @@ public class Autonomous {
      * @return ramsete controller to follow trajectory
      */
     // public RamseteCommand getRamset(Trajectory traj) {
-    //     return new RamseteCommandOverride(traj, drivetrain::getPose,
-    //             new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-                
-    //             new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSecondsPerMeter,
-    //                     Constants.kaVoltSecondsSquaredPerMeter),
-    //             Constants.kDriveKinematics, drivetrain::getWheelSpeeds,
-    //             new PIDController(Constants.kPDriveVel, 0, 0),
-    //             new PIDController(Constants.kPDriveVel, 0, 0),
-    //             drivetrain::tankDriveVolts, drivetrain);
+    // return new RamseteCommandOverride(traj, drivetrain::getPose,
+    // new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
+
+    // new SimpleMotorFeedforward(Constants.ksVolts,
+    // Constants.kvVoltSecondsPerMeter,
+    // Constants.kaVoltSecondsSquaredPerMeter),
+    // Constants.kDriveKinematics, drivetrain::getWheelSpeeds,
+    // new PIDController(Constants.kPDriveVel, 0, 0),
+    // new PIDController(Constants.kPDriveVel, 0, 0),
+    // drivetrain::tankDriveVolts, drivetrain);
 
     // }
     public RamseteCommand getRamset(Trajectory traj) {
         return new RamseteCommand(
-            traj, 
-        drivetrain::getPose,
+                traj,
+                drivetrain::getPose,
                 new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-                
+
                 new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSecondsPerMeter,
                         Constants.kaVoltSecondsSquaredPerMeter),
 
                 Constants.kDriveKinematics,
-                 drivetrain::getWheelSpeeds,
+                drivetrain::getWheelSpeeds,
                 new PIDController(Constants.kPDriveVel, 0, 0),
                 new PIDController(Constants.kPDriveVel, 0, 0),
                 drivetrain::tankDriveVolts, drivetrain);
