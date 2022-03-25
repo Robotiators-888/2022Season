@@ -6,6 +6,8 @@ package frc.robot;
 
 import java.util.List;
 
+import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -105,7 +107,7 @@ public class RobotContainer {
         SendableChooser<Command> chooser = new SendableChooser<>();
         TrajectoryConfig configReversed = new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
                         Constants.kMaxAccelerationMetersPerSecondSquared).setKinematics(Constants.kDriveKinematics)
-                                        .setReversed(true)
+                                        .setReversed(true);
 
         TrajectoryConfig configForward = new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
                         Constants.kMaxAccelerationMetersPerSecondSquared).setKinematics(Constants.kDriveKinematics);
@@ -183,16 +185,13 @@ public class RobotContainer {
                         new InstantCommand(() -> cameraData.setDirection(false), cameraData),
                         new SEQ_dumbShot(shoot, index, 1800),
                         new ParallelDeadlineGroup(
-                                        autoHelper.getRamset(LS_twoBall_Low_p1).alongWith(
+                                        autoHelper.getRamset(LS_twoBall_Low_p1).withInterrupt(
                                                         () -> ((cameraData.getY() <= 45) && (cameraData.getY() >= 10)
                                                                         || (Math.abs(cameraData.getX()) > 3)
-                                                                                        && (cameraData.getY() <= 30)))
-                                                        .andThen(new InstantCommand(() -> autoHelper
-                                                                        .getRamset(LS_twoBall_Low_p1).end(false))),
-
+                                                                                        && (cameraData.getY() <= 30))),
                                         new canalRun(canal, -0.75),
                                         new IndexBottomToTopBanner(index, 0.50)),
-                        // new InstantCommand(() -> drivetrain.setMotors(0, 0), drivetrain),
+                        new InstantCommand(() -> drivetrain.setMotors(0, 0), drivetrain),
                         new SEQ_getBall(cameraData, drivetrain, canal, intake, index, false).withTimeout(6),
                         new ParallelDeadlineGroup(
                                         new WaitCommand(2),
@@ -377,8 +376,7 @@ public class RobotContainer {
                 // limelight
                 limelight.setDefaultCommand(new InstantCommand(() -> limelight.setLed(1), limelight).perpetually());
                 L_button3.whileHeld(new SEQ_limeShot(shoot, drivetrain, index, limelight, true));
-                // C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight,
-                // limelight));
+                //C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
                 L_button10.whenPressed(cameraData::toggleDirection, cameraData);
                 L_button11.whileHeld(new SEQ_getBall(cameraData, drivetrain, canal, intake, index,
                                 cameraData.getDirection()));

@@ -14,15 +14,12 @@ import frc.robot.subsystems.SUB_CameraData;
 
 public class SEQ_getBall extends SequentialCommandGroup {
 
-
-
     public SEQ_getBall(SUB_CameraData cam, Drivetrain drive, CanalSubsystem canal, IntakeSubsystem intake,
             IndexSubsystem index, boolean camSel) {
-        addRequirements(drive);
         if (camSel) {
             addCommands(
-                    new CMD_alignToBall(cam, drive, camSel).withTimeout(5).alongWith(new InstantCommand(() -> intake.pistonSet(false), intake)
-                    ),
+                    new CMD_alignToBall(cam, drive, camSel).withTimeout(5),
+                    new InstantCommand(() -> intake.pistonSet(false), intake),
                     deadline(
                             new CMD_DriveToBall(cam, drive, camSel).withTimeout(5),
                             sequence(

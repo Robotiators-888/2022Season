@@ -15,7 +15,6 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 
 //this is a helper class which provides useful methods for running autonomus
 
-
 public class Autonomous {
 
     private Drivetrain drivetrain;
