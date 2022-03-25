@@ -33,7 +33,7 @@ import frc.robot.commands.BallIndexing.CMD_IndexBottomToTop;
 import frc.robot.commands.BallIndexing.CMD_IndexBottomToTopBanner;
 import frc.robot.commands.Canal.CMD_canalThrough;
 import frc.robot.commands.Canal.CMD_canalRun;
-import frc.robot.commands.Climber.CMD_ClimberSpeed;
+import frc.robot.commands.Climber.*;
 import frc.robot.commands.Drivetrain.CMD_teleopDrive;
 import frc.robot.commands.Index.CMD_indexRun;
 import frc.robot.commands.Intake.CMD_IntakeSpin;
@@ -360,10 +360,11 @@ public class RobotContainer {
                 C_leftTrigger.whileActiveContinuous(new CMD_ClimberSpeed(climber, 1));
                 C_rightTrigger.whileActiveContinuous(new CMD_ClimberSpeed(climber, -1));
 
+                L_button10.whenPressed(new SEQ_AutoClimber(climber));
                 // Intake
-                L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
-                L_Trigger.whileHeld(new ParallelCommandGroup(new CMD_IntakeSpin(intake, 0.75),
-                                new CMD_CanalZeroToOneBottom(canal, index)));
+                //L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
+                //L_Trigger.whileHeld(new ParallelCommandGroup(new CMD_IntakeSpin(intake, 0.75),
+                //               new CMD_CanalZeroToOneBottom(canal, index)));
 
                 // Canal
                 C_dPadUp.whileHeld(new CMD_canalRun(canal, -0.75));
@@ -396,6 +397,7 @@ public class RobotContainer {
 
                 // LED
                 LED.setDefaultCommand(new CMD_SOLIDLED(LED));
+
         }
 
         public Command getAutonomousCommand() {

@@ -25,6 +25,18 @@ public class SUB_Climber extends SubsystemBase {
   private DoubleSolenoid cSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 12, 13);
   private AHRS navx; 
 
+
+  private double min = 0;
+  private double max = 0;
+
+  private boolean prevIncreasing = false;
+  private boolean prevDecreasing = false;
+
+  private boolean curIncreasing = false;
+  private boolean curDecreasing = false;
+
+  private double curAngle,prevAngle;
+
   // 180 top, zero bottom
   private RelativeEncoder climberEncoder = climberMotor.getEncoder();
   private SparkMaxLimitSwitch climberLimitSwitch =  climberMotor.getReverseLimitSwitch(Type.kNormallyOpen);
@@ -47,6 +59,12 @@ public class SUB_Climber extends SubsystemBase {
    if(climberLimitSwitch.isPressed()){
      climberEncoder.setPosition(0);
    }
+
+   SmartDashboard.putNumber("Navx Range: ", getRange());
+   SmartDashboard.putNumber("Maximum: ", max);
+   SmartDashboard.putNumber("Minimum: ", min);
+
+
   }
 
   /**
@@ -94,6 +112,30 @@ public class SUB_Climber extends SubsystemBase {
 
   public double getClimberPosition(){
     return climberEncoder.getPosition();
+  }
+
+
+  public double getRange(){
+    curAngle = getPitch();
+
+    if (curAngle>prevAngle){
+      curIncreasing = true;
+      curDecreasing = false;
+    } else {
+      curIncreasing = false;
+      curDecreasing = true;
+    }
+
+    if (prevDecreasing && curIncreasing){
+      min = prevAngle;
+    } else if (prevIncreasing && curDecreasing) {
+      max = prevAngle;
+    }
+
+    prevAngle = curAngle;
+    prevIncreasing = curIncreasing;
+    prevDecreasing = curDecreasing;
+    return Math.abs(max-min);
   }
 
 }

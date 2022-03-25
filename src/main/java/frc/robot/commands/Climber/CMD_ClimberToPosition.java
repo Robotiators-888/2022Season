@@ -27,16 +27,31 @@ public class CMD_ClimberToPosition extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (climber.getClimberPosition()<destPos){
-      climber.speedSet(0.85);
-    } else if (climber.getClimberPosition()>destPos){
-      climber.speedSet(-0.85);
+
+    if (Math.abs(destPos-climber.getClimberPosition())>15){
+
+      if (climber.getClimberPosition()<destPos){
+        climber.speedSet(1);
+      } else if (climber.getClimberPosition()>destPos){
+        climber.speedSet(-1);
+      }
+      
+    } else {
+
+      if (climber.getClimberPosition()<destPos){
+        climber.speedSet(0.5);
+      } else if (climber.getClimberPosition()>destPos){
+        climber.speedSet(-0.5);
+      }
+
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    climber.speedSet(0);
+  }
 
   // Returns true when the command should end.
   @Override
