@@ -105,7 +105,7 @@ public class RobotContainer {
         SendableChooser<Command> chooser = new SendableChooser<>();
         TrajectoryConfig configReversed = new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
                         Constants.kMaxAccelerationMetersPerSecondSquared).setKinematics(Constants.kDriveKinematics)
-                                        .setReversed(true)
+                                        .setReversed(true).setEndVelocity(0.2);
 
         TrajectoryConfig configForward = new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
                         Constants.kMaxAccelerationMetersPerSecondSquared).setKinematics(Constants.kDriveKinematics);

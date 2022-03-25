@@ -14,47 +14,49 @@ import frc.robot.subsystems.SUB_CameraData;
 
 public class SEQ_getBall extends SequentialCommandGroup {
 
-        public SEQ_getBall(SUB_CameraData cam, Drivetrain drive, CanalSubsystem canal, IntakeSubsystem intake,
-                        IndexSubsystem index, boolean camSel) {
-                addRequirements(drive);
-                if (camSel) {
-                        addCommands(
-                                        new CMD_alignToBall(cam, drive, camSel).withTimeout(5).alongWith(
-                                                        new InstantCommand(() -> intake.pistonSet(false), intake)),
-                                        deadline(
-                                                        new CMD_DriveToBall(cam, drive, camSel).withTimeout(5),
-                                                        sequence(
-                                                                        new CanalZeroToOneBottom(canal, index),
-                                                                        new IndexBottomToTop(canal, index),
-                                                                        new IntakeSpin(intake, 0.75))),
-                                        new InstantCommand(() -> intake.pistonSet(false), intake),
-                                        deadline(
-                                                        new CMD_setDrive(drive, -0.65, -0.65).withTimeout(2),
-                                                        sequence(
-                                                                        new CanalZeroToOneBottom(canal, index),
-                                                                        new IndexBottomToTop(canal, index),
-                                                                        new IntakeSpin(intake, 0.75))),
-                                        new InstantCommand(() -> intake.pistonSet(false), intake)
 
-                        );
-                } else {
-                        addCommands(
-                                        new CMD_alignToBall(cam, drive, camSel).withTimeout(5),
-                                        new InstantCommand(() -> intake.pistonSet(false), intake),
-                                        deadline(
-                                                        new CMD_DriveToBall(cam, drive, camSel).withTimeout(5),
-                                                        sequence(
-                                                                        new CanalZeroToOneBottom(canal, index),
-                                                                        new IndexBottomToTop(canal, index))),
-                                        deadline(
-                                                        new CMD_setDrive(drive, 0.65, 0.65).withTimeout(2),
-                                                        sequence(
-                                                                        new CanalZeroToOneBottom(canal, index),
-                                                                        new IndexBottomToTop(canal, index))),
-                                        new InstantCommand(() -> intake.pistonSet(false), intake)
 
-                        );
-                }
+    public SEQ_getBall(SUB_CameraData cam, Drivetrain drive, CanalSubsystem canal, IntakeSubsystem intake,
+            IndexSubsystem index, boolean camSel) {
+        addRequirements(drive);
+        if (camSel) {
+            addCommands(
+                    new CMD_alignToBall(cam, drive, camSel).withTimeout(5).alongWith(new InstantCommand(() -> intake.pistonSet(false), intake)
+                    ),
+                    deadline(
+                            new CMD_DriveToBall(cam, drive, camSel).withTimeout(5),
+                            sequence(
+                                    new CanalZeroToOneBottom(canal, index),
+                                    new IndexBottomToTop(canal, index),
+                                    new IntakeSpin(intake, 0.75))),
+                    new InstantCommand(() -> intake.pistonSet(false), intake),
+                    deadline(
+                            new CMD_setDrive(drive, -0.65, -0.65).withTimeout(2),
+                            sequence(
+                                    new CanalZeroToOneBottom(canal, index),
+                                    new IndexBottomToTop(canal, index),
+                                    new IntakeSpin(intake, 0.75))),
+                    new InstantCommand(() -> intake.pistonSet(false), intake)
 
+            );
+        } else {
+            addCommands(
+                    new CMD_alignToBall(cam, drive, camSel).withTimeout(5),
+                    new InstantCommand(() -> intake.pistonSet(false), intake),
+                    deadline(
+                            new CMD_DriveToBall(cam, drive, camSel).withTimeout(5),
+                            sequence(
+                                    new CanalZeroToOneBottom(canal, index),
+                                    new IndexBottomToTop(canal, index))),
+                    deadline(
+                            new CMD_setDrive(drive, 0.65, 0.65).withTimeout(2),
+                            sequence(
+                                    new CanalZeroToOneBottom(canal, index),
+                                    new IndexBottomToTop(canal, index))),
+                    new InstantCommand(() -> intake.pistonSet(false), intake)
+
+            );
         }
+
+    }
 }
