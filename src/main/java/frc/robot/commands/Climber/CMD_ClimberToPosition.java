@@ -14,7 +14,7 @@ public class CMD_ClimberToPosition extends CommandBase {
 
   SUB_Climber climber;
   private double destPos;
-  private DoubleSolenoid cSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 12, 13);
+  
   /** Creates a new CMD_ClimberToPosition. */
   public CMD_ClimberToPosition(SUB_Climber climberArgs, double destPosArgs) {
     this.climber = climberArgs;
@@ -53,12 +53,13 @@ public class CMD_ClimberToPosition extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     climber.speedSet(0);
-    cSolenoid.set(Value.kForward); //lock the climber
+    climber.lockSet(Value.kForward); //lock the climber
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    climber.lockSet(Value.kReverse);
     return(climber.getClimberPosition()>=destPos-Constants.CLIMBER_TOLERANCE && 
     climber.getClimberPosition()<=destPos+Constants.CLIMBER_TOLERANCE);
 

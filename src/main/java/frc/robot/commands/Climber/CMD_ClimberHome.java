@@ -9,16 +9,13 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import frc.robot.subsystems.SUB_Climber;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import com.revrobotics.*;
-import com.revrobotics.SparkMaxLimitSwitch.Type;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 
 public class CMD_ClimberHome extends CommandBase {
 
   private SUB_Climber climber;
-  private DoubleSolenoid cSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 12, 13);
+ 
   /** Creates a new CMD_ClimberHome. */
   public CMD_ClimberHome(SUB_Climber climberArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -40,12 +37,15 @@ public class CMD_ClimberHome extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     climber.speedSet(0);
-    cSolenoid.set(Value.kForward); //lock the climber
+    climber.lockSet(Value.kForward);
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    climber.lockSet(Value.kReverse);
     return climber.getClimberPosition()<=0;
+    
   }
 }
