@@ -334,7 +334,7 @@ public class RobotContainer {
         // Four ball command groups
         // ====================================================================
         Command RS_fourball = new SequentialCommandGroup(
-                        new InstantCommand(() -> drivetrain.setPosition(RS_threeBall_p1.getInitialPose())),
+                        new InstantCommand(() -> drivetrain.setPosition(RS_fourBall_p1.getInitialPose())),
                         new InstantCommand(() -> intake.pistonSet(false), intake),
                         new ParallelDeadlineGroup(
                                         autoHelper.getRamset(RS_fourBall_p1),
