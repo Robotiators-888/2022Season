@@ -118,6 +118,10 @@ public class RobotContainer {
 
         // Auto objects
         SendableChooser<Command> chooser = new SendableChooser<>();
+
+        // ====================================================================
+        // Trajectories
+        // ====================================================================
         TrajectoryConfig configReversed = new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
                         Constants.kMaxAccelerationMetersPerSecondSquared).setKinematics(Constants.kDriveKinematics)
                                         .setReversed(true);
@@ -139,11 +143,17 @@ public class RobotContainer {
 
         Trajectory RS_threeBall_p2_LOW = autoHelper.getTrajectory("paths/output/RS_threeBall_p2_LOW.wpilib.json");
 
+        Trajectory RS_fourBall_p1 = autoHelper.getTrajectory("paths/output/RS_fourBall_p1.wpilib.json");
+        Trajectory RS_fourBall_p2 = autoHelper.getTrajectory("paths/output/RS_fourBall_p2.wpilib.json");
+        Trajectory RS_fourBall_p3 = autoHelper.getTrajectory("paths/output/RS_fourBall_p3.wpilib.json");
+
         Trajectory Str8 = TrajectoryGenerator.generateTrajectory(
                         new Pose2d(0, 0, new Rotation2d(Units.degreesToRadians(180))),
                         List.of(), new Pose2d(4, 0, new Rotation2d(Units.degreesToRadians(180))), configReversed);
 
-        // Auto command groups
+        // ====================================================================
+        // Simple autos
+        // ====================================================================
         Command limelightHighShot = new SequentialCommandGroup(
                         new SEQ_limeShot(shooter, drivetrain, index, limelight, true));
 
@@ -160,6 +170,9 @@ public class RobotContainer {
                         new InstantCommand(() -> drivetrain.setPosition(Str8.getInitialPose())),
                         new SEQ_dumbShot(shooter, index, 1800));
 
+        // ====================================================================
+        // Two Ball command Groups
+        // ====================================================================
         Command RS_RB_twoBall = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(RS_RB_twoBall_Low_p1.getInitialPose())),
                         new SEQ_dumbShot(shooter, index, 1800),
@@ -199,20 +212,25 @@ public class RobotContainer {
                         new SEQ_dumbShot(shooter, index, 1800),
                         new ParallelDeadlineGroup(
                                         autoHelper.getRamset(LS_twoBall_Low_p1).withInterrupt(
-                                                        () -> ((cameraData.getY() <= 45) && (cameraData.getY() >= 10) || (Math.abs(cameraData.getX()) > 3) && (cameraData.getY() <= 30))),
+                                                        () -> ((cameraData.getY() <= 45) && (cameraData.getY() >= 10)
+                                                                        || (Math.abs(cameraData.getX()) > 3)
+                                                                                        && (cameraData.getY() <= 30))),
                                         new CMD_canalRun(canal, -0.75),
                                         new CMD_IndexBottomToTopBanner(index, 0.50)),
                         new InstantCommand(() -> drivetrain.setMotors(0, 0), drivetrain),
                         new SEQ_getBall(cameraData, drivetrain, canal, intake, index, false).withTimeout(6),
                         new ParallelDeadlineGroup(
-                                new WaitCommand(2),
-                                new SequentialCommandGroup(
-                                                new CMD_CanalZeroToOneBottom(canal, index),
-                                                new CMD_IndexBottomToTop(canal, index))),
+                                        new WaitCommand(2),
+                                        new SequentialCommandGroup(
+                                                        new CMD_CanalZeroToOneBottom(canal, index),
+                                                        new CMD_IndexBottomToTop(canal, index))),
                         autoHelper.getRamset(LS_twoBall_Low_p2),
                         new SEQ_dumbShot(shooter, index, 1800),
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
+        // ====================================================================
+        // Three Ball command Groups
+        // ====================================================================
         Command RS_threeBall_NC_HIGH = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(RS_threeBall_p1.getInitialPose())),
                         new InstantCommand(() -> intake.pistonSet(false), intake),
@@ -306,6 +324,54 @@ public class RobotContainer {
                                         new CMD_canalRun(canal, -0.75)),
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
+        // ====================================================================
+        // Four ball command groups
+        // ====================================================================
+        Command RS_fourball = new SequentialCommandGroup(
+                        new InstantCommand(() -> drivetrain.setPosition(RS_threeBall_p1.getInitialPose())),
+                        new InstantCommand(() -> intake.pistonSet(false), intake),
+                        new ParallelDeadlineGroup(
+                                        autoHelper.getRamset(RS_fourBall_p1),
+                                        new ParallelCommandGroup(
+                                                        new CMD_ShooterRPM(shooter, 3000),
+                                                        new CMD_CanalZeroToOneBottom(canal, index),
+                                                        new CMD_IndexBottomToTop(canal, index))),
+                        new ParallelDeadlineGroup(
+                                        new WaitCommand(2),
+                                        new SequentialCommandGroup(
+                                                        new CMD_CanalZeroToOneBottom(canal, index),
+                                                        new CMD_IndexBottomToTop(canal, index))),
+                        new SEQ_dumbShot(shooter, index, 2000), // shoot 1
+                        new ParallelDeadlineGroup(
+                                        new WaitCommand(1),
+                                        new SequentialCommandGroup(
+                                                        new CMD_CanalZeroToOneBottom(canal, index),
+                                                        new CMD_IndexBottomToTop(canal, index))),
+                        new SEQ_dumbShot(shooter, index, 2000), // shoot 2
+                        new ParallelDeadlineGroup(
+                                        autoHelper.getRamset(RS_fourBall_p2),
+                                        new ParallelCommandGroup(
+                                                        new CMD_CanalZeroToOneBottom(canal, index),
+                                                        new CMD_IndexBottomToTop(canal, index))),
+                        new ParallelDeadlineGroup(
+                                        new WaitCommand(5),
+                                        new SequentialCommandGroup(
+                                                        new CMD_CanalZeroToOneBottom(canal, index),
+                                                        new CMD_IndexBottomToTop(canal, index))),
+                        new ParallelDeadlineGroup(
+                                        autoHelper.getRamset(RS_fourBall_p3),
+                                        new ParallelCommandGroup(
+                                                        new CMD_CanalZeroToOneBottom(canal, index),
+                                                        new CMD_IndexBottomToTop(canal, index))),
+                        new SEQ_dumbShot(shooter, index, 2000), // shoot 3
+                        new ParallelDeadlineGroup(
+                                        new WaitCommand(1),
+                                        new SequentialCommandGroup(
+                                                        new CMD_CanalZeroToOneBottom(canal, index),
+                                                        new CMD_IndexBottomToTop(canal, index))),
+                        new SEQ_dumbShot(shooter, index, 2000), // shoot 4
+                        new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
+
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
          */
@@ -371,7 +437,8 @@ public class RobotContainer {
 
                 // Index
                 index.setDefaultCommand(new CMD_IndexBottomToTop(canal, index));
-                C_aButton.whileHeld(new ParallelCommandGroup(new CMD_indexRun(index, -0.75), new CMD_ShooterSpin(shooter, 0.25)));
+                C_aButton.whileHeld(new ParallelCommandGroup(new CMD_indexRun(index, -0.75),
+                                new CMD_ShooterSpin(shooter, 0.25)));
                 C_bButton.whileHeld(new CMD_indexRun(index, 0.75));
                 L_button5.whileHeld(new CMD_indexRun(index, 0.75));
 
@@ -387,7 +454,7 @@ public class RobotContainer {
                 L_button3.whileHeld(new SEQ_limeShot(shooter, drivetrain, index, limelight, limelight.getHeight()));
                 C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
 
-                //Ball Camera
+                // Ball Camera
                 L_button10.whenPressed(cameraData::toggleDirection, cameraData);
                 L_button11.whileHeld(new SEQ_getBall(cameraData, drivetrain, canal, intake, index,
                                 cameraData.getDirection()));
