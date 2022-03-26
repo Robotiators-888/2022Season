@@ -129,6 +129,8 @@ public class RobotContainer {
         TrajectoryConfig configForward = new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
                         Constants.kMaxAccelerationMetersPerSecondSquared).setKinematics(Constants.kDriveKinematics);
 
+        Trajectory straight = autoHelper.getTrajectory("paths/output/straight.wpilib.json");
+
         Trajectory LS_twoBall_Low_p1 = autoHelper.getTrajectory("paths/output/LS_twoBall_Low_p1.wpilib.json");
         Trajectory LS_twoBall_Low_p2 = autoHelper.getTrajectory("paths/output/LS_twoBall_Low_p2.wpilib.json");
 
@@ -160,6 +162,10 @@ public class RobotContainer {
         Command straightAuto = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(Str8.getInitialPose())),
                         autoHelper.getRamset(Str8));
+
+        Command straightWeaver = new SequentialCommandGroup(
+                        new InstantCommand(() -> drivetrain.setPosition(straight.getInitialPose())),
+                        autoHelper.getRamset(straight));
 
         Command lowDump = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(Str8.getInitialPose())),
@@ -334,8 +340,9 @@ public class RobotContainer {
                                         autoHelper.getRamset(RS_fourBall_p1),
                                         new ParallelCommandGroup(
                                                         new CMD_ShooterRPM(shooter, 3000),
-                                                        new CMD_CanalZeroToOneBottom(canal, index),
-                                                        new CMD_IndexBottomToTop(canal, index))),
+                                                        new SequentialCommandGroup(
+                                                                        new CMD_CanalZeroToOneBottom(canal, index),
+                                                                        new CMD_IndexBottomToTop(canal, index)))),
                         new ParallelDeadlineGroup(
                                         new WaitCommand(2),
                                         new SequentialCommandGroup(
@@ -350,7 +357,7 @@ public class RobotContainer {
                         new SEQ_dumbShot(shooter, index, 2000), // shoot 2
                         new ParallelDeadlineGroup(
                                         autoHelper.getRamset(RS_fourBall_p2),
-                                        new ParallelCommandGroup(
+                                        new SequentialCommandGroup(
                                                         new CMD_CanalZeroToOneBottom(canal, index),
                                                         new CMD_IndexBottomToTop(canal, index))),
                         new ParallelDeadlineGroup(
@@ -360,7 +367,7 @@ public class RobotContainer {
                                                         new CMD_IndexBottomToTop(canal, index))),
                         new ParallelDeadlineGroup(
                                         autoHelper.getRamset(RS_fourBall_p3),
-                                        new ParallelCommandGroup(
+                                        new SequentialCommandGroup(
                                                         new CMD_CanalZeroToOneBottom(canal, index),
                                                         new CMD_IndexBottomToTop(canal, index))),
                         new SEQ_dumbShot(shooter, index, 2000), // shoot 3
@@ -388,6 +395,7 @@ public class RobotContainer {
                 chooser.setDefaultOption("Low Dump", lowDump);
                 chooser.addOption("limelight High Shot", limelightHighShot);
                 chooser.addOption("Low Dump no drive", lowDumpNoDrive);
+                chooser.addOption("staright weaver", straightWeaver);
                 chooser.addOption("Drive Back", straightAuto);
                 chooser.addOption("Right side Right Ball", RS_RB_twoBall);
                 chooser.addOption("Right side Left Ball", RS_LB_twoBall);
@@ -397,6 +405,7 @@ public class RobotContainer {
                 // chooser.addOption("Right side three ball With Cam LOW", RS_threeBall_WC_LOW);
                 chooser.addOption("Right side three ball - No cam - LOW", RS_threeBall_NC_LOW);
                 chooser.addOption("three ball run end", RS_threeBall_NC_LOW_FullRun);
+                chooser.addOption("four ball", RS_fourball);
 
                 SmartDashboard.putData("chooser", chooser);
 
