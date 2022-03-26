@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Climber.*;
 import frc.robot.subsystems.SUB_Climber;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -21,12 +23,14 @@ public class SEQ_AutoClimber extends SequentialCommandGroup {
     addCommands(
       new CMD_ClimberHome(climber),
       new CMD_ClimberToPosition(climber,175),
-      new CMD_ClimberToPosition(climber,130),
-      new WaitCommand(5),
+      
+      new CMD_ClimberToPosition(climber,120),
+      //new WaitCommand(5),
+      new WaitUntilCommand(() -> (climber.getMin() > -30)), //wait until the min  angle is greater than -35
       new CMD_ClimberHome(climber),
-      new WaitCommand(1.5),
+      new WaitCommand(1),
       new CMD_ClimberToPosition(climber,175),
-      new CMD_ClimberToPosition(climber,130)
+      new CMD_ClimberToPosition(climber,120)
     );
   }
 }

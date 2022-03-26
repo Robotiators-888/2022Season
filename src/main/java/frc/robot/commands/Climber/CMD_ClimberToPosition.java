@@ -7,11 +7,14 @@ package frc.robot.commands.Climber;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SUB_Climber;
 import frc.robot.Constants;
-
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 public class CMD_ClimberToPosition extends CommandBase {
 
   SUB_Climber climber;
   private double destPos;
+  private DoubleSolenoid cSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 12, 13);
   /** Creates a new CMD_ClimberToPosition. */
   public CMD_ClimberToPosition(SUB_Climber climberArgs, double destPosArgs) {
     this.climber = climberArgs;
@@ -37,7 +40,6 @@ public class CMD_ClimberToPosition extends CommandBase {
       }
       
     } else {
-
       if (climber.getClimberPosition()<destPos){
         climber.speedSet(0.5);
       } else if (climber.getClimberPosition()>destPos){
@@ -51,6 +53,7 @@ public class CMD_ClimberToPosition extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     climber.speedSet(0);
+    cSolenoid.set(Value.kForward); //lock the climber
   }
 
   // Returns true when the command should end.

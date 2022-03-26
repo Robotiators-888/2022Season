@@ -10,9 +10,14 @@ import frc.robot.subsystems.SUB_Climber;
 public class CMD_WaitSwing extends CommandBase {
   private double min;
   private double max;
-  /** Creates a new CMD_WaitSwing. */
+  /** Creates a new CMD_WaitSwing. */ 
+  SUB_Climber climber;
+  
   public CMD_WaitSwing() {
     // Use addRequirements() here to declare subsystem dependencies.
+    //wait for the climber to swing
+    addRequirements(climber);
+
   }
 
   // Called when the command is initially scheduled.

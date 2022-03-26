@@ -21,10 +21,10 @@ import frc.robot.Constants;
 
 public class SUB_Climber extends SubsystemBase {
   /** Creates a new Climber. */
-  private CANSparkMax climberMotor = new CANSparkMax(Constants.CLIMBER_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+  private CANSparkMax climberMotor = new CANSparkMax(Constants.CLIMBER_MOTOR_ID,
+      CANSparkMaxLowLevel.MotorType.kBrushless);
   private DoubleSolenoid cSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 12, 13);
-  private AHRS navx; 
-
+  private AHRS navx;
 
   private double min = 0;
   private double max = 0;
@@ -35,11 +35,11 @@ public class SUB_Climber extends SubsystemBase {
   private boolean curIncreasing = false;
   private boolean curDecreasing = false;
 
-  private double curAngle,prevAngle;
+  private double curAngle, prevAngle;
 
   // 180 top, zero bottom
   private RelativeEncoder climberEncoder = climberMotor.getEncoder();
-  private SparkMaxLimitSwitch climberLimitSwitch =  climberMotor.getReverseLimitSwitch(Type.kNormallyOpen);
+  private SparkMaxLimitSwitch climberLimitSwitch = climberMotor.getReverseLimitSwitch(Type.kNormallyOpen);
 
   public SUB_Climber(AHRS navxArgs) {
     this.navx = navxArgs;
@@ -52,18 +52,17 @@ public class SUB_Climber extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-   //SmartDashboard.putBoolean("Climber Lock", lockGetPos());
-   SmartDashboard.putNumber("Navx Pitch Val", getPitch());
-   SmartDashboard.putNumber("Climber Encoder Val", climberEncoder.getPosition());
+    // SmartDashboard.putBoolean("Climber Lock", lockGetPos());
+    SmartDashboard.putNumber("Navx Pitch Val", getPitch());
+    SmartDashboard.putNumber("Climber Encoder Val", climberEncoder.getPosition());
 
-   if(climberLimitSwitch.isPressed()){
-     climberEncoder.setPosition(0);
-   }
+    if (climberLimitSwitch.isPressed()) {
+      climberEncoder.setPosition(0);
+    }
 
-   SmartDashboard.putNumber("Navx Range: ", getRange());
-   SmartDashboard.putNumber("Maximum: ", max);
-   SmartDashboard.putNumber("Minimum: ", min);
-
+    SmartDashboard.putNumber("Navx Range: ", getRange());
+    SmartDashboard.putNumber("Maximum: ", max);
+    SmartDashboard.putNumber("Minimum: ", min);
 
   }
 
@@ -79,16 +78,14 @@ public class SUB_Climber extends SubsystemBase {
   /**
    * Toggle lock and unlock of the climber
    */
- 
-   public void lockToggle(){
+
+  public void lockToggle() {
     cSolenoid.toggle();
   }
 
-  public void lockSet(Value input){
+  public void lockSet(Value input) {
     cSolenoid.set(input);
   }
-
-
 
   /**
    * Gets the position of the piston and checks if locked
@@ -97,45 +94,72 @@ public class SUB_Climber extends SubsystemBase {
    * @return The state of the piston
    */
 
-    public Value lockGet() {
-      return (cSolenoid.get());
-  
+  public Value lockGet() {
+    return (cSolenoid.get());
+
   }
 
-  public double getPitch(){
+  public double getPitch() {
     return navx.getRoll();
   }
 
-  public void zeroPitch(){
+  public void zeroPitch() {
     navx.reset();
   }
 
-  public double getClimberPosition(){
+  public double getClimberPosition() {
     return climberEncoder.getPosition();
   }
 
-
-  public double getRange(){
+  public double getRange() {
     curAngle = getPitch();
+    if (Math.abs(curAngle - prevAngle) > 0.5) {
+      if (curAngle > prevAngle) {
+        curIncreasing = true;
+        curDecreasing = false;
+      } else {
+        curIncreasing = false;
+        curDecreasing = true;
+      }
 
-    if (curAngle>prevAngle){
-      curIncreasing = true;
-      curDecreasing = false;
-    } else {
-      curIncreasing = false;
-      curDecreasing = true;
+      if (prevDecreasing && curIncreasing) {
+        min = prevAngle;
+      } else if (prevIncreasing && curDecreasing) {
+        max = prevAngle;
+      }
+
+      prevAngle = curAngle;
+      prevIncreasing = curIncreasing;
+      prevDecreasing = curDecreasing;
+
     }
-
-    if (prevDecreasing && curIncreasing){
-      min = prevAngle;
-    } else if (prevIncreasing && curDecreasing) {
-      max = prevAngle;
-    }
-
-    prevAngle = curAngle;
-    prevIncreasing = curIncreasing;
-    prevDecreasing = curDecreasing;
-    return Math.abs(max-min);
+    return Math.abs(max - min);
   }
 
+ //return the min value
+  public double getMin() {
+    curAngle = getPitch();
+    if (Math.abs(curAngle - prevAngle) > 0.5) {
+      if (curAngle > prevAngle) {
+        curIncreasing = true;
+        curDecreasing = false;
+      } else {
+        curIncreasing = false;
+        curDecreasing = true;
+      }
+
+      if (prevDecreasing && curIncreasing) {
+        min = prevAngle;
+      } else if (prevIncreasing && curDecreasing) {
+        max = prevAngle;
+      }
+
+      prevAngle = curAngle;
+      prevIncreasing = curIncreasing;
+      prevDecreasing = curDecreasing;
+
+    }
+    return min;
+  }
 }
+
