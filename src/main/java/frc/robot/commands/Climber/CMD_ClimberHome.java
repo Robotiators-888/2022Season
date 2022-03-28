@@ -26,7 +26,7 @@ public class CMD_ClimberHome extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    climber.lockSet(Value.kReverse);
+    climber.lockSet(Value.kForward);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -39,7 +39,7 @@ public class CMD_ClimberHome extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     climber.speedSet(0);
-    climber.lockSet(Value.kForward);
+    climber.lockSet(Value.kReverse);
 
   }
 

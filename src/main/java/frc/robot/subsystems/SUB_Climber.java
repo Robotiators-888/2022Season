@@ -103,6 +103,10 @@ public class SUB_Climber extends SubsystemBase {
     return navx.getRoll();
   }
 
+  public double getYaw(){
+    return navx.getYaw();
+  }
+
   public void zeroPitch() {
     navx.reset();
   }
