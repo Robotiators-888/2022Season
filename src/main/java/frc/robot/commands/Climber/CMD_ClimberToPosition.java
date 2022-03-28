@@ -25,7 +25,9 @@ public class CMD_ClimberToPosition extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    climber.lockSet(Value.kReverse);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -54,12 +56,13 @@ public class CMD_ClimberToPosition extends CommandBase {
   public void end(boolean interrupted) {
     climber.speedSet(0);
     climber.lockSet(Value.kForward); //lock the climber
+    
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    climber.lockSet(Value.kReverse);
+    
     return(climber.getClimberPosition()>=destPos-Constants.CLIMBER_TOLERANCE && 
     climber.getClimberPosition()<=destPos+Constants.CLIMBER_TOLERANCE);
 
