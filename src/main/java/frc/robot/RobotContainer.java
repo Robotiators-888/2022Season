@@ -488,9 +488,11 @@ public class RobotContainer {
         }
 
         public Command getAutonomousCommand() {
+                Command chosenAuto = AutoChooser.getSelected();
+                int delay = DelayChooser.getSelected();
                 drivetrain.zeroEncoders();
                 drivetrain.zeroHeading();
-                return new SequentialCommandGroup(new WaitCommand(DelayChooser.getSelected()), AutoChooser.getSelected());
+                return new SequentialCommandGroup(new WaitCommand(delay), chosenAuto);
         }
 
         public void teleInit() {
