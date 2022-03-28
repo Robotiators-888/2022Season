@@ -117,7 +117,8 @@ public class RobotContainer {
         JoystickButton R_trigger = new JoystickButton(rightJoystick, 1);
 
         // Auto objects
-        SendableChooser<Command> chooser = new SendableChooser<>();
+        SendableChooser<Command> AutoChooser = new SendableChooser<>();
+        SendableChooser<Integer> DelayChooser = new SendableChooser<>();
 
         // ====================================================================
         // Trajectories
@@ -392,22 +393,36 @@ public class RobotContainer {
                 limelight.setLed(1);
                 field2d.getObject("traj").setTrajectory(RS_threeBall_p1);
 
-                chooser.setDefaultOption("Low Dump", lowDump);
-                chooser.addOption("limelight High Shot", limelightHighShot);
-                chooser.addOption("Low Dump no drive", lowDumpNoDrive);
-                chooser.addOption("staright weaver", straightWeaver);
-                chooser.addOption("Drive Back", straightAuto);
-                chooser.addOption("Right side Right Ball", RS_RB_twoBall);
-                chooser.addOption("Right side Left Ball", RS_LB_twoBall);
-                chooser.addOption("Left side - No Cam", LS_twoBall_NC);
-                chooser.addOption("Left side - With Cam", LS_twoBall_WC);
-                chooser.addOption("Right side three ball - No Cam - HIGH", RS_threeBall_NC_HIGH);
+                AutoChooser.setDefaultOption("Low Dump", lowDump);
+                AutoChooser.addOption("limelight High Shot", limelightHighShot);
+                AutoChooser.addOption("Low Dump no drive", lowDumpNoDrive);
+                AutoChooser.addOption("staright weaver", straightWeaver);
+                AutoChooser.addOption("Drive Back", straightAuto);
+                AutoChooser.addOption("Right side Right Ball", RS_RB_twoBall);
+                AutoChooser.addOption("Right side Left Ball", RS_LB_twoBall);
+                AutoChooser.addOption("Left side - No Cam", LS_twoBall_NC);
+                AutoChooser.addOption("Left side - With Cam", LS_twoBall_WC);
+                AutoChooser.addOption("Right side three ball - No Cam - HIGH", RS_threeBall_NC_HIGH);
                 // chooser.addOption("Right side three ball With Cam LOW", RS_threeBall_WC_LOW);
-                chooser.addOption("Right side three ball - No cam - LOW", RS_threeBall_NC_LOW);
-                chooser.addOption("three ball run end", RS_threeBall_NC_LOW_FullRun);
-                chooser.addOption("four ball", RS_fourball);
+                AutoChooser.addOption("Right side three ball - No cam - LOW", RS_threeBall_NC_LOW);
+                AutoChooser.addOption("three ball run end", RS_threeBall_NC_LOW_FullRun);
+                AutoChooser.addOption("four ball", RS_fourball);
 
-                SmartDashboard.putData("chooser", chooser);
+                DelayChooser.setDefaultOption("0 sec", 0);
+                DelayChooser.addOption("1 sec", 1);
+                DelayChooser.addOption("2 sec", 2);
+                DelayChooser.addOption("3 sec", 3);
+                DelayChooser.addOption("4 sec", 4);
+                DelayChooser.addOption("5 sec", 5);
+                DelayChooser.addOption("6 sec", 6);
+                DelayChooser.addOption("7 sec", 7);
+                DelayChooser.addOption("8 sec", 8);
+                DelayChooser.addOption("9 sec", 9);
+                DelayChooser.addOption("10 sec", 10);
+
+                SmartDashboard.putData("Auto Chooser", AutoChooser);
+                SmartDashboard.putData("Delay Chooser", DelayChooser);
+                
 
                 // networkTables.start();
                 System.out.println("RobotContainer initialization complete.");
@@ -477,7 +492,7 @@ public class RobotContainer {
         public Command getAutonomousCommand() {
                 drivetrain.zeroEncoders();
                 drivetrain.zeroHeading();
-                return chooser.getSelected();
+                return new SequentialCommandGroup(new WaitCommand(DelayChooser.getSelected()), AutoChooser.getSelected());
         }
 
         public void teleInit() {
