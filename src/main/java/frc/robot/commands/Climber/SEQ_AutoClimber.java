@@ -22,20 +22,26 @@ public class SEQ_AutoClimber extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
 
     //new WaitUntilCommand(()->(climber.getPitch()<=-35))
+    //   new WaitUntilCommand(() -> (climber.getMin() > -35)),
+    //32
     addCommands(
+
+      // Low
       new CMD_ClimberHome(climber),
+
+      // High
       new CMD_ClimberToPosition(climber,175),
-      
       new CMD_ClimberToPosition(climber,120),
-      //new WaitCommand(5),
-      new WaitUntilCommand(() -> (climber.getMin() > -26 && Math.abs(climber.getYaw()) < 7)), //wait until the min  angle is greater than -30
+
+      // Wait until stable
+      new WaitUntilCommand(() -> (climber.getMin() > -25 && Math.abs(climber.getYaw()) < 7)), //wait until the min  angle is greater than -30
       new WaitCommand(0.5),
       new CMD_ClimberHome(climber),
-      new WaitUntilCommand(() -> (climber.getMin() > -40)),
       new WaitCommand(0.5),
-      new CMD_ClimberToPosition(climber,175),
-      new WaitUntilCommand(() -> (climber.getMin() > -35)),
-      new CMD_ClimberToPosition(climber,120)
+
+      // Traversal
+      new CMD_ClimberToPosition(climber,175,28,35),
+      new CMD_ClimberToPosition(climber,120,28,35)
     );
   }
 }
