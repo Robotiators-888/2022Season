@@ -45,6 +45,15 @@ public class SUB_CameraData extends SubsystemBase {
     }
   }
 
+  public double getAngle(){
+    if(direction){
+      return SmartDashboard.getNumber("front_angle", 0);
+    }else{
+      return SmartDashboard.getNumber("back_angle", 0);
+
+    }
+  }
+
   public boolean ballDetected() {
     if (direction) {
       return SmartDashboard.getBoolean("ballDetectedFront", false);

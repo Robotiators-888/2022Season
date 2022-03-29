@@ -20,6 +20,8 @@ public class CMD_alignToBall extends CommandBase {
 
   double ballX;
   double ballY;
+  double ballAngle;
+  double gyroHeading;
 
   double moveXValue;
   double moveYValue;
@@ -27,7 +29,7 @@ public class CMD_alignToBall extends CommandBase {
   // intake deadzone front is 6.5 inches
   static final double X_DEADZONE = 1; // inches
 
-  static final double FORWARD_DRIVE_SPEED = 0.65;
+  static double DRIVE_SPEED = 0.50;
 
   /**
    * turn robot to ball
@@ -47,12 +49,15 @@ public class CMD_alignToBall extends CommandBase {
   public void initialize() {
     drivetrain.setIdleMode(IdleMode.kCoast);
     cameraSub.setDirection(camSelect);
+    ballAngle = cameraSub.getAngle();
+    DRIVE_SPEED = 0.50;
   }
 
   // Ryansete controller TM
   // ok.
   @Override
   public void execute() {
+   /*
     ballX = cameraSub.getX();
 
     if (cameraSub.ballDetected()) {
@@ -74,6 +79,22 @@ public class CMD_alignToBall extends CommandBase {
       // multiply turn speeds down, then turn
       drivetrain.setMotors((0.06) * (moveXValue), (-0.06) * (moveXValue));
     } else {
+      drivetrain.setMotors(0, 0);
+    }
+    */
+    gyroHeading = drivetrain.getGyroHeading().getDegrees();
+
+    if(cameraSub.ballDetected()){
+    if((ballAngle / gyroHeading) < 0.90 && (ballAngle / gyroHeading) > 1.10){
+      DRIVE_SPEED = 0;
+    }else if(ballAngle > gyroHeading){
+      DRIVE_SPEED *= 1;
+    }else if(ballAngle < gyroHeading){
+      DRIVE_SPEED *= -1;
+    }
+
+    drivetrain.setMotors((0.6) ,(-0.6));
+    }else{
       drivetrain.setMotors(0, 0);
     }
   }
