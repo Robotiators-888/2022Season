@@ -37,7 +37,7 @@ public class CMD_alignToBall extends CommandBase {
   double moveYValue;
 
   // intake deadzone front is 6.5 inches
-  static final double X_DEADZONE = 1; //  inches
+  //static final double X_DEADZONE = 1; //  inches
   static final double angleDeadzone = 10; // degrees
 
 
@@ -73,6 +73,7 @@ public class CMD_alignToBall extends CommandBase {
 
 
 
+    System.out.println("gyro: " + gyro + " target: " + target + " distance: " + distance+ " gyroMinusDist: " + gyroMinusDist + " gyroPlusDist: " + gyroPlusDist);
     if (gyroPlusDist == intTarget){
       return true;
     }
@@ -125,24 +126,27 @@ public class CMD_alignToBall extends CommandBase {
     ballAngle = cameraSub.getAngle();
     DRIVE_SPEED = 0.50;
     initGyroHeading = drivetrain.getGyroHeading().getDegrees();
+
+    System.out.println("init gyro: " + initGyroHeading+ " ball angle: " + ballAngle);
   }
 
   // Ryansete controller TM
   // ok.
   @Override
   public void execute() {
-   
-    gyroHeading = drivetrain.getGyroHeading().getDegrees();
+   double DRIVE_MULTIPLIER = 0.4;
+
+    this.gyroHeading = drivetrain.getGyroHeading().getDegrees();
 
     if(inDeadZone()){
-      DRIVE_SPEED = 0;
+      DRIVE_MULTIPLIER = 0;
     }else if(isLeftRight(ballAngle, getCurrentGyroRelative()) == true){
-      DRIVE_SPEED *= 1;
+      DRIVE_MULTIPLIER *= 1;
     }else if(isLeftRight(ballAngle, getCurrentGyroRelative()) == false){
-      DRIVE_SPEED *= -1;
+      DRIVE_MULTIPLIER *= -1;
     }
 
-    drivetrain.setMotors((0.6*DRIVE_SPEED) ,(-0.6*DRIVE_SPEED));
+    drivetrain.setMotors((1*DRIVE_MULTIPLIER) ,(-1*DRIVE_MULTIPLIER));
     
   }
 
