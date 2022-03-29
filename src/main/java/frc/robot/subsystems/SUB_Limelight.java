@@ -131,7 +131,7 @@ public class SUB_Limelight extends SubsystemBase {
   public int distRpm(double dist, boolean shootHigh) {
 
     if(shootHigh == true){
-      return (int) ((24*dist) + 1200);
+      return (int) ((24*dist) + 880);
 
     }
     else{
