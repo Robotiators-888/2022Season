@@ -349,15 +349,7 @@ public class RobotContainer {
                                                         new SequentialCommandGroup(
                                                                         new CMD_CanalZeroToOneBottom(canal, index),
                                                                         new CMD_IndexBottomToTop(canal, index)))),
-                        // new CMD_limeAlign(limelight, drivetrain).withTimeout(1),
-                        // new SEQ_dumbShot(shooter, index, 4500), // shoot 1
                         new SEQ_limeShot(shooter, drivetrain, index, limelight, true),
-                        // new ParallelDeadlineGroup(
-                        // new WaitCommand(1),
-                        // new SequentialCommandGroup(
-                        // new CMD_CanalZeroToOneBottom(canal, index),
-                        // new CMD_IndexBottomToTop(canal, index))),
-                        // new SEQ_limeShot(shooter, drivetrain, index, limelight, true),
                         new ParallelDeadlineGroup(
                                         autoHelper.getRamset(RS_fourBall_p2),
                                         new SequentialCommandGroup(
@@ -373,15 +365,7 @@ public class RobotContainer {
                                         new SequentialCommandGroup(
                                                         new CMD_CanalZeroToOneBottom(canal, index),
                                                         new CMD_IndexBottomToTop(canal, index))),
-                        // new CMD_limeAlign(limelight, drivetrain).withTimeout(1),
-                        // new SEQ_dumbShot(shooter, index, 5000), // shoot 3
                         new SEQ_limeShot(shooter, drivetrain, index, limelight, true),
-                        // new ParallelDeadlineGroup(
-                        // new WaitCommand(1),
-                        // new SequentialCommandGroup(
-                        // new CMD_CanalZeroToOneBottom(canal, index),
-                        // new CMD_IndexBottomToTop(canal, index))),
-                        // new SEQ_limeShot(shooter, drivetrain, index, limelight, true),
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
         // ====================================================================
@@ -453,8 +437,8 @@ public class RobotContainer {
                 AutoChooser.addOption("Right side | three ball | low", RS_threeBall_NC_LOW);
                 AutoChooser.addOption("Right side | three ball | run end", RS_threeBall_NC_LOW_FullRun);
                 AutoChooser.addOption("Right side | four ball  | ", RS_fourball);
-                AutoChooser.addOption("Left side  | Billiards  | Defensive ", );
-                AutoChooser.addOption("Left side  | Citrus     | Defensive ", );
+                AutoChooser.addOption("Left side  | Billiards  | Defensive ", LS_citrus);
+                AutoChooser.addOption("Left side  | Citrus     | Defensive ", LS_blilliards);
 
                 DelayChooser.setDefaultOption("0 sec", 0);
                 DelayChooser.addOption("1 sec", 1);
