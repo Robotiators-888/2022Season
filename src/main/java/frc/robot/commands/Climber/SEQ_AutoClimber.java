@@ -24,24 +24,25 @@ public class SEQ_AutoClimber extends SequentialCommandGroup {
     //new WaitUntilCommand(()->(climber.getPitch()<=-35))
     //   new WaitUntilCommand(() -> (climber.getMin() > -35)),
     //32
+    final double stableYaw = climber.getYaw();
     addCommands(
 
       // Low
       new CMD_ClimberHome(climber),
 
       // High
-      new CMD_ClimberToPosition(climber,175),
+      new CMD_ClimberToPosition(climber,178),
       new CMD_ClimberToPosition(climber,120),
 
       // Wait until stable
-      new WaitUntilCommand(() -> (climber.getMin() > -25 && Math.abs(climber.getYaw()) < 7)), //wait until the min  angle is greater than -30
+      new WaitUntilCommand(() -> (climber.getMin() > -25 && Math.abs(climber.getYaw())-Math.abs(stableYaw) < 8)), //wait until the min  angle is greater than -30
       new WaitCommand(0.5),
       new CMD_ClimberHome(climber),
       new WaitCommand(0.5),
 
       // Traversal
-      new CMD_ClimberToPosition(climber,175,28,35),
-      new CMD_ClimberToPosition(climber,120,28,35)
+      new CMD_ClimberToPosition(climber,175,30,38),
+      new CMD_ClimberToPosition(climber,120,38,42)
     );
   }
 }

@@ -64,7 +64,7 @@ public class CMD_ClimberToPosition extends CommandBase {
         }
      }
 
-    }
+    } 
   }
 
   // Called once the command ends or is interrupted.

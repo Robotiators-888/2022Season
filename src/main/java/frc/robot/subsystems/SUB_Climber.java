@@ -61,6 +61,7 @@ public class SUB_Climber extends SubsystemBase {
     }
 
     SmartDashboard.putNumber("Navx Range: ", getRange());
+    SmartDashboard.putNumber("Abs Yaw: ", getYaw());
     SmartDashboard.putNumber("Maximum: ", max);
     SmartDashboard.putNumber("Minimum: ", min);
 

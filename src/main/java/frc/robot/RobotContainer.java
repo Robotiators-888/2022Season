@@ -362,9 +362,9 @@ public class RobotContainer {
 
                 L_button10.whenPressed(new SEQ_AutoClimber(climber));
                 // Intake
-                //L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
-                //L_Trigger.whileHeld(new ParallelCommandGroup(new CMD_IntakeSpin(intake, 0.75),
-                //               new CMD_CanalZeroToOneBottom(canal, index)));
+                L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
+                L_Trigger.whileHeld(new ParallelCommandGroup(new CMD_IntakeSpin(intake, 0.75),
+                               new CMD_CanalZeroToOneBottom(canal, index)));
 
                 // Canal
                 C_dPadUp.whileHeld(new CMD_canalRun(canal, -0.75));
