@@ -50,7 +50,7 @@ import frc.robot.subsystems.SUB_Drivetrain;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-
+import edu.wpi.first.cameraserver.CameraServer;
 import frc.robot.subsystems.*;
 
 import frc.robot.subsystems.SUB_LED;
@@ -313,6 +313,8 @@ public class RobotContainer {
                 LiveWindow.disableAllTelemetry();
                 configureButtonBindings();
                 sendBallColor();
+                
+                CameraServer.startAutomaticCapture(); 
 
                 limelight.setLed(1);
                 field2d.getObject("traj").setTrajectory(RS_threeBall_p1);
