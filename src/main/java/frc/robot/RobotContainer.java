@@ -153,8 +153,8 @@ public class RobotContainer {
         Trajectory LS_Billiards_p1 = autoHelper.getTrajectory("paths/output/LS_Billiards_p1.wpilib.json");
         Trajectory LS_Billiards_p2 = autoHelper.getTrajectory("paths/output/LS_Billiards_p2.wpilib.json");
 
-        Trajectory LS_Defensive_p1 = autoHelper.getTrajectory("paths/output/LS_Defensive_p1.wpilib.json");
-        Trajectory LS_Defensive_p2 = autoHelper.getTrajectory("paths/output/LS_Defensive_p2.wpilib.json");
+        Trajectory LS_Defensive_p1 = autoHelper.getTrajectory("paths/output/LS_twoBall_defensive_p1.wpilib.json");
+        Trajectory LS_Defensive_p2 = autoHelper.getTrajectory("paths/output/LS_twoBall_defensive_p2.wpilib.json");
 
         Trajectory LS_Citrus_p1 = autoHelper.getTrajectory("paths/output/LS_Citrus.wpilib.json");
 
