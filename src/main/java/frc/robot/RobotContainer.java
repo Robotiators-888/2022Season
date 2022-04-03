@@ -350,13 +350,14 @@ public class RobotContainer {
                                                                         new CMD_CanalZeroToOneBottom(canal, index),
                                                                         new CMD_IndexBottomToTop(canal, index)))),
                         new SEQ_limeShot(shooter, drivetrain, index, limelight, true),
+                        new SEQ_limeShot(shooter, drivetrain, index, limelight, true),
                         new ParallelDeadlineGroup(
                                         autoHelper.getRamset(RS_fourBall_p2),
                                         new SequentialCommandGroup(
                                                         new CMD_CanalZeroToOneBottom(canal, index),
                                                         new CMD_IndexBottomToTop(canal, index))),
                         new ParallelDeadlineGroup(
-                                        new WaitCommand(1),
+                                        new WaitCommand(1.5),
                                         new SequentialCommandGroup(
                                                         new CMD_CanalZeroToOneBottom(canal, index),
                                                         new CMD_IndexBottomToTop(canal, index))),
@@ -365,6 +366,7 @@ public class RobotContainer {
                                         new SequentialCommandGroup(
                                                         new CMD_CanalZeroToOneBottom(canal, index),
                                                         new CMD_IndexBottomToTop(canal, index))),
+                        new SEQ_limeShot(shooter, drivetrain, index, limelight, true),
                         new SEQ_limeShot(shooter, drivetrain, index, limelight, true),
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
