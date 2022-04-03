@@ -477,6 +477,7 @@ public class RobotContainer {
                 AutoChooser.addOption("Left side - two ball - With Cam", LS_twoBall_WC);
                 AutoChooser.addOption("Left side - Billiards - Defensive ", LS_blilliards);
                 AutoChooser.addOption("Left side - Citrus - Defensive ", LS_citrus);
+                AutoChooser.addOption("Left side - 2 Ball - Defensive ", LS_defensive);
 
                 DelayChooser.setDefaultOption("0 sec", 0);
                 DelayChooser.addOption("1 sec", 1);
