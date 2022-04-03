@@ -153,6 +153,9 @@ public class RobotContainer {
         Trajectory LS_Billiards_p1 = autoHelper.getTrajectory("paths/output/LS_Billiards_p1.wpilib.json");
         Trajectory LS_Billiards_p2 = autoHelper.getTrajectory("paths/output/LS_Billiards_p2.wpilib.json");
 
+        Trajectory LS_Defensive_p1 = autoHelper.getTrajectory("paths/output/LS_Defensive_p1.wpilib.json");
+        Trajectory LS_Defensive_p2 = autoHelper.getTrajectory("paths/output/LS_Defensive_p2.wpilib.json");
+
         Trajectory LS_Citrus_p1 = autoHelper.getTrajectory("paths/output/LS_Citrus.wpilib.json");
 
         Trajectory Str8 = TrajectoryGenerator.generateTrajectory(
@@ -349,6 +352,11 @@ public class RobotContainer {
                                                         new SequentialCommandGroup(
                                                                         new CMD_CanalZeroToOneBottom(canal, index),
                                                                         new CMD_IndexBottomToTop(canal, index)))),
+                        new ParallelDeadlineGroup(
+                                        new WaitCommand(0.5),
+                                        new SequentialCommandGroup(
+                                                        new CMD_CanalZeroToOneBottom(canal, index),
+                                                        new CMD_IndexBottomToTop(canal, index))),
                         new SEQ_limeShot(shooter, drivetrain, index, limelight, true),
                         new SEQ_limeShot(shooter, drivetrain, index, limelight, true),
                         new ParallelDeadlineGroup(
@@ -357,7 +365,7 @@ public class RobotContainer {
                                                         new CMD_CanalZeroToOneBottom(canal, index),
                                                         new CMD_IndexBottomToTop(canal, index))),
                         new ParallelDeadlineGroup(
-                                        new WaitCommand(1.5),
+                                        new WaitCommand(1),
                                         new SequentialCommandGroup(
                                                         new CMD_CanalZeroToOneBottom(canal, index),
                                                         new CMD_IndexBottomToTop(canal, index))),
@@ -399,17 +407,46 @@ public class RobotContainer {
                         new InstantCommand(() -> intake.pistonSet(true), intake),
                         new ParallelDeadlineGroup(
                                         autoHelper.getRamset(LS_Citrus_p1),
-                                        new CMD_IntakeSpin(intake, -75),
+                                        new CMD_IntakeSpin(intake, 0.75),
                                         new CMD_canalRun(canal, -0.75),
                                         new CMD_IndexBottomToTopBanner(index, 0.50)),
                         new InstantCommand(() -> intake.pistonSet(false), intake),
+                        new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)),
                         new ParallelDeadlineGroup(
                                         new WaitCommand(0.5),
                                         new CMD_canalThrough(canal, -1)),
-                        new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)),
-                        new ParallelCommandGroup(                                       
-                                new CMD_canalThrough(canal, -1),
-                                new CMD_indexRun(index, -0.75)));
+                        new ParallelCommandGroup(
+                                        new CMD_canalThrough(canal, -1),
+                                        new CMD_indexRun(index, -0.75)));
+
+        Command LS_defensive = new SequentialCommandGroup(
+                        new InstantCommand(() -> drivetrain.setPosition(LS_Defensive_p1.getInitialPose())),
+                        new InstantCommand(() -> intake.pistonSet(false), intake),
+                        new ParallelDeadlineGroup(
+                                        autoHelper.getRamset(LS_Defensive_p1),
+                                        new SequentialCommandGroup(
+                                                        new CMD_CanalZeroToOneBottom(canal, index),
+                                                        new CMD_IndexBottomToTop(canal, index))),
+                        new ParallelDeadlineGroup(
+                                        new WaitCommand(0.5),
+                                        new SequentialCommandGroup(
+                                                        new CMD_CanalZeroToOneBottom(canal, index),
+                                                        new CMD_IndexBottomToTop(canal, index))),
+                        new SEQ_limeShot(shooter, drivetrain, index, limelight, true),
+                        new SEQ_limeShot(shooter, drivetrain, index, limelight, true),
+                        new InstantCommand(() -> intake.pistonSet(true), intake),
+                        autoHelper.getRamset(LS_Defensive_p2),
+                        new SequentialCommandGroup(
+                                        new CMD_IntakeSpin(intake, 0.75),
+                                        new CMD_CanalZeroToOneBottom(canal, index),
+                                        new CMD_IndexBottomToTop(canal, index)),
+                        new ParallelDeadlineGroup(
+                                        new WaitCommand(0.5),
+                                        new CMD_canalThrough(canal, -1)),
+                        new ParallelCommandGroup(
+                                        new CMD_canalThrough(canal, -1),
+                                        new CMD_indexRun(index, -0.75)));
+
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -418,14 +455,13 @@ public class RobotContainer {
                 LiveWindow.disableAllTelemetry();
                 configureButtonBindings();
                 sendBallColor();
-                
-                CameraServer.startAutomaticCapture(); 
+
+                CameraServer.startAutomaticCapture();
 
                 limelight.setLed(1);
                 field2d.getObject("traj").setTrajectory(RS_threeBall_p1);
 
-
-                //AutoChooser.addOption("staright weaver", straightWeaver);
+                // AutoChooser.addOption("staright weaver", straightWeaver);
                 AutoChooser.setDefaultOption("Low Dump - one ball - with drive", lowDump);
                 AutoChooser.addOption("Low Dump - one ball - no drive", lowDumpNoDrive);
                 AutoChooser.addOption("Drive Back - no shoot", straightAuto);
@@ -439,8 +475,8 @@ public class RobotContainer {
                 AutoChooser.addOption("Right side - four ball ", RS_fourball);
                 AutoChooser.addOption("Left side - two ball - No Cam", LS_twoBall_NC);
                 AutoChooser.addOption("Left side - two ball - With Cam", LS_twoBall_WC);
-                AutoChooser.addOption("Left side - Billiards - Defensive ", LS_citrus);
-                AutoChooser.addOption("Left side - Citrus - Defensive ", LS_blilliards);
+                AutoChooser.addOption("Left side - Billiards - Defensive ", LS_blilliards);
+                AutoChooser.addOption("Left side - Citrus - Defensive ", LS_citrus);
 
                 DelayChooser.setDefaultOption("0 sec", 0);
                 DelayChooser.addOption("1 sec", 1);
