@@ -357,8 +357,12 @@ public class RobotContainer {
                                         new SequentialCommandGroup(
                                                         new CMD_CanalZeroToOneBottom(canal, index),
                                                         new CMD_IndexBottomToTop(canal, index))),
-                        new SEQ_limeShot(shooter, drivetrain, index, limelight, true),
-                        new SEQ_limeShot(shooter, drivetrain, index, limelight, true),
+                        new ParallelDeadlineGroup(
+                                        new SEQ_limeShot(shooter, drivetrain, index, limelight, true),
+                                        new CMD_canalRun(canal, -0.75)),
+                        new ParallelDeadlineGroup(
+                                        new SEQ_limeShot(shooter, drivetrain, index, limelight, true),
+                                        new CMD_canalRun(canal, -0.75)),
                         new ParallelDeadlineGroup(
                                         autoHelper.getRamset(RS_fourBall_p2),
                                         new SequentialCommandGroup(
@@ -374,8 +378,12 @@ public class RobotContainer {
                                         new SequentialCommandGroup(
                                                         new CMD_CanalZeroToOneBottom(canal, index),
                                                         new CMD_IndexBottomToTop(canal, index))),
-                        new SEQ_limeShot(shooter, drivetrain, index, limelight, true),
-                        new SEQ_limeShot(shooter, drivetrain, index, limelight, true),
+                        new ParallelDeadlineGroup(
+                                        new SEQ_limeShot(shooter, drivetrain, index, limelight, true),
+                                        new CMD_canalRun(canal, -0.75)),
+                        new ParallelDeadlineGroup(
+                                        new SEQ_limeShot(shooter, drivetrain, index, limelight, true),
+                                        new CMD_canalRun(canal, -0.75)),
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
         // ====================================================================
@@ -432,21 +440,28 @@ public class RobotContainer {
                                         new SequentialCommandGroup(
                                                         new CMD_CanalZeroToOneBottom(canal, index),
                                                         new CMD_IndexBottomToTop(canal, index))),
-                        new SEQ_limeShot(shooter, drivetrain, index, limelight, true),
+                        new ParallelDeadlineGroup(
+                                        new SEQ_limeShot(shooter, drivetrain, index, limelight, true),
+                                        new CMD_canalRun(canal, -0.75)),
+                        new ParallelDeadlineGroup(
+                                        new SEQ_limeShot(shooter, drivetrain, index, limelight, true),
+                                        new CMD_canalRun(canal, -0.75)),
                         new SEQ_limeShot(shooter, drivetrain, index, limelight, true),
                         new InstantCommand(() -> intake.pistonSet(true), intake),
-                        autoHelper.getRamset(LS_Defensive_p2),
-                        new SequentialCommandGroup(
+                        new ParallelDeadlineGroup(
+                                        autoHelper.getRamset(LS_Defensive_p2),
                                         new CMD_IntakeSpin(intake, 0.75),
-                                        new CMD_CanalZeroToOneBottom(canal, index),
-                                        new CMD_IndexBottomToTop(canal, index)),
+                                        new SequentialCommandGroup(
+                                                        new CMD_CanalZeroToOneBottom(canal, index),
+                                                        new CMD_IndexBottomToTop(canal, index))),
                         new ParallelDeadlineGroup(
                                         new WaitCommand(0.5),
-                                        new CMD_canalThrough(canal, -1)),
+                                        new CMD_canalThrough(canal, -1),
+                                        new CMD_IntakeSpin(intake, -0.75)),
                         new ParallelCommandGroup(
                                         new CMD_canalThrough(canal, -1),
-                                        new CMD_indexRun(index, -0.75)));
-
+                                        new CMD_indexRun(index, -0.75),
+                                        new CMD_IntakeSpin(intake, -0.75)));
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
