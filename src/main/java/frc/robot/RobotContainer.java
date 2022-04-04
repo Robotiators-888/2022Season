@@ -52,6 +52,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.cameraserver.CameraServer;
 import frc.robot.subsystems.*;
+import frc.robot.commands.Intake.*;
 
 import frc.robot.subsystems.SUB_LED;
 
@@ -94,6 +95,11 @@ public class RobotContainer {
         POVButton C_dPadRight = new POVButton(controller, 90);
         Trigger C_leftTrigger;
         Trigger C_rightTrigger;
+
+        Trigger intakeDown = new Trigger(()->intake.getPosition());
+        Trigger bottomIndexTrigger = new Trigger(()->index.readBottomBanner());
+        Trigger topIndexTrigger = new Trigger(()->!index.readTopBanner());
+        Trigger indexBottomToTopTrigger = topIndexTrigger.and(bottomIndexTrigger);
 
         // left Joystick
         private Joystick leftJoystick = new Joystick(Constants.LEFTJOYSTICK_PORT);
@@ -536,6 +542,7 @@ public class RobotContainer {
                 C_rightTrigger.whileActiveContinuous(new CMD_ClimberSpeed(climber, -1));
 
                 // Intake
+                intakeDown.whileActiveContinuous(new CMD_AutoIntake(canal,intake));
                 L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
                 L_Trigger.whileHeld(new ParallelCommandGroup(new CMD_IntakeSpin(intake, 0.75),
                                 new CMD_CanalZeroToOneBottom(canal, index)));
@@ -547,7 +554,7 @@ public class RobotContainer {
                 C_dPadRight.whileHeld(new CMD_canalThrough(canal, -0.75));
 
                 // Index
-                index.setDefaultCommand(new CMD_IndexBottomToTop(canal, index));
+                indexBottomToTopTrigger.whileActiveContinuous(new CMD_IndexBottomToTop(canal, index));
                 C_aButton.whileHeld(new ParallelCommandGroup(new CMD_indexRun(index, -0.75),
                                 new CMD_ShooterSpin(shooter, 0.25)));
                 C_bButton.whileHeld(new CMD_indexRun(index, 0.75));
