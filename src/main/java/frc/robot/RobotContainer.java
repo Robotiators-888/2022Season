@@ -542,7 +542,7 @@ public class RobotContainer {
                 C_rightTrigger.whileActiveContinuous(new CMD_ClimberSpeed(climber, -1));
 
                 // Intake
-                intakeDown.whileActiveContinuous(new CMD_AutoIntake(canal,intake));
+                intakeDown.whileActiveContinuous(new CMD_AutoIntake(canal,intake,index));
                 L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
                 L_Trigger.whileHeld(new ParallelCommandGroup(new CMD_IntakeSpin(intake, 0.75),
                                 new CMD_CanalZeroToOneBottom(canal, index)));

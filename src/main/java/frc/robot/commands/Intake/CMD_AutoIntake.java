@@ -7,16 +7,19 @@ package frc.robot.commands.Intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SUB_Canal;
 import frc.robot.subsystems.SUB_Intake;
+import frc.robot.subsystems.SUB_Index;
 
 public class CMD_AutoIntake extends CommandBase {
   SUB_Canal canal;
   SUB_Intake intake;
+  SUB_Index index;
 
   /** Creates a new CMD_AutoIntake. */
-  public CMD_AutoIntake(SUB_Canal canalArgs, SUB_Intake intakeArgs) {
+  public CMD_AutoIntake(SUB_Canal canalArgs, SUB_Intake intakeArgs, SUB_Index indexArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.canal = canalArgs;
     this.intake = intakeArgs;
+    this.index = indexArgs;
     
     // Not adding requirements because this command will interfere with auto
 
@@ -30,8 +33,11 @@ public class CMD_AutoIntake extends CommandBase {
   @Override
   public void execute() {
     intake.intakeSpeedSet(0.5);
-    canal.setSpeedBack(-0.75);
-    canal.setSpeedFront(-0.75);
+
+    if (!index.readBottomBanner()){
+      canal.setSpeedBack(-0.75);
+      canal.setSpeedFront(-0.75);
+    }
   }
 
   // Called once the command ends or is interrupted.
