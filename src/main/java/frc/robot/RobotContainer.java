@@ -96,8 +96,8 @@ public class RobotContainer {
         POVButton C_dPadDown = new POVButton(controller, 180);
         POVButton C_dPadLeft = new POVButton(controller, 270);
         POVButton C_dPadRight = new POVButton(controller, 90);
-        Trigger C_leftTrigger;
-        Trigger C_rightTrigger;
+        Trigger C_leftTrigger = new Trigger(() -> (controller.getRawAxis(2) > 0.5));
+        Trigger C_rightTrigger = new Trigger(() -> (controller.getRawAxis(3) > 0.5));
 
         Trigger intakeDown = new Trigger(() -> intake.getPosition());
         Trigger bottomIndexTrigger = new Trigger(() -> index.readBottomBanner());
@@ -537,13 +537,6 @@ public class RobotContainer {
                                 () -> rightJoystick.getRawAxis(1)));
                 L_button2.whenPressed(new InstantCommand(drivetrain::toggleReverse, drivetrain));
 
-                // climber
-                C_leftTrigger = new Trigger(() -> (controller.getRawAxis(2) > 0.5));
-                C_rightTrigger = new Trigger(() -> (controller.getRawAxis(3) > 0.5));
-
-                C_leftTrigger.whileActiveContinuous(new CMD_ClimberSpeed(climber, 1));
-                C_rightTrigger.whileActiveContinuous(new CMD_ClimberSpeed(climber, -1));
-
                 // Intake
                 intakeDown.whileActiveContinuous(new CMD_AutoIntake(canal, intake, index));
                 L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
@@ -560,8 +553,6 @@ public class RobotContainer {
                 indexBottomToTopTrigger.whileActiveContinuous(new CMD_IndexBottomToTop(canal, index));
                 C_aButton.whileHeld(new ParallelCommandGroup(new CMD_indexRun(index, -0.75),
                                 new CMD_ShooterSpin(shooter, 0.25)));
-                C_bButton.whileHeld(new CMD_indexRun(index, 0.75));
-                L_button5.whileHeld(new CMD_indexRun(index, 0.75));
                 // climber
                 C_xButton.whenHeld(new CMD_ClimberSpeed(climber, 1));
                 C_bButton.whenHeld(new CMD_ClimberSpeed(climber, -1));
@@ -573,9 +564,11 @@ public class RobotContainer {
                 C_rightTrigger.whileActiveContinuous(new CMD_indexRun(index, 0.75));
 
                 // shooter
-                C_lBumper.whenPressed(new CMD_changeSetpoint(shooter, -100));
-                C_rBumper.whenPressed(new CMD_changeSetpoint(shooter, 100));
-                C_leftTrigger.whileActiveContinuous(new CMD_ShooterManualRPM(shooter));
+                R_button3.whenPressed(new CMD_changeSetpoint(shooter, -500));
+                R_button4.whenPressed(new CMD_changeSetpoint(shooter, -100));
+                R_button5.whenPressed(new CMD_changeSetpoint(shooter, 500));
+                R_button6.whenPressed(new CMD_changeSetpoint(shooter, 100));
+                R_trigger.whileHeld(new CMD_ShooterManualRPM(shooter));
 
                 // limelight
                 limelight.setDefaultCommand(new InstantCommand(() -> limelight.setLed(1), limelight).perpetually());
