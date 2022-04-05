@@ -53,6 +53,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.cameraserver.CameraServer;
 import frc.robot.subsystems.*;
 import frc.robot.commands.Intake.*;
+import frc.robot.commands.Canal.*;
 
 import frc.robot.subsystems.SUB_LED;
 
@@ -550,10 +551,10 @@ public class RobotContainer {
                                 new CMD_CanalZeroToOneBottom(canal, index)));
 
                 // Canal
-                C_dPadUp.whileHeld(new CMD_canalRun(canal, -0.75));
-                C_dPadDown.whileHeld(new CMD_canalRun(canal, 0.75));
-                C_dPadLeft.whileHeld(new CMD_canalThrough(canal, 0.75));
-                C_dPadRight.whileHeld(new CMD_canalThrough(canal, -0.75));
+                C_dPadUp.whileHeld(new CMD_teleopCanalRun(canal, -0.75));
+                C_dPadDown.whileHeld(new CMD_teleopCanalRun(canal, 0.75));
+                C_dPadLeft.whileHeld(new CMD_teleopCanalThrough(canal, 0.75));
+                C_dPadRight.whileHeld(new CMD_teleopCanalThrough(canal, -0.75));
 
                 // Index
                 indexBottomToTopTrigger.whileActiveContinuous(new CMD_IndexBottomToTop(canal, index));
@@ -600,6 +601,8 @@ public class RobotContainer {
 
         public void teleInit() {
                 cameraData.setDirection(true);
+                canal.setSpeedBack(0);
+                canal.setSpeedFront(0);
         }
 
         public void teleopPeroid() {
