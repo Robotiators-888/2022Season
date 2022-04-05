@@ -89,6 +89,8 @@ public class RobotContainer {
         JoystickButton C_bButton = new JoystickButton(controller, 2);
         JoystickButton C_xButton = new JoystickButton(controller, 3);
         JoystickButton C_yButton = new JoystickButton(controller, 4);
+        JoystickButton C_lBumper = new JoystickButton(controller, 5);
+        JoystickButton C_rBumper = new JoystickButton(controller, 6);
         POVButton C_dPadUp = new POVButton(controller, 0);
         POVButton C_dPadDown = new POVButton(controller, 180);
         POVButton C_dPadLeft = new POVButton(controller, 270);
@@ -96,9 +98,9 @@ public class RobotContainer {
         Trigger C_leftTrigger;
         Trigger C_rightTrigger;
 
-        Trigger intakeDown = new Trigger(()->intake.getPosition());
-        Trigger bottomIndexTrigger = new Trigger(()->index.readBottomBanner());
-        Trigger topIndexTrigger = new Trigger(()->!index.readTopBanner());
+        Trigger intakeDown = new Trigger(() -> intake.getPosition());
+        Trigger bottomIndexTrigger = new Trigger(() -> index.readBottomBanner());
+        Trigger topIndexTrigger = new Trigger(() -> !index.readTopBanner());
         Trigger indexBottomToTopTrigger = topIndexTrigger.and(bottomIndexTrigger);
 
         // left Joystick
@@ -542,7 +544,7 @@ public class RobotContainer {
                 C_rightTrigger.whileActiveContinuous(new CMD_ClimberSpeed(climber, -1));
 
                 // Intake
-                intakeDown.whileActiveContinuous(new CMD_AutoIntake(canal,intake,index));
+                intakeDown.whileActiveContinuous(new CMD_AutoIntake(canal, intake, index));
                 L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
                 L_Trigger.whileHeld(new ParallelCommandGroup(new CMD_IntakeSpin(intake, 0.75),
                                 new CMD_CanalZeroToOneBottom(canal, index)));
@@ -559,13 +561,20 @@ public class RobotContainer {
                                 new CMD_ShooterSpin(shooter, 0.25)));
                 C_bButton.whileHeld(new CMD_indexRun(index, 0.75));
                 L_button5.whileHeld(new CMD_indexRun(index, 0.75));
+                // climber
+                C_xButton.whenHeld(new CMD_ClimberSpeed(climber, 1));
+                C_bButton.whenHeld(new CMD_ClimberSpeed(climber, -1));
+
+                // Index
+                indexBottomToTopTrigger.whileActiveContinuous(new CMD_IndexBottomToTop(canal, index));
+                C_aButton.whileHeld(new ParallelCommandGroup(new CMD_indexRun(index, -0.75),
+                                new CMD_ShooterSpin(shooter, 0.25)));
+                C_rightTrigger.whileActiveContinuous(new CMD_indexRun(index, 0.75));
 
                 // shooter
-                R_button3.whenPressed(new CMD_changeSetpoint(shooter, -500));
-                R_button4.whenPressed(new CMD_changeSetpoint(shooter, -100));
-                R_button5.whenPressed(new CMD_changeSetpoint(shooter, 500));
-                R_button6.whenPressed(new CMD_changeSetpoint(shooter, 100));
-                R_trigger.whileHeld(new CMD_ShooterManualRPM(shooter));
+                C_lBumper.whenPressed(new CMD_changeSetpoint(shooter, -100));
+                C_rBumper.whenPressed(new CMD_changeSetpoint(shooter, 100));
+                C_leftTrigger.whileActiveContinuous(new CMD_ShooterManualRPM(shooter));
 
                 // limelight
                 limelight.setDefaultCommand(new InstantCommand(() -> limelight.setLed(1), limelight).perpetually());
