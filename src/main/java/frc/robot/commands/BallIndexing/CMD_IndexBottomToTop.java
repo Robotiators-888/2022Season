@@ -22,7 +22,7 @@ public class CMD_IndexBottomToTop extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     this.canal = canalArgs;
     this.index = indexArgs;
-    addRequirements(index,canal);
+    addRequirements(index);
 
     
 
