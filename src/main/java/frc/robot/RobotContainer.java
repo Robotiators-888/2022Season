@@ -507,7 +507,7 @@ public class RobotContainer {
                 configureButtonBindings();
                 sendBallColor();
 
-                CameraServer.startAutomaticCapture();
+                CameraServer.startAutomaticCapture().setResolution(960, 544);
 
                 limelight.setLed(1);
                 field2d.getObject("traj").setTrajectory(RS_threeBall_p1);
