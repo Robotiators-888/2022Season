@@ -102,7 +102,9 @@ public class RobotContainer {
         Trigger intakeDown = new Trigger(() -> intake.getPosition());
         Trigger bottomIndexTrigger = new Trigger(() -> index.readBottomBanner());
         Trigger topIndexTrigger = new Trigger(() -> !index.readTopBanner());
-        Trigger indexBottomToTopTrigger = topIndexTrigger.and(bottomIndexTrigger);
+        Trigger aButtonNotPressed =new  Trigger(() -> !(controller.getRawButton(1)));
+        Trigger indexBottomToTopTrigger = topIndexTrigger.and(bottomIndexTrigger).and(aButtonNotPressed);
+       
 
         // left Joystick
         private Joystick leftJoystick = new Joystick(Constants.LEFTJOYSTICK_PORT);
