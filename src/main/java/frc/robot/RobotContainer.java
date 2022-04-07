@@ -439,6 +439,11 @@ public class RobotContainer {
                                                         new CMD_indexRun(index, -0.75))),
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
+        Command LS_gerst_blilliards = new SequentialCommandGroup(
+                new ParallelCommandGroup(
+                        new CMD_canalThrough(canal, -1),
+                        new CMD_indexRun(index, -0.75)).perpetually());
+
         Command LS_citrus = new SequentialCommandGroup(
                         new InstantCommand(() -> drivetrain.setPosition(LS_Citrus_p1.getInitialPose())),
                         new InstantCommand(() -> intake.pistonSet(true), intake),
@@ -507,6 +512,7 @@ public class RobotContainer {
 
                 // AutoChooser.addOption("staright weaver", straightWeaver);
                 AutoChooser.setDefaultOption("Low Dump - one ball - with drive", lowDump);
+                AutoChooser.addOption("gerstner billiards", LS_gerst_blilliards);
                 AutoChooser.addOption("Low Dump - one ball - no drive", lowDumpNoDrive);
                 AutoChooser.addOption("Drive Back - no shoot", straightAuto);
                 AutoChooser.addOption("limelight - one ball - high shot - no drive", limelightHighShot);
@@ -523,8 +529,6 @@ public class RobotContainer {
                 AutoChooser.addOption("Left side - Billiards - Defensive ", LS_blilliards);
                 AutoChooser.addOption("Left side - Citrus - Defensive ", LS_citrus);
                 AutoChooser.addOption("Left side - 2 Ball - Defensive ", LS_defensive);
-
-                
 
                 DelayChooser.setDefaultOption("0 sec", 0);
                 DelayChooser.addOption("1 sec", 1);
@@ -544,6 +548,10 @@ public class RobotContainer {
                 // networkTables.start();
                 System.out.println("RobotContainer initialization complete.");
 
+        }
+
+        public void bindTrigger() {
+                indexBottomToTopTrigger.whileActiveContinuous(new CMD_IndexBottomToTop(canal, index));
         }
 
         /**
@@ -571,7 +579,7 @@ public class RobotContainer {
                 C_dPadRight.whileHeld(new CMD_teleopCanalThrough(canal, -0.75));
 
                 // Index
-                indexBottomToTopTrigger.whileActiveContinuous(new CMD_IndexBottomToTop(canal, index));
+
                 C_aButton.whileHeld(new ParallelCommandGroup(new CMD_indexRun(index, -0.75),
                                 new CMD_ShooterSpin(shooter, 0.25)));
                 // climber
@@ -579,7 +587,6 @@ public class RobotContainer {
                 C_bButton.whenHeld(new CMD_ClimberSpeed(climber, -1));
 
                 // Index
-                indexBottomToTopTrigger.whileActiveContinuous(new CMD_IndexBottomToTop(canal, index));
                 C_aButton.whileHeld(new ParallelCommandGroup(new CMD_indexRun(index, -0.75),
                                 new CMD_ShooterSpin(shooter, 0.25)));
                 C_rightTrigger.whileActiveContinuous(new CMD_indexRun(index, 0.75));
