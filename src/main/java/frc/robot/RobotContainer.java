@@ -252,6 +252,26 @@ public class RobotContainer {
                         new SEQ_dumbShot(shooter, index, 1800),
                         new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
 
+        Command LS_twoBall_high = new SequentialCommandGroup(
+                        new InstantCommand(() -> drivetrain.setPosition(LS_twoBall_Low_p1.getInitialPose())),
+                        new ParallelDeadlineGroup(
+                                        autoHelper.getRamset(LS_twoBall_Low_p1),
+                                        new SequentialCommandGroup(
+                                                        new CMD_CanalZeroToOneBottom(canal, index),
+                                                        new CMD_IndexBottomToTop(canal, index))),
+                        new ParallelDeadlineGroup(
+                                        new WaitCommand(0.5),
+                                        new SequentialCommandGroup(
+                                                        new CMD_CanalZeroToOneBottom(canal, index),
+                                                        new CMD_IndexBottomToTop(canal, index))),
+                        new ParallelDeadlineGroup(
+                                        new SEQ_limeShot(shooter, drivetrain, index, limelight, true),
+                                        new CMD_canalRun(canal, -0.75)),
+                        new ParallelDeadlineGroup(
+                                        new SEQ_limeShot(shooter, drivetrain, index, limelight, true),
+                                        new CMD_canalRun(canal, -0.75)),
+                        new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0)));
+
         // ====================================================================
         // Three Ball command Groups
         // ====================================================================
@@ -497,11 +517,14 @@ public class RobotContainer {
                 AutoChooser.addOption("Right side - three ball - low", RS_threeBall_NC_LOW);
                 AutoChooser.addOption("Right side - three ball - run end", RS_threeBall_NC_LOW_FullRun);
                 AutoChooser.addOption("Right side - four ball ", RS_fourball);
-                AutoChooser.addOption("Left side - two ball - No Cam", LS_twoBall_NC);
+                AutoChooser.addOption("Left side - two ball - Low", LS_twoBall_NC);
+                AutoChooser.addOption("Left side - 2 Ball - High ", LS_twoBall_high);
                 AutoChooser.addOption("Left side - two ball - With Cam", LS_twoBall_WC);
                 AutoChooser.addOption("Left side - Billiards - Defensive ", LS_blilliards);
                 AutoChooser.addOption("Left side - Citrus - Defensive ", LS_citrus);
                 AutoChooser.addOption("Left side - 2 Ball - Defensive ", LS_defensive);
+
+                
 
                 DelayChooser.setDefaultOption("0 sec", 0);
                 DelayChooser.addOption("1 sec", 1);
