@@ -51,6 +51,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.VideoMode;
 import frc.robot.subsystems.*;
 import frc.robot.commands.Intake.*;
 import frc.robot.commands.Canal.*;
@@ -507,7 +508,8 @@ public class RobotContainer {
                 configureButtonBindings();
                 sendBallColor();
 
-                CameraServer.startAutomaticCapture().setResolution(960, 544);
+                
+                CameraServer.startAutomaticCapture().setVideoMode(new VideoMode(VideoMode.PixelFormat.kMJPEG, 416, 240, 7));
 
                 limelight.setLed(1);
                 field2d.getObject("traj").setTrajectory(RS_threeBall_p1);
