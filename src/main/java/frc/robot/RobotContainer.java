@@ -542,10 +542,11 @@ public class RobotContainer {
                 AutoChooser.addOption("Low Dump - one ball - no drive", lowDumpNoDrive);
                 AutoChooser.addOption("Drive Back - no shoot", straightAuto);
                 AutoChooser.addOption("limelight - one ball - high shot - no drive", limelightHighShot);
+                AutoChooser.addOption("Right side - two ball - high - Right Ball", RS_RB_twoBall_HIGH);
+                AutoChooser.addOption("Right side - two ball - high - Left Ball", RS_LB_twoBall_HIGH);
                 AutoChooser.addOption("Right side - two ball - Right Ball", RS_RB_twoBall);
                 AutoChooser.addOption("Right side - two ball - Left Ball", RS_LB_twoBall);
                 AutoChooser.addOption("Right side - three ball - high", RS_threeBall_NC_HIGH);
-                // chooser.addOption("Right side three ball With Cam LOW", RS_threeBall_WC_LOW);
                 AutoChooser.addOption("Right side - three ball - low", RS_threeBall_NC_LOW);
                 AutoChooser.addOption("Right side - three ball - run end", RS_threeBall_NC_LOW_FullRun);
                 AutoChooser.addOption("Right side - four ball ", RS_fourball);
