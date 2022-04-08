@@ -511,12 +511,9 @@ public class RobotContainer {
                                         new SequentialCommandGroup(
                                                         new CMD_CanalZeroToOneBottom(canal, index),
                                                         new CMD_IndexBottomToTop(canal, index))),
-                        new ParallelDeadlineGroup(
-                                        new WaitCommand(0.5),
-                                        new CMD_canalThrough(canal, -1)),
                         new ParallelCommandGroup(
                                         new CMD_canalThrough(canal, -1),
-                                        new CMD_indexRun(index, -0.75)));
+                                        new CMD_indexRun(index, -0.75)).perpetually());
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
