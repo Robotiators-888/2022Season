@@ -15,8 +15,9 @@ public class CMD_antiTip extends CommandBase {
   private SUB_Drivetrain drive;
   private AHRS navx = new AHRS();
 
-  public CMD_antiTip(double speed) {
+  public CMD_antiTip(SUB_Drivetrain drivetrain, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.drive = drivetrain;
     motorSpeed = speed;
   }
 

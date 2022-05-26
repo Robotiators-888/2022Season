@@ -541,8 +541,8 @@ public class RobotContainer {
                 drivetrain.setDefaultCommand(new CMD_teleopDrive(drivetrain, () -> leftJoystick.getRawAxis(1),
                                 () -> rightJoystick.getRawAxis(1)));
                 L_button2.whenPressed(new InstantCommand(drivetrain::toggleReverse, drivetrain));
-                robotTipForward.whileActiveContinuous(new CMD_antiTip(0.1));
-                robotTipBackwards.whileActiveContinuous(new CMD_antiTip(-0.1));
+                robotTipForward.whileActiveContinuous(new CMD_antiTip(drivetrain,0.1));
+                robotTipBackwards.whileActiveContinuous(new CMD_antiTip(drivetrain,-0.1));
 
                 // climber
                 C_leftTrigger = new Trigger(() -> (controller.getRawAxis(2) > 0.5));
