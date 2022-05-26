@@ -101,8 +101,8 @@ public class RobotContainer {
         POVButton C_dPadRight = new POVButton(controller, 90);
         Trigger C_leftTrigger;
         Trigger C_rightTrigger;
-        Trigger robotTipForward = new Trigger(() -> (navx.getPitch() > 0.02 && navx.getRoll() > 0.02));
-        Trigger robotTipBackwards = new Trigger(() -> (navx.getPitch() < -0.02 && navx.getRoll() < -0.02));
+        Trigger robotTipForward = new Trigger(() -> (navx.getRoll() >         -17.02));
+        Trigger robotTipBackwards = new Trigger(() -> (navx.getRoll() < -17.02));
 
         Trigger intakeDown = new Trigger(() -> intake.getPosition());
         Trigger bottomIndexTrigger = new Trigger(() -> index.readBottomBanner());
@@ -541,8 +541,8 @@ public class RobotContainer {
                 drivetrain.setDefaultCommand(new CMD_teleopDrive(drivetrain, () -> leftJoystick.getRawAxis(1),
                                 () -> rightJoystick.getRawAxis(1)));
                 L_button2.whenPressed(new InstantCommand(drivetrain::toggleReverse, drivetrain));
-                robotTipForward.whileActiveContinuous(new CMD_antiTip(-0.1));
-                robotTipBackwards.whileActiveContinuous(new CMD_antiTip(0.1));
+                robotTipForward.whileActiveContinuous(new CMD_antiTip(0.1));
+                robotTipBackwards.whileActiveContinuous(new CMD_antiTip(-0.1));
 
                 // climber
                 C_leftTrigger = new Trigger(() -> (controller.getRawAxis(2) > 0.5));
@@ -607,6 +607,8 @@ public class RobotContainer {
 
         public void teleopPeroid() {
                 SmartDashboard.putBoolean("cam takeover", ((cameraData.getY() <= 40) && (cameraData.getY() >= 10)));
+               
+                
         }
 
         public static void sendBallColor() {

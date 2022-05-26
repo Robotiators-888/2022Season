@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.kauailabs.navx.frc.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -17,6 +18,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 public class Robot extends TimedRobot {
+ // Navx
+ AHRS navx = new AHRS();
+
+
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
@@ -48,6 +53,9 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     sendBallColor();
+
+    SmartDashboard.putNumber("navx pitch", navx.getYaw());
+    SmartDashboard.putNumber("navx roll", navx.getRoll());
   }
 
   // sends ball color to smartdashboard so the ball detection can see it
