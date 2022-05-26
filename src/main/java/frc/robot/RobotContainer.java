@@ -54,6 +54,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import frc.robot.subsystems.*;
 import frc.robot.commands.Intake.*;
 import frc.robot.commands.Canal.*;
+import com.kauailabs.navx.frc.*;
 
 import frc.robot.subsystems.SUB_LED;
 
@@ -70,6 +71,9 @@ public class RobotContainer {
 
         // The robot's subsystems and commands are defined here...
         private final Field2d field2d = new Field2d();
+
+        // Navx
+        AHRS navx = new AHRS();
 
         // subsystems
         private SUB_Shooter shooter = new SUB_Shooter();
@@ -96,10 +100,12 @@ public class RobotContainer {
         POVButton C_dPadRight = new POVButton(controller, 90);
         Trigger C_leftTrigger;
         Trigger C_rightTrigger;
+        Trigger robotTipForward = new Trigger(() -> (navx.getPitch() > 0.02 && navx.getRoll() > 0.02));
+        Trigger robotTipBackwards = new Trigger(() -> (navx.getPitch() > -0.02 && navx.getRoll() > -0.02));
 
-        Trigger intakeDown = new Trigger(()->intake.getPosition());
-        Trigger bottomIndexTrigger = new Trigger(()->index.readBottomBanner());
-        Trigger topIndexTrigger = new Trigger(()->!index.readTopBanner());
+        Trigger intakeDown = new Trigger(() -> intake.getPosition());
+        Trigger bottomIndexTrigger = new Trigger(() -> index.readBottomBanner());
+        Trigger topIndexTrigger = new Trigger(() -> !index.readTopBanner());
         Trigger indexBottomToTopTrigger = topIndexTrigger.and(bottomIndexTrigger);
 
         // left Joystick
@@ -543,7 +549,7 @@ public class RobotContainer {
                 C_rightTrigger.whileActiveContinuous(new CMD_ClimberSpeed(climber, -1));
 
                 // Intake
-                intakeDown.whileActiveContinuous(new CMD_AutoIntake(canal,intake,index));
+                intakeDown.whileActiveContinuous(new CMD_AutoIntake(canal, intake, index));
                 L_button4.whenPressed(new InstantCommand(intake::pistonToggle, intake));
                 L_Trigger.whileHeld(new ParallelCommandGroup(new CMD_IntakeSpin(intake, 0.75),
                                 new CMD_CanalZeroToOneBottom(canal, index)));
