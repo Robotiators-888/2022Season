@@ -30,7 +30,8 @@ public class CMD_antiTip extends CommandBase {
   @Override
   public void execute() {
     drive.setMotors(motorSpeed, -1 * motorSpeed);
-    if (navx.getPitch() < 0.02 && navx.getRoll() < 0.02) {
+    System.out.println("antiTip motorSpeed: "+motorSpeed);
+    if (Math.abs(navx.getRoll()) < 0.1) {
       end(true);
     }
   }
