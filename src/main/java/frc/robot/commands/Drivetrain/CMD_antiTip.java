@@ -6,6 +6,7 @@ package frc.robot.commands.Drivetrain;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SUB_Drivetrain;
 
@@ -31,6 +32,7 @@ public class CMD_antiTip extends CommandBase {
   public void execute() {
     drive.setMotors(motorSpeed, -1 * motorSpeed);
     System.out.println("antiTip motorSpeed: "+motorSpeed);
+    SmartDashboard.putNumber("antiTip Speed", motorSpeed);
     if (Math.abs(navx.getRoll()) < 0.1) {
       end(true);
     }

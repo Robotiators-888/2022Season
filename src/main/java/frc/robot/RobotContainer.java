@@ -101,8 +101,8 @@ public class RobotContainer {
         POVButton C_dPadRight = new POVButton(controller, 90);
         Trigger C_leftTrigger;
         Trigger C_rightTrigger;
-        Trigger robotTipForward = new Trigger(() -> (navx.getRoll() < -17.02));
-        Trigger robotTipBackwards = new Trigger(() -> (navx.getRoll() > 17.02));
+        Trigger robotTipForward = new Trigger(() -> (navx.getRoll() < -8)); // was 17
+        Trigger robotTipBackwards = new Trigger(() -> (navx.getRoll() > 8));
 
         Trigger intakeDown = new Trigger(() -> intake.getPosition());
         Trigger bottomIndexTrigger = new Trigger(() -> index.readBottomBanner());
