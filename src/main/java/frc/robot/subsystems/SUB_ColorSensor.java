@@ -87,7 +87,7 @@ public class SUB_ColorSensor extends SubsystemBase {
    * @return a Alliance color, either Red, Blue, or Inveralid.
    */
   public Alliance colorToAlliance() {
-    //final double idealRedBlueConfidence = 0.4;
+    final double idealRedBlueConfidence = 0.4;
     Alliance colorString;
     ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
 
@@ -99,9 +99,9 @@ public class SUB_ColorSensor extends SubsystemBase {
       colorString = Alliance.Invalid;
     }
 
-    //if (match.confidence <= idealRedBlueConfidence) {
-     // colorString = Alliance.Invalid;
-    //}
+    if (match.confidence <= idealRedBlueConfidence) {
+     colorString = Alliance.Invalid;
+    }
 
     return colorString;
   }
