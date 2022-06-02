@@ -34,8 +34,6 @@ import frc.robot.commands.BallCam.SEQ_getBall;
 import frc.robot.commands.BallIndexing.CMD_CanalZeroToOneBottom;
 import frc.robot.commands.BallIndexing.CMD_IndexBottomToTop;
 import frc.robot.commands.BallIndexing.CMD_IndexBottomToTopBanner;
-import frc.robot.commands.Canal.CMD_canalThrough;
-import frc.robot.commands.Canal.CMD_canalRun;
 import frc.robot.commands.Climber.CMD_ClimberSpeed;
 import frc.robot.commands.ColorSensor.CMD_ColorOnDashboard;
 import frc.robot.commands.Drivetrain.CMD_teleopDrive;
@@ -113,8 +111,8 @@ public class RobotContainer {
         Trigger bottomIndexTrigger = new Trigger(()->index.readBottomBanner());
         Trigger topIndexTrigger = new Trigger(()->!index.readTopBanner());
         Trigger indexBottomToTopTrigger = topIndexTrigger.and(bottomIndexTrigger);
-        Trigger frontRejectionSensor = new Trigger(()->(colorSensor.readSensor(Constants.FRONT_COLOR_SENSOR_ID)==oppAlliance));
-        Trigger backRejectionSensor = new Trigger(()->(colorSensor.readSensor(Constants.BACK_COLOR_SENSOR_ID)==oppAlliance));
+        Trigger frontRejectionSensor = new Trigger(()->(colorSensor.readSensor(Constants.FRONT_COLOR_SENSOR_ID)==oppAlliance)).cancelWhenActive(new CMD_IndexBottomToTop(canal, index));
+        Trigger backRejectionSensor = new Trigger(()->(colorSensor.readSensor(Constants.BACK_COLOR_SENSOR_ID)==oppAlliance)).cancelWhenActive(new CMD_IndexBottomToTop(canal, index));
 
 
         // left Joystick
@@ -645,7 +643,7 @@ public class RobotContainer {
                 LED.setDefaultCommand(new CMD_SOLIDLED(LED));
 
                 // Color Sensor
-                frontRejectionSensor.whileActiveContinuous(new CMD_teleopCanalThrough(canal, -0.75));
+                frontRejectionSensor.whenActive( new CMD_CanalRejectBall(colorSensor, canal, -0.75).withTimeout(2));
                 backRejectionSensor.whileActiveContinuous(new CMD_teleopCanalThrough(canal, 0.75));
                 colorSensor.setDefaultCommand(new CMD_ColorOnDashboard(colorSensor));
         }
