@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorMatch;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 
 /**
@@ -83,33 +84,35 @@ public class SUB_ColorSensor extends SubsystemBase {
 
   /**
    * Grabs the color detected from the color sensor at the current I2C port
-   * @return a string with the color, either Red, Black, Blue, or Unknown.
+   * @return a Alliance color, either Red, Blue, or Inveralid.
    */
-  public String colorToString() {
-    final double idealRedBlueConfidence = 0.95;
-    String colorString;
+  public Alliance colorToAlliance() {
+    //final double idealRedBlueConfidence = 0.4;
+    Alliance colorString;
     ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
 
     if (match.color == kBlueTarget) {
-      colorString = "Blue";
+      colorString = Alliance.Blue;
     } else if (match.color == kRedTarget) {
-      colorString = "Red";
+      colorString = Alliance.Red;
     } else {
-      colorString = "Unknown";
+      colorString = Alliance.Invalid;
     }
 
-    if (match.confidence <= idealRedBlueConfidence) {
-      colorString = "Unknown";
-    }
+    //if (match.confidence <= idealRedBlueConfidence) {
+     // colorString = Alliance.Invalid;
+    //}
 
     return colorString;
   }
   /**
    * Reads the sensor for a color value
    * @param newId the id of the color sensor you want to read from
+   * @return a string with the color of the value read from the sensor
    */
-  public void readSensor(int newId){
-    MuxChangeI2cPort(newId);
+  public Alliance readSensor(int newId){
+    // MuxChangeI2cPort(newId);
     detectedColor = colorSensor.getColor();
+    return colorToAlliance();
   }
 }

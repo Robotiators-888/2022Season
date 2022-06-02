@@ -37,6 +37,7 @@ import frc.robot.commands.BallIndexing.CMD_IndexBottomToTopBanner;
 import frc.robot.commands.Canal.CMD_canalThrough;
 import frc.robot.commands.Canal.CMD_canalRun;
 import frc.robot.commands.Climber.CMD_ClimberSpeed;
+import frc.robot.commands.ColorSensor.CMD_ColorOnDashboard;
 import frc.robot.commands.Drivetrain.CMD_teleopDrive;
 import frc.robot.commands.Index.CMD_indexRun;
 import frc.robot.commands.Intake.CMD_IntakeSpin;
@@ -644,8 +645,9 @@ public class RobotContainer {
                 LED.setDefaultCommand(new CMD_SOLIDLED(LED));
 
                 // Color Sensor
-                frontRejectionSensor.whileActiveContinuous(new CMD_teleopCanalThrough(canal, 0.75));
-                backRejectionSensor.whileActiveContinuous(new CMD_teleopCanalThrough(canal, -0.75));
+                frontRejectionSensor.whileActiveContinuous(new CMD_teleopCanalThrough(canal, -0.75));
+                backRejectionSensor.whileActiveContinuous(new CMD_teleopCanalThrough(canal, 0.75));
+                colorSensor.setDefaultCommand(new CMD_ColorOnDashboard(colorSensor));
         }
 
         public Command getAutonomousCommand() {
