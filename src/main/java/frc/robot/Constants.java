@@ -108,4 +108,7 @@ public final class Constants {
     
     public static final double MAX_RANGE = 250;
 
+    public static final int FRONT_COLOR_SENSOR_ID = 0;
+    public static final int BACK_COLOR_SENSOR_ID = 1;
+
 }
