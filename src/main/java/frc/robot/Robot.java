@@ -96,6 +96,8 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
+    m_robotContainer.bindTrigger();
+
     m_robotContainer.teleInit();
     
   }
