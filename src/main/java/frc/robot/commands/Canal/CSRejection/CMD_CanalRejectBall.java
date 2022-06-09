@@ -5,10 +5,10 @@
 package frc.robot.commands.Canal;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.SUB_Canal;
 import frc.robot.subsystems.SUB_ColorSensor;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.Timer;
+
 
 
 public class CMD_CanalRejectBall extends CommandBase {
@@ -30,7 +30,6 @@ public class CMD_CanalRejectBall extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    canal.rejecting = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -45,12 +44,12 @@ public class CMD_CanalRejectBall extends CommandBase {
   public void end(boolean interrupted) {
     canal.setSpeedBack(0);
     canal.setSpeedFront(0);
-    canal.rejecting = false;
+    colorSensor.popQ();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return colorSensor.isOpp(colorSensor.readSensor(Constants.BACK_CANAL_ID));
   }
 }
