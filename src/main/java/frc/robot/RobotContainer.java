@@ -36,6 +36,7 @@ import frc.robot.commands.BallIndexing.CMD_IndexBottomToTop;
 import frc.robot.commands.BallIndexing.CMD_IndexBottomToTopBanner;
 import frc.robot.commands.Climber.CMD_ClimberSpeed;
 import frc.robot.commands.ColorSensor.CMD_ColorOnDashboard;
+import frc.robot.commands.ColorSensor.CMD_ManageBallQueue;
 import frc.robot.commands.Drivetrain.CMD_teleopDrive;
 import frc.robot.commands.Index.CMD_indexRun;
 import frc.robot.commands.Intake.CMD_IntakeSpin;
@@ -56,7 +57,8 @@ import edu.wpi.first.cameraserver.CameraServer;
 import frc.robot.subsystems.*;
 import frc.robot.commands.Intake.*;
 import frc.robot.commands.Canal.*;
-
+import frc.robot.commands.Canal.CSRejection.CMD_CanalRejectBall;
+import frc.robot.commands.Canal.CSRejection.CMD_RescindAllianceBall;
 import frc.robot.subsystems.SUB_LED;
 
 /**
@@ -105,11 +107,11 @@ public class RobotContainer {
         Trigger bottomIndexTrigger = new Trigger(()->index.readBottomBanner());
         Trigger topIndexTrigger = new Trigger(()->!index.readTopBanner());
 
-        Trigger notRejectingTrigger = new Trigger(()->!canal.rejecting);
-        Trigger indexBottomToTopTrigger = topIndexTrigger.and(bottomIndexTrigger).and(notRejectingTrigger);
+        Trigger indexBottomToTopTrigger = topIndexTrigger.and(bottomIndexTrigger);
         
-        //Trigger frontRejectionSensor = new Trigger(()->(colorSensor.readSensor(Constants.FRONT_COLOR_SENSOR_ID)==oppAlliance));
-        //Trigger backRejectionSensor = new Trigger(()->(colorSensor.readSensor(Constants.BACK_COLOR_SENSOR_ID)==oppAlliance));
+        Trigger rejectBallTrigger = new Trigger(()->colorSensor.isOpp(colorSensor.peekQ()));
+        Trigger acceptBallTrigger = new Trigger(()->!colorSensor.isOpp(colorSensor.peekQ()));
+        Trigger rescindBallTrigger = new Trigger(()->!colorSensor.isOpp(colorSensor.readSensor(Constants.BACK_COLOR_SENSOR_ID)));
 
         // left Joystick
         private Joystick leftJoystick = new Joystick(Constants.LEFTJOYSTICK_PORT);
@@ -592,9 +594,9 @@ public class RobotContainer {
                 LED.setDefaultCommand(new CMD_SOLIDLED(LED));
 
                 // Color Sensor
-                //frontRejectionSensor.whenActive(new CMD_CanalRejectBall(colorSensor, canal, -0.75).withTimeout(2));
-                //backRejectionSensor.whenActive(new CMD_CanalRejectBall(colorSensor,canal, 0.75).withTimeout(2));
-                colorSensor.setDefaultCommand(new CMD_ColorOnDashboard(colorSensor));
+                rejectBallTrigger.whenActive(new CMD_CanalRejectBall(colorSensor, canal, -0.75));
+                rescindBallTrigger.whenActive(new CMD_RescindAllianceBall(index, canal,colorSensor));
+                colorSensor.setDefaultCommand(new CMD_ManageBallQueue(colorSensor));
         }
 
         public Command getAutonomousCommand() {

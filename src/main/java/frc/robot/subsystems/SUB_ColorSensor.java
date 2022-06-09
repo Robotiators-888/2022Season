@@ -120,6 +120,13 @@ public class SUB_ColorSensor extends SubsystemBase {
   public boolean allianceToBool(Alliance all){
     return (all==curAlliance);
   }
+  
+  public Alliance boolToAlliance(boolean bool){
+    if (bool){
+      return curAlliance;
+    } 
+    return oppAlliance;
+  }
   public void pushStack(boolean ball){
     ballStack.add(ball);
   }
@@ -127,6 +134,11 @@ public class SUB_ColorSensor extends SubsystemBase {
   public void popStack(){
     ballStack.remove(0);
   }
+
+  public boolean peekStack(){
+    return ballStack.get(0);
+  }
+
 
 
 }
