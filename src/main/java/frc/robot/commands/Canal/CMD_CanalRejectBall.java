@@ -30,18 +30,23 @@ public class CMD_CanalRejectBall extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    canal.rejecting = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    canal.setSpeedBack(speed);
-    canal.setSpeedFront(-speed);
+    canal.setSpeedBack(-speed);
+    canal.setSpeedFront(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    canal.setSpeedBack(0);
+    canal.setSpeedFront(0);
+    canal.rejecting = false;
+  }
 
   // Returns true when the command should end.
   @Override

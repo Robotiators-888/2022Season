@@ -51,6 +51,7 @@ import frc.robot.subsystems.SUB_Drivetrain;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.cameraserver.CameraServer;
 import frc.robot.subsystems.*;
 import frc.robot.commands.Intake.*;
@@ -85,10 +86,6 @@ public class RobotContainer {
         private SUB_LED LED = new SUB_LED();
         private SUB_ColorSensor colorSensor = new SUB_ColorSensor();
         
-        // Driver Station Stuff
-        private Alliance curAlliance;
-        private Alliance oppAlliance;
-        
 
         // Controller
         private Joystick controller = new Joystick(Constants.JOYSTICK_PORT);
@@ -107,10 +104,12 @@ public class RobotContainer {
         Trigger intakeDown = new Trigger(()->intake.getPosition());
         Trigger bottomIndexTrigger = new Trigger(()->index.readBottomBanner());
         Trigger topIndexTrigger = new Trigger(()->!index.readTopBanner());
-        Trigger indexBottomToTopTrigger = topIndexTrigger.and(bottomIndexTrigger);
-        Trigger frontRejectionSensor = new Trigger(()->(colorSensor.readSensor(Constants.FRONT_COLOR_SENSOR_ID)==oppAlliance)).cancelWhenActive(new CMD_IndexBottomToTop(canal, index));
-        Trigger backRejectionSensor = new Trigger(()->(colorSensor.readSensor(Constants.BACK_COLOR_SENSOR_ID)==oppAlliance)).cancelWhenActive(new CMD_IndexBottomToTop(canal, index));
 
+        Trigger notRejectingTrigger = new Trigger(()->!canal.rejecting);
+        Trigger indexBottomToTopTrigger = topIndexTrigger.and(bottomIndexTrigger).and(notRejectingTrigger);
+        
+        //Trigger frontRejectionSensor = new Trigger(()->(colorSensor.readSensor(Constants.FRONT_COLOR_SENSOR_ID)==oppAlliance));
+        //Trigger backRejectionSensor = new Trigger(()->(colorSensor.readSensor(Constants.BACK_COLOR_SENSOR_ID)==oppAlliance));
 
         // left Joystick
         private Joystick leftJoystick = new Joystick(Constants.LEFTJOYSTICK_PORT);
@@ -526,9 +525,6 @@ public class RobotContainer {
                 SmartDashboard.putData("Auto Chooser", AutoChooser);
                 SmartDashboard.putData("Delay Chooser", DelayChooser);
 
-                curAlliance = DriverStation.getAlliance();
-                if(curAlliance==Alliance.Red){oppAlliance=Alliance.Blue;}
-                else{oppAlliance=Alliance.Red;}
 
                 // networkTables.start();
                 System.out.println("RobotContainer initialization complete.");
@@ -596,8 +592,8 @@ public class RobotContainer {
                 LED.setDefaultCommand(new CMD_SOLIDLED(LED));
 
                 // Color Sensor
-                frontRejectionSensor.whenActive( new CMD_CanalRejectBall(colorSensor, canal, -0.75).withTimeout(2));
-                backRejectionSensor.whileActiveContinuous(new CMD_teleopCanalThrough(canal, 0.75));
+                //frontRejectionSensor.whenActive(new CMD_CanalRejectBall(colorSensor, canal, -0.75).withTimeout(2));
+                //backRejectionSensor.whenActive(new CMD_CanalRejectBall(colorSensor,canal, 0.75).withTimeout(2));
                 colorSensor.setDefaultCommand(new CMD_ColorOnDashboard(colorSensor));
         }
 
