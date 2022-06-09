@@ -13,6 +13,8 @@ import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorMatch;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.DriverStation;
+import java.util.ArrayList;
 
 
 /**
@@ -21,12 +23,17 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 public class SUB_ColorSensor extends SubsystemBase {
 
   // I2C Constants
-  private I2C.Port i2cPort = I2C.Port.kOnboard;
+  private I2C.Port rioI2CPort = I2C.Port.kOnboard;
+  private I2C.Port navxI2CPort = I2C.Port.kMXP;
   int i2cPortId = 0x70;
   public final int ColorSensorid = 0;
 
+  // Opposition Ball Counter
+  private ArrayList<Boolean> ballStack = new ArrayList<Boolean>();
+
   // Senses colors
-  private final ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort);
+  private final ColorSensorV3 frontColorSensor = new ColorSensorV3(rioI2CPort);
+  private final ColorSensorV3 backColorSensor = new ColorSensorV3(navxI2CPort);
   // Matches colors
   private final ColorMatch colorMatcher = new ColorMatch();
 
@@ -34,39 +41,26 @@ public class SUB_ColorSensor extends SubsystemBase {
   private final Color kRedTarget = new Color(0.562, 0.351, 0.100);
   public Color detectedColor;
 
-    /**
-   * Switches the input channel on the MUX switch over I2C
-   * @param newMuxPort  the id of the mux chanel to switch the mux to for all future I2C input
-   */
-  private void MuxChangeI2cPort(int newMuxPort) {
-    I2C I2CObject = new I2C(i2cPort,i2cPortId);
-    int i2cPortId = 0x70; // MUX I2C address
-    // and you simply write a single byte with the desired multiplexed output
-    // number to that port
-    boolean failed = I2CObject.write(i2cPortId, newMuxPort);
-    if (failed) {
-      System.out.println("Failed to write to MUX over I2C");
-    }
-    I2CObject.close();
-  }
+  // Alliance Stuff
+  private Alliance curAlliance;
+  private Alliance oppAlliance;
+
+
 
   /** Creates a new ColorSensorSubsystem. */
   public SUB_ColorSensor() {
 
     colorMatcher.addColorMatch(kBlueTarget);
     colorMatcher.addColorMatch(kRedTarget);
+    curAlliance = DriverStation.getAlliance();
+
+    if(curAlliance==Alliance.Red){oppAlliance=Alliance.Blue;}
+    else{oppAlliance=Alliance.Red;}
 
   }
 
   @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-
-    // NOTE: change ColorSensorid to change which color sensor is used
-    // MuxChangeI2cPort(i2cPort,ColorSensorid);
-
-
-  }
+  public void periodic() {}
 
  /**
    * Grabs the RGB values from the detected color
@@ -87,7 +81,7 @@ public class SUB_ColorSensor extends SubsystemBase {
    * @return a Alliance color, either Red, Blue, or Inveralid.
    */
   public Alliance colorToAlliance() {
-    final double idealRedBlueConfidence = 0.4;
+    final double idealRedBlueConfidence = 0.8;
     Alliance colorString;
     ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
 
@@ -111,8 +105,28 @@ public class SUB_ColorSensor extends SubsystemBase {
    * @return a string with the color of the value read from the sensor
    */
   public Alliance readSensor(int newId){
-    // MuxChangeI2cPort(newId);
-    detectedColor = colorSensor.getColor();
+    
+    switch (newId){
+      case 0:
+        detectedColor = frontColorSensor.getColor();
+        break;
+      case 1:
+        detectedColor = backColorSensor.getColor();
+        break;
+    }
     return colorToAlliance();
   }
+
+  public boolean allianceToBool(Alliance all){
+    return (all==curAlliance);
+  }
+  public void pushStack(boolean ball){
+    ballStack.add(ball);
+  }
+
+  public void popStack(){
+    ballStack.remove(0);
+  }
+
+
 }

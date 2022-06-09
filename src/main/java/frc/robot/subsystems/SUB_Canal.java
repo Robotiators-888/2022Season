@@ -19,6 +19,8 @@ import frc.robot.Constants;
 public class SUB_Canal extends SubsystemBase {
   private TalonSRX front = new TalonSRX(Constants.FRONT_CANAL_ID);
   private TalonSRX back = new TalonSRX(Constants.BACK_CANAL_ID);
+
+  public boolean rejecting = false;
   /** Creates a new CanalSubsystem. */
   public SUB_Canal() {
 
