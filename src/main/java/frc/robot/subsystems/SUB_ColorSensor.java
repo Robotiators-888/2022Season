@@ -29,7 +29,8 @@ public class SUB_ColorSensor extends SubsystemBase {
   public final int ColorSensorid = 0;
 
   // Opposition Ball Counter
-  private ArrayList<Boolean> ballStack = new ArrayList<Boolean>();
+  // True if it is our ball, False if it is opposite alliance.
+  private ArrayList<Alliance> ballQ = new ArrayList<Alliance>();
 
   // Senses colors
   private final ColorSensorV3 frontColorSensor = new ColorSensorV3(rioI2CPort);
@@ -42,8 +43,8 @@ public class SUB_ColorSensor extends SubsystemBase {
   public Color detectedColor;
 
   // Alliance Stuff
-  private Alliance curAlliance;
-  private Alliance oppAlliance;
+  public Alliance curAlliance;
+  public Alliance oppAlliance;
 
 
 
@@ -117,26 +118,27 @@ public class SUB_ColorSensor extends SubsystemBase {
     return colorToAlliance();
   }
 
-  public boolean allianceToBool(Alliance all){
-    return (all==curAlliance);
-  }
-  
-  public Alliance boolToAlliance(boolean bool){
-    if (bool){
-      return curAlliance;
-    } 
-    return oppAlliance;
-  }
-  public void pushStack(boolean ball){
-    ballStack.add(ball);
+  public boolean isOpp(Alliance ball){
+    return ball==oppAlliance;
   }
 
-  public void popStack(){
-    ballStack.remove(0);
+  public boolean isUnknown(Alliance ball){
+    return ball==Alliance.Invalid;
   }
 
-  public boolean peekStack(){
-    return ballStack.get(0);
+  public void pushQ(Alliance ball){
+    ballQ.add(ball);
+  }
+
+  public void popQ(){
+    ballQ.remove(0);
+  }
+
+  public Alliance peekQ(){
+    if (ballQ.size()==0){
+      return Alliance.Invalid;
+    }
+    return ballQ.get(0);
   }
 
 
