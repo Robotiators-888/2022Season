@@ -5,12 +5,24 @@
 package frc.robot.commands.ColorSensor;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.SUB_Ind
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
-public class CMD_CanalRejectionSystem extends CommandBase {
+import frc.robot.subsystems.SUB_ColorSensor;
+import frc.robot.Constants;
+
+public class CMD_ManageBallQueue extends CommandBase {
+
+  private SUB_ColorSensor colorSensor;
+  
+  private Alliance prevFr = Alliance.Invalid;
+  private Alliance frBallType;
+  
+  
   /** Creates a new CMD_CanalRejectionSystem. */
-  public CMD_CanalRejectionSystem() {
+  public CMD_ManageBallQueue(SUB_ColorSensor colorSensorArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
+    colorSensor = colorSensorArgs;
+    addRequirements(colorSensor);
   }
 
   // Called when the command is initially scheduled.
@@ -19,7 +31,16 @@ public class CMD_CanalRejectionSystem extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    frBallType = colorSensor.readSensor(Constants.FRONT_COLOR_SENSOR_ID);
+
+    if (!colorSensor.isUnknown(frBallType) && frBallType!=prevFr) {
+      colorSensor.pushQ(frBallType);
+    } 
+    
+    prevFr = frBallType;
+
+  } 
 
   // Called once the command ends or is interrupted.
   @Override
