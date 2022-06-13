@@ -30,7 +30,7 @@ public class SUB_ColorSensor extends SubsystemBase {
 
   // Opposition Ball Counter
   // True if it is our ball, False if it is opposite alliance.
-  private ArrayList<Alliance> ballQ = new ArrayList<Alliance>();
+  public ArrayList<Alliance> ballQ = new ArrayList<Alliance>();
 
   // Senses colors
   private final ColorSensorV3 frontColorSensor = new ColorSensorV3(rioI2CPort);
@@ -100,6 +100,17 @@ public class SUB_ColorSensor extends SubsystemBase {
 
     return colorString;
   }
+
+  public String allianceToColor(Alliance all){
+    switch (all){
+      case Red:
+        return "Red";
+      case Blue:
+        return "Blue";
+      default:
+        return ("Unknown");
+    }
+  }
   /**
    * Reads the sensor for a color value
    * @param newId the id of the color sensor you want to read from
@@ -116,6 +127,10 @@ public class SUB_ColorSensor extends SubsystemBase {
         break;
     }
     return colorToAlliance();
+  }
+
+  public boolean isAlliance(Alliance ball){
+    return ball==curAlliance;
   }
 
   public boolean isOpp(Alliance ball){

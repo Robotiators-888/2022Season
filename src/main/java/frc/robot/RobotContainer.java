@@ -57,6 +57,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import frc.robot.subsystems.*;
 import frc.robot.commands.Intake.*;
 import frc.robot.commands.Canal.*;
+import frc.robot.commands.Canal.CSRejection.CMD_AcceptAllianceBall;
 import frc.robot.commands.Canal.CSRejection.CMD_CanalRejectBall;
 import frc.robot.commands.Canal.CSRejection.CMD_RescindAllianceBall;
 import frc.robot.subsystems.SUB_LED;
@@ -107,11 +108,12 @@ public class RobotContainer {
         Trigger bottomIndexTrigger = new Trigger(()->index.readBottomBanner());
         Trigger topIndexTrigger = new Trigger(()->!index.readTopBanner());
 
-        Trigger indexBottomToTopTrigger = topIndexTrigger.and(bottomIndexTrigger);
+        Trigger notRejectingTrigger = new Trigger(()->!canal.rejecting);
+        Trigger indexBottomToTopTrigger = topIndexTrigger.and(bottomIndexTrigger).and(notRejectingTrigger);
         
         Trigger rejectBallTrigger = new Trigger(()->colorSensor.isOpp(colorSensor.peekQ()));
-        Trigger acceptBallTrigger = new Trigger(()->!colorSensor.isOpp(colorSensor.peekQ()));
-        Trigger rescindBallTrigger = new Trigger(()->!colorSensor.isOpp(colorSensor.readSensor(Constants.BACK_COLOR_SENSOR_ID)));
+        Trigger acceptBallTrigger = new Trigger(()->colorSensor.isAlliance(colorSensor.peekQ()));
+        Trigger rescindBallTrigger = new Trigger(()->colorSensor.isAlliance(colorSensor.readSensor(Constants.BACK_COLOR_SENSOR_ID))).and(notRejectingTrigger);
 
         // left Joystick
         private Joystick leftJoystick = new Joystick(Constants.LEFTJOYSTICK_PORT);
@@ -594,6 +596,7 @@ public class RobotContainer {
                 LED.setDefaultCommand(new CMD_SOLIDLED(LED));
 
                 // Color Sensor
+                acceptBallTrigger.whenActive(new CMD_AcceptAllianceBall(canal, index, colorSensor));
                 rejectBallTrigger.whenActive(new CMD_CanalRejectBall(colorSensor, canal, -0.75));
                 rescindBallTrigger.whenActive(new CMD_RescindAllianceBall(index, canal,colorSensor));
                 colorSensor.setDefaultCommand(new CMD_ManageBallQueue(colorSensor));

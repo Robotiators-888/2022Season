@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Canal;
+package frc.robot.commands.Canal.CSRejection;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -24,12 +24,13 @@ public class CMD_CanalRejectBall extends CommandBase {
     colorSensor = colorSensorArgs;
     canal = canalArgs;
     speed = speedArgs;
-    addRequirements(canal);
+    addRequirements(canal,colorSensor);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    canal.rejecting = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -45,6 +46,7 @@ public class CMD_CanalRejectBall extends CommandBase {
     canal.setSpeedBack(0);
     canal.setSpeedFront(0);
     colorSensor.popQ();
+    canal.rejecting = false;
   }
 
   // Returns true when the command should end.
