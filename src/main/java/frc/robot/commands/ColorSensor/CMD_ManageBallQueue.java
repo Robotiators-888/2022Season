@@ -6,6 +6,7 @@ package frc.robot.commands.ColorSensor;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.subsystems.SUB_ColorSensor;
 import frc.robot.Constants;
@@ -34,6 +35,9 @@ public class CMD_ManageBallQueue extends CommandBase {
   public void execute() {
     frBallType = colorSensor.readSensor(Constants.FRONT_COLOR_SENSOR_ID);
 
+    SmartDashboard.putString("Color", colorSensor.allianceToColor(frBallType));
+    SmartDashboard.putString("Queue", colorSensor.allianceToColor(colorSensor.peekQ()));
+    
     if (!colorSensor.isUnknown(frBallType) && frBallType!=prevFr) {
       colorSensor.pushQ(frBallType);
     } 
