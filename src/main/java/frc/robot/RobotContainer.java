@@ -114,8 +114,8 @@ public class RobotContainer {
         Trigger notRejectingTrigger = new Trigger(()->!canal.rejecting);
         Trigger indexBottomToTopTrigger = topIndexTrigger.and(bottomIndexTrigger).and(notRejectingTrigger);
         
-        Trigger rejectBallTrigger = new Trigger(()->colorSensor.isOpp(colorSensor.peekQ()));
-        Trigger acceptBallTrigger = new Trigger(()->colorSensor.isAlliance(colorSensor.peekQ()));
+        Trigger rejectBallTrigger = new Trigger(()->colorSensor.isOpp(()->colorSensor.peekQ()));
+        Trigger acceptBallTrigger = new Trigger(()->colorSensor.isAlliance(()->colorSensor.peekQ()));
         Trigger rescindBallTrigger = new Trigger(()->colorSensor.isAlliance(colorSensor.readSensor(Constants.BACK_COLOR_SENSOR_ID))).and(notRejectingTrigger);
 
         // left Joystick

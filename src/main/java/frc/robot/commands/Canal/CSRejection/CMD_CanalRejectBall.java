@@ -52,6 +52,6 @@ public class CMD_CanalRejectBall extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return colorSensor.isOpp(colorSensor.readSensor(Constants.BACK_CANAL_ID));
+    return colorSensor.isUnknown(colorSensor.peekQ()) || colorSensor.isOpp(colorSensor.readSensor(Constants.BACK_CANAL_ID));
   }
 }

@@ -15,6 +15,7 @@ import com.revrobotics.ColorMatch;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.DriverStation;
 import java.util.ArrayList;
+import java.util.function.Supplier;
 
 
 /**
@@ -79,10 +80,10 @@ public class SUB_ColorSensor extends SubsystemBase {
 
   /**
    * Grabs the color detected from the color sensor at the current I2C port
-   * @return a Alliance color, either Red, Blue, or Inveralid.
+   * @return a Alliance color, either Red, Blue, or Invalid.
    */
   public Alliance colorToAlliance() {
-    final double idealRedBlueConfidence = 0.8;
+    final double idealRedBlueConfidence = 0.85;
     Alliance colorString;
     ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
 
@@ -133,8 +134,16 @@ public class SUB_ColorSensor extends SubsystemBase {
     return ball==curAlliance;
   }
 
+  public boolean isAlliance(Supplier<Alliance> ball){
+    return ball.get()==curAlliance;
+  }
+
   public boolean isOpp(Alliance ball){
     return ball==oppAlliance;
+  }
+
+  public boolean isOpp(Supplier<Alliance> ball){
+    return ball.get()==oppAlliance;
   }
 
   public boolean isUnknown(Alliance ball){
@@ -146,7 +155,10 @@ public class SUB_ColorSensor extends SubsystemBase {
   }
 
   public void popQ(){
-    ballQ.remove(0);
+    if (ballQ.size()!=0){
+      ballQ.remove(0);
+    }
+    
   }
 
   public Alliance peekQ(){

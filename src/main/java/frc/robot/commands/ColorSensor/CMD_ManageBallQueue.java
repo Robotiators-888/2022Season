@@ -11,12 +11,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.SUB_ColorSensor;
 import frc.robot.Constants;
 
+import java.util.function.Supplier;
+
 public class CMD_ManageBallQueue extends CommandBase {
 
   private SUB_ColorSensor colorSensor;
   
   private Alliance prevFr = Alliance.Invalid;
-  private Alliance frBallType;
+  private Supplier<Alliance> frBallType;
   
   
   /** Creates a new CMD_CanalRejectionSystem. */
@@ -33,16 +35,16 @@ public class CMD_ManageBallQueue extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    frBallType = colorSensor.readSensor(Constants.FRONT_COLOR_SENSOR_ID);
+    frBallType = ()->colorSensor.readSensor(Constants.FRONT_COLOR_SENSOR_ID);
 
-    SmartDashboard.putString("Color", colorSensor.allianceToColor(frBallType));
+    SmartDashboard.putString("Color", colorSensor.allianceToColor(frBallType.get()));
     SmartDashboard.putString("Queue", colorSensor.allianceToColor(colorSensor.peekQ()));
     
-    if (!colorSensor.isUnknown(frBallType) && frBallType!=prevFr) {
-      colorSensor.pushQ(frBallType);
+    if (!colorSensor.isUnknown(frBallType.get()) && frBallType.get()!=prevFr) {
+      colorSensor.pushQ(frBallType.get());
     } 
     
-    prevFr = frBallType;
+    prevFr = frBallType.get();
 
   } 
 
