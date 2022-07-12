@@ -111,9 +111,9 @@ public class RobotContainer {
         Trigger notRejectingTrigger = new Trigger(()->!canal.rejecting);
         Trigger indexBottomToTopTrigger = topIndexTrigger.and(bottomIndexTrigger).and(notRejectingTrigger);
         
-        Trigger rejectBallTrigger = new Trigger(()->colorSensor.isOpp(()->colorSensor.peekQ()));
-        Trigger acceptBallTrigger = new Trigger(()->colorSensor.isAlliance(()->colorSensor.peekQ()));
-        Trigger rescindBallTrigger = new Trigger(()->colorSensor.isAlliance(colorSensor.readSensor(Constants.BACK_COLOR_SENSOR_ID))).and(notRejectingTrigger);
+        Trigger rejectBallTrigger = new Trigger(()->colorSensor.isOpp(colorSensor.peekQ()));
+        Trigger acceptBallTrigger = new Trigger(()->colorSensor.isAlliance(colorSensor.peekQ()));
+        //Trigger rescindBallTrigger = new Trigger(()->colorSensor.isAlliance(colorSensor.readSensor(Constants.BACK_COLOR_SENSOR_ID))).and(notRejectingTrigger);
 
         // left Joystick
         private Joystick leftJoystick = new Joystick(Constants.LEFTJOYSTICK_PORT);
@@ -598,7 +598,7 @@ public class RobotContainer {
                 // Color Sensor
                 acceptBallTrigger.whenActive(new CMD_AcceptAllianceBall(canal, index, colorSensor));
                 rejectBallTrigger.whenActive(new CMD_CanalRejectBall(colorSensor, canal, -0.75));
-                rescindBallTrigger.whenActive(new CMD_RescindAllianceBall(index, canal,colorSensor));
+                //rescindBallTrigger.whenActive(new CMD_RescindAllianceBall(index, canal,colorSensor));
                 colorSensor.setDefaultCommand(new CMD_ManageBallQueue(colorSensor));
         }
 
@@ -618,6 +618,9 @@ public class RobotContainer {
 
         public void teleopPeroid() {
                 SmartDashboard.putBoolean("cam takeover", ((cameraData.getY() <= 40) && (cameraData.getY() >= 10)));
+                SmartDashboard.putBoolean("Accept trigger", acceptBallTrigger.get());
+                SmartDashboard.putBoolean("Reject trigger", rejectBallTrigger.get());
+        
         }
 
         public static void sendBallColor() {
