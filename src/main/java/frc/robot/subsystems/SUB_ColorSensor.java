@@ -28,9 +28,6 @@ public class SUB_ColorSensor extends SubsystemBase {
   private I2C.Port navxI2CPort = I2C.Port.kMXP;
   int i2cPortId = 0x70;
   public final int ColorSensorid = 0;
-
-  // Opposition Ball Counter
-  // True if it is our ball, False if it is opposite alliance.
   public ArrayList<Alliance> ballQ = new ArrayList<Alliance>();
 
   // Senses colors
@@ -54,6 +51,7 @@ public class SUB_ColorSensor extends SubsystemBase {
 
     colorMatcher.addColorMatch(kBlueTarget);
     colorMatcher.addColorMatch(kRedTarget);
+
     curAlliance = DriverStation.getAlliance();
 
     if(curAlliance==Alliance.Red){oppAlliance=Alliance.Blue;}
@@ -62,7 +60,12 @@ public class SUB_ColorSensor extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {}
+  public void periodic() {
+    curAlliance = DriverStation.getAlliance();
+
+    if(curAlliance==Alliance.Red){oppAlliance=Alliance.Blue;}
+    else{oppAlliance=Alliance.Red;}
+  }
 
  /**
    * Grabs the RGB values from the detected color
@@ -83,7 +86,8 @@ public class SUB_ColorSensor extends SubsystemBase {
    * @return a Alliance color, either Red, Blue, or Invalid.
    */
   public Alliance colorToAlliance() {
-    final double idealRedBlueConfidence = 0.85;
+    final double idealBlueConfidence = 0.85;
+    final double idealRedConfidence = 0.92;
     Alliance colorString;
     ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
 
@@ -95,9 +99,13 @@ public class SUB_ColorSensor extends SubsystemBase {
       colorString = Alliance.Invalid;
     }
 
-    if (match.confidence <= idealRedBlueConfidence) {
+    if (colorString==Alliance.Blue && match.confidence <= idealBlueConfidence) {
      colorString = Alliance.Invalid;
     }
+
+    if (colorString==Alliance.Red && match.confidence <= idealRedConfidence) {
+      colorString = Alliance.Invalid;
+     }
 
     return colorString;
   }

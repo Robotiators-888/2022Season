@@ -8,12 +8,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.SUB_Canal;
 import frc.robot.subsystems.SUB_ColorSensor;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 
 public class CMD_CanalRejectBall extends CommandBase {
 
   private SUB_ColorSensor colorSensor;
+  private boolean seenAgain;
   private SUB_Canal canal;
   private double speed;
 
@@ -31,6 +33,8 @@ public class CMD_CanalRejectBall extends CommandBase {
   @Override
   public void initialize() {
     canal.rejecting = true;
+    seenAgain = false;
+    SmartDashboard.putBoolean("Reject ball running", true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -38,6 +42,12 @@ public class CMD_CanalRejectBall extends CommandBase {
   public void execute() {
     canal.setSpeedBack(-speed);
     canal.setSpeedFront(speed);
+
+    if (colorSensor.isUnknown(colorSensor.peekQ()) || colorSensor.isOpp(colorSensor.readSensor(Constants.BACK_CANAL_ID))){
+      seenAgain = true;
+    }
+
+    SmartDashboard.putBoolean("Seen Again", seenAgain);
   }
 
   // Called once the command ends or is interrupted.
@@ -47,11 +57,16 @@ public class CMD_CanalRejectBall extends CommandBase {
     canal.setSpeedFront(0);
     colorSensor.popQ();
     canal.rejecting = false;
+    seenAgain = false;
+    SmartDashboard.putBoolean("Reject ball running", false);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return colorSensor.isUnknown(colorSensor.peekQ()) || colorSensor.isOpp(colorSensor.readSensor(Constants.BACK_CANAL_ID));
+    SmartDashboard.putBoolean("Is Unknown Back", colorSensor.isUnknown(colorSensor.readSensor(Constants.BACK_CANAL_ID)));
+    SmartDashboard.putBoolean("Is Opposition Back", colorSensor.isOpp(colorSensor.readSensor(Constants.BACK_CANAL_ID)));
+    SmartDashboard.putBoolean("Is Alliance Back", colorSensor.isAlliance(colorSensor.readSensor(Constants.BACK_CANAL_ID)));
+    return seenAgain && colorSensor.isUnknown(colorSensor.readSensor(Constants.BACK_CANAL_ID));
   }
 }
