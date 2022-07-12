@@ -46,6 +46,6 @@ public class CMD_RescindAllianceBall extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return index.readBottomBanner();
+    return colorSensor.isUnknown(colorSensor.peekQ()) || index.readBottomBanner();
   }
 }
