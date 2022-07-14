@@ -17,6 +17,10 @@ import edu.wpi.first.wpilibj.DriverStation;
 import java.util.ArrayList;
 import java.util.function.Supplier;
 
+import frc.robot.Constants;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+
 
 /**
  * Manages the color sensors, reads values from the sensors, controls the MUX, and returns String colors from the sensor values.
@@ -40,10 +44,13 @@ public class SUB_ColorSensor extends SubsystemBase {
   private final Color kRedTarget = new Color(0.562, 0.351, 0.100);
   public Color frontDetectedColor;
   public Color backDetectedColor;
+  public int ballsInBot;
 
   // Alliance Stuff
   public Alliance curAlliance;
   public Alliance oppAlliance;
+  public Alliance frBallType, bBallType;
+  private Alliance prevFr = Alliance.Invalid;
 
 
 
@@ -66,6 +73,19 @@ public class SUB_ColorSensor extends SubsystemBase {
 
     if(curAlliance==Alliance.Red){oppAlliance=Alliance.Blue;}
     else{oppAlliance=Alliance.Red;}
+
+    frBallType = readSensor(Constants.FRONT_COLOR_SENSOR_ID);
+    bBallType = readSensor(Constants.BACK_COLOR_SENSOR_ID);
+    
+    SmartDashboard.putString("F Color", allianceToColor(frBallType));
+    SmartDashboard.putString("B Color", allianceToColor(readSensor(1)));
+    SmartDashboard.putString("Queue", allianceToColor(peekQ()));
+    
+    if (!isUnknown(frBallType) && frBallType!=prevFr) {
+      pushQ(frBallType);
+    } 
+    
+    prevFr = frBallType;
   }
 
 
@@ -75,8 +95,8 @@ public class SUB_ColorSensor extends SubsystemBase {
    * @return a Alliance color, either Red, Blue, or Invalid.
    */
   public Alliance colorToAlliance(int id) {
-    final double idealBlueConfidence = 0.85;
-    final double idealRedConfidence = 0.92;
+    final double idealBlueConfidence = 0.8;
+    final double idealRedConfidence = 0.8;
     Alliance colorString;
     ColorMatchResult match;
     

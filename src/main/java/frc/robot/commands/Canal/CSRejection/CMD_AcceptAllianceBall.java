@@ -22,7 +22,7 @@ public class CMD_AcceptAllianceBall extends CommandBase {
     canal = canalArgs;
     index = indexArgs;
     colorSensor = colorSensorArgs;
-    addRequirements(canal,index);
+    addRequirements(canal,index,colorSensor);
   }
 
   // Called when the command is initially scheduled.
@@ -49,6 +49,6 @@ public class CMD_AcceptAllianceBall extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return colorSensor.isUnknown(colorSensor.peekQ()) || index.readBottomBanner();
+    return index.readBottomBanner();
   }
 }
