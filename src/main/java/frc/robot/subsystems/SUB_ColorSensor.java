@@ -38,7 +38,8 @@ public class SUB_ColorSensor extends SubsystemBase {
 
   private final Color kBlueTarget = new Color(0.143, 0.427, 0.429);
   private final Color kRedTarget = new Color(0.562, 0.351, 0.100);
-  public Color detectedColor;
+  public Color frontDetectedColor;
+  public Color backDetectedColor;
 
   // Alliance Stuff
   public Alliance curAlliance;
@@ -67,29 +68,23 @@ public class SUB_ColorSensor extends SubsystemBase {
     else{oppAlliance=Alliance.Red;}
   }
 
- /**
-   * Grabs the RGB values from the detected color
-   * @return returns a double array with 0: R, 1:B, 2:G.
-   */
-  public double[] findRGB() {
-    double[] RGBArray = new double[3];
-    RGBArray[0] = detectedColor.red;
-    RGBArray[1] = detectedColor.blue;
-    RGBArray[2] = detectedColor.green;
-
-    return RGBArray;
-  }
 
 
   /**
    * Grabs the color detected from the color sensor at the current I2C port
    * @return a Alliance color, either Red, Blue, or Invalid.
    */
-  public Alliance colorToAlliance() {
+  public Alliance colorToAlliance(int id) {
     final double idealBlueConfidence = 0.85;
     final double idealRedConfidence = 0.92;
     Alliance colorString;
-    ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
+    ColorMatchResult match;
+    
+    switch(id){
+      case 0: match = colorMatcher.matchClosestColor(frontDetectedColor); break;
+      case 1: match = colorMatcher.matchClosestColor(backDetectedColor); break;
+      default: match = colorMatcher.matchClosestColor(frontDetectedColor); break;
+    }
 
     if (match.color == kBlueTarget) {
       colorString = Alliance.Blue;
@@ -129,13 +124,13 @@ public class SUB_ColorSensor extends SubsystemBase {
     
     switch (newId){
       case 0:
-        detectedColor = frontColorSensor.getColor();
+        frontDetectedColor = frontColorSensor.getColor();
         break;
       case 1:
-        detectedColor = backColorSensor.getColor();
+        backDetectedColor = backColorSensor.getColor();
         break;
     }
-    return colorToAlliance();
+    return colorToAlliance(newId);
   }
 
   public boolean isAlliance(Alliance ball){

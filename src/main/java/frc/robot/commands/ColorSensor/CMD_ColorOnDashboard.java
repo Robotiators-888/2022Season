@@ -37,7 +37,6 @@ public class CMD_ColorOnDashboard extends CommandBase {
     }
 
     SmartDashboard.putString("Color",color);
-    SmartDashboard.putNumberArray("RBG", colorSensor.findRGB());
   }
 
   // Called once the command ends or is interrupted.

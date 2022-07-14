@@ -42,6 +42,7 @@ public class CMD_AcceptAllianceBall extends CommandBase {
   public void end(boolean interrupted) {
     canal.setSpeedFront(0);
     colorSensor.popQ();
+    colorSensor.ballsInBot++; // To counteract the -- from the usage of pop()
     SmartDashboard.putBoolean("Accept Command Running", false);
   }
 
