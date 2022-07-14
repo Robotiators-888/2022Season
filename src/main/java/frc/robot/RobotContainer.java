@@ -646,7 +646,7 @@ public class RobotContainer {
                 acceptBallTrigger.whenActive(new CMD_AcceptAllianceBall(canal, index, colorSensor));
                 rejectBallTrigger.whenActive(new CMD_CanalRejectBall(colorSensor, canal, -0.75));
                 //rescindBallTrigger.whenActive(new CMD_RescindAllianceBall(index, canal,colorSensor));
-                colorSensor.setDefaultCommand(new CMD_ManageBallQueue(colorSensor));
+                //colorSensor.setDefaultCommand(new CMD_ManageBallQueue(colorSensor));
         }
 
         public Command getAutonomousCommand() {
@@ -667,7 +667,6 @@ public class RobotContainer {
                 SmartDashboard.putBoolean("cam takeover", ((cameraData.getY() <= 40) && (cameraData.getY() >= 10)));
                 SmartDashboard.putBoolean("Accept trigger", acceptBallTrigger.get());
                 SmartDashboard.putBoolean("Reject trigger", rejectBallTrigger.get());
-        
         }
 
         public static void sendBallColor() {
