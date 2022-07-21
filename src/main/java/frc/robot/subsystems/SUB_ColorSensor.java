@@ -14,8 +14,15 @@ import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorMatch;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import java.util.ArrayList;
 import java.util.function.Supplier;
+
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
+import frc.robot.Constants;
 
 
 /**
@@ -45,11 +52,17 @@ public class SUB_ColorSensor extends SubsystemBase {
   public Alliance curAlliance;
   public Alliance oppAlliance;
 
+  // Balls
+  private Alliance frBallType;
+  private Alliance prevFr;
+
+  public Alliance bAlliance;
+  public Alliance fAlliance;
+
 
 
   /** Creates a new ColorSensorSubsystem. */
   public SUB_ColorSensor() {
-
     colorMatcher.addColorMatch(kBlueTarget);
     colorMatcher.addColorMatch(kRedTarget);
 
@@ -62,10 +75,20 @@ public class SUB_ColorSensor extends SubsystemBase {
 
   @Override
   public void periodic() {
+
     curAlliance = DriverStation.getAlliance();
 
     if(curAlliance==Alliance.Red){oppAlliance=Alliance.Blue;}
     else{oppAlliance=Alliance.Red;}
+
+    fAlliance = readSensor(Constants.FRONT_COLOR_SENSOR_ID);
+    bAlliance = readSensor(Constants.BACK_COLOR_SENSOR_ID);
+    
+    if (!isUnknown(fAlliance) && fAlliance!=prevFr) {
+      pushQ(fAlliance);
+    } 
+    
+    prevFr = fAlliance;
   }
 
 

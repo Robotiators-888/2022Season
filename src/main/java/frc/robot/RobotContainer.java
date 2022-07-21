@@ -64,6 +64,7 @@ import frc.robot.commands.Canal.CSRejection.CMD_CanalRejectBall;
 import frc.robot.commands.Canal.CSRejection.CMD_FlushBalls;
 import frc.robot.commands.Canal.CSRejection.CMD_RescindAllianceBall;
 import frc.robot.subsystems.SUB_LED;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -100,7 +101,6 @@ public class RobotContainer {
         JoystickButton C_bButton = new JoystickButton(controller, 2);
         JoystickButton C_xButton = new JoystickButton(controller, 3);
         JoystickButton C_yButton = new JoystickButton(controller, 4);
-        JoystickButton C_lBumper = new JoystickButton(controller, 5);
         JoystickButton C_rBumper = new JoystickButton(controller, 6);
         POVButton C_dPadUp = new POVButton(controller, 0);
         POVButton C_dPadDown = new POVButton(controller, 180);
@@ -119,12 +119,11 @@ public class RobotContainer {
         Trigger frontOppTrigger = new Trigger(()->colorSensor.isOpp(colorSensor.peekQ()));
         Trigger frontCurTrigger = new Trigger(()->colorSensor.isAlliance(colorSensor.peekQ()));
 
-        //Trigger flushTrigger = new Trigger(()->((!canal.rejecting || !canal.accepting ) && (frontOppTrigger.get() || frontCurTrigger.get())));
-        //Trigger towerFullTrigger = new Trigger(()->((index.readTopBanner() && index.readBottomBanner()) && (frontOppTrigger.get() || frontCurTrigger.get())));
-        
-        Trigger rejectBallTrigger = frontOppTrigger;
-        Trigger acceptBallTrigger = frontCurTrigger;
+        Trigger flushTrigger = new Trigger(()->((!canal.rejecting || !canal.accepting ) && (frontOppTrigger.get() || frontCurTrigger.get())));
+        Trigger towerFullTrigger = new Trigger(()->((index.readTopBanner() && index.readBottomBanner()) && (frontOppTrigger.get() || frontCurTrigger.get())));
 
+        Trigger rejectBallTrigger = frontOppTrigger.and(towerFullTrigger.negate());
+        Trigger acceptBallTrigger = frontCurTrigger.and(towerFullTrigger.negate());
         // left Joystick
         private Joystick leftJoystick = new Joystick(Constants.LEFTJOYSTICK_PORT);
 
@@ -619,8 +618,8 @@ public class RobotContainer {
                 C_dPadRight.whileHeld(new CMD_teleopCanalThrough(canal, -0.75));
 
                 // Index
-                indexBottomToTopTrigger.whileActiveContinuous(new CMD_IndexBottomToTop(canal, index));
-                //towerFullTrigger.whileActiveContinuous(new PAR_EmptyTop(index, shooter));
+                indexBottomToTopTrigger.whenActive(new CMD_IndexBottomToTop(canal, index));
+                towerFullTrigger.whileActiveContinuous(new PAR_EmptyTop(index, shooter));
                 C_aButton.whileHeld(new ParallelCommandGroup(new CMD_indexRun(index, -0.75),
                                 new CMD_ShooterSpin(shooter, 0.25)));
                 C_rightTrigger.whileActiveContinuous(new CMD_indexRun(index, 0.75));
@@ -646,9 +645,9 @@ public class RobotContainer {
                 // Color Sensor
                 acceptBallTrigger.whenActive(new CMD_AcceptAllianceBall(canal, index, colorSensor));
                 rejectBallTrigger.whenActive(new CMD_CanalRejectBall(colorSensor, canal, -0.75));
-                L_button7.whileHeld(new CMD_FlushBalls(canal, colorSensor));
+                C_rBumper.whileHeld(new CMD_FlushBalls(canal, colorSensor));
                 //rescindBallTrigger.whenActive(new CMD_RescindAllianceBall(index, canal,colorSensor));
-                colorSensor.setDefaultCommand(new CMD_ManageBallQueue(colorSensor));
+                //colorSensor.setDefaultCommand(new CMD_ManageBallQueue(colorSensor));
         }
 
         public Command getAutonomousCommand() {
@@ -661,15 +660,19 @@ public class RobotContainer {
 
         public void teleInit() {
                 cameraData.setDirection(true);
+
                 canal.setSpeedBack(0);
                 canal.setSpeedFront(0);
-                colorSensor.eraseQ();
+                
+                colorSensor.register();
         }
 
         public void teleopPeroid() {
                 SmartDashboard.putBoolean("cam takeover", ((cameraData.getY() <= 40) && (cameraData.getY() >= 10)));
                 SmartDashboard.putBoolean("Accept trigger", acceptBallTrigger.get());
                 SmartDashboard.putBoolean("Reject trigger", rejectBallTrigger.get());
+
+                SmartDashboard.putBoolean("FLUSH NOW: ", flushTrigger.get());
         
         }
 
