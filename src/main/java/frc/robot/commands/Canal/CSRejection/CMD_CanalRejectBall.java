@@ -34,15 +34,16 @@ public class CMD_CanalRejectBall extends CommandBase {
   public void initialize() {
     canal.rejecting = true;
     seenAgain = false;
+    SmartDashboard.putBoolean("Reject ball running", true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     canal.setSpeedBack(-speed);
-    canal.setSpeedFront(speed+0.05);
+    canal.setSpeedFront(speed);
 
-    if (colorSensor.isOpp(colorSensor.bBallType)){
+    if (colorSensor.isUnknown(colorSensor.peekQ()) || colorSensor.isOpp(colorSensor.readSensor(Constants.BACK_CANAL_ID))){
       seenAgain = true;
     }
 
@@ -57,11 +58,15 @@ public class CMD_CanalRejectBall extends CommandBase {
     colorSensor.popQ();
     canal.rejecting = false;
     seenAgain = false;
+    SmartDashboard.putBoolean("Reject ball running", false);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return seenAgain && colorSensor.isUnknown(colorSensor.bBallType);
+    SmartDashboard.putBoolean("Is Unknown Back", colorSensor.isUnknown(colorSensor.readSensor(Constants.BACK_CANAL_ID)));
+    SmartDashboard.putBoolean("Is Opposition Back", colorSensor.isOpp(colorSensor.readSensor(Constants.BACK_CANAL_ID)));
+    SmartDashboard.putBoolean("Is Alliance Back", colorSensor.isAlliance(colorSensor.readSensor(Constants.BACK_CANAL_ID)));
+    return seenAgain && colorSensor.isUnknown(colorSensor.readSensor(Constants.BACK_CANAL_ID));
   }
 }

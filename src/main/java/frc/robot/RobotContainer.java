@@ -648,7 +648,7 @@ public class RobotContainer {
                 rejectBallTrigger.whenActive(new CMD_CanalRejectBall(colorSensor, canal, -0.75));
                 L_button7.whileHeld(new CMD_FlushBalls(canal, colorSensor));
                 //rescindBallTrigger.whenActive(new CMD_RescindAllianceBall(index, canal,colorSensor));
-                //colorSensor.setDefaultCommand(new CMD_ManageBallQueue(colorSensor));
+                colorSensor.setDefaultCommand(new CMD_ManageBallQueue(colorSensor));
         }
 
         public Command getAutonomousCommand() {
@@ -670,7 +670,11 @@ public class RobotContainer {
                 SmartDashboard.putBoolean("cam takeover", ((cameraData.getY() <= 40) && (cameraData.getY() >= 10)));
                 SmartDashboard.putBoolean("Accept trigger", acceptBallTrigger.get());
                 SmartDashboard.putBoolean("Reject trigger", rejectBallTrigger.get());
+<<<<<<< HEAD
                 SmartDashboard.putBoolean("FLUSH NOW", flushTrigger.get());
+=======
+        
+>>>>>>> parent of d67eee8 (Fixed color sensor bugging out randomly)
         }
 
         public static void sendBallColor() {

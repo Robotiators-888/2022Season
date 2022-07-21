@@ -36,6 +36,7 @@ public class CMD_ManageBallQueue extends CommandBase {
   @Override
   public void execute() {
     frBallType = colorSensor.readSensor(Constants.FRONT_COLOR_SENSOR_ID);
+
     SmartDashboard.putString("Color", colorSensor.allianceToColor(frBallType));
     SmartDashboard.putString("Queue", colorSensor.allianceToColor(colorSensor.peekQ()));
     
