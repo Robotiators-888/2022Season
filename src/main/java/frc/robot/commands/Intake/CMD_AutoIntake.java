@@ -35,8 +35,6 @@ public class CMD_AutoIntake extends CommandBase {
     intake.intakeSpeedSet(0.5);
 
     if (!index.readBottomBanner()){
-      canal.setSpeedBack(-0.75);
-      canal.setSpeedFront(-0.75);
     }
   }
 

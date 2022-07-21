@@ -20,7 +20,7 @@ public class PAR_EmptyTop extends ParallelCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new CMD_indexRun(index, 0.75),
+      new CMD_indexRun(index, 0.85),
       new CMD_ShooterRPM(shooter, 1750)
     );
   }

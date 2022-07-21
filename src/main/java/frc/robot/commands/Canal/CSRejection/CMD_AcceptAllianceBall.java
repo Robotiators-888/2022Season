@@ -29,6 +29,7 @@ public class CMD_AcceptAllianceBall extends CommandBase {
   @Override
   public void initialize() {
     canal.accepting = true;
+    SmartDashboard.putBoolean("Accept Running", true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -43,11 +44,13 @@ public class CMD_AcceptAllianceBall extends CommandBase {
     canal.setSpeedFront(0);
     colorSensor.popQ();
     canal.accepting = false;
+
+    SmartDashboard.putBoolean("Accept Running", false);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return colorSensor.isUnknown(colorSensor.peekQ()) || index.readBottomBanner();
+    return index.readBottomBanner();
   }
 }
