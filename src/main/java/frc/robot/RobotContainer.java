@@ -28,6 +28,8 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.commands.BallCam.SEQ_getBall;
 import frc.robot.commands.BallIndexing.CMD_CanalZeroToOneBottom;
 import frc.robot.commands.BallIndexing.CMD_IndexBottomToTop;
@@ -83,6 +85,12 @@ public class RobotContainer {
         private SUB_Limelight limelight = new SUB_Limelight();
         private SUB_CameraData cameraData = new SUB_CameraData();
         private SUB_LED LED = new SUB_LED();
+        private SUB_ColorSensor colorSensor = new SUB_ColorSensor();
+        
+        // Driver Station Stuff
+        private Alliance curAlliance;
+        private Alliance oppAlliance;
+        
 
         // Controller
         private Joystick controller = new Joystick(Constants.JOYSTICK_PORT);
@@ -100,11 +108,13 @@ public class RobotContainer {
         Trigger C_leftTrigger = new Trigger(() -> (controller.getRawAxis(2) > 0.5));
         Trigger C_rightTrigger = new Trigger(() -> (controller.getRawAxis(3) > 0.5));
 
-        Trigger intakeDown = new Trigger(() -> intake.getPosition());
-        Trigger bottomIndexTrigger = new Trigger(() -> index.readBottomBanner());
-        Trigger topIndexTrigger = new Trigger(() -> !index.readTopBanner());
-        Trigger aButtonNotPressed = new Trigger(() -> !(controller.getRawButton(1)));
-        Trigger indexBottomToTopTrigger = topIndexTrigger.and(bottomIndexTrigger).and(aButtonNotPressed);
+        Trigger intakeDown = new Trigger(()->intake.getPosition());
+        Trigger bottomIndexTrigger = new Trigger(()->index.readBottomBanner());
+        Trigger topIndexTrigger = new Trigger(()->!index.readTopBanner());
+        Trigger indexBottomToTopTrigger = topIndexTrigger.and(bottomIndexTrigger);
+        Trigger frontRejectionSensor = new Trigger(()->(colorSensor.readSensor(Constants.FRONT_COLOR_SENSOR_ID)==oppAlliance));
+        Trigger backRejectionSensor = new Trigger(()->(colorSensor.readSensor(Constants.BACK_COLOR_SENSOR_ID)==oppAlliance));
+
 
         // left Joystick
         private Joystick leftJoystick = new Joystick(Constants.LEFTJOYSTICK_PORT);
@@ -565,6 +575,10 @@ public class RobotContainer {
                 SmartDashboard.putData("Auto Chooser", AutoChooser);
                 SmartDashboard.putData("Delay Chooser", DelayChooser);
 
+                curAlliance = DriverStation.getAlliance();
+                if(curAlliance==Alliance.Red){oppAlliance=Alliance.Blue;}
+                else{oppAlliance=Alliance.Red;}
+
                 // networkTables.start();
                 System.out.println("RobotContainer initialization complete.");
 
@@ -628,6 +642,10 @@ public class RobotContainer {
 
                 // LED
                 LED.setDefaultCommand(new CMD_SOLIDLED(LED));
+
+                // Color Sensor
+                frontRejectionSensor.whileActiveContinuous(new CMD_teleopCanalThrough(canal, 0.75));
+                backRejectionSensor.whileActiveContinuous(new CMD_teleopCanalThrough(canal, -0.75));
         }
 
         public Command getAutonomousCommand() {
