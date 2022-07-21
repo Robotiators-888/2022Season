@@ -119,11 +119,11 @@ public class RobotContainer {
         Trigger frontOppTrigger = new Trigger(()->colorSensor.isOpp(colorSensor.peekQ()));
         Trigger frontCurTrigger = new Trigger(()->colorSensor.isAlliance(colorSensor.peekQ()));
 
-        Trigger flushTrigger = new Trigger(()->((!canal.rejecting || !canal.accepting ) && (frontOppTrigger.get() || frontCurTrigger.get())));
-        Trigger towerFullTrigger = new Trigger(()->((index.readTopBanner() && index.readBottomBanner()) && (frontOppTrigger.get() || frontCurTrigger.get())));
+        //Trigger flushTrigger = new Trigger(()->((!canal.rejecting || !canal.accepting ) && (frontOppTrigger.get() || frontCurTrigger.get())));
+        //Trigger towerFullTrigger = new Trigger(()->((index.readTopBanner() && index.readBottomBanner()) && (frontOppTrigger.get() || frontCurTrigger.get())));
         
-        Trigger rejectBallTrigger = frontOppTrigger.and(towerFullTrigger.negate());
-        Trigger acceptBallTrigger = frontCurTrigger.and(towerFullTrigger.negate());
+        Trigger rejectBallTrigger = frontOppTrigger;
+        Trigger acceptBallTrigger = frontCurTrigger;
 
         // left Joystick
         private Joystick leftJoystick = new Joystick(Constants.LEFTJOYSTICK_PORT);
@@ -620,7 +620,7 @@ public class RobotContainer {
 
                 // Index
                 indexBottomToTopTrigger.whileActiveContinuous(new CMD_IndexBottomToTop(canal, index));
-                towerFullTrigger.whileActiveContinuous(new PAR_EmptyTop(index, shooter));
+                //towerFullTrigger.whileActiveContinuous(new PAR_EmptyTop(index, shooter));
                 C_aButton.whileHeld(new ParallelCommandGroup(new CMD_indexRun(index, -0.75),
                                 new CMD_ShooterSpin(shooter, 0.25)));
                 C_rightTrigger.whileActiveContinuous(new CMD_indexRun(index, 0.75));
@@ -670,11 +670,7 @@ public class RobotContainer {
                 SmartDashboard.putBoolean("cam takeover", ((cameraData.getY() <= 40) && (cameraData.getY() >= 10)));
                 SmartDashboard.putBoolean("Accept trigger", acceptBallTrigger.get());
                 SmartDashboard.putBoolean("Reject trigger", rejectBallTrigger.get());
-<<<<<<< HEAD
-                SmartDashboard.putBoolean("FLUSH NOW", flushTrigger.get());
-=======
         
->>>>>>> parent of d67eee8 (Fixed color sensor bugging out randomly)
         }
 
         public static void sendBallColor() {
