@@ -44,7 +44,6 @@ public class SUB_ColorSensor extends SubsystemBase {
   private final Color kRedTarget = new Color(0.562, 0.351, 0.100);
   public Color frontDetectedColor;
   public Color backDetectedColor;
-  public int ballsInBot;
 
   // Alliance Stuff
   public Alliance curAlliance;
@@ -181,7 +180,10 @@ public class SUB_ColorSensor extends SubsystemBase {
     if (ballQ.size()!=0){
       ballQ.remove(0);
     }
-    
+  }
+
+  public void eraseQ(){
+    ballQ.clear();
   }
 
   public Alliance peekQ(){

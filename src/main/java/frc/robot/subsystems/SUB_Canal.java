@@ -21,6 +21,7 @@ public class SUB_Canal extends SubsystemBase {
   private TalonSRX back = new TalonSRX(Constants.BACK_CANAL_ID);
 
   public boolean rejecting = false;
+  public boolean accepting = false;
   /** Creates a new CanalSubsystem. */
   public SUB_Canal() {
 

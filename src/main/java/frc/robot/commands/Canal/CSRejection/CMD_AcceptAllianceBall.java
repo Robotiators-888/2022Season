@@ -28,7 +28,7 @@ public class CMD_AcceptAllianceBall extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    SmartDashboard.putBoolean("Accept Command Running", true);
+    canal.accepting = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,8 +42,7 @@ public class CMD_AcceptAllianceBall extends CommandBase {
   public void end(boolean interrupted) {
     canal.setSpeedFront(0);
     colorSensor.popQ();
-    colorSensor.ballsInBot++; // To counteract the -- from the usage of pop()
-    SmartDashboard.putBoolean("Accept Command Running", false);
+    canal.accepting = false;
   }
 
   // Returns true when the command should end.
