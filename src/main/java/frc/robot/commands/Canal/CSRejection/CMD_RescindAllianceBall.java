@@ -2,27 +2,28 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Intake;
+package frc.robot.commands.Canal.CSRejection;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.SUB_Canal;
-import frc.robot.subsystems.SUB_Intake;
 import frc.robot.subsystems.SUB_Index;
+import frc.robot.subsystems.SUB_Canal;
+import frc.robot.subsystems.SUB_ColorSensor;
 
-public class CMD_AutoIntake extends CommandBase {
-  SUB_Canal canal;
-  SUB_Intake intake;
-  SUB_Index index;
+public class CMD_RescindAllianceBall extends CommandBase {
 
-  /** Creates a new CMD_AutoIntake. */
-  public CMD_AutoIntake(SUB_Canal canalArgs, SUB_Intake intakeArgs, SUB_Index indexArgs) {
+  private SUB_Index index;
+  private SUB_Canal canal;
+  private SUB_ColorSensor colorSensor;
+
+  /** Creates a new CMD_RescindAllianceBall. */
+  public CMD_RescindAllianceBall(SUB_Index indexArgs, SUB_Canal canalArgs,SUB_ColorSensor colorSensorArgs) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.canal = canalArgs;
-    this.intake = intakeArgs;
-    this.index = indexArgs;
-    
-    // Not adding requirements because this command will interfere with auto
 
+    index = indexArgs;
+    canal = canalArgs;
+    colorSensor = colorSensorArgs;
+
+    addRequirements(canal,index,colorSensor);
   }
 
   // Called when the command is initially scheduled.
@@ -32,23 +33,19 @@ public class CMD_AutoIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.intakeSpeedSet(0.5);
-
-    if (!index.readBottomBanner()){
-    }
+    canal.setSpeedBack(-0.75);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intake.intakeSpeedSet(0);
     canal.setSpeedBack(0);
-    canal.setSpeedFront(0);
+    colorSensor.popQ();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return colorSensor.isUnknown(colorSensor.peekQ()) || index.readBottomBanner();
   }
 }

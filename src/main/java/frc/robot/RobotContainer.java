@@ -28,13 +28,15 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.commands.BallCam.SEQ_getBall;
 import frc.robot.commands.BallIndexing.CMD_CanalZeroToOneBottom;
 import frc.robot.commands.BallIndexing.CMD_IndexBottomToTop;
 import frc.robot.commands.BallIndexing.CMD_IndexBottomToTopBanner;
-import frc.robot.commands.Canal.CMD_canalThrough;
-import frc.robot.commands.Canal.CMD_canalRun;
 import frc.robot.commands.Climber.CMD_ClimberSpeed;
+import frc.robot.commands.ColorSensor.CMD_ColorOnDashboard;
+import frc.robot.commands.ColorSensor.CMD_ManageBallQueue;
 import frc.robot.commands.Drivetrain.CMD_teleopDrive;
 import frc.robot.commands.Index.CMD_indexRun;
 import frc.robot.commands.Intake.CMD_IntakeSpin;
@@ -42,6 +44,7 @@ import frc.robot.commands.LEDs.*;
 import frc.robot.commands.LimeLight.*;
 import frc.robot.commands.Shooter.CMD_ShooterManualRPM;
 import frc.robot.commands.Shooter.CMD_changeSetpoint;
+import frc.robot.commands.Shooter.PAR_EmptyTop;
 import frc.robot.commands.Shooter.SEQ_dumbShot;
 import frc.robot.commands.Shooter.CMD_ShooterRPM;
 import frc.robot.commands.Shooter.CMD_ShooterSpin;
@@ -50,13 +53,18 @@ import frc.robot.subsystems.SUB_Drivetrain;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.VideoMode;
 import frc.robot.subsystems.*;
 import frc.robot.commands.Intake.*;
 import frc.robot.commands.Canal.*;
-
+import frc.robot.commands.Canal.CSRejection.CMD_AcceptAllianceBall;
+import frc.robot.commands.Canal.CSRejection.CMD_CanalRejectBall;
+import frc.robot.commands.Canal.CSRejection.CMD_FlushBalls;
+import frc.robot.commands.Canal.CSRejection.CMD_RescindAllianceBall;
 import frc.robot.subsystems.SUB_LED;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -83,6 +91,8 @@ public class RobotContainer {
         private SUB_Limelight limelight = new SUB_Limelight();
         private SUB_CameraData cameraData = new SUB_CameraData();
         private SUB_LED LED = new SUB_LED();
+        private SUB_ColorSensor colorSensor = new SUB_ColorSensor();
+        
 
         // Controller
         private Joystick controller = new Joystick(Constants.JOYSTICK_PORT);
@@ -93,6 +103,7 @@ public class RobotContainer {
         JoystickButton C_yButton = new JoystickButton(controller, 4);
         JoystickButton C_lBumper = new JoystickButton(controller, 5);
         JoystickButton C_rBumper = new JoystickButton(controller, 6);
+        
         POVButton C_dPadUp = new POVButton(controller, 0);
         POVButton C_dPadDown = new POVButton(controller, 180);
         POVButton C_dPadLeft = new POVButton(controller, 270);
@@ -100,12 +111,21 @@ public class RobotContainer {
         Trigger C_leftTrigger = new Trigger(() -> (controller.getRawAxis(2) > 0.5));
         Trigger C_rightTrigger = new Trigger(() -> (controller.getRawAxis(3) > 0.5));
 
-        Trigger intakeDown = new Trigger(() -> intake.getPosition());
-        Trigger bottomIndexTrigger = new Trigger(() -> index.readBottomBanner());
-        Trigger topIndexTrigger = new Trigger(() -> !index.readTopBanner());
-        Trigger aButtonNotPressed = new Trigger(() -> !(controller.getRawButton(1)));
-        Trigger indexBottomToTopTrigger = topIndexTrigger.and(bottomIndexTrigger).and(aButtonNotPressed);
+        Trigger intakeDown = new Trigger(()->intake.getPosition());
+        Trigger bottomIndexTrigger = new Trigger(()->index.readBottomBanner());
+        Trigger topIndexTrigger = new Trigger(()->!index.readTopBanner());
 
+        Trigger notRejectingTrigger = new Trigger(()->!canal.rejecting);
+        Trigger indexBottomToTopTrigger = topIndexTrigger.and(bottomIndexTrigger).and(notRejectingTrigger);
+        
+        Trigger frontOppTrigger = new Trigger(()->colorSensor.isOpp(colorSensor.peekQ()));
+        Trigger frontCurTrigger = new Trigger(()->colorSensor.isAlliance(colorSensor.peekQ()));
+
+        Trigger flushTrigger = new Trigger(()->((!canal.rejecting || !canal.accepting ) && (frontOppTrigger.get() || frontCurTrigger.get())));
+        Trigger towerFullTrigger = new Trigger(()->((index.readTopBanner() && index.readBottomBanner()) && (frontOppTrigger.get() || frontCurTrigger.get())));
+
+        Trigger rejectBallTrigger = frontOppTrigger.and(towerFullTrigger.negate());
+        Trigger acceptBallTrigger = frontCurTrigger.and(towerFullTrigger.negate());
         // left Joystick
         private Joystick leftJoystick = new Joystick(Constants.LEFTJOYSTICK_PORT);
 
@@ -565,6 +585,7 @@ public class RobotContainer {
                 SmartDashboard.putData("Auto Chooser", AutoChooser);
                 SmartDashboard.putData("Delay Chooser", DelayChooser);
 
+
                 // networkTables.start();
                 System.out.println("RobotContainer initialization complete.");
 
@@ -599,18 +620,16 @@ public class RobotContainer {
                 C_dPadRight.whileHeld(new CMD_teleopCanalThrough(canal, -0.75));
 
                 // Index
-
-                C_aButton.whileHeld(new ParallelCommandGroup(new CMD_indexRun(index, -0.75),
-                                new CMD_ShooterSpin(shooter, 0.25)));
-                // climber
-                C_xButton.whenHeld(new CMD_ClimberSpeed(climber, 1));
-                C_bButton.whenHeld(new CMD_ClimberSpeed(climber, -1));
-
-                // Index
+                indexBottomToTopTrigger.whenActive(new CMD_IndexBottomToTop(canal, index));
+                towerFullTrigger.whileActiveContinuous(new PAR_EmptyTop(index, shooter));
                 C_aButton.whileHeld(new ParallelCommandGroup(new CMD_indexRun(index, -0.75),
                                 new CMD_ShooterSpin(shooter, 0.25)));
                 C_rightTrigger.whileActiveContinuous(new CMD_indexRun(index, 0.75));
 
+                // climber
+                C_xButton.whenHeld(new CMD_ClimberSpeed(climber, 1));
+                C_bButton.whenHeld(new CMD_ClimberSpeed(climber, -1));
+                
                 // shooter
                 C_lBumper.whenPressed(new CMD_changeSetpoint(shooter, -100));
                 C_rBumper.whenPressed(new CMD_changeSetpoint(shooter, 100));
@@ -628,6 +647,13 @@ public class RobotContainer {
 
                 // LED
                 LED.setDefaultCommand(new CMD_SOLIDLED(LED));
+
+                // Color Sensor
+                acceptBallTrigger.whenActive(new CMD_AcceptAllianceBall(canal, index, colorSensor));
+                rejectBallTrigger.whenActive(new CMD_CanalRejectBall(colorSensor, canal, -0.75));
+                C_rBumper.whileHeld(new CMD_FlushBalls(canal, colorSensor));
+                //rescindBallTrigger.whenActive(new CMD_RescindAllianceBall(index, canal,colorSensor));
+                //colorSensor.setDefaultCommand(new CMD_ManageBallQueue(colorSensor));
         }
 
         public Command getAutonomousCommand() {
@@ -640,12 +666,20 @@ public class RobotContainer {
 
         public void teleInit() {
                 cameraData.setDirection(true);
+
                 canal.setSpeedBack(0);
                 canal.setSpeedFront(0);
+                
+                colorSensor.register();
         }
 
         public void teleopPeroid() {
                 SmartDashboard.putBoolean("cam takeover", ((cameraData.getY() <= 40) && (cameraData.getY() >= 10)));
+                SmartDashboard.putBoolean("Accept trigger", acceptBallTrigger.get());
+                SmartDashboard.putBoolean("Reject trigger", rejectBallTrigger.get());
+
+                SmartDashboard.putBoolean("FLUSH NOW: ", flushTrigger.get());
+        
         }
 
         public static void sendBallColor() {
