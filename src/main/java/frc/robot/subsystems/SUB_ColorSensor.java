@@ -72,7 +72,11 @@ public class SUB_ColorSensor extends SubsystemBase {
     else{oppAlliance=Alliance.Red;}
 
   }
-
+  
+  /**
+   * Whether the limelight has any valid targets
+   * Updates the ball queue periodically
+   */
   @Override
   public void periodic() {
 
@@ -127,7 +131,11 @@ public class SUB_ColorSensor extends SubsystemBase {
 
     return colorString;
   }
-
+  /**
+   * Transcribes an alliance to a string
+   * @param all An alliance
+   * @return A string representing the alliance
+   */
   public String allianceToColor(Alliance all){
     switch (all){
       case Red:
@@ -156,40 +164,71 @@ public class SUB_ColorSensor extends SubsystemBase {
     return colorToAlliance(newId);
   }
 
+  /**
+  * Given an alliance it will return whether the alliance is our alliance
+  * @param ball Alliance Given
+  * @return Boolean value of whether the alliance is our alliance
+  */
   public boolean isAlliance(Alliance ball){
     return ball==curAlliance;
   }
-
+  /**
+  * Given an alliance it will return whether the alliance is our alliance
+  * @param ball Alliance Given
+  * @return Boolean value of whether the alliance is our alliance
+  */
   public boolean isAlliance(Supplier<Alliance> ball){
     return ball.get()==curAlliance;
   }
-
+  /**
+  * Given an alliance it will return whether the alliance is the opposite alliance
+  * @param ball Alliance Given
+  * @return Boolean value of whether the alliance is the opposite alliance
+  */
   public boolean isOpp(Alliance ball){
     return ball==oppAlliance;
   }
-
+  /**
+  * Given an alliance it will return whether the alliance is the opposite alliance
+  * @param ball Alliance Given
+  * @return Boolean value of whether the alliance is the opposite alliance
+  */
   public boolean isOpp(Supplier<Alliance> ball){
     return ball.get()==oppAlliance;
   }
-
+  /**
+  * Given an alliance it will return whether the alliance is unknown
+  * @param ball Alliance Given
+  * @return Boolean value of whether the alliance is unknown
+  */
   public boolean isUnknown(Alliance ball){
     return ball==Alliance.Invalid;
   }
-
+  /**
+  * Enqueues a ball onto the ball queue
+  * @param ball The ball to be enqueued
+  */
   public void pushQ(Alliance ball){
     ballQ.add(ball);
   }
-
+  /**
+  * Dequeues the first ball if the queue is not empty.
+  */
   public void popQ(){
     if (ballQ.size()!=0){
       ballQ.remove(0);
     }
   }
-
+  /**
+  * Clears the ball queue.
+  */
   public void eraseQ(){
     ballQ.clear();
   }
-
+  /**
+  * Returns the front-most ball, if the queue is empty, returns unknown.
+  * @return Front-most ball or Alliance.Invalid.
+  */
   public Alliance peekQ(){
     if (ballQ.size()==0){
       return Alliance.Invalid;

@@ -101,13 +101,9 @@ public class RobotContainer {
         JoystickButton C_bButton = new JoystickButton(controller, 2);
         JoystickButton C_xButton = new JoystickButton(controller, 3);
         JoystickButton C_yButton = new JoystickButton(controller, 4);
-<<<<<<< HEAD
         JoystickButton C_lBumper = new JoystickButton(controller, 5);
         JoystickButton C_rBumper = new JoystickButton(controller, 6);
         
-=======
-        JoystickButton C_rBumper = new JoystickButton(controller, 6);
->>>>>>> 343a7d047bb8bb991d3901223b0795d6c1231f58
         POVButton C_dPadUp = new POVButton(controller, 0);
         POVButton C_dPadDown = new POVButton(controller, 180);
         POVButton C_dPadLeft = new POVButton(controller, 270);
@@ -630,6 +626,10 @@ public class RobotContainer {
                                 new CMD_ShooterSpin(shooter, 0.25)));
                 C_rightTrigger.whileActiveContinuous(new CMD_indexRun(index, 0.75));
 
+                // climber
+                C_xButton.whenHeld(new CMD_ClimberSpeed(climber, 1));
+                C_bButton.whenHeld(new CMD_ClimberSpeed(climber, -1));
+                
                 // shooter
                 C_lBumper.whenPressed(new CMD_changeSetpoint(shooter, -100));
                 C_rBumper.whenPressed(new CMD_changeSetpoint(shooter, 100));
