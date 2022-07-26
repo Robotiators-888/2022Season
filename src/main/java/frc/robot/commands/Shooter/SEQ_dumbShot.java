@@ -13,7 +13,7 @@ public class SEQ_dumbShot extends SequentialCommandGroup {
                 race(
                         new CMD_ShooterRPM(shootIn, RPM),
                         new SequentialCommandGroup(
-                                new WaitUntilCommand(() -> ((shootIn.getRPM() <= (-RPM + 200)) && (shootIn.getRPM() >= (-RPM - 200)))),
+                                new WaitUntilCommand(() -> ((shootIn.getFrontRPM() <= (-RPM + 200)) && (shootIn.getFrontRPM() >= (-RPM - 200)))),
                                 new CMD_indexRun(indexIn, 0.75).withTimeout(1.25)))
 
         );

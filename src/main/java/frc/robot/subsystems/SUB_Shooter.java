@@ -10,16 +10,27 @@ import frc.robot.Constants;
 public class SUB_Shooter extends SubsystemBase {
     CANSparkMax flywheelFollower = new CANSparkMax(Constants.FLYWHEEL_FOLLOWER_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
     CANSparkMax flywheel = new CANSparkMax(Constants.FLYWHEEL_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+    CANSparkMax backFlywheel = new CANSparkMax(Constants.BACK_FLYWHEEL_ID,CANSparkMaxLowLevel.MotorType.kBrushless);
+    
+    SparkMaxPIDController backPID = backFlywheel.getPIDController();    
     SparkMaxPIDController PID = flywheel.getPIDController();
 
     private int manualRPM = -1800;
 
     public SUB_Shooter() {
         this.setPIDF(Constants.P_VALUE, Constants.I_VALUE, Constants.D_VALUE, Constants.F_VALUE);
-        flywheel.setIdleMode(IdleMode.kCoast);
+        this.setBackPIDF(Constants.P_VALUE, Constants.I_VALUE, Constants.D_VALUE, Constants.F_VALUE);
+
         PID.setOutputRange(-1, 1);
+        backPID.setOutputRange(-1,1);
+
+        flywheel.setIdleMode(IdleMode.kCoast);
+        backFlywheel.setIdleMode(IdleMode.kCoast);
+
         flywheel.enableVoltageCompensation(12);
         flywheelFollower.enableVoltageCompensation(12);
+        backFlywheel.enableVoltageCompensation(12);
+
         flywheel.setInverted(true);
         flywheelFollower.follow(flywheel, true);
 
@@ -27,15 +38,22 @@ public class SUB_Shooter extends SubsystemBase {
 
 
     public void periodic() {
-        SmartDashboard.putNumber("RPM", getRPM());
+        SmartDashboard.putNumber("RPM", getFrontRPM());
         SmartDashboard.putNumber("Manual RPM SetPoint", manualRPM);
     }
 
     /**
-     * @return the speed of the flywheel in RPM
+     * @return the speed of the front flywheel in RPM
      */
-    public double getRPM() {
+    public double getFrontRPM() {
         return flywheel.getEncoder().getVelocity();
+    }
+
+    /**
+     * @return the speed of the back flywheel in RPM
+     */
+    public double getBackRPM(){
+        return backFlywheel.getEncoder().getVelocity();
     }
 
     /**
@@ -44,6 +62,7 @@ public class SUB_Shooter extends SubsystemBase {
      */
     public void setRPM(int rpm) {
         PID.setReference(rpm, CANSparkMax.ControlType.kVelocity);
+        backPID.setReference(rpm, CANSparkMax.ControlType.kVelocity);
     }
     
     /**
@@ -78,11 +97,20 @@ public class SUB_Shooter extends SubsystemBase {
 
     }
 
+    public void setBackPIDF(double P, double I, double D, double F) {
+        backPID.setP(P);
+        backPID.setI(I);
+        backPID.setD(D);
+        backPID.setFF(F);
+
+    }
+
     /**
      * Sets speed for wheel to run at as a precentage of max
      * @param speed double to represent a precentage
      */
     public void setSpeed(double speed) {
         flywheel.set(speed);
+        backFlywheel.set(speed);
     }
 }
