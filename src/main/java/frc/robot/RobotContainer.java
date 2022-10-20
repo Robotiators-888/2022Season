@@ -621,7 +621,7 @@ public class RobotContainer {
 
                 // Index
                 indexBottomToTopTrigger.whenActive(new CMD_IndexBottomToTop(canal, index));
-                towerFullTrigger.whileActiveContinuous(new PAR_EmptyTop(index, shooter));
+                //towerFullTrigger.whileActiveContinuous(new PAR_EmptyTop(index, shooter));
                 C_aButton.whileHeld(new ParallelCommandGroup(new CMD_indexRun(index, -0.75),
                                 new CMD_ShooterSpin(shooter, 0.25)));
                 C_rightTrigger.whileActiveContinuous(new CMD_indexRun(index, 0.75));
@@ -634,6 +634,7 @@ public class RobotContainer {
                 C_lBumper.whenPressed(new CMD_changeSetpoint(shooter, -100));
                 C_rBumper.whenPressed(new CMD_changeSetpoint(shooter, 100));
                 C_leftTrigger.whileActiveContinuous(new CMD_ShooterManualRPM(shooter));
+                R_trigger.whenHeld(new SEQ_dumbShot(shooter, index, 1800));
 
                 // limelight
                 limelight.setDefaultCommand(new InstantCommand(() -> limelight.setLed(1), limelight).perpetually());
@@ -651,7 +652,7 @@ public class RobotContainer {
                 // Color Sensor
                 acceptBallTrigger.whenActive(new CMD_AcceptAllianceBall(canal, index, colorSensor));
                 rejectBallTrigger.whenActive(new CMD_CanalRejectBall(colorSensor, canal, -0.75));
-                C_rBumper.whileHeld(new CMD_FlushBalls(canal, colorSensor));
+                L_button4.whileHeld(new CMD_FlushBalls(canal, colorSensor));
                 //rescindBallTrigger.whenActive(new CMD_RescindAllianceBall(index, canal,colorSensor));
                 //colorSensor.setDefaultCommand(new CMD_ManageBallQueue(colorSensor));
         }
