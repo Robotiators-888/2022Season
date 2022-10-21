@@ -8,6 +8,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
@@ -44,6 +45,8 @@ public class SUB_Drivetrain extends SubsystemBase {
   private RelativeEncoder rightEncoder = rightPrimary.getEncoder();
 
   AHRS navx = new AHRS(SerialPort.Port.kMXP);
+
+  SlewRateLimiter limiter = new SlewRateLimiter(0.5);
 
   private Field2d field2d;
 
@@ -103,7 +106,11 @@ public class SUB_Drivetrain extends SubsystemBase {
   }
 
   public void setMotorsArcade(double xSpeed,double zRotation){
-    driveTrain.arcadeDrive(xSpeed, zRotation*-1);
+    driveTrain.arcadeDrive(xSpeed, limiter.calculate(zRotation)*-1);
+  }
+
+  public void setMotorsCurvature(double xSpeed, double zRotation, boolean allowStationaryTurn){
+    driveTrain.curvatureDrive(xSpeed, limiter.calculate(zRotation)*-1, allowStationaryTurn);
   }
 
   /**
