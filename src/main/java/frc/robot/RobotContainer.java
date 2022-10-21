@@ -96,6 +96,7 @@ public class RobotContainer {
 
         // Controller
         private Joystick controller = new Joystick(Constants.JOYSTICK_PORT);
+        private Joystick controller2 = new Joystick(Constants.RIGHTSTICK_PORT2);
 
         JoystickButton C_aButton = new JoystickButton(controller, 1);
         JoystickButton C_bButton = new JoystickButton(controller, 2);
@@ -103,13 +104,22 @@ public class RobotContainer {
         JoystickButton C_yButton = new JoystickButton(controller, 4);
         JoystickButton C_lBumper = new JoystickButton(controller, 5);
         JoystickButton C_rBumper = new JoystickButton(controller, 6);
+
+        JoystickButton C2_aButton = new JoystickButton(controller2, 1);
+        JoystickButton C2_bButton = new JoystickButton(controller2, 2);
+        JoystickButton C2_lBumper = new JoystickButton(controller2, 5);
+        JoystickButton C2_rBumper = new JoystickButton(controller2, 6);
         
         POVButton C_dPadUp = new POVButton(controller, 0);
         POVButton C_dPadDown = new POVButton(controller, 180);
         POVButton C_dPadLeft = new POVButton(controller, 270);
         POVButton C_dPadRight = new POVButton(controller, 90);
+
         Trigger C_leftTrigger = new Trigger(() -> (controller.getRawAxis(2) > 0.5));
         Trigger C_rightTrigger = new Trigger(() -> (controller.getRawAxis(3) > 0.5));
+        Trigger C2_leftTrigger = new Trigger(() -> (controller2.getRawAxis(2) > 0.5));
+        Trigger C2_rightTrigger = new Trigger(() -> (controller2.getRawAxis(3) > 0.5));
+
 
         Trigger intakeDown = new Trigger(()->intake.getPosition());
         Trigger bottomIndexTrigger = new Trigger(()->index.readBottomBanner());
@@ -140,7 +150,7 @@ public class RobotContainer {
 
         // right Joytick
         private Joystick rightJoystick = new Joystick(Constants.RIGHTSTICK_PORT);
-
+ 
         JoystickButton R_button5 = new JoystickButton(rightJoystick, 3);
         JoystickButton R_button6 = new JoystickButton(rightJoystick, 4);
         JoystickButton R_button3 = new JoystickButton(rightJoystick, 5);
@@ -605,9 +615,13 @@ public class RobotContainer {
          */
         private void configureButtonBindings() {
                 // drivetrain
-                drivetrain.setDefaultCommand(new CMD_teleopDrive(drivetrain, () -> leftJoystick.getRawAxis(1),
-                                () -> rightJoystick.getRawAxis(1)));
-                L_button2.whenPressed(new InstantCommand(drivetrain::toggleReverse, drivetrain));
+                drivetrain.setDefaultCommand(new CMD_teleopDrive(drivetrain, () -> controller2.getRawAxis(1),
+                                () -> controller2.getRawAxis(4)));
+                // drivetrain.setDefaultCommand(new CMD_teleopDrive(drivetrain, () -> Controller2.getRawAxis(1),
+                //                  () -> rightJoystick.getRawAxis(1)));
+
+
+                //L_button2.whenPressed(new InstantCommand(drivetrain::toggleReverse, drivetrain));
 
                 // Intake
                 intakeDown.whileActiveContinuous(new CMD_AutoIntake(canal, intake, index));
@@ -634,17 +648,19 @@ public class RobotContainer {
                 C_lBumper.whenPressed(new CMD_changeSetpoint(shooter, -100));
                 C_rBumper.whenPressed(new CMD_changeSetpoint(shooter, 100));
                 C_leftTrigger.whileActiveContinuous(new CMD_ShooterManualRPM(shooter));
-                R_trigger.whenHeld(new SEQ_dumbShot(shooter, index, 1800));
+                //R_trigger.whenHeld(new SEQ_dumbShot(shooter, index, 1800));
+                C2_leftTrigger.whileActiveContinuous(new SEQ_dumbShot(shooter, index, 1800));
 
                 // limelight
                 limelight.setDefaultCommand(new InstantCommand(() -> limelight.setLed(1), limelight).perpetually());
-                L_button3.whileHeld(new SEQ_limeShot(shooter, drivetrain, index, limelight, limelight.getHeight()));
+                //L_button3.whileHeld(new SEQ_limeShot(shooter, drivetrain, index, limelight, limelight.getHeight()));
+                C2_rightTrigger.whileActiveContinuous(new SEQ_limeShot(shooter, drivetrain, index, limelight, limelight.getHeight()));
                 C_yButton.whenPressed(new InstantCommand(limelight::toggleHeight, limelight));
 
                 // Ball Camera
-                L_button10.whenPressed(cameraData::toggleDirection, cameraData);
-                L_button11.whileHeld(new SEQ_getBall(cameraData, drivetrain, canal, intake, index,
-                                cameraData.getDirection()));
+               // L_button10.whenPressed(cameraData::toggleDirection, cameraData);
+                //L_button11.whileHeld(new SEQ_getBall(cameraData, drivetrain, canal, intake, index,
+                               // cameraData.getDirection()));
 
                 // LED
                 LED.setDefaultCommand(new CMD_SOLIDLED(LED));
@@ -653,6 +669,9 @@ public class RobotContainer {
                 acceptBallTrigger.whenActive(new CMD_AcceptAllianceBall(canal, index, colorSensor));
                 rejectBallTrigger.whenActive(new CMD_CanalRejectBall(colorSensor, canal, -0.75));
                 L_button4.whileHeld(new CMD_FlushBalls(canal, colorSensor));
+                C2_rBumper.whileHeld(new CMD_FlushBalls(canal, colorSensor));
+
+                
                 //rescindBallTrigger.whenActive(new CMD_RescindAllianceBall(index, canal,colorSensor));
                 //colorSensor.setDefaultCommand(new CMD_ManageBallQueue(colorSensor));
         }

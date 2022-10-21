@@ -39,16 +39,16 @@ public class CMD_teleopDrive extends CommandBase {
   @Override
   public void execute() {
     if(drive.getReverse()){
-      drive.setMotors(Right.get(), Left.get(), 1);
+      drive.setMotorsArcade(Right.get(), Left.get());
     }else{
-      drive.setMotors(-1 * Left.get(), -1 * Right.get(), 1);
+      drive.setMotorsArcade(-1 * Left.get(), -1 * Right.get());
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    drive.setMotors(0, 0);
+    drive.setMotorsArcade(0, 0);
   }
 
   // Returns true when the command should end.

@@ -98,7 +98,12 @@ public class SUB_Drivetrain extends SubsystemBase {
   }
 
   public void setMotors(double leftSpeed, double rightSpeed) {
+    
     driveTrain.tankDrive(leftSpeed, rightSpeed);
+  }
+
+  public void setMotorsArcade(double xSpeed,double zRotation){
+    driveTrain.arcadeDrive(xSpeed, zRotation*-1);
   }
 
   /**
