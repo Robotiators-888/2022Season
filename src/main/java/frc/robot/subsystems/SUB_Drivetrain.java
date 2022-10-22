@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.function.Supplier;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import com.revrobotics.CANSparkMax;
@@ -46,7 +48,7 @@ public class SUB_Drivetrain extends SubsystemBase {
 
   AHRS navx = new AHRS(SerialPort.Port.kMXP);
 
-  SlewRateLimiter limiter = new SlewRateLimiter(0.5);
+  SlewRateLimiter limiter = new SlewRateLimiter(0.85);
 
   private Field2d field2d;
 
@@ -109,8 +111,8 @@ public class SUB_Drivetrain extends SubsystemBase {
     driveTrain.arcadeDrive(xSpeed, limiter.calculate(zRotation)*-1);
   }
 
-  public void setMotorsCurvature(double xSpeed, double zRotation, boolean allowStationaryTurn){
-    driveTrain.curvatureDrive(xSpeed, limiter.calculate(zRotation)*-1, allowStationaryTurn);
+  public void setMotorsCurvature(double xSpeed, double zRotation, Supplier<Boolean> allowStationaryTurn){
+    driveTrain.curvatureDrive(xSpeed, limiter.calculate(zRotation)*-1, allowStationaryTurn.get());
   }
 
   /**
@@ -137,6 +139,14 @@ public class SUB_Drivetrain extends SubsystemBase {
    */
   public boolean getReverse(){
     return reversed;
+  }
+
+  public boolean isSpeedZero(double speedVal){
+    if(speedVal <= 0.00){
+      return true;
+    }else{
+      return false;
+    }
   }
 
   /**

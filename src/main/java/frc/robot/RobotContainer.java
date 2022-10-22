@@ -37,6 +37,7 @@ import frc.robot.commands.BallIndexing.CMD_IndexBottomToTopBanner;
 import frc.robot.commands.Climber.CMD_ClimberSpeed;
 import frc.robot.commands.ColorSensor.CMD_ColorOnDashboard;
 import frc.robot.commands.ColorSensor.CMD_ManageBallQueue;
+import frc.robot.commands.Drivetrain.CMD_curvatureDrive;
 import frc.robot.commands.Drivetrain.CMD_teleopDrive;
 import frc.robot.commands.Index.CMD_indexRun;
 import frc.robot.commands.Intake.CMD_IntakeSpin;
@@ -136,6 +137,7 @@ public class RobotContainer {
 
         Trigger rejectBallTrigger = frontOppTrigger.and(towerFullTrigger.negate());
         Trigger acceptBallTrigger = frontCurTrigger.and(towerFullTrigger.negate());
+
         // left Joystick
         private Joystick leftJoystick = new Joystick(Constants.LEFTJOYSTICK_PORT);
 
@@ -615,11 +617,20 @@ public class RobotContainer {
          */
         private void configureButtonBindings() {
                 // drivetrain
+               /*
                 drivetrain.setDefaultCommand(new CMD_teleopDrive(drivetrain, () -> controller2.getRawAxis(1),
                                 () -> controller2.getRawAxis(4)));
-                // drivetrain.setDefaultCommand(new CMD_teleopDrive(drivetrain, () -> Controller2.getRawAxis(1),
-                //                  () -> rightJoystick.getRawAxis(1)));
+                */
 
+                /* Original Drivetrain controls
+                drivetrain.setDefaultCommand(new CMD_teleopDrive(drivetrain, () -> Controller2.getRawAxis(1),
+                                () -> rightJoystick.getRawAxis(1)));
+                */ 
+               
+                // Curvature Drive controls
+                drivetrain.setDefaultCommand(new CMD_curvatureDrive(drivetrain, ()-> controller2.getRawAxis(1), () -> controller2.getRawAxis(4), 
+                                () -> drivetrain.isSpeedZero(controller2.getRawAxis(1))));
+                
 
                 //L_button2.whenPressed(new InstantCommand(drivetrain::toggleReverse, drivetrain));
 
@@ -669,7 +680,7 @@ public class RobotContainer {
                 acceptBallTrigger.whenActive(new CMD_AcceptAllianceBall(canal, index, colorSensor));
                 rejectBallTrigger.whenActive(new CMD_CanalRejectBall(colorSensor, canal, -0.75));
                 L_button4.whileHeld(new CMD_FlushBalls(canal, colorSensor));
-                C2_rBumper.whileHeld(new CMD_FlushBalls(canal, colorSensor));
+                C2_bButton.whileHeld(new CMD_FlushBalls(canal, colorSensor));
 
                 
                 //rescindBallTrigger.whenActive(new CMD_RescindAllianceBall(index, canal,colorSensor));
